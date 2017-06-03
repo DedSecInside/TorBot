@@ -23,6 +23,12 @@ To add a new feature fork this repository and give a pull request when your new 
 The branch name should be your new feature name in the format <Feature_feature_name>. For example, <i>Feature_FasterCrawl_1.0</i>.
 Contributor name will be updated to the below list. :D
 
+## Dependencies 
+1. Tor 
+2. Python 3.x (Make sure pip3 is there)
+3. Python Stem Module
+
+
 ### Have ideas?
 If you have new ideas which is worth implementing, mention those by starting a new issue with the title [FEATURE_REQUEST].
 If the idea is worth implementing, congratz you are also a contributor.
