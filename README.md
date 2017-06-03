@@ -9,12 +9,14 @@ the following steps:
 2. Download the corresponding page.
 3. Check the Relevancy of the page.
 4. Extract any links contained in it.
-5. Add these links back to the URL list.
-6. After all URLs are processed, return the most relevant page.
+5. Check the cache if the links are already in it.
+6. Add the unique links back to the URL list.
+7. After all URLs are processed, return the most relevant page.
 
 ### Features
 1. Crawls Tor links (.onion) only.
 2. Returns Page title and address.
+3. Cache links so that there won't be duplicate links.
 ...(will be updated)
 
 ## Contribute
