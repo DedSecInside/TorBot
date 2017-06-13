@@ -76,12 +76,30 @@ def readPage(page):
     response = urllib.request.urlopen(page)
     soup = BeautifulSoup(response.read(),'html.parser')
     print (soup.find_all('input'))
+    return soup
+
+###Get all emails from the website
+def get_all_emails(soup):
+    websites = []
+    emails = []
+    for link in soup.find_all('a'):
+        email_link = link.get('href')
+        if email_link != None:
+            if 'http' in email_link:
+                websites.append(email_link)
+            elif 'mailto' in email_link:
+                emails.append(email_link)
+        else:
+            pass
+    return websites,emails
+        
 
 def main():
  header()
  stemTest()
  print ("Tor Ip Address :")
- readPage("http://www.whatsmyip.net/")
+ a = readPage("http://www.whatsmyip.net/")
+ print (get_all_emails(a))
  print ("\n\n")
  #readPage("http://od6j46sy5zg7aqze.onion")
  return 0
