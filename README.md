@@ -87,4 +87,5 @@ If the idea is worth implementing, congratz you are now a contributor.
 
 ## CREDITS
 
-- [X] P5N4PPZ - PROJECT OWNER
+- [X] P5N4PPZ - Owner
+- [X] @agrepravin - Contributor
