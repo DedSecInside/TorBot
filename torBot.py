@@ -1,5 +1,7 @@
 import urllib.request 
 from bs4 import BeautifulSoup
+from modules.getemails import getmails
+from modules.getweblinks import getlinks
 
 class bcolors:
     HEADER = '\033[95m'
@@ -66,11 +68,10 @@ def header():
 def stemTest():
  from stem.control import Controller
  with Controller.from_port(port = 9051) as controller:
-  controller.authenticate()
+  controller.authenticate("Narayanan123")
   bytes_read = controller.get_info("traffic/read")
   bytes_written = controller.get_info("traffic/written")
   print("My Tor relay has read %s bytes and written %s." % (bytes_read, bytes_written))
-
 
 def readPage(page):
     response = urllib.request.urlopen(page)
@@ -78,44 +79,13 @@ def readPage(page):
     print (soup.find_all('input'))
     return soup
 
-"""Get all emails from the website"""
-def get_all_emails(soup, pretty_print=False):
-    websites = []
-    emails = []
-    for link in soup.find_all('a'):
-        email_link = link.get('href')
-        if email_link != None:
-            if 'http' in email_link:
-                websites.append(email_link)
-            elif 'mailto' in email_link:
-                """Split email address on"""
-                email_addr = email_link.split(':')
-                emails.append(email_addr[1])
-        else:
-            pass
-    if pretty_print == False:
-        return websites,emails
-    elif pretty_print == True:
-        """Pretty print output as below"""
-        print ('') 
-        print ('Mails Found - '+str(len(emails)))
-        print ('-------------------------------')
-        for mail in emails:
-            print (mail)
-        print ('') 
-        print ('') 
-        print ('Websites Found - '+str(len(websites)))
-        print ('-------------------------------')
-        for web in websites:
-            print (web)
-        return ''       
-
 def main():
  header()
  stemTest()
  print ("Tor Ip Address :")
  a = readPage("http://www.whatsmyip.net/")
- print (get_all_emails(a, pretty_print=True))
+ getmails(a)
+ getlinks(a)
  print ("\n\n")
  #readPage("http://od6j46sy5zg7aqze.onion")
  return 0
