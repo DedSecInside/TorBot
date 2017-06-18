@@ -1,6 +1,7 @@
 sudo: required
 dist: trusty
 language: python
+cache: pip3
 python:
   - "3.5"
 # command to install dependencies
