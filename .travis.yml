@@ -3,7 +3,7 @@ python:
   - "3.5"
 # command to install dependencies
 install: 
-  - pip install urllib"
-  - pip install bs4"
+  - pip3 install urllib"
+  - pip3 install bs4"
 script: 
   python tests/test_getemails.py
