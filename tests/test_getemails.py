@@ -18,6 +18,8 @@ class getMailsTestCase(unittest.TestCase):
 		getemails.getMails(soup)
 		self.assertEqual(sys.stdout.getvalue(),data)
 
+	def tearDown(self):
+                sys.stdout.flush()
 
 if __name__ == '__main__':
 	unittest.main()
