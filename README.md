@@ -93,3 +93,5 @@ GNU Public License
 
 - [X] P5N4PPZ - Owner
 - [X] @agrepravin - Contributor
+
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Opensource.svg/200px-Opensource.svg.png)
