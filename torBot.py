@@ -68,6 +68,7 @@ def stemTest():
  from stem.control import Controller
  with Controller.from_port(port = 9051) as controller:
   controller.authenticate("Narayanan123")
+  print (controller)
   bytes_read = controller.get_info("traffic/read")
   bytes_written = controller.get_info("traffic/written")
   print("My Tor relay has read %s bytes and written %s." % (bytes_read, bytes_written))
@@ -77,6 +78,8 @@ def main():
  stemTest()
  print ("Tor Ip Address :")
  a = readPage("http://www.whatsmyip.net/")
+ #a = readPage("http://andris23zrbn2da5.onion")
+ print (type(a))
  getMails(a)
  getLinks(a)
  print ("\n\n")
