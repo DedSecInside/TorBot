@@ -3,9 +3,9 @@ language: python
 python:
   - "3.5"
 # command to install dependencies
-before_install:
+install:
   - cd tests
-  - sudo apt-get install python3-pip
+  - sudo apt-get -y install python3-pip
   - pip3 install bs4
 script: 
   - python3 test_getemails.py
