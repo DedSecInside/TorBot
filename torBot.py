@@ -67,7 +67,7 @@ def header():
 def stemTest():
  from stem.control import Controller
  with Controller.from_port(port = 9051) as controller:
-  controller.authenticate("grepravin")
+  controller.authenticate("Narayanan123")
   print (controller)
   bytes_read = controller.get_info("traffic/read")
   bytes_written = controller.get_info("traffic/written")
