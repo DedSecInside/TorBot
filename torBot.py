@@ -1,7 +1,6 @@
-import urllib.request 
-from bs4 import BeautifulSoup
-from modules.getemails import getmails
-from modules.getweblinks import getlinks
+from modules.getemails import getMails
+from modules.getweblinks import getLinks
+from modules.pagereader import readPage
 
 class bcolors:
     HEADER = '\033[95m'
@@ -56,7 +55,7 @@ def header():
 	print( "  	      / /_/ __ \/ __ \/ /_  ____/_  __/ ")
 	print( " 	     / __/ / / / /_/ / __ \/ __ \/ / ")
 	print( "	    / /_/ /_/ / _, _/ /_/ / /_/ / /  ")
-	print( "	    \__/\____/_/ |_/_.___/\____/_/  V 0.1")
+	print( "	    \__/\____/_/ |_/_.___/\____/_/  V 0.0.3")
 	print(bcolors.On_Black)
 	print("#######################################################")
 	print("#  TorBot - A python Tor Crawler                      #")
@@ -73,19 +72,13 @@ def stemTest():
   bytes_written = controller.get_info("traffic/written")
   print("My Tor relay has read %s bytes and written %s." % (bytes_read, bytes_written))
 
-def readPage(page):
-    response = urllib.request.urlopen(page)
-    soup = BeautifulSoup(response.read(),'html.parser')
-    print (soup.find_all('input'))
-    return soup
-
 def main():
  header()
  stemTest()
  print ("Tor Ip Address :")
  a = readPage("http://www.whatsmyip.net/")
- getmails(a)
- getlinks(a)
+ getMails(a)
+ getLinks(a)
  print ("\n\n")
  #readPage("http://od6j46sy5zg7aqze.onion")
  return 0

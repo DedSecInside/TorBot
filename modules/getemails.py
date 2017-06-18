@@ -1,6 +1,6 @@
 """Get all emails from the website"""
 
-def getmails(soup):
+def getMails(soup):
     emails = []
     for link in soup.find_all('a'):
         email_link = link.get('href')

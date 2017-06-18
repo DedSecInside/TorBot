@@ -37,7 +37,7 @@
 
 ██████╗ ███████╗██████╗ ███████╗██████╗  ██████╗    ██╗███╗   ██╗███████╗██╗██████╗ ███████╗
 ██╔══██╗██╔════╝██╔══██╗██╔════╝╚════██╗██╔════╝    ██║████╗  ██║██╔════╝██║██╔══██╗██╔════╝
- ██║  ██║█████╗  ██║  ██║███████╗ █████╔╝██║         ██║██╔██╗ ██║███████╗██║██║  ██║█████╗  
+██║  ██║█████╗  ██║  ██║███████╗ █████╔╝██║         ██║██╔██╗ ██║███████╗██║██║  ██║█████╗  
 ██║  ██║██╔══╝  ██║  ██║╚════██║ ╚═══██╗██║         ██║██║╚██╗██║╚════██║██║██║  ██║██╔══╝  
 ██████╔╝███████╗██████╔╝███████║██████╔╝╚██████╗    ██║██║ ╚████║███████║██║██████╔╝███████╗
 ╚═════╝ ╚══════╝╚═════╝ ╚══════╝╚═════╝  ╚═════╝    ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝╚═════╝ ╚══════╝
@@ -70,7 +70,8 @@ the following steps:
 ## Contribute
 Contributions to this project are always welcome. 
 To add a new feature fork this repository and give a pull request when your new feature is tested and complete.
-The branch name should be your new feature name in the format <Feature_feature_name>. For example, <i>Feature_FasterCrawl_1.0</i>.
+If its a new module, it should be put inside the modules directory and imported to the main file.
+The branch name should be your new feature name in the format <Feature_featurename_version(optional)>. For example, <i>Feature_FasterCrawl_1.0</i>.
 Contributor name will be updated to the below list. :D
 
 ## Dependencies 
@@ -84,6 +85,9 @@ Contributor name will be updated to the below list. :D
 ### Have ideas?
 If you have new ideas which is worth implementing, mention those by starting a new issue with the title [FEATURE_REQUEST].
 If the idea is worth implementing, congratz you are now a contributor.
+
+## License
+GNU Public License
 
 ## CREDITS
 

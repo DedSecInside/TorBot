@@ -1,5 +1,5 @@
 """Get all onion links from the website"""
-def getlinks(soup):
+def getLinks(soup):
     websites = []
     for link in soup.find_all('a'):
         email_link = link.get('href')
