@@ -11,3 +11,4 @@ install:
   - pip3 install bs4
 script: 
   - python3 test_getemails.py
+  - python3 test_getweblinks.py
