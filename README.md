@@ -47,7 +47,7 @@
 </pre>
 
 ## A python web crawler for Deep and Dark Web.
-
+[![Build Status](https://travis-ci.org/DedSecInside/TorBoT.svg?branch=master)](https://travis-ci.org/DedSecInside/TorBoT)
 ### Working Procedure/Basic Plan
 The basic procedure executed by the web crawling algorithm takes a list of seed URLs as its input and repeatedly executes
 the following steps:
