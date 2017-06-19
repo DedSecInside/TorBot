@@ -31,7 +31,7 @@ socks.set_default_proxy(socks.SOCKS5, "127.0.0.1",SOCKS_PORT)
 socket.socket = socks.socksocket
 
 # Perform DNS resolution through the socket
-def getaddrinfo():
+def getaddrinfo(*args):
   return [(socket.AF_INET, socket.SOCK_STREAM, 6, '', (args[0], args[1]))]
 socket.getaddrinfo = getaddrinfo
 
@@ -39,7 +39,9 @@ socket.getaddrinfo = getaddrinfo
 headers = {'User-Agent': 'JAMES CAMPBELL jamescampbell.us SEARCH BOT! I FOUND YOU!!!!' }
 	#print ('trying request now...')
 req = urllib.request.Request(onionsite,None,headers)
+print (req)
 response = urllib.request.urlopen(req) # new python 3 code -jc
+print (response)
 status = 'loaded successfully'
 try:
 	sitehtml = response.read()
