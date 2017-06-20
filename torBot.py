@@ -6,6 +6,12 @@ import socks
 import argparse
 import sys
 
+from stem import Signal
+from stem.control import Controller
+
+with Controller.from_port(port = 9051) as controller:
+    controller.authenticate()
+    controller.signal(Signal.NEWNYM)
 
 #TOR SETUP GLOBAL Vars
 SOCKS_PORT = 9050  # TOR proxy port that is default from torrc, change to whatever torrc is configured to
