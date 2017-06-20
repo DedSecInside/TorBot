@@ -1,0 +1,3 @@
+beautifulsoup4==4.6.0
+SocksiPy_branch==1.01
+stem==1.5.4
