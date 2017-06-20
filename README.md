@@ -33,8 +33,6 @@
         `-/++oosyso+/.`      
 
 
-
-
 ██████╗ ███████╗██████╗ ███████╗██████╗  ██████╗    ██╗███╗   ██╗███████╗██╗██████╗ ███████╗
 ██╔══██╗██╔════╝██╔══██╗██╔════╝╚════██╗██╔════╝    ██║████╗  ██║██╔════╝██║██╔══██╗██╔════╝
 ██║  ██║█████╗  ██║  ██║███████╗ █████╔╝██║         ██║██╔██╗ ██║███████╗██║██║  ██║█████╗  
@@ -80,6 +78,9 @@ Contributor name will be updated to the below list. :D
 3. Python Stem Module
 4. urllib
 5. Beautiful Soup 4
+6. Socket
+7. Sock
+8. Argparse
 
 
 ### Have ideas?
@@ -91,7 +92,7 @@ GNU Public License
 
 ## CREDITS
 
-- [X] P5N4PPZ - Owner
-- [X] @agrepravin - Contributor
+- [X] [P5N4PPZ](https://github.com/PSNAppz) - Owner
+- [X] [agrepravin](https://github.com/agrepravin) - Contributor
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Opensource.svg/200px-Opensource.svg.png)

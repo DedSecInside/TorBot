@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 def readPage(site):
 
- headers = {'User-Agent': 'JAMES CAMPBELL jamescampbell.us SEARCH BOT! I FOUND YOU!!!!' }
+ headers = {'User-Agent': 'TorBot - Onion crawler | www.github.com/DedSecInside/TorBot' }
  req = urllib.request.Request(site,None,headers)
  response = urllib.request.urlopen(req)
  page = BeautifulSoup(response.read(),'html.parser')

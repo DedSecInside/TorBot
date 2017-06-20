@@ -4,7 +4,6 @@ from modules.pagereader import readPage
 import socket
 import socks
 import argparse
-import random
 import sys
 
 
@@ -84,10 +83,8 @@ def header():
 def main():
  header()
  print ("Tor Ip Address :")
- #a = readPage("https://check.torproject.org/")
- print ("Onion Site Test")
+ a = readPage("https://check.torproject.org/")
  b = readPage("http://torlinkbgs6aabns.onion/")
- print (b)
  getMails(b)
  getLinks(b)
  print ("\n\n")
