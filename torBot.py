@@ -84,9 +84,10 @@ def header():
 def main():
  header()
  print ("Tor Ip Address :")
- a = readPage("https://check.torproject.org/")
+ #a = readPage("https://check.torproject.org/")
  print ("Onion Site Test")
  b = readPage("http://torlinkbgs6aabns.onion/")
+ print (b)
  getMails(b)
  getLinks(b)
  print ("\n\n")
