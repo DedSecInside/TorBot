@@ -14,7 +14,8 @@ class getLinksTestCase(unittest.TestCase):
 		self.held, sys.stdout = sys.stdout, StringIO()
 	
 	def test_print_links(self):
-		data = "\nWebsites Found - 7\n-------------------------------\nhttp://ads.wsrs.net/www/delivery/ck.php?n=MyIP856a6b4\nhttp://ads.wsrs.net/www/delivery/ck.php?n=MyIPbf5d683\nhttp://aff.ironsocket.com/SH7L\nhttp://aff.ironsocket.com/SH7L\nhttp://ads.wsrs.net/www/delivery/ck.php?n=MyIPdb5f512\nhttp://wsrs.net/\nhttp://cmsgear.com/\n"
+		#data = "\nWebsites Found - 7\n-------------------------------\nhttp://ads.wsrs.net/www/delivery/ck.php?n=MyIP856a6b4\nhttp://ads.wsrs.net/www/delivery/ck.php?n=MyIPbf5d683\nhttp://aff.ironsocket.com/SH7L\nhttp://aff.ironsocket.com/SH7L\nhttp://ads.wsrs.net/www/delivery/ck.php?n=MyIPdb5f512\nhttp://wsrs.net/\nhttp://cmsgear.com/\n"
+		data = "\nWebsites Found - 0\n"
 
 		getweblinks.getLinks(soup)
 		self.assertEqual(sys.stdout.getvalue(),data)
