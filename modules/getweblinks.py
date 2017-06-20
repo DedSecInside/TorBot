@@ -1,6 +1,4 @@
 import bs4
-from modules.pagereader import readPage
-import socks
 
 """Get all onion links from the website"""
 def getLinks(soup):
