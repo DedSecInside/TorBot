@@ -81,6 +81,7 @@ Contributor name will be updated to the below list. :D
 6. Socket
 7. Sock
 8. Argparse
+9. Stem module
 
 
 ### Have ideas?
