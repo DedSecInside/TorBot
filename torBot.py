@@ -58,17 +58,17 @@ def header():
 	print( "MMMMMMMMMMMMMWNklccclldk0OxOdcc;. .......;oKWWMMMMMMMM")
 	print( "MMMMMMMMMMMMMMMMWXOdl:::;cc;'... ..',:lx0NMMMMMMMMMMMM")
 	print( "MMMMMMMMMMMMMMMMMMMMMNKOkxddolloodk0XWMMMMMMMMMMMMMMMM")
-	print(bcolors.FAIL)
+	print(bcolors.FAIL+bcolors.BOLD)
 	print( " 	       __  ____  ____  __        ______ ")
 	print( "  	      / /_/ __ \/ __ \/ /_  ____/_  __/ ")
 	print( " 	     / __/ / / / /_/ / __ \/ __ \/ / ")
 	print( "	    / /_/ /_/ / _, _/ /_/ / /_/ / /  ")
 	print( "	    \__/\____/_/ |_/_.___/\____/_/  V 0.0.3")
-	print(bcolors.On_Black)
+	print(bcolors.FAIL+bcolors.On_Black)
 	print("#######################################################")
 	print("#  TorBot - A python Tor Crawler                      #")
 	print("#  GitHub : https://github.com/DedsecInside/TorBot    #")
-	print("######################################################")
+	print("#######################################################")
 	print(bcolors.FAIL + "LICENSE: GNU Public License" + bcolors.ENDC)
 	print()
    
@@ -76,7 +76,7 @@ def header():
 def main():
  header()
  print ("Tor Ip Address :")
- a = readPage("https://check.torproject.org/")
+ a = readPage("https://check.torproject.org/",1)
  b = readPage("http://torlinkbgs6aabns.onion/")
  getMails(b)
  getLinks(b)
@@ -89,5 +89,3 @@ if __name__ == '__main__':
   main()
  except KeyboardInterrupt:
   print("Interrupt received! Exiting cleanly...")
- 
-  	

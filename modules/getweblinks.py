@@ -22,7 +22,7 @@ def getLinks(soup):
                 pass
         """Pretty print output as below"""
         print ('') 
-        print ('Websites Found - '+str(len(websites)))
+        print (bcolors.OKGREEN+'Websites Found - '+bcolors.ENDC+str(len(websites)))
         print ('-------------------------------')
         for web in websites:
             if (urllib.request.urlopen(web).getcode() == 200):
