@@ -1,6 +1,7 @@
 from modules.getemails import getMails
 from modules.getweblinks import getLinks
 from modules.pagereader import readPage
+from modules.bcolors import bcolors
 import socket
 import socks
 import argparse
@@ -22,20 +23,6 @@ def getaddrinfo(*args):
   return [(socket.AF_INET, socket.SOCK_STREAM, 6, '', (args[0], args[1]))]
   
 socket.getaddrinfo = getaddrinfo
-
-class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
-    WHITE = '\033[97m'
-    On_Black = '\033[40m'
-    On_Red = '\033[41m'
-	
 
 def header():
 	""" Display the header of TorBot """
@@ -97,4 +84,10 @@ def main():
  return 0
 
 if __name__ == '__main__':
+
+ try:	
   main()
+ except KeyboardInterrupt:
+  print("Interrupt received! Exiting cleanly...")
+ 
+  	

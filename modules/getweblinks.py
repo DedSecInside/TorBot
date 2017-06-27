@@ -1,3 +1,5 @@
+import urllib.request 
+import modules.bcolors
 import bs4
 
 """Get all onion links from the website"""
@@ -20,7 +22,10 @@ def getLinks(soup):
         print ('Websites Found - '+str(len(websites)))
         print ('-------------------------------')
         for web in websites:
-            print (web)
+            if (urllib.request.urlopen(web).getcode() == 200):
+                print (web)
+            else :
+                print(bcolors.On_Red+web +bcolors.ENDC)    
         return websites
     else:
         raise('Method parameter is not of instance bs4.BeautifulSoup')
