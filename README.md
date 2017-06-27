@@ -87,6 +87,22 @@ Contributor name will be updated to the below list. :D
 8. Argparse
 9. Stem module
 
+## Basic setup
+Before you run the torBot make sure the following things are done properly:
+
+* Run tor service
+`sudo service tor start`
+
+* Set a password for tor
+`tor --hash-password "my_password" `
+
+* Give the password inside torbot.py
+`from stem.control import Controller
+with Controller.from_port(port = 9051) as controller:
+ controller.authenticate("your_password")
+ controller.signal(Signal.NEWNYM)`
+
+Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
 
 ### Have ideas?
 If you have new ideas which is worth implementing, mention those by starting a new issue with the title [FEATURE_REQUEST].
