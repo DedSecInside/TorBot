@@ -1,3 +1,4 @@
+from modules.bcolors import bcolors
 import bs4
 
 """Get all emails from the website"""
@@ -17,10 +18,10 @@ def getMails(soup):
                 pass
         """Pretty print output as below"""
         print ('') 
-        print ('Mails Found - '+str(len(emails)))
+        print (bcolors.OKGREEN+'Mails Found - '+bcolors.ENDC+str(len(emails)))
         print ('-------------------------------')
         for mail in emails:
             print (mail)
         return ''
     else:
-        raise('Method parameter is not of instance bs4.BeautifulSoup')
+        raise(bcolors.FAIL+'Method parameter is not of instance bs4.BeautifulSoup'+bcolors.ENDC)

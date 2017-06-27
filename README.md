@@ -45,7 +45,11 @@
 </pre>
 
 ## A python web crawler for Deep and Dark Web.
-[![Build Status](https://travis-ci.org/DedSecInside/TorBoT.svg?branch=master)](https://travis-ci.org/DedSecInside/TorBoT)
+[![Build Status](https://travis-ci.org/DedSecInside/TorBoT.svg?branch=master)](https://travis-ci.org/DedSecInside/TorBoT)[![](https://img.shields.io/badge/Donate-Bitcoin-blue.svg?style=flat-square)](https://blockchain.info/address/14st7SzDbQZuu8fpQ74x477WoRJ7gpHFaj)
+[![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
+[![forthebadge](http://forthebadge.com/images/badges/made-with-python.svg)](http://forthebadge.com)
+
+
 ### Working Procedure/Basic Plan
 The basic procedure executed by the web crawling algorithm takes a list of seed URLs as its input and repeatedly executes
 the following steps:
@@ -83,6 +87,22 @@ Contributor name will be updated to the below list. :D
 8. Argparse
 9. Stem module
 
+## Basic setup
+Before you run the torBot make sure the following things are done properly:
+
+* Run tor service
+`sudo service tor start`
+
+* Set a password for tor
+`tor --hash-password "my_password" `
+
+* Give the password inside torbot.py
+`from stem.control import Controller
+with Controller.from_port(port = 9051) as controller:
+ controller.authenticate("your_password_hash")
+ controller.signal(Signal.NEWNYM)`
+
+Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
 
 ### Have ideas?
 If you have new ideas which is worth implementing, mention those by starting a new issue with the title [FEATURE_REQUEST].
@@ -97,3 +117,4 @@ GNU Public License
 - [X] [agrepravin](https://github.com/agrepravin) - Contributor
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Opensource.svg/200px-Opensource.svg.png)
+
