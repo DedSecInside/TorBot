@@ -99,7 +99,7 @@ Before you run the torBot make sure the following things are done properly:
 * Give the password inside torbot.py
 `from stem.control import Controller
 with Controller.from_port(port = 9051) as controller:
- controller.authenticate("your_password")
+ controller.authenticate("your_password_hash")
  controller.signal(Signal.NEWNYM)`
 
 Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
