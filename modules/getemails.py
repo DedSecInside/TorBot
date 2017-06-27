@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.append(os.path.abspath('../'))
 from modules.bcolors import bcolors
 import bs4
 

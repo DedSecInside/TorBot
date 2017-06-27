@@ -1,5 +1,8 @@
+import sys
+import os
+sys.path.append(os.path.abspath('../'))
 import urllib.request 
-import modules.bcolors
+from modules.bcolors import bcolors
 import bs4
 
 """Get all onion links from the website"""

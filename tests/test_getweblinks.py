@@ -4,6 +4,7 @@ import unittest
 from io import StringIO
 sys.path.append(os.path.abspath('../modules'))
 import getweblinks
+from bcolors import bcolors
 import pagereader
 
 soup = pagereader.readPage('http://www.whatsmyip.net/')
