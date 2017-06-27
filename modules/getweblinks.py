@@ -1,5 +1,5 @@
 import urllib.request 
-import modules.bcolors
+from modules.bcolors import bcolors
 import bs4
 
 """Get all onion links from the website"""
@@ -19,12 +19,16 @@ def getLinks(soup):
                 pass
         """Pretty print output as below"""
         print ('') 
-        print ('Websites Found - '+str(len(websites)))
+        print (bcolors.OKGREEN+'Websites Found - '+bcolors.ENDC+str(len(websites)))
         print ('-------------------------------')
         for web in websites:
-            if (urllib.request.urlopen(web).getcode() == 200):
-                print (web)
-            else :
+            try:
+                get_code = urllib.request.urlopen(web).getcode()
+                if (urllib.request.urlopen(web).getcode() == 200):
+                    print (web)
+                else :
+                    print(bcolors.On_Red+web +bcolors.ENDC)    
+            except:
                 print(bcolors.On_Red+web +bcolors.ENDC)    
         return websites
     else:
