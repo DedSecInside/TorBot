@@ -6,7 +6,7 @@ from modules.bcolors import bcolors
 import bs4
 
 """Get all onion links from the website"""
-def getLinks(soup,ext,live):
+def getLinks(soup,ext,live=0):
     _soup_instance = bs4.BeautifulSoup
     extensions = []
     if ext:
