@@ -77,14 +77,17 @@ def main():
  parser = argparse.ArgumentParser()
  parser.add_argument("-q","--quiet",action="store_true")
  parser.add_argument("-u","--url",help="Specifiy a website link to crawl")
- parser.add_argument("-m","--mail",action="store_true", help="Get e-mail addresses from the crawled sites.")
+ parser.add_argument("-m","--mail",action="store_true", help="Get e-mail addresses from the crawled sites")
  parser.add_argument("-e","--extension",action='append',dest='extension',default=[],help="Specifiy additional website extensions to the list(.com or .org etc)")
+ parser.add_argument("-l","--live",action="store_true",help="Check if websites are live or not (slow)")
  args = parser.parse_args()	
  if args.quiet == 0:
  	header()
  print ("Tor Ip Address :")
  link = args.url
  ext = 0
+ live = 0
+ live = args.live
  ext = args.extension
  a = readPage("https://check.torproject.org/",1)
  if link:
@@ -93,7 +96,7 @@ def main():
     b = readPage("http://torlinkbgs6aabns.onion/")
  if args.mail:
  	getMails(b)
- getLinks(b,ext)
+ getLinks(b,ext,live)
  print ("\n\n")
  return 0
 
