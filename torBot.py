@@ -63,7 +63,7 @@ def header():
 	print( "  	      / /_/ __ \/ __ \/ /_  ____/_  __/ ")
 	print( " 	     / __/ / / / /_/ / __ \/ __ \/ / ")
 	print( "	    / /_/ /_/ / _, _/ /_/ / /_/ / /  ")
-	print( "	    \__/\____/_/ |_/_.___/\____/_/  V 0.0.3")
+	print( "	    \__/\____/_/ |_/_.___/\____/_/  V 1.0.0")
 	print(bcolors.FAIL+bcolors.On_Black)
 	print("#######################################################")
 	print("#  TorBot - A python Tor Crawler                      #")
@@ -74,12 +74,26 @@ def header():
    
 
 def main():
- header()
+ parser = argparse.ArgumentParser()
+ parser.add_argument("-q","--quiet",action="store_true")
+ parser.add_argument("-u","--url",help="Specifiy a website link to crawl")
+ parser.add_argument("-m","--mail",action="store_true", help="Get e-mail addresses from the crawled sites.")
+ parser.add_argument("-e","--extension",action='append',dest='extension',default=[],help="Specifiy additional website extensions to the list(.com or .org etc)")
+ args = parser.parse_args()	
+ if args.quiet == 0:
+ 	header()
  print ("Tor Ip Address :")
+ link = args.url
+ ext = 0
+ ext = args.extension
  a = readPage("https://check.torproject.org/",1)
- b = readPage("http://torlinkbgs6aabns.onion/")
- getMails(b)
- getLinks(b)
+ if link:
+ 	b = readPage(link)
+ else:
+    b = readPage("http://torlinkbgs6aabns.onion/")
+ if args.mail:
+ 	getMails(b)
+ getLinks(b,ext)
  print ("\n\n")
  return 0
 
