@@ -31,10 +31,15 @@ def getLinks(soup,ext):
         print (bcolors.OKGREEN+'Websites Found - '+bcolors.ENDC+str(len(websites)))
         print ('-------------------------------')
         for web in websites:
-            if (urllib.request.urlopen(web).getcode() == 200):
-                print (web)
-            else :
-                print(bcolors.On_Red+web +bcolors.ENDC)    
+            flag=1
+            try:
+                urllib.request.urlopen(web)    
+            except urllib.error.HTTPError as e:
+                if e.code:
+                    print(bcolors.On_Red+web+bcolors.ENDC)
+                    flag=0  
+            if flag:
+                print(web)          
         return websites
     else:
         raise('Method parameter is not of instance bs4.BeautifulSoup')
