@@ -6,7 +6,7 @@ from modules.bcolors import bcolors
 import bs4
 
 """Get all onion links from the website"""
-def getLinks(soup,ext):
+def getLinks(soup,ext,live):
     _soup_instance = bs4.BeautifulSoup
     extensions = []
     if ext:
@@ -30,16 +30,24 @@ def getLinks(soup,ext):
         print ('') 
         print (bcolors.OKGREEN+'Websites Found - '+bcolors.ENDC+str(len(websites)))
         print ('-------------------------------')
-        for web in websites:
-            flag=1
-            try:
-                urllib.request.urlopen(web)    
-            except urllib.error.HTTPError as e:
-                if e.code:
+        if live:
+            for web in websites:
+                flag=1
+                try:
+                    urllib.request.urlopen(web)    
+                except urllib.error.HTTPError as e:
+                    if e.code:
+                        print(bcolors.On_Red+web+bcolors.ENDC)
+                        flag=0  
+                except urllib.error.URLError as e:
                     print(bcolors.On_Red+web+bcolors.ENDC)
                     flag=0  
-            if flag:
-                print(web)          
-        return websites
+
+                if flag:
+                    print(web)          
+        else:
+            for web in websites:
+                print(web) 
+        return websites           
     else:
         raise('Method parameter is not of instance bs4.BeautifulSoup')
