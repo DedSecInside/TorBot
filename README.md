@@ -103,6 +103,19 @@ with Controller.from_port(port = 9051) as controller:
  controller.authenticate("your_password_hash")
  controller.signal(Signal.NEWNYM)`
 
+`python3 torBot.py`
+`usage: torBot.py [-h] [-q] [-u URL] [-m] [-e EXTENSION] [-l]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -q, --quiet
+  -u URL, --url URL     Specifiy a website link to crawl
+  -m, --mail            Get e-mail addresses from the crawled sites
+  -e EXTENSION, --extension EXTENSION
+                        Specifiy additional website extensions to the
+                        list(.com or .org etc)
+  -l, --live            Check if websites are live or not (slow)` 
+
 Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
 
 ### Have ideas?
