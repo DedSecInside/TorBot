@@ -87,6 +87,7 @@ Contributor name will be updated to the below list. :D
 7. Sock
 8. Argparse
 9. Stem module
+10. Git
 
 ## Basic setup
 Before you run the torBot make sure the following things are done properly:
