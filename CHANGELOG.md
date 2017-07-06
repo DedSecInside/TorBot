@@ -15,7 +15,7 @@ All notable changes to this project will be documented in this file.
 * Argument parser support
 * Made live url checker optional
 * Multiple domain extension support
-* quiet mode
+* Quiet mode
 
 ### Changed
 
@@ -41,7 +41,7 @@ All notable changes to this project will be documented in this file.
 * Weblink fetcher
 * Email fetcher
 * Test case for get weblink
-* testcase for get email
+* Testcase for get email
 
 
 ## 0.0.1 - May 17, 2017 - Jun 3
