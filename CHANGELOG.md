@@ -17,7 +17,7 @@ All notable changes to this project will be documented in this file.
 * Multiple domain extension support
 * quiet mode
 
-###Changed
+### Changed
 
 * Default Live url checker
 
