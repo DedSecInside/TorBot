@@ -1,5 +1,7 @@
 import subprocess
 
+__all__ = ['updateTor']
+
 def updateTor():
 	print("Checking for latest stable release")
 	isGit = subprocess.Popen("git branch",stdout=subprocess.PIPE,shell=True)

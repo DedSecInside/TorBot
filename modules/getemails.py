@@ -1,8 +1,10 @@
 import sys
 import os
 sys.path.append(os.path.abspath('../'))
-from modules.bcolors import bcolors
+from modules.bcolors import Bcolors
 import bs4
+
+__all__ = ['getMails']
 
 """Get all emails from the website"""
 
@@ -21,10 +23,10 @@ def getMails(soup):
                 pass
         """Pretty print output as below"""
         print ('') 
-        print (bcolors.OKGREEN+'Mails Found - '+bcolors.ENDC+str(len(emails)))
+        print (Bcolors.OKGREEN+'Mails Found - '+Bcolors.ENDC+str(len(emails)))
         print ('-------------------------------')
         for mail in emails:
             print (mail)
         return ''
     else:
-        raise(bcolors.FAIL+'Method parameter is not of instance bs4.BeautifulSoup'+bcolors.ENDC)
+        raise(Bcolors.FAIL+'Method parameter is not of instance bs4.BeautifulSoup'+Bcolors.ENDC)
