@@ -1,8 +1,11 @@
-from modules.getemails import getMails
-from modules.getweblinks import getLinks
-from modules.pagereader import readPage
-from modules.bcolors import bcolors
-from modules.updater import updateTor
+#from modules.getemails import getMails
+#from modules.getweblinks import getLinks
+#from modules.pagereader import readPage
+#from modules.bcolors import bcolors
+#from modules.updater import updateTor
+
+from modules import *
+
 import socket
 import socks
 import argparse
@@ -37,8 +40,8 @@ def header():
 	print( "MMMMMMMMMMMMMMMMMMMMMMMMMMMW0doccloONMWWMMMMMMMMMMMMMM")
 	print( "MMMMMMMMMMMMMMMMMMMMMMMMMMMKl;;:cxKWMMMMMMMMMMMMMMMMMM")
 	print( "MMMMMMMMMMMMMMMMMMMMMMWKOXNx;,,cONMMMMMMMMMMMMMMMMMMMM")
-	print( "MMMMMMMMMMMMMMMMMMMMMMMXdxKk:',lONMMMM"+bcolors.FAIL + " D3DSEC "+bcolors.WHITE+"MMMMMMMM")
-	print( "MMMMMMMMMMMMMMMMMMMMMMMMOo0NOdxc,kMMMM"+bcolors.FAIL + " INS1DE "+bcolors.WHITE+"MMMMMMMM")
+	print( "MMMMMMMMMMMMMMMMMMMMMMMXdxKk:',lONMMMM"+Bcolors.FAIL + " D3DSEC "+Bcolors.WHITE+"MMMMMMMM")
+	print( "MMMMMMMMMMMMMMMMMMMMMMMMOo0NOdxc,kMMMM"+Bcolors.FAIL + " INS1DE "+Bcolors.WHITE+"MMMMMMMM")
 	print( "MMMMMMMMMMMMMMMMMMMMMMMMOcONOxkx;dWMMMMMMMMMMMMMMMMMMM")
 	print( "MMMMMMMMMMMMMMMMMMMMMMNkcdXXOkxkd:oXMMMMMMMMMMMMMMMMMM")
 	print( "MMMMMMMMMMMMMMMMMMMNOoclONNX00OkOxc:lkXWMMMMMMMMMMMMMM")
@@ -59,18 +62,18 @@ def header():
 	print( "MMMMMMMMMMMMMWNklccclldk0OxOdcc;. .......;oKWWMMMMMMMM")
 	print( "MMMMMMMMMMMMMMMMWXOdl:::;cc;'... ..',:lx0NMMMMMMMMMMMM")
 	print( "MMMMMMMMMMMMMMMMMMMMMNKOkxddolloodk0XWMMMMMMMMMMMMMMMM")
-	print(bcolors.FAIL+bcolors.BOLD)
+	print(Bcolors.FAIL+Bcolors.BOLD)
 	print( " 	       __  ____  ____  __        ______ ")
 	print( "  	      / /_/ __ \/ __ \/ /_  ____/_  __/ ")
 	print( " 	     / __/ / / / /_/ / __ \/ __ \/ / ")
 	print( "	    / /_/ /_/ / _, _/ /_/ / /_/ / /  ")
 	print( "	    \__/\____/_/ |_/_.___/\____/_/  V"+_VERSION_)
-	print(bcolors.FAIL+bcolors.On_Black)
+	print(Bcolors.FAIL+Bcolors.On_Black)
 	print("#######################################################")
 	print("#  TorBot - A python Tor Crawler                      #")
 	print("#  GitHub : https://github.com/DedsecInside/TorBot    #")
 	print("#######################################################")
-	print(bcolors.FAIL + "LICENSE: GNU Public License" + bcolors.ENDC)
+	print(Bcolors.FAIL + "LICENSE: GNU Public License" + Bcolors.ENDC)
 	print()
    
 

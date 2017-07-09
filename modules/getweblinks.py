@@ -2,11 +2,13 @@ import sys
 import os
 sys.path.append(os.path.abspath('../'))
 import urllib.request 
-from modules.bcolors import bcolors
+from modules.bcolors import Bcolors
 import bs4
 import time
 import threading
 import http
+
+__all__ = ['getLinks']
 
 def link_status(web):
     link_live = False
@@ -15,11 +17,11 @@ def link_status(web):
         link_live = True
         print(web)
     except urllib.error.HTTPError as e:
-        print(bcolors.On_Red+web+bcolors.ENDC)
+        print(Bcolors.On_Red+web+Bcolors.ENDC)
     except urllib.error.URLError as e:
-        print(bcolors.On_Red+web+bcolors.ENDC)
+        print(Bcolors.On_Red+web+Bcolors.ENDC)
     except http.client.RemoteDisconnected as e:
-        print(bcolors.On_Red+web+bcolors.ENDC)
+        print(Bcolors.On_Red+web+Bcolors.ENDC)
     return 
 
 
@@ -47,7 +49,7 @@ def getLinks(soup,ext,live=0):
                 pass
         """Pretty print output as below"""
         print ('') 
-        print (bcolors.OKGREEN+'Websites Found - '+bcolors.ENDC+str(len(websites)))
+        print (Bcolors.OKGREEN+'Websites Found - '+Bcolors.ENDC+str(len(websites)))
         print ('-------------------------------')
         if live:
             threads = []
