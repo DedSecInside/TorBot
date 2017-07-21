@@ -1,11 +1,14 @@
-from modules.getemails import getMails
-from modules.getweblinks import getLinks
-from modules.pagereader import readPage
-from modules.bcolors import bcolors
+#from modules.getemails import getMails
+#from modules.getweblinks import getLinks
+#from modules.pagereader import readPage
+#from modules.bcolors import bcolors
+#from modules.updater import updateTor
+
+from modules import *
+
 import socket
 import socks
 import argparse
-import sys
 
 from stem import Signal
 from stem.control import Controller
@@ -13,7 +16,8 @@ from stem.control import Controller
 with Controller.from_port(port = 9051) as controller:
     controller.authenticate("16:872860B76453A77D60CA2BB8C1A7042072093276A3D701AD684053EC4C")
     controller.signal(Signal.NEWNYM)
-
+#TorBot VERSION    
+_VERSION_ = "1.0.1"
 #TOR SETUP GLOBAL Vars
 SOCKS_PORT = 9050  # TOR proxy port that is default from torrc, change to whatever torrc is configured to
 socks.set_default_proxy(socks.SOCKS5, "127.0.0.1",SOCKS_PORT)
@@ -36,8 +40,8 @@ def header():
 	print( "MMMMMMMMMMMMMMMMMMMMMMMMMMMW0doccloONMWWMMMMMMMMMMMMMM")
 	print( "MMMMMMMMMMMMMMMMMMMMMMMMMMMKl;;:cxKWMMMMMMMMMMMMMMMMMM")
 	print( "MMMMMMMMMMMMMMMMMMMMMMWKOXNx;,,cONMMMMMMMMMMMMMMMMMMMM")
-	print( "MMMMMMMMMMMMMMMMMMMMMMMXdxKk:',lONMMMM"+bcolors.FAIL + " D3DSEC "+bcolors.WHITE+"MMMMMMMM")
-	print( "MMMMMMMMMMMMMMMMMMMMMMMMOo0NOdxc,kMMMM"+bcolors.FAIL + " INS1DE "+bcolors.WHITE+"MMMMMMMM")
+	print( "MMMMMMMMMMMMMMMMMMMMMMMXdxKk:',lONMMMM"+Bcolors.FAIL + " D3DSEC "+Bcolors.WHITE+"MMMMMMMM")
+	print( "MMMMMMMMMMMMMMMMMMMMMMMMOo0NOdxc,kMMMM"+Bcolors.FAIL + " INS1DE "+Bcolors.WHITE+"MMMMMMMM")
 	print( "MMMMMMMMMMMMMMMMMMMMMMMMOcONOxkx;dWMMMMMMMMMMMMMMMMMMM")
 	print( "MMMMMMMMMMMMMMMMMMMMMMNkcdXXOkxkd:oXMMMMMMMMMMMMMMMMMM")
 	print( "MMMMMMMMMMMMMMMMMMMNOoclONNX00OkOxc:lkXWMMMMMMMMMMMMMM")
@@ -58,29 +62,38 @@ def header():
 	print( "MMMMMMMMMMMMMWNklccclldk0OxOdcc;. .......;oKWWMMMMMMMM")
 	print( "MMMMMMMMMMMMMMMMWXOdl:::;cc;'... ..',:lx0NMMMMMMMMMMMM")
 	print( "MMMMMMMMMMMMMMMMMMMMMNKOkxddolloodk0XWMMMMMMMMMMMMMMMM")
-	print(bcolors.FAIL+bcolors.BOLD)
+	print(Bcolors.FAIL+Bcolors.BOLD)
 	print( " 	       __  ____  ____  __        ______ ")
 	print( "  	      / /_/ __ \/ __ \/ /_  ____/_  __/ ")
 	print( " 	     / __/ / / / /_/ / __ \/ __ \/ / ")
 	print( "	    / /_/ /_/ / _, _/ /_/ / /_/ / /  ")
-	print( "	    \__/\____/_/ |_/_.___/\____/_/  V 1.0.0")
-	print(bcolors.FAIL+bcolors.On_Black)
+	print( "	    \__/\____/_/ |_/_.___/\____/_/  V"+_VERSION_)
+	print(Bcolors.FAIL+Bcolors.On_Black)
 	print("#######################################################")
 	print("#  TorBot - A python Tor Crawler                      #")
 	print("#  GitHub : https://github.com/DedsecInside/TorBot    #")
 	print("#######################################################")
-	print(bcolors.FAIL + "LICENSE: GNU Public License" + bcolors.ENDC)
+	print(Bcolors.FAIL + "LICENSE: GNU Public License" + Bcolors.ENDC)
 	print()
    
 
 def main():
  parser = argparse.ArgumentParser()
+ parser.add_argument("-v","--version",action="store_true",help="Show current version of TorBot.")
+ parser.add_argument("--update",action="store_true",help="Update TorBot to the latest stable version")
  parser.add_argument("-q","--quiet",action="store_true")
  parser.add_argument("-u","--url",help="Specifiy a website link to crawl")
  parser.add_argument("-m","--mail",action="store_true", help="Get e-mail addresses from the crawled sites")
  parser.add_argument("-e","--extension",action='append',dest='extension',default=[],help="Specifiy additional website extensions to the list(.com or .org etc)")
  parser.add_argument("-l","--live",action="store_true",help="Check if websites are live or not (slow)")
  args = parser.parse_args()	
+ if args.version :
+ 	print("TorBot Version:"+_VERSION_)
+ 	exit()
+ if args.update:
+ 	updateTor()
+ 	exit()
+
  if args.quiet == 0:
  	header()
  print ("Tor Ip Address :")

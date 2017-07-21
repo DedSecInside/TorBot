@@ -1,7 +1,8 @@
 import urllib.request 
 from bs4 import BeautifulSoup
-from modules.bcolors import bcolors
+from modules.bcolors import Bcolors
 
+__all__ = ['readPage']
 
 def readPage(site,printIP=0):
 
@@ -12,5 +13,5 @@ def readPage(site,printIP=0):
  if printIP:
   pg = page.find('strong')
   IP = pg.renderContents()
-  print(bcolors.WARNING+bcolors.BOLD+IP.decode("utf-8")+bcolors.ENDC)
+  print(Bcolors.WARNING+Bcolors.BOLD+IP.decode("utf-8")+Bcolors.ENDC)
  return page
