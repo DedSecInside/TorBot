@@ -2,13 +2,14 @@ import sys
 import os
 sys.path.append(os.path.abspath('../'))
 from modules.bcolors import Bcolors
+from modules.savefile import saveJson
 import bs4
 
 __all__ = ['getMails']
 
 """Get all emails from the website"""
 
-def getMails(soup):
+def getMails(soup,save=0):
     _soup_instance = bs4.BeautifulSoup
     if isinstance(type(soup), type(_soup_instance)):
         emails = []
@@ -27,6 +28,8 @@ def getMails(soup):
         print ('-------------------------------')
         for mail in emails:
             print (mail)
+        if save:
+            saveJson("Extracted-Mail-IDs",emails)
         return ''
     else:
         raise(Bcolors.FAIL+'Method parameter is not of instance bs4.BeautifulSoup'+Bcolors.ENDC)
