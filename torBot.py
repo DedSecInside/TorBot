@@ -14,12 +14,12 @@ from stem import Signal
 from stem.control import Controller
 
 with Controller.from_port(port = 9051) as controller:
-    controller.authenticate("16:872860B76453A77D60CA2BB8C1A7042072093276A3D701AD684053EC4C")
+    controller.authenticate("16:3BEA46EB6C489B90608A65120BD7CF0C7BA709513AB8ACF212B9537183")
     controller.signal(Signal.NEWNYM)
 #TorBot VERSION    
 _VERSION_ = "1.0.1"
 #TOR SETUP GLOBAL Vars
-SOCKS_PORT = 9050  # TOR proxy port that is default from torrc, change to whatever torrc is configured to
+SOCKS_PORT = 9050	  # TOR proxy port that is default from torrc, change to whatever torrc is configured to
 socks.set_default_proxy(socks.SOCKS5, "127.0.0.1",SOCKS_PORT)
 socket.socket = socks.socksocket
 # Perform DNS resolution through the socket
@@ -83,6 +83,7 @@ def main():
  parser.add_argument("--update",action="store_true",help="Update TorBot to the latest stable version")
  parser.add_argument("-q","--quiet",action="store_true")
  parser.add_argument("-u","--url",help="Specifiy a website link to crawl")
+ parser.add_argument("-s","--save",action="store_true", help="Save results in a file")
  parser.add_argument("-m","--mail",action="store_true", help="Get e-mail addresses from the crawled sites")
  parser.add_argument("-e","--extension",action='append',dest='extension',default=[],help="Specifiy additional website extensions to the list(.com or .org etc)")
  parser.add_argument("-l","--live",action="store_true",help="Check if websites are live or not (slow)")
@@ -100,16 +101,18 @@ def main():
  link = args.url
  ext = 0
  live = 0
+ save=0
  live = args.live
  ext = args.extension
+ save = args.save
  a = readPage("https://check.torproject.org/",1)
  if link:
  	b = readPage(link)
  else:
     b = readPage("http://torlinkbgs6aabns.onion/")
  if args.mail:
- 	getMails(b)
- getLinks(b,ext,live)
+ 	getMails(b,save)
+ getLinks(b,ext,live,save)
  print ("\n\n")
  return 0
 
