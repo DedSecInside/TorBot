@@ -129,7 +129,8 @@ GNU Public License
 ## CREDITS
 
 - [X] [P5N4PPZ](https://github.com/PSNAppz) - Owner
-- [X] [agrepravin](https://github.com/agrepravin) - Contributor
+- [X] [agrepravin](https://github.com/agrepravin) - Contributor,Reviewer
+- [X] [y-mehta](https://github.com/y-mehta) - Contributer
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Opensource.svg/200px-Opensource.svg.png)
 
