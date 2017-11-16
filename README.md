@@ -65,33 +65,29 @@ the following steps:
 8. After all URLs are processed, return the most relevant page.
 
 ### Features
-1. Crawls Tor links (.onion).(Partially Completed)
-2. Returns Page title and address with a short description about the site.(Partially Completed)
-3. Save links to database.(Not Started)
-4. Get emails from site.(Completed)
-5. Save crawl info to file.(Completed)
-6. Crawl custom domains.(Completed)
-7. Check if the link is live.(Complete)
-4. Built-in Updater.(Completed)
+1. Crawls Tor links (.onion) only.
+2. Returns Page title and address.
+3. Cache links so that there won't be duplicate links.
 ...(will be updated)
 
 ## Contribute
 Contributions to this project are always welcome. 
-To add a new feature fork the dev branch and give a pull request when your new feature is tested and complete.
+To add a new feature fork this repository and give a pull request when your new feature is tested and complete.
 If its a new module, it should be put inside the modules directory and imported to the main file.
 The branch name should be your new feature name in the format <Feature_featurename_version(optional)>. For example, <i>Feature_FasterCrawl_1.0</i>.
 Contributor name will be updated to the below list. :D
 
 ## Dependencies 
 1. Tor 
-2. Python 3.x (Make sure pip3 is installed)
+2. Python 3.x (Make sure pip3 is there)
 3. Python Stem Module
 4. urllib
 5. Beautiful Soup 4
 6. Socket
 7. Sock
 8. Argparse
-9. Git
+9. Stem module
+10. Git
 
 ## Basic setup
 Before you run the torBot make sure the following things are done properly:
@@ -109,23 +105,17 @@ with Controller.from_port(port = 9051) as controller:
  controller.signal(Signal.NEWNYM)`
 
 `python3 torBot.py`
-`usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m] [-e EXTENSION]
-                 [-l] [-i]
+`usage: torBot.py [-h] [-q] [-u URL] [-m] [-e EXTENSION] [-l]
 
 optional arguments:
   -h, --help            show this help message and exit
-  -v, --version         Show current version of TorBot.
-  --update              Update TorBot to the latest stable version
   -q, --quiet
   -u URL, --url URL     Specifiy a website link to crawl
-  -s, --save            Save results in a file
   -m, --mail            Get e-mail addresses from the crawled sites
   -e EXTENSION, --extension EXTENSION
                         Specifiy additional website extensions to the
                         list(.com or .org etc)
-  -l, --live            Check if websites are live or not (slow)
-  -i, --info            Info displays basic info of the scanned site (very
-                        slow)` 
+  -l, --live            Check if websites are live or not (slow)` 
 
 Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
 
