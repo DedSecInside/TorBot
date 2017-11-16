@@ -14,11 +14,13 @@ __all__ = ['getLinks']
 
 def link_status(web,out_queue,index):
     link_live = False
+    live_links = 0
     out_queue[index] = web + " is_live = False "
     try:
         urllib.request.urlopen(web)    
         link_live = True
         out_queue[index] = web + " is_live = True "
+        live_links += 1
         print(web)
     except urllib.error.HTTPError as e:
         print(Bcolors.On_Red+web+Bcolors.ENDC)
@@ -74,6 +76,8 @@ def getLinks(soup,ext,live=0,save=0):
                 print(web)
             if save:
                 saveJson("Onion-Links",websites)
-        return websites           
+        return websites
+        #print (Bcolors.OKGREEN+'Live Links:'+live_links+'  Dead Links:'+(str(len(websites))-live_links))
+        #print ('-------------------------------')           
     else:
         raise('Method parameter is not of instance bs4.BeautifulSoup')
