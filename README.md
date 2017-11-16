@@ -109,6 +109,7 @@ with Controller.from_port(port = 9051) as controller:
  controller.signal(Signal.NEWNYM)`
 
 `python3 torBot.py`
+<pre>
 `usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m] [-e EXTENSION]
                  [-l] [-i]
 
@@ -125,7 +126,7 @@ optional arguments:
                         list(.com or .org etc)
   -l, --live            Check if websites are live or not (slow)
   -i, --info            Info displays basic info of the scanned site (very
-                        slow)` 
+                        slow)` </pre>
 
 Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
 
