@@ -119,6 +119,9 @@ optional arguments:
 
 Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
 
+## TO-DO
+A TO-DO list will be added here as soon as its complete.
+
 ### Have ideas?
 If you have new ideas which is worth implementing, mention those by starting a new issue with the title [FEATURE_REQUEST].
 If the idea is worth implementing, congratz you are now a contributor.
