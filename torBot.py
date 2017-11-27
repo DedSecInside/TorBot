@@ -119,8 +119,7 @@ def main():
 	if args.mail:
 		getMails(b,save)
 	if args.info:
-		inf = info()
-		scan(link)	
+		executeAll(link)
 	getLinks(b,ext,live,save)
 	print ("\n\n")
 	return 0
