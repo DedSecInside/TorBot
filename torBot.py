@@ -150,7 +150,8 @@ def main():
         info.executeAll(link)
 
     if b is not None:
-        getweblinks.getLinks(b, ext, live, save)
+        links = getweblinks.getLinks(b, ext, live, save)
+        print(links)
 
     print("\n\n")
 

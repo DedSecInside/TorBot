@@ -1,6 +1,6 @@
 import urllib.request
 from bs4 import BeautifulSoup
-from .bcolors import Bcolors
+from modules.bcolors import Bcolors
 
 
 def readPage(site, printIP=0):

@@ -1,12 +1,13 @@
-from .bcolors import Bcolors
+from modules.bcolors import Bcolors
 from bs4 import BeautifulSoup
-from .savefile import saveJson
+from modules.savefile import saveJson
 
 
 """Get all emails from the website"""
 
 
 def getMails(soup, save=0):
+    b_colors = Bcolors()
     _soup_instance = BeautifulSoup
     if isinstance(type(soup), type(_soup_instance)):
         emails = []
@@ -21,7 +22,7 @@ def getMails(soup, save=0):
                 pass
         """Pretty print output as below"""
         print ('')
-        print (Bcolors.OKGREEN+'Mails Found - '+Bcolors.ENDC+str(len(emails)))
+        print (b_colors.OKGREEN+'Mails Found - '+b_colors.ENDC+str(len(emails)))
         print ('-------------------------------')
         for mail in emails:
             print (mail)
@@ -29,7 +30,7 @@ def getMails(soup, save=0):
             saveJson("Extracted-Mail-IDs", emails)
         return ''
     else:
-        msg = ''.join((Bcolors.FAIL,
+        msg = ''.join((b_colors.FAIL,
                        'Method parameter is not of instance BeautifulSoup',
-                       Bcolors.ENDC))
+                       b_colors.ENDC))
         raise(msg)
