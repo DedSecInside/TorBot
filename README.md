@@ -101,7 +101,7 @@ Before you run the torBot make sure the following things are done properly:
 * Run tor service
 `sudo service tor start`
 
-* Make sure that your torrc is configured to SOCKS_PORT 9050 which should be the 
+* Make sure that your torrc is configured to SOCKS_PORT localhost:9050 which should be the 
   should default setting
 
 `python3 torBot.py`
