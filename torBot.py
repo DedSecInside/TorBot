@@ -22,7 +22,7 @@ def connect(address, port):
         port: Establishes connect to this port
     """
     socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, port)
-    socket.socket = socks.socksocket
+    socket.socket = socks.socksocket  # Monkey Patching our socket to tor socket
 
     def getaddrinfo(*args):
         """
@@ -137,8 +137,6 @@ def main():
     link = args.url
     defaultLink = "http://torlinkbgs6aabns.onion/"
 
-    live = args.live
-    ext = args.extension
     save = args.save
 
     pagereader.readPage("https://check.torproject.org/", 1)
@@ -156,7 +154,7 @@ def main():
         info.executeAll(link)
 
     if b is not None:
-        links = getweblinks.getLinks(b, ext, live, save)
+        links = getweblinks.getLinks(b)
         print(links)
 
     print("\n\n")
