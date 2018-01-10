@@ -2,31 +2,37 @@ import argparse
 import socket
 import socks
 
+
 from modules import bcolors, getemails, pagereader, getweblinks, updater, info
-from stem import Signal
-from stem.control import Controller
 
 
-HSH_PWORD = "16:010CAA866566D3366070D2FA37DAD785D394B5263E90BB4C25135A2023"
-with Controller.from_port(port=9051) as controller:
-    controller.authenticate(HSH_PWORD)
-    controller.signal(Signal.NEWNYM)
-
+LOCALHOST = "127.0.0.1"
+PORT = 9050
 # TorBot VERSION
 __VERSION = "1.1.0_dev"
 
-# TOR SETUP GLOBAL Vars
-SOCKS_PORT = 9050  # Default tor proxy port for socks, check torrc
-socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, "127.0.0.1", SOCKS_PORT)
-socket.socket = socks.socksocket
 
+def connect(address, port):
+    """ Establishes connection to port
 
-# Perform DNS resolution through the socket
-def getaddrinfo(*args):
-    return [(socket.AF_INET, socket.SOCK_STREAM, 6, '', (args[0], args[1]))]
+    Assumes port is bound to localhost, if host that port is bound to changes
+    then change the port
 
+    Args:
+        port: Establishes connect to this port
+    """
+    socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, port)
+    socket.socket = socks.socksocket
 
-socket.getaddrinfo = getaddrinfo
+    def getaddrinfo(*args):
+        """
+        Overloads socket function for std socket library
+
+        Check socket.getaddrinfo() documentation to understand parameters.
+        """
+        return [(socket.AF_INET, socket.SOCK_STREAM, 6, '', (args[0], args[1]))]
+
+    socket.getaddrinfo = getaddrinfo
 
 
 def header():
@@ -83,6 +89,7 @@ def header():
 
 
 def main():
+    connect(LOCALHOST, PORT)
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--version",
                         action="store_true",
@@ -113,7 +120,6 @@ def main():
                         action="store_true",
                         help=' '.join(("Info displays basic info of the",
                                        "scanned site, (very slow)")))
-
     args = parser.parse_args()
 
     if args.version:
