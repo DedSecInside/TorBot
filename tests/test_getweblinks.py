@@ -22,16 +22,14 @@ class getLinksTestCase(unittest.TestCase):
             self.held, sys.stdout = sys.stdout, StringIO()
             self.maxDiff = None
 
-        def test_print_links(self):
+        def test_get_links(self):
 
             data = ['http://aff.ironsocket.com/SH7L',
-                               'http://aff.ironsocket.com/SH7L',
-                               'http://wsrs.net/',
-                               'http://cmsgear.com/',
-                               'http://cmsgear.com/']
+                    'http://aff.ironsocket.com/SH7L',
+                    'http://wsrs.net/',
+                    'http://cmsgear.com/']
 
-            ext = ['.com/']
-            result = getweblinks.getLinks(soup, ext)
+            result = getweblinks.getLinks(soup)
             self.assertEqual(result, data)
 
 

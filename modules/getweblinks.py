@@ -1,10 +1,9 @@
 import re
-
 from modules.bcolors import Bcolors
 from bs4 import BeautifulSoup
 
 
-def validate_url(link):
+def valid_onion_url(link):
 
     """
         Validates url
@@ -20,6 +19,29 @@ def validate_url(link):
     """
 
     pattern = r"^https?\b(://+)(.+)(.+)\bonion/(.*)"
+    re_obj = re.compile(pattern)
+    if re_obj.fullmatch(link):
+        return True
+
+    return False
+
+
+def valid_url(link):
+
+    """
+        Validates url
+
+        Takes in string which is a link and returns decides validitity of url
+        using regex
+
+        Args:
+            link: the url to be checked
+
+        Returns:
+            bool: True/False based on link
+    """
+
+    pattern = r"^https?\b(://+)(.+)(.+)\b...(.*)"
     re_obj = re.compile(pattern)
     if re_obj.fullmatch(link):
         return True
@@ -48,11 +70,10 @@ def getLinks(soup):
         websites = []
 
         links = soup.find_all('a')
-        for link in links:
-            url = link.get('href')
-            if url and validate_url(url):
+        for ref in links:
+            url = ref.get('href')
+            if url and (valid_onion_url(url) or valid_url(url)):
                 websites.append(url)
-
         """Pretty print output as below"""
         print(''.join((b_colors.OKGREEN,
               'Websites Found - ', b_colors.ENDC, str(len(websites)))))

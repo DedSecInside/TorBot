@@ -27,10 +27,8 @@ class getLinksTestCase(unittest.TestCase):
         data = ['http://aff.ironsocket.com/SH7L',
                 'http://aff.ironsocket.com/SH7L',
                 'http://wsrs.net/',
-                'http://cmsgear.com/',
                 'http://cmsgear.com/']
-        ext = ['.com/']
-        result = getweblinks.getLinks(soup, ext, 0, 1)
+        result = getweblinks.getLinks(soup)
         self.assertEqual(result, data)
 
 
