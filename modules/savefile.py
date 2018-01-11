@@ -12,10 +12,8 @@ def saveJson(datatype, data):
     """
 
     timestr = time.strftime("%Y%m%d-%H%M%S")
-    print("Inside of JSON func")
     # Json File Creation
     with open("TorBoT-Export-"+datatype+timestr+".json", "x") as file:
-        print("OPENED FILE")
         # Store data in Json format
         output = {datatype: data}
         # Dump output to file

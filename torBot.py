@@ -148,7 +148,7 @@ def main():
         updater.updateTor()
         exit()
 
-    if args.quiet == 0:
+    if not args.quiet:
         header()
 
     print("Tor Ip Address :")
@@ -157,8 +157,9 @@ def main():
 
     pagereader.readPage("https://check.torproject.org/", 1)
 
-    if link:
+    if link is not None:
         b = pagereader.readPage(link)
+
     else:
         b = pagereader.readPage(defaultLink, 0)
         link = defaultLink
@@ -172,7 +173,7 @@ def main():
     if args.info:
         info.executeAll(link)
 
-    if b is not None:
+    if args.url:
         links = getweblinks.getLinks(b)
         print(links)
         if args.save:
