@@ -69,6 +69,7 @@ def getLinks(soup):
             url = ref.get('href')
             if url and (valid_onion_url(url) or valid_url(url)):
                 websites.append(url)
+
         """Pretty print output as below"""
         print(''.join((b_colors.OKGREEN,
               'Websites Found - ', b_colors.ENDC, str(len(websites)))))

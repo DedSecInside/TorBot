@@ -1,9 +1,9 @@
 from modules.bcolors import Bcolors
 from bs4 import BeautifulSoup
-from modules.savefile import saveJson
 
 
-def getMails(soup, save=0):
+def getMails(soup):
+
     """
         Searches for <a href> tags for links then checks if link ccontains the
         substring 'mailto' indicating that it's an email. If it is determined
@@ -12,6 +12,9 @@ def getMails(soup, save=0):
 
         Args:
             soup: BeautifulSoup isntance that will be used for parsing
+
+        Returns:
+            emails: list of email IDs
     """
     b_colors = Bcolors()
 
@@ -31,9 +34,7 @@ def getMails(soup, save=0):
         print (b_colors.OKGREEN+'Mails Found - '+b_colors.ENDC+str(len(emails)))
         print ('-------------------------------')
 
-        for mail in emails:
-            print(mail)
-        if save:
-            saveJson("Extracted-Mail-IDs", emails)
+        return emails
+
     else:
         raise('Method parameter is not of instance BeautifulSoup')

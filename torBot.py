@@ -1,7 +1,8 @@
 import argparse
 import socket
 import socks
-from modules import bcolors, getemails, pagereader, getweblinks, updater, info
+from modules import (bcolors, getemails, pagereader, getweblinks, updater,
+                     info, savefile)
 
 
 LOCALHOST = "127.0.0.1"
@@ -20,8 +21,9 @@ def connect(address, port):
         address: address for port to bound to
         port: Establishes connect to this port
     """
+
     socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, port)
-    socket.socket = socks.socksocket  # Monkey Patching our socket to tor socket
+    socket.socket = socks.socksocket  # Monkey Patch our socket to tor socket
 
     def getaddrinfo(*args):
         """
@@ -32,13 +34,13 @@ def connect(address, port):
         Simple description below:
         argument - explanation (actual value)
         socket.AF_INET - the type of address the socket can speak to (IPV4)
-        sock.SOCK_STREAM - socket creates a stream connectin rather than packets
+        sock.SOCK_STREAM - creates a stream connecton rather than packets
         6 - protocol being used is TCP
-        The last two arguments should be a tuple containing the address and port
+        Last two arguments should be a tuple containing the address and port
 
         """
-        return [(socket.AF_INET, socket.SOCK_STREAM, 6, '', (args[0], args[1]))]
-
+        return [(socket.AF_INET, socket.SOCK_STREAM, 6,
+                '', (args[0], args[1]))]
     socket.getaddrinfo = getaddrinfo
 
 
@@ -153,8 +155,6 @@ def main():
     link = args.url
     defaultLink = "http://torlinkbgs6aabns.onion/"
 
-    save = args.save
-
     pagereader.readPage("https://check.torproject.org/", 1)
 
     if link:
@@ -164,7 +164,10 @@ def main():
         link = defaultLink
 
     if args.mail and b is not None:
-        getemails.getMails(b, save)
+        emails = getemails.getMails(b)
+        print(emails)
+        if args.save:
+            savefile.saveJson('Extracted-Mail-IDs', emails)
 
     if args.info:
         info.executeAll(link)
@@ -172,10 +175,10 @@ def main():
     if b is not None:
         links = getweblinks.getLinks(b)
         print(links)
+        if args.save:
+            savefile.saveJson("Onions links", links)
 
     print("\n\n")
-
-    return 0
 
 
 if __name__ == '__main__':
