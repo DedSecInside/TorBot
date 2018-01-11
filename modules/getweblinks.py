@@ -1,42 +1,75 @@
-import urllib.request
+import re
 from modules.bcolors import Bcolors
 from bs4 import BeautifulSoup
 
 
+def valid_onion_url(link):
 
-def link_status(web, out_queue, index):
+    """
+        Validates onion urls using regex
+
+        Args:
+            link: the url to be checked
+
+        Returns:
+            bool: True/False based on link
+    """
+
+    pattern = r"^https?\b(://+)(.+)(.+)\bonion/(.*)"
+    re_obj = re.compile(pattern)
+    if re_obj.fullmatch(link):
+        return True
+
+    return False
+
+
+def valid_url(link):
+
+    """
+        Validates general urls using regex
+
+        Takes in string which is a link and returns decides validitity of url
+        using regex
+
+        Args:
+            link: the url to be checked
+
+        Returns:
+            bool: True/False based on link
+    """
+
+    pattern = r"^https?\b(://+)(.+)(.+)\b...(.*)"
+    re_obj = re.compile(pattern)
+    if re_obj.fullmatch(link):
+        return True
+
+    return False
+
+
+def getLinks(soup):
+
+    """
+        Searches through all <a ref> (hyperlinks) tags and stores them in a
+        list then validates if the url is formatted correctly.
+
+        Args:
+            soup: BeautifulSoup instance currently being used.
+
+        Returns:
+            websites: List of websites that were found
+    """
+
     b_colors = Bcolors()
-    out_queue[index] = web + " is_live = False "
-    try:
-        urllib.request.urlopen(web)
-        out_queue[index] = web + " is_live = True "
-        print(web)
-    except urllib.error.HTTPError:
-        print(b_colors.On_Red+web+b_colors.ENDC)
-
-
-def getLinks(soup, ext, live=0, save=0):
-
-    """Get all onion links from the website"""
-
-    b_colors = Bcolors()
-    extensions = []
-    if ext:
-        for e in ext:
-            extensions.append(e)
 
     if isinstance(type(soup), type(BeautifulSoup)):
         websites = []
 
-        for link in soup.find_all('a'):
-            web_link = link.get('href')
-            if web_link and ('http' in web_link or 'https' in web_link):
+        links = soup.find_all('a')
+        for ref in links:
+            url = ref.get('href')
+            if url and (valid_onion_url(url) or valid_url(url)):
+                websites.append(url)
 
-                for exten in extensions:
-                    if web_link.endswith(exten):
-                        websites.append(web_link)
-                else:
-                    websites.append(web_link)
         """Pretty print output as below"""
         print(''.join((b_colors.OKGREEN,
               'Websites Found - ', b_colors.ENDC, str(len(websites)))))

@@ -1,36 +1,40 @@
 from modules.bcolors import Bcolors
 from bs4 import BeautifulSoup
-from modules.savefile import saveJson
 
 
-"""Get all emails from the website"""
+def getMails(soup):
 
+    """
+        Searches for <a href> tags for links then checks if link ccontains the
+        substring 'mailto' indicating that it's an email. If it is determined
+        to be an email then the link is split and the username is appeneded to
+        the list
 
-def getMails(soup, save=0):
+        Args:
+            soup: BeautifulSoup isntance that will be used for parsing
+
+        Returns:
+            emails: list of email IDs
+    """
     b_colors = Bcolors()
-    _soup_instance = BeautifulSoup
-    if isinstance(type(soup), type(_soup_instance)):
+
+    if isinstance(type(soup), type(BeautifulSoup)):
+
         emails = []
-        for link in soup.find_all('a'):
-            email_link = link.get('href')
-            if email_link is not None:
-                if 'mailto' in email_link:
-                    """Split email address on"""
-                    email_addr = email_link.split(':')
-                    emails.append(email_addr[1])
-            else:
-                pass
+        links = soup.find_all('a')
+        for ref in links:
+            url = ref.get('href')
+            if url and 'mailto' in url:
+                """Split email address on"""
+                email_addr = url.split(':')
+                emails.append(email_addr[1])
+
         """Pretty print output as below"""
         print ('')
         print (b_colors.OKGREEN+'Mails Found - '+b_colors.ENDC+str(len(emails)))
         print ('-------------------------------')
-        for mail in emails:
-            print (mail)
-        if save:
-            saveJson("Extracted-Mail-IDs", emails)
-        return ''
+
+        return emails
+
     else:
-        msg = ''.join((b_colors.FAIL,
-                       'Method parameter is not of instance BeautifulSoup',
-                       b_colors.ENDC))
-        raise(msg)
+        raise('Method parameter is not of instance BeautifulSoup')
