@@ -1,8 +1,6 @@
 import argparse
 import socket
 import socks
-
-
 from modules import bcolors, getemails, pagereader, getweblinks, updater, info
 
 
@@ -19,6 +17,7 @@ def connect(address, port):
     then change the port
 
     Args:
+        address: address for port to bound to
         port: Establishes connect to this port
     """
     socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, port)
@@ -29,6 +28,14 @@ def connect(address, port):
         Overloads socket function for std socket library
 
         Check socket.getaddrinfo() documentation to understand parameters.
+
+        Simple description below:
+        argument - explanation (actual value)
+        socket.AF_INET - the type of address the socket can speak to (IPV4)
+        sock.SOCK_STREAM - socket creates a stream connectin rather than packets
+        6 - protocol being used is TCP
+        The last two arguments should be a tuple containing the address and port
+
         """
         return [(socket.AF_INET, socket.SOCK_STREAM, 6, '', (args[0], args[1]))]
 
@@ -36,56 +43,65 @@ def connect(address, port):
 
 
 def header():
-    b_color = bcolors.Bcolors()
-    D3DSEC = b_color.FAIL + " D3DSEC " + b_color.WHITE + "MMMMMMMM"
-    INS1DE = b_color.FAIL + " INS1DE " + b_color.WHITE + "MMMMMMMM"
+    """
+    Prints out header ASCII art
+    """
 
-    """ Display the header of TorBot """
-    print("######################################################")
-    print("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWMMMMMMMMMMMMM")
-    print("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWMMMMMMMMMMMMMM")
-    print("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWNXNWWWWWMMMMMMMMMM")
-    print("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWWX0KXXKKXWMMMMMMMMMMM")
-    print("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMWNNKOkOOkOXWMMMMMMMMMMMMM")
-    print("MMMMMMMMMMMMMMMMMMMMMMMMMMMMNX0kdodoxKWMMMMMMMMMMMMMMM")
-    print("MMMMMMMMMMMMMMMMMMMMMMMMMMMW0doccloONMWWMMMMMMMMMMMMMM")
-    print("MMMMMMMMMMMMMMMMMMMMMMMMMMMKl;;:cxKWMMMMMMMMMMMMMMMMMM")
-    print("MMMMMMMMMMMMMMMMMMMMMMWKOXNx;,,cONMMMMMMMMMMMMMMMMMMMM")
-    print("MMMMMMMMMMMMMMMMMMMMMMMXdxKk:',lONMMMM" + D3DSEC)
-    print("MMMMMMMMMMMMMMMMMMMMMMMMOo0NOdxc,kMMMM" + INS1DE)
-    print("MMMMMMMMMMMMMMMMMMMMMMMMOcONOxkx;dWMMMMMMMMMMMMMMMMMMM")
-    print("MMMMMMMMMMMMMMMMMMMMMMNkcdXXOkxkd:oXMMMMMMMMMMMMMMMMMM")
-    print("MMMMMMMMMMMMMMMMMMMNOoclONNX00OkOxc:lkXWMMMMMMMMMMMMMM")
-    print("MMMMMMMMMMMMMMMMN0olld0NWNNX0O00kxkxl:;ckXMWWMMMMMMMMM")
-    print("MMMMMMMMMMMWMMNxccd0NNNNNXNXOkOK0dodxdo:,;o0WMMMMMMMMM")
-    print("MMMMMMMMMMMMNk:ckXNNWNXXXXNXOOOOK0oloooooc,'oKMMMMMMMM")
-    print("MMMMMMMMMMMXc;xXNNNXKXXXNNWKOO0Ok0x:clllllc:.,OWMMMMMM")
-    print("MMMMMMMMMMX:;0WNNX00XNNNNNNKOO0KkkOc,ccccccc:.'OWMMMMM")
-    print("MMMMMMMMMNl,ONNN0OXNNNNNXXNKOkOK0xkl':c::::::;.;KMMMMM")
-    print("MMMMMMMMM0,lNWXO0NNNNXKKXXNXO0Ok0Oxl',:;;;;;;;..dMMMMM")
-    print("MMMMMMMMMk,xWNOONNNX00XNNNWKOO0OkOxc'';;,,,,,,'.cMMMMM")
-    print("MMMMMMMMMx,xWKkKWNXOKNWNNNX0xxOKxxx:..,,,,,''''.cMMMMM")
-    print("MMMMMMMMM0,oWXkOWXOKNNNNN00Xkdx0kdd;..,'''''''..oMMMMM")
-    print("MMMMMMMMMNl;0W0kKKkKWNNN0ONNOxdOOll,..'''......,0MMMMM")
-    print("MMMMMMMMMMK::KN0kKOkNNWXk0WX0kdxkc:............xWMMMMM")
-    print("MMMMMMMMMMMKl:kX0k0kONWNOONX0koxd:,..........'kWMMMMMM")
-    print("MMMMMMMMMMMMNxccxOkkxkKWKx0NOoooc'..........lKWMMMMMMM")
-    print("MMMMMMMMMMMMMWNklccclldk0OxOdcc;. .......;oKWWMMMMMMMM")
-    print("MMMMMMMMMMMMMMMMWXOdl:::;cc;'... ..',:lx0NMMMMMMMMMMMM")
-    print("MMMMMMMMMMMMMMMMMMMMMNKOkxddolloodk0XWMMMMMMMMMMMMMMMM")
-    print(b_color.FAIL + b_color.BOLD)
-    print(" 	       __  ____  ____  __        ______ ")
-    print("  	      / /_/ __ \/ __ \/ /_  ____/_  __/ ")
-    print(" 	     / __/ / / / /_/ / __ \/ __ \/ / ")
-    print("	    / /_/ /_/ / _, _/ /_/ / /_/ / /  ")
-    print("	    \__/\____/_/ |_/_.___/\____/_/  V" + __VERSION)
-    print(b_color.FAIL + b_color.On_Black)
-    print("#######################################################")
-    print("#  TorBot - A python Tor Crawler                      #")
-    print("#  GitHub : https://github.com/DedsecInside/TorBot    #")
-    print("#  Help : use -h for help text                        #")
-    print("#######################################################")
-    print(b_color.FAIL + "LICENSE: GNU Public License" + b_color.ENDC)
+    b_color = bcolors.Bcolors()
+    D3DSEC = b_color.FAIL + " D3DSEC " + b_color.WHITE
+    INS1DE = b_color.FAIL + " INS1DE " + b_color.WHITE
+
+    header = """
+                ######################################################
+                MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWMMMMMMMMMMMMM
+                MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWMMMMMMMMMMMMMM
+                MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWNXNWWWWWMMMMMMMMMM
+                MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWWX0KXXKKXWMMMMMMMMMMM
+                MMMMMMMMMMMMMMMMMMMMMMMMMMMMMWNNKOkOOkOXWMMMMMMMMMMMMM
+                MMMMMMMMMMMMMMMMMMMMMMMMMMMMNX0kdodoxKWMMMMMMMMMMMMMMM
+                MMMMMMMMMMMMMMMMMMMMMMMMMMMW0doccloONMWWMMMMMMMMMMMMMM
+                MMMMMMMMMMMMMMMMMMMMMMMMMMMKl;;:cxKWMMMMMMMMMMMMMMMMMM
+                MMMMMMMMMMMMMMMMMMMMMMWKOXNx;,,cONMMMMMMMMMMMMMMMMMMMM
+                MMMMMMMMMMMMMMMMMMMMMMMXdxKk:',lONMMMM{D3DSEC}MMMMMMMM
+                MMMMMMMMMMMMMMMMMMMMMMMMOo0NOdxc,kMMMM{INS1DE}MMMMMMMM
+                MMMMMMMMMMMMMMMMMMMMMMMMOcONOxkx;dWMMMMMMMMMMMMMMMMMMM
+                MMMMMMMMMMMMMMMMMMMMMMNkcdXXOkxkd:oXMMMMMMMMMMMMMMMMMM
+                MMMMMMMMMMMMMMMMMMMNOoclONNX00OkOxc:lkXWMMMMMMMMMMMMMM
+                MMMMMMMMMMMMMMMMN0olld0NWNNX0O00kxkxl:;ckXMWWMMMMMMMMM
+                MMMMMMMMMMMWMMNxccd0NNNNNXNXOkOK0dodxdo:,;o0WMMMMMMMMM
+                MMMMMMMMMMMMNk:ckXNNWNXXXXNXOOOOK0oloooooc,'oKMMMMMMMM
+                MMMMMMMMMMMXc;xXNNNXKXXXNNWKOO0Ok0x:clllllc:.,OWMMMMMM
+                MMMMMMMMMMX:;0WNNX00XNNNNNNKOO0KkkOc,ccccccc:.'OWMMMMM
+                MMMMMMMMMNl,ONNN0OXNNNNNXXNKOkOK0xkl':c::::::;.;KMMMMM
+                MMMMMMMMM0,lNWXO0NNNNXKKXXNXO0Ok0Oxl',:;;;;;;;..dMMMMM
+                MMMMMMMMMk,xWNOONNNX00XNNNWKOO0OkOxc'';;,,,,,,'.cMMMMM
+                MMMMMMMMMx,xWKkKWNXOKNWNNNX0xxOKxxx:..,,,,,''''.cMMMMM
+                MMMMMMMMM0,oWXkOWXOKNNNNN00Xkdx0kdd;..,'''''''..oMMMMM
+                MMMMMMMMMNl;0W0kKKkKWNNN0ONNOxdOOll,..'''......,0MMMMM
+                MMMMMMMMMMK::KN0kKOkNNWXk0WX0kdxkc:............xWMMMMM
+                MMMMMMMMMMMKl:kX0k0kONWNOONX0koxd:,..........'kWMMMMMM
+                MMMMMMMMMMMMNxccxOkkxkKWKx0NOoooc'..........lKWMMMMMMM
+                MMMMMMMMMMMMMWNklccclldk0OxOdcc;. .......;oKWWMMMMMMMM
+                MMMMMMMMMMMMMMMMWXOdl:::;cc;'... ..',:lx0NMMMMMMMMMMMM
+                MMMMMMMMMMMMMMMMMMMMMNKOkxddolloodk0XWMMMMMMMMMMMMMMMM
+                {FAIL} + {BOLD}
+                           __  ____  ____  __        ______
+                          / /_/ __ \/ __ \/ /_  ____/_  __/
+                         / __/ / / / /_/ / __ \/ __ \/ / )
+                        / /_/ /_/ / _, _/ /_/ / /_/ / /  )
+                        \__/\____/_/ |_/_.___/\____/_/  V+ {VERSION}
+                {FAIL} + {On_Black}
+                #######################################################
+                #  TorBot - A python Tor Crawler                      #
+                #  GitHub : https://github.com/DedsecInside/TorBot    #
+                #  Help : use -h for help text                        #
+                #######################################################
+                      {FAIL} + "LICENSE: GNU Public License" + {ENDC}""".format(
+                D3DSEC=D3DSEC, INS1DE=INS1DE, FAIL=b_color.FAIL,
+                BOLD=b_color.BOLD, VERSION=__VERSION, ENDC=b_color.ENDC,
+                On_Black=b_color.On_Black
+                )
+    print(header)
 
 
 def main():

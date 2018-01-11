@@ -6,10 +6,7 @@ from bs4 import BeautifulSoup
 def valid_onion_url(link):
 
     """
-        Validates url
-
-        Takes in string which is a link and returns decides validitity of url
-        using regex
+        Validates onion urls using regex
 
         Args:
             link: the url to be checked
@@ -29,7 +26,7 @@ def valid_onion_url(link):
 def valid_url(link):
 
     """
-        Validates url
+        Validates general urls using regex
 
         Takes in string which is a link and returns decides validitity of url
         using regex
@@ -52,8 +49,6 @@ def valid_url(link):
 def getLinks(soup):
 
     """
-        Returns list of webistes or raises error if not BeautifulSoup object
-
         Searches through all <a ref> (hyperlinks) tags and stores them in a
         list then validates if the url is formatted correctly.
 
