@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 * Save to JSON
 * Testcase for Save to JSON
+* Save to DB
 
 ## 1.1.0 - July 6, 2017 - Present
 
@@ -14,6 +15,9 @@ All notable changes to this project will be documented in this file.
 
 * Updater
 * Version checker
+* Refactored code to meet PEP8 requirements
+* Refactored code to meet Google Style Docstrings for documentation
+* Fixed error occuring while using -i flag
 
 ## 1.0.0 - Jun 28, 2017 - July 5
 
