@@ -140,7 +140,7 @@ GNU Public License
 
 - [X] [P5N4PPZ](https://github.com/PSNAppz) - Owner
 - [X] [agrepravin](https://github.com/agrepravin) - Contributor,Reviewer
-- [X] [y-mehta](https://github.com/y-mehta) - Contributer
+- [X] [y-mehta](https://github.com/y-mehta) - Contributor
 - [X] [Manfredi Martorana](https://github.com/Agostinelli) - Contributor
 - [X] [KingAkeem](https://github.com/KingAkeem) - Contributor
 
