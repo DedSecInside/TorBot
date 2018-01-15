@@ -53,7 +53,7 @@ def header():
     D3DSEC = b_color.FAIL + " D3DSEC " + b_color.WHITE
     INS1DE = b_color.FAIL + " INS1DE " + b_color.WHITE
 
-    header = """
+    header = r"""
                 ######################################################
                 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWMMMMMMMMMMMMM
                 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWMMMMMMMMMMMMMM
@@ -98,9 +98,9 @@ def header():
                 #  GitHub : https://github.com/DedsecInside/TorBot    #
                 #  Help : use -h for help text                        #
                 #######################################################
-                      {FAIL} + "LICENSE: GNU Public License" + {ENDC}""".format(
+                      {FAIL} + "LICENSE: GNU Public License" + {END}""".format(
                 D3DSEC=D3DSEC, INS1DE=INS1DE, FAIL=b_color.FAIL,
-                BOLD=b_color.BOLD, VERSION=__VERSION, ENDC=b_color.ENDC,
+                BOLD=b_color.BOLD, VERSION=__VERSION, END=b_color.ENDC,
                 On_Black=b_color.On_Black
                 )
     print(header)
@@ -140,44 +140,41 @@ def main():
                                        "scanned site, (very slow)")))
     args = parser.parse_args()
 
+    # If flag is -v, --update, -q/--quiet then user only runs that operation
+    # because these are single flags only
     if args.version:
         print("TorBot Version:" + __VERSION)
         exit()
-
     if args.update:
         updater.updateTor()
         exit()
-
     if not args.quiet:
         header()
 
-    print("Tor Ip Address :")
-    link = args.url
-    defaultLink = "http://torlinkbgs6aabns.onion/"
-
-    pagereader.readPage("https://check.torproject.org/", 1)
-
-    if link is not None:
-        b = pagereader.readPage(link)
-
-    else:
-        b = pagereader.readPage(defaultLink, 0)
-        link = defaultLink
-
-    if args.mail and b is not None:
-        emails = getemails.getMails(b)
-        print(emails)
-        if args.save:
-            savefile.saveJson('Extracted-Mail-IDs', emails)
-
-    if args.info:
-        info.executeAll(link)
-
+    # If url flag is set then check for accompanying flag set. Only one
+    # additional flag can be set with -u/--url flag
     if args.url:
-        links = getweblinks.getLinks(b)
-        print(links)
-        if args.save:
-            savefile.saveJson("Onions links", links)
+        print("Tor IP Address :", pagereader.get_ip())
+        link = args.url
+        html_content = pagereader.readPage(link)
+        # -m/--mail
+        if args.mail:
+            emails = getemails.getMails(html_content)
+            print(emails)
+            if args.save:
+                savefile.saveJson('Emails', emails)
+        # -i/--info
+        elif args.info:
+            info.executeAll(link)
+            if args.save:
+                print('Nothing to save.\n')
+        else:
+            links = getweblinks.getLinks(html_content)
+            print(links)
+            if args.save:
+                savefile.saveJson("Links", links)
+    else:
+        print("You must pass a url with these flags.")
 
     print("\n\n")
 

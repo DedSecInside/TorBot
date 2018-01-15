@@ -110,12 +110,12 @@ Before you run the torBot make sure the following things are done properly:
                  [-l] [-i]
 
 optional arguments:
-  -h, --help            show this help message and exit
+  -h, --help            Show this help message and exit
   -v, --version         Show current version of TorBot.
   --update              Update TorBot to the latest stable version
-  -q, --quiet
-  -u URL, --url URL     Specifiy a website link to crawl
-  -s, --save            Save results in a file
+  -q, --quiet           Prevent header from displaying
+  -u URL, --url URL     Specifiy a website link to crawl, currently returns links on that page
+  -s, --save            Save results to a file in json format
   -m, --mail            Get e-mail addresses from the crawled sites
   -e EXTENSION, --extension EXTENSION
                         Specifiy additional website extensions to the
@@ -123,6 +123,8 @@ optional arguments:
   -l, --live            Check if websites are live or not (slow)
   -i, --info            Info displays basic info of the scanned site (very
                         slow)` </pre>
+
+* NOTE: All flags under -u URL, --url URL must also be passed a -u flag.
 
 Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
 
