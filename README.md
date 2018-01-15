@@ -124,7 +124,7 @@ optional arguments:
   -i, --info            Info displays basic info of the scanned site (very
                         slow)` </pre>
 
-**NOTE: All flags under -u URL, --url URL must also be passed a -u flag.
+* NOTE: All flags under -u URL, --url URL must also be passed a -u flag.
 
 Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
 
