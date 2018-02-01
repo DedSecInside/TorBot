@@ -46,9 +46,9 @@
 
 ## A python web crawler for Deep and Dark Web.
 [![Build Status](https://travis-ci.org/DedSecInside/TorBoT.svg?branch=master)](https://travis-ci.org/DedSecInside/TorBoT)
-[![](https://img.shields.io/badge/Donate-Bitcoin-blue.svg?style=flat-square)](https://blockchain.info/address/14st7SzDbQZuu8fpQ74x477WoRJ7gpHFaj)
-[![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
-[![forthebadge](http://forthebadge.com/images/badges/made-with-python.svg)](http://forthebadge.com)
+[![](https://img.shields.io/badge/Donate-Bitcoin-blue.svg?style=flat)](https://blockchain.info/address/14st7SzDbQZuu8fpQ74x477WoRJ7gpHFaj)
+[![](https://img.shields.io/badge/Built%20with-❤-orange.svg?style=flat)]()
+[![](https://img.shields.io/badge/Made%20with-Python-red.svg?style=flat)]()
 
 
 ### Working Procedure/Basic Plan
