@@ -8,7 +8,7 @@ from modules import (bcolors, getemails, pagereader, getweblinks, updater,
 LOCALHOST = "127.0.0.1"
 PORT = 9050
 # TorBot VERSION
-__VERSION = "1.1.0_dev"
+__VERSION = "1.2"
 
 
 def connect(address, port):
@@ -54,6 +54,7 @@ def header():
     INS1DE = b_color.FAIL + " INS1DE " + b_color.WHITE
 
     header = r"""
+                {WHITE}
                 ######################################################
                 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWMMMMMMMMMMMMM
                 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWMMMMMMMMMMMMMM
@@ -89,9 +90,9 @@ def header():
                 {FAIL} + {BOLD}
                            __  ____  ____  __        ______
                           / /_/ __ \/ __ \/ /_  ____/_  __/
-                         / __/ / / / /_/ / __ \/ __ \/ / )
-                        / /_/ /_/ / _, _/ /_/ / /_/ / /  )
-                        \__/\____/_/ |_/_.___/\____/_/  V+ {VERSION}
+                         / __/ / / / /_/ / __ \/ __ \/ / 
+                        / /_/ /_/ / _, _/ /_/ / /_/ / /  
+                        \__/\____/_/ |_/_____/\____/_/  V{VERSION}
                 {FAIL} + {On_Black}
                 #######################################################
                 #  TorBot - A python Tor Crawler                      #
@@ -101,7 +102,7 @@ def header():
                       {FAIL} + "LICENSE: GNU Public License" + {END}""".format(
                 D3DSEC=D3DSEC, INS1DE=INS1DE, FAIL=b_color.FAIL,
                 BOLD=b_color.BOLD, VERSION=__VERSION, END=b_color.ENDC,
-                On_Black=b_color.On_Black
+                On_Black=b_color.On_Black,WHITE=b_color.WHITE
                 )
     print(header)
 
@@ -174,7 +175,7 @@ def main():
             if args.save:
                 savefile.saveJson("Links", links)
     else:
-        print("You must pass a url with these flags.")
+        print("usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m] [-e EXTENSION] [-l] [-i]")
 
     print("\n\n")
 
