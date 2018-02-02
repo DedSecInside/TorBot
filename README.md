@@ -46,9 +46,9 @@
 
 ## A python web crawler for Deep and Dark Web.
 [![Build Status](https://travis-ci.org/DedSecInside/TorBoT.svg?branch=master)](https://travis-ci.org/DedSecInside/TorBoT)
-[![](https://img.shields.io/badge/Donate-Bitcoin-blue.svg?style=flat-square)](https://blockchain.info/address/14st7SzDbQZuu8fpQ74x477WoRJ7gpHFaj)
-[![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
-[![forthebadge](http://forthebadge.com/images/badges/made-with-python.svg)](http://forthebadge.com)
+[![](https://img.shields.io/badge/Donate-Bitcoin-blue.svg?style=flat)](https://blockchain.info/address/14st7SzDbQZuu8fpQ74x477WoRJ7gpHFaj)
+[![](https://img.shields.io/badge/Built%20with-❤-orange.svg?style=flat)]()
+[![](https://img.shields.io/badge/Made%20with-Python-red.svg?style=flat)]()
 
 
 ### Working Procedure/Basic Plan
@@ -101,14 +101,8 @@ Before you run the torBot make sure the following things are done properly:
 * Run tor service
 `sudo service tor start`
 
-* Set a password for tor
-`tor --hash-password "my_password" `
-
-* Give the password inside torbot.py
-`from stem.control import Controller
-with Controller.from_port(port = 9051) as controller:
- controller.authenticate("your_password_hash")
- controller.signal(Signal.NEWNYM)`
+* Make sure that your torrc is configured to SOCKS_PORT localhost:9050 which should be the 
+  should default setting
 
 `python3 torBot.py`
 <pre>
@@ -116,12 +110,12 @@ with Controller.from_port(port = 9051) as controller:
                  [-l] [-i]
 
 optional arguments:
-  -h, --help            show this help message and exit
+  -h, --help            Show this help message and exit
   -v, --version         Show current version of TorBot.
   --update              Update TorBot to the latest stable version
-  -q, --quiet
-  -u URL, --url URL     Specifiy a website link to crawl
-  -s, --save            Save results in a file
+  -q, --quiet           Prevent header from displaying
+  -u URL, --url URL     Specifiy a website link to crawl, currently returns links on that page
+  -s, --save            Save results to a file in json format
   -m, --mail            Get e-mail addresses from the crawled sites
   -e EXTENSION, --extension EXTENSION
                         Specifiy additional website extensions to the
@@ -129,6 +123,8 @@ optional arguments:
   -l, --live            Check if websites are live or not (slow)
   -i, --info            Info displays basic info of the scanned site (very
                         slow)` </pre>
+
+* NOTE: All flags under -u URL, --url URL must also be passed a -u flag.
 
 Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
 
@@ -146,7 +142,10 @@ GNU Public License
 
 - [X] [P5N4PPZ](https://github.com/PSNAppz) - Owner
 - [X] [agrepravin](https://github.com/agrepravin) - Contributor,Reviewer
-- [X] [y-mehta](https://github.com/y-mehta) - Contributer
+- [X] [y-mehta](https://github.com/y-mehta) - Contributor
+- [X] [Manfredi Martorana](https://github.com/Agostinelli) - Contributor
+- [X] [KingAkeem](https://github.com/KingAkeem) - Contributor
+
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Opensource.svg/200px-Opensource.svg.png)
 
