@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 def getMails(soup):
 
     """
-        Searches for <a href> tags for links then checks if link ccontains the
+        Searches for <a href> tags for links then checks if link contains the
         substring 'mailto' indicating that it's an email. If it is determined
         to be an email then the link is split and the username is appeneded to
         the list
@@ -27,7 +27,8 @@ def getMails(soup):
             if url and 'mailto' in url:
                 """Split email address on"""
                 email_addr = url.split(':')
-                emails.append(email_addr[1])
+                if (len(email_addr) > 1):
+                    emails.append(email_addr[1])
 
         """Pretty print output as below"""
         print ('')
