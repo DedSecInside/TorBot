@@ -1,2 +1,8 @@
 modules/__pycache__/
 .*.swp
+.ropeproject/
+modules/.ropeproject/
+tests/__pycache__/
+modules/__init__.py
+.idea/
+tests/.ropeproject/
