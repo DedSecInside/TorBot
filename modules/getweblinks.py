@@ -1,7 +1,9 @@
 import re
 import requests
+
 from bs4 import BeautifulSoup
 from modules.bcolors import Bcolors
+from requests.exceptions import ConnectionError, HTTPError
 
 
 def valid_url(url):
@@ -46,12 +48,9 @@ def get_link_status(link, colors):
 
     try:
         resp = requests.head(link, timeout=10)
-    except requests.exceptions.ConnectionError:
-        yield '\t'+colors.On_Red+link+colors.ENDC
-    try:
         resp.raise_for_status()
         yield '\t'+link
-    except requests.exceptions.HTTPError:
+    except (ConnectionError, HTTPError):
         yield '\t'+colors.On_Red+link+colors.ENDC
 
 
