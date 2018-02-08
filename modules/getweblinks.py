@@ -56,7 +56,6 @@ def get_link_status(link, colors):
 
 
 def getLinks(soup, ext=False, live=False):
-
     """
         Searches through all <a ref> (hyperlinks) tags and stores them in a
         list then validates if the url is formatted correctly.
@@ -87,7 +86,7 @@ def getLinks(soup, ext=False, live=False):
         if live:
             for link in websites:
                 print(next(get_link_status(link, b_colors)))
-            return websites
-
     else:
         raise('Method parameter is not of instance BeautifulSoup')
+
+    return websites
