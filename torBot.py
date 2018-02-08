@@ -21,23 +21,19 @@ def connect(address, port):
         address: address for port to bound to
         port: Establishes connect to this port
     """
-
     socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, port)
     socket.socket = socks.socksocket  # Monkey Patch our socket to tor socket
 
     def getaddrinfo(*args):
         """
         Overloads socket function for std socket library
-
         Check socket.getaddrinfo() documentation to understand parameters.
-
         Simple description below:
         argument - explanation (actual value)
         socket.AF_INET - the type of address the socket can speak to (IPV4)
         sock.SOCK_STREAM - creates a stream connecton rather than packets
         6 - protocol being used is TCP
         Last two arguments should be a tuple containing the address and port
-
         """
         return [(socket.AF_INET, socket.SOCK_STREAM, 6,
                 '', (args[0], args[1]))]
@@ -170,8 +166,15 @@ def main():
             if args.save:
                 print('Nothing to save.\n')
         else:
-            links = getweblinks.getLinks(html_content)
-            print(links)
+            if args.live:
+                live = True
+            else:
+                live = False
+            if args.extension:
+                ext = True
+            else:
+                ext = False
+            links = getweblinks.getLinks(soup=html_content, live=live, ext=ext)
             if args.save:
                 savefile.saveJson("Links", links)
     else:

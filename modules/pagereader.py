@@ -1,4 +1,5 @@
-import urllib.request
+import requests
+
 from bs4 import BeautifulSoup
 from modules.bcolors import Bcolors
 
@@ -6,13 +7,12 @@ from modules.bcolors import Bcolors
 def readPage(site):
     headers = {'User-Agent':
                'TorBot - Onion crawler | www.github.com/DedSecInside/TorBot'}
-    req = urllib.request.Request(site, None, headers)
     attempts_left = 3
 
     while (attempts_left):
         try:
-            response = urllib.request.urlopen(req)
-            page = BeautifulSoup(response.read(), 'html.parser')
+            response = requests.get(site, headers=headers)
+            page = BeautifulSoup(response.text, 'html.parser')
             return page
         except Exception as e:
             attempts_left -= 1
