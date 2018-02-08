@@ -157,7 +157,13 @@ def main():
     if args.url:
         print("Tor IP Address :", pagereader.get_ip())
         link = args.url
-        html_content = pagereader.readPage(link)
+        print("------------------")
+        print(link)
+        if ".onion" in link:
+            html_content = pagereader.readPage(link)
+        else:
+            print("Please submit site with .onion extension")
+            exit()
         # -m/--mail
         if args.mail:
             emails = getemails.getMails(html_content)
