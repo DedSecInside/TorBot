@@ -48,11 +48,11 @@ def get_link_status(link, colors):
         resp = requests.head(link, timeout=10)
     except requests.exceptions.ConnectionError:
         yield '\t'+colors.On_Red+link+colors.ENDC
-
-    if not resp.status_code == 200:
-        yield '\t'+colors.On_Red+link+colors.ENDC
-    else:
+    try:
+        resp.raise_for_status()
         yield '\t'+link
+    except requests.exceptions.HTTPError:
+        yield '\t'+colors.On_Red+link+colors.ENDC
 
 
 def getLinks(soup, ext=False, live=False):
