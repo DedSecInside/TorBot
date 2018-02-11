@@ -75,7 +75,7 @@ def getLinks(soup, ext=False, live=False):
             soup: BeautifulSoup instance currently being used.
 
         Returns:
-            wfebsites: List of websites that were found
+            websites: List of websites that were found
     """
     b_colors = Bcolors()
     if isinstance(soup, BeautifulSoup):
