@@ -139,11 +139,6 @@ def main(conn=False):
     args = parser.parse_args()
 
     link = args.url
-    if '.onion' in link:
-        pass
-    else:
-        print("You must use -e/--extension to use domains other than .onion.")
-        exit()
 
     # If flag is -v, --update, -q/--quiet then user only runs that operation
     # because these are single flags only
