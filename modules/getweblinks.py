@@ -37,7 +37,7 @@ def valid_onion_url(url):
         Returns:
             bool: True if valid onion url format, False if not
     """
-    pattern = r"^https?:\/\/(www\.)?([a-z,A-Z,0-9]*)\.([a-z,A-Z]+)(.*)"
+    pattern = r"^https?:\/\/(www\.)?([a-z,A-Z,0-9]*)\.onion/(.*)"
     regex = re.compile(pattern)
     if regex.match(url):
         return True

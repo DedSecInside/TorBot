@@ -104,8 +104,10 @@ def header():
 
 
 def main(conn=False):
+
     if conn:
         connect(LOCALHOST, PORT)
+
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--version",
                         action="store_true",
