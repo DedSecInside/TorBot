@@ -19,3 +19,7 @@ def test_get_links_successful():
 
     result = getweblinks.getLinks(soup, ext=['.com', '.net'])
     assert result == data
+
+
+if __name__ == '__main__':
+	test_get_links_successful()

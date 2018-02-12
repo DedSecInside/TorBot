@@ -35,3 +35,6 @@ def test_save_links_successful():
         os.remove('test_file.json')
 
     assert mock_data == test_data
+
+if __name__ == '__main__':
+    test_save_links_successful()
