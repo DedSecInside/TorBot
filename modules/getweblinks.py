@@ -96,7 +96,6 @@ def getLinks(soup, ext=False, live=False):
                 if url and valid_url(url, ext):
                     websites.append(url)
             else:
-                print("else clause")
                 if url and valid_onion_url(url):
                     websites.append(url)
 

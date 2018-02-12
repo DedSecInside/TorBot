@@ -92,6 +92,7 @@ Contributor name will be updated to the below list. :D
 7. Argparse
 8. Git
 9. termcolor
+10. tldextract
 
 ## Basic setup
 Before you run the torBot make sure the following things are done properly:

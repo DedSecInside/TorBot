@@ -130,7 +130,7 @@ def main(conn=False):
                         dest='extension',
                         default=[],
                         help=' '.join(("Specifiy additional website extensions",
-                                       "to the list(.com or .org etc)")))
+                                       "to the list(.com , .org etc)")))
     parser.add_argument("-l", "--live",
                         action="store_true",
                         help="Check if websites are live or not (slow)")
