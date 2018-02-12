@@ -1,12 +1,13 @@
 import re
 import requests
+import tldextract
 
 from bs4 import BeautifulSoup
 from modules.bcolors import Bcolors
 from requests.exceptions import ConnectionError, HTTPError
 
 
-def valid_url(url):
+def valid_url(url, extensions=False):
     """Checks for any valid url using regular expression matching
 
         Matches all possible url patterns with the url that is passed and
@@ -18,12 +19,19 @@ def valid_url(url):
         Returns:
             bool: True if valid url format and False if not
     """
-
     pattern = r"^https?:\/\/(www\.)?([a-z,A-Z,0-9]*)\.([a-z, A-Z]+)(.*)"
     regex = re.compile(pattern)
-    if regex.match(url):
-        return True
-    return False
+    if not extensions:
+        if regex.match(url):
+            return True
+        return False
+
+    parts = tldextract.extract(url)
+    valid_sites = list()
+    for ext in extensions:
+        if regex.match(url) and '.'+parts.suffix in ext:
+            valid_sites.append(url)
+    return valid_sites
 
 
 def valid_onion_url(url):
@@ -85,9 +93,10 @@ def getLinks(soup, ext=False, live=False):
         for ref in links:
             url = ref.get('href')
             if ext:
-                if url and valid_url(url):
+                if url and valid_url(url, ext):
                     websites.append(url)
             else:
+                print("else clause")
                 if url and valid_onion_url(url):
                     websites.append(url)
 
@@ -101,4 +110,4 @@ def getLinks(soup, ext=False, live=False):
         return websites
 
     else:
-        raise('Method parameter is not of instance BeautifulSoup')
+        raise(Exception('Method parameter is not of instance BeautifulSoup'))
