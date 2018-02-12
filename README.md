@@ -85,14 +85,13 @@ Contributor name will be updated to the below list. :D
 ## Dependencies 
 1. Tor 
 2. Python 3.x (Make sure pip3 is installed)
-3. termcolor 
-4. urllib
-5. Beautiful Soup 4
-6. Socket
-7. Sock
-8. Argparse
-9. Git
-
+3. requests
+4. Beautiful Soup 4
+5. Socket
+6. Sock
+7. Argparse
+8. Git
+9. termcolor
 
 ## Basic setup
 Before you run the torBot make sure the following things are done properly:
@@ -100,8 +99,7 @@ Before you run the torBot make sure the following things are done properly:
 * Run tor service
 `sudo service tor start`
 
-* Make sure that your torrc is configured to SOCKS_PORT localhost:9050 which should be the 
-  should default setting
+* Make sure that your torrc is configured to SOCKS_PORT localhost:9050 
 
 `python3 torBot.py or use the -h/--help argument`
 <pre>
