@@ -72,7 +72,7 @@ the following steps:
 5. Save crawl info to JSON file.(Completed)
 6. Crawl custom domains.(Completed)
 7. Check if the link is live.(Not Started)
-4. Built-in Updater.(Completed)
+8. Built-in Updater.(Completed)
 ...(will be updated)
 
 ## Contribute

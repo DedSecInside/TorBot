@@ -10,8 +10,6 @@ install:
   - pip3 install -r requirements.txt
   - cd tests
 script: 
-  - python3 test_getemails.py
-  - python3 test_getweblinks.py
-  - python3 test_savetofile.py
+  - pytest
 notifications:
     slack: dedsec-inside:24NHg47gypeVR3DWnEncRq7c

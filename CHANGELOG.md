@@ -2,14 +2,20 @@
 --------------------
 All notable changes to this project will be documented in this file.
 
-## 1.2.0 | (Currently in Development)
+## 1.2.0 | Present (Stable)
+
+### Changed
+* Major code improvements
+* Pep 8 Standard
+* Tests
+* Library changes
 
 ### Added
+* Documentation
 * Save to JSON
 * Testcase for Save to JSON
-* Save to DB
 
-## 1.1.0 - July 6, 2017 - Present
+## 1.1.0 - July 6, 2017 - Nov 16
 
 ### Added
 
