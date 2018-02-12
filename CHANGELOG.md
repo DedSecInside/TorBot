@@ -15,7 +15,7 @@ All notable changes to this project will be documented in this file.
 * Save to JSON
 * Testcase for Save to JSON
 
-## 1.1.0 - July 6, 2017 - Nov 16
+## 1.0.1 - July 6, 2017 - Nov 16
 
 ### Added
 
