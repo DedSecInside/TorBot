@@ -6,12 +6,10 @@ python:
   - "3.5"
 # command to install dependencies
 install:
-  - cd tests
   - sudo apt-get -y install python3-pip
-  - pip3 install bs4
+  - pip3 install -r requirements.txt
+  - cd tests
 script: 
-  - python3 test_getemails.py
-  - python3 test_getweblinks.py
-  - python3 test_savetofile.py
+  - pytest
 notifications:
     slack: dedsec-inside:24NHg47gypeVR3DWnEncRq7c

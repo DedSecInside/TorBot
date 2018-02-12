@@ -1,29 +1,40 @@
 import sys
 import os
-import unittest
-from io import StringIO
-sys.path.append(os.path.abspath('../modules'))
-import getweblinks
-from bcolors import Bcolors
-import pagereader
-import time
+import json
+PACKAGE_PARENT = '..'
+SCRIPT_DIR = os.path.dirname(os.path.realpath(
+             os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 
-soup = pagereader.readPage('http://www.whatsmyip.net/')
-timestr = time.strftime("%Y%m%d-%H%M%S")
+sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-class getLinksTestCase(unittest.TestCase):
-	
-	def setUp(self):
-		self.held, sys.stdout = sys.stdout, StringIO()
-		self.maxDiff=None
-	
-	def test_save_links(self):
-		data = "\n"+Bcolors.OKGREEN+"Websites Found - "+Bcolors.ENDC+"1\n-------------------------------\nhttp://cmsgear.com/\n\nData will be saved with a File Name :"+ "TorBoT-Export-Onion-Links"+timestr+".json\n"
-		ext = ['.com/']
-		getweblinks.getLinks(soup,ext,0,1)
-		self.assertEqual(sys.stdout.getvalue(),data)
+from modules import savefile
 
+
+def test_save_links_successful():
+    mock_data = ['http://aff.ironsocket.com/SH7L',
+                 'http://aff.ironsocket.com/SH7L',
+                 'http://wsrs.net/',
+                 'http://cmsgear.com/']
+    try:
+        file_name = savefile.saveJson('Links', mock_data)
+        mock_output = {'Links': mock_data}
+
+        with open('test_file.json', 'w+') as test_file:
+            json.dump(mock_output, test_file, indent=2)
+
+        os.chdir(os.getcwd())
+        assert os.path.isfile(file_name) is True
+        mock_file = open(file_name, 'r')
+        test_file = open('test_file.json', 'r')
+
+        mock_data = mock_file.read()
+        test_data = test_file.read()
+
+    finally:
+        os.remove(file_name)
+        os.remove('test_file.json')
+
+    assert mock_data == test_data
 
 if __name__ == '__main__':
-	unittest.main()
-
+    test_save_links_successful()

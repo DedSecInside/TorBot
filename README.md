@@ -1,44 +1,44 @@
  <pre>
     
 
-████████╗ ██████╗ ██████╗     ██████╗  ██████╗ ████████╗    
-╚══██╔══╝██╔═══██╗██╔══██╗    ██╔══██╗██╔═████╗╚══██╔══╝    
-   ██║   ██║   ██║██████╔╝    ██████╔╝██║██╔██║   ██║       
-   ██║   ██║   ██║██╔══██╗    ██╔══██╗████╔╝██║   ██║       
-   ██║   ╚██████╔╝██║  ██║    ██████╔╝╚██████╔╝   ██║       
-   ╚═╝    ╚═════╝ ╚═╝  ╚═╝    ╚═════╝  ╚═════╝    ╚═╝       
+                              ████████╗ ██████╗ ██████╗     ██████╗  ██████╗ ████████╗ 
+                              ╚══██╔══╝██╔═══██╗██╔══██╗    ██╔══██╗██╔═████╗╚══██╔══╝ 
+                                 ██║   ██║   ██║██████╔╝    ██████╔╝██║██╔██║   ██║ 
+                                 ██║   ██║   ██║██╔══██╗    ██╔══██╗████╔╝██║   ██║
+                                 ██║   ╚██████╔╝██║  ██║    ██████╔╝╚██████╔╝   ██║ 
+                                 ╚═╝    ╚═════╝ ╚═╝  ╚═╝    ╚═════╝  ╚═════╝    ╚═╝ 
                                                             
-
-                                       
-                    `.` `     
-                ``.:.--.`     
-               .-+++/-`       
-              `+sso:`         
-           `` /yy+.           
-           -+.oho.            
-            o../+y            
-           -s.-/:y:`          
-        .:o+-`--::oo/-`       
-     `/o+:.```---///oss+-     
-   .+o:.``...`-::-+++++sys-   
-  :y/```....``--::-yooooosh+  
- -h-``--.```..-:-::ssssssssd+ 
- h:``:.``....`--:-++hsssyyyym.
-.d.`/.``--.```:--//odyyyyyyym/
-`d.`+``:.```.--/-+/smyyhhhhhm:
- os`./`/````/`-/:+oydhhhhhhdh`
- `so.-/-:``./`.//osmddddddmd. 
-   /s/-/:/.`/..+/ydmdddddmo`  
-    `:oosso/:+/syNmddmdy/.    
-        `-/++oosyso+/.`      
-
-
-██████╗ ███████╗██████╗ ███████╗██████╗  ██████╗    ██╗███╗   ██╗███████╗██╗██████╗ ███████╗
-██╔══██╗██╔════╝██╔══██╗██╔════╝╚════██╗██╔════╝    ██║████╗  ██║██╔════╝██║██╔══██╗██╔════╝
-██║  ██║█████╗  ██║  ██║███████╗ █████╔╝██║         ██║██╔██╗ ██║███████╗██║██║  ██║█████╗  
-██║  ██║██╔══╝  ██║  ██║╚════██║ ╚═══██╗██║         ██║██║╚██╗██║╚════██║██║██║  ██║██╔══╝  
-██████╔╝███████╗██████╔╝███████║██████╔╝╚██████╗    ██║██║ ╚████║███████║██║██████╔╝███████╗
-╚═════╝ ╚══════╝╚═════╝ ╚══════╝╚═════╝  ╚═════╝    ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝╚═════╝ ╚══════╝
+                            
+                                                                              
+                                                           `.` `     
+                                                       ``.:.--.`     
+                                                      .-+++/-`       
+                                                     `+sso:`         
+                                                  `` /yy+.           
+                                                  -+.oho.            
+                                                   o../+y            
+                                                  -s.-/:y:`          
+                                               .:o+-`--::oo/-`       
+                                            `/o+:.```---///oss+-     
+                                          .+o:.``...`-::-+++++sys-   
+                                         :y/```....``--::-yooooosh+  
+                                        -h-``--.```..-:-::ssssssssd+ 
+                                        h:``:.``....`--:-++hsssyyyym.
+                                       .d.`/.``--.```:--//odyyyyyyym/
+                                       `d.`+``:.```.--/-+/smyyhhhhhm:
+                                        os`./`/````/`-/:+oydhhhhhhdh`
+                                        `so.-/-:``./`.//osmddddddmd. 
+                                          /s/-/:/.`/..+/ydmdddddmo`
+                                           `:oosso/:+/syNmddmdy/. 
+                                               `-/++oosyso+/.` 
+                            
+                            
+          ██████╗ ███████╗██████╗ ███████╗██████╗  ██████╗    ██╗███╗   ██╗███████╗██╗██████╗ ███████╗
+          ██╔══██╗██╔════╝██╔══██╗██╔════╝╚════██╗██╔════╝    ██║████╗  ██║██╔════╝██║██╔══██╗██╔════╝
+          ██║  ██║█████╗  ██║  ██║███████╗ █████╔╝██║         ██║██╔██╗ ██║███████╗██║██║  ██║█████╗ 
+          ██║  ██║██╔══╝  ██║  ██║╚════██║ ╚═══██╗██║         ██║██║╚██╗██║╚════██║██║██║  ██║██╔══╝ 
+          ██████╔╝███████╗██████╔╝███████║██████╔╝╚██████╗    ██║██║ ╚████║███████║██║██████╔╝███████╗
+          ╚═════╝ ╚══════╝╚═════╝ ╚══════╝╚═════╝  ╚═════╝    ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝╚═════╝ ╚══════╝
                                                                                             
 
 
@@ -46,9 +46,9 @@
 
 ## A python web crawler for Deep and Dark Web.
 [![Build Status](https://travis-ci.org/DedSecInside/TorBoT.svg?branch=master)](https://travis-ci.org/DedSecInside/TorBoT)
-[![](https://img.shields.io/badge/Donate-Bitcoin-blue.svg?style=flat-square)](https://blockchain.info/address/14st7SzDbQZuu8fpQ74x477WoRJ7gpHFaj)
-[![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
-[![forthebadge](http://forthebadge.com/images/badges/made-with-python.svg)](http://forthebadge.com)
+[![](https://img.shields.io/badge/Donate-Bitcoin-blue.svg?style=flat)](https://blockchain.info/address/14st7SzDbQZuu8fpQ74x477WoRJ7gpHFaj)
+[![](https://img.shields.io/badge/Built%20with-❤-orange.svg?style=flat)]()
+[![](https://img.shields.io/badge/Made%20with-Python-red.svg?style=flat)]()
 
 
 ### Working Procedure/Basic Plan
@@ -65,29 +65,34 @@ the following steps:
 8. After all URLs are processed, return the most relevant page.
 
 ### Features
-1. Crawls Tor links (.onion) only.
-2. Returns Page title and address.
-3. Cache links so that there won't be duplicate links.
+1. Crawls Tor links (.onion).(Completed)
+2. Returns Page title and address with a short description about the site.(Not Started)
+3. Save links to database.(Not Started)
+4. Get emails from site.(Completed)
+5. Save crawl info to JSON file.(Completed)
+6. Crawl custom domains.(Completed)
+7. Check if the link is live.(Not Started)
+8. Built-in Updater.(Completed)
 ...(will be updated)
 
 ## Contribute
 Contributions to this project are always welcome. 
-To add a new feature fork this repository and give a pull request when your new feature is tested and complete.
+To add a new feature fork the dev branch and give a pull request when your new feature is tested and complete.
 If its a new module, it should be put inside the modules directory and imported to the main file.
 The branch name should be your new feature name in the format <Feature_featurename_version(optional)>. For example, <i>Feature_FasterCrawl_1.0</i>.
 Contributor name will be updated to the below list. :D
 
 ## Dependencies 
 1. Tor 
-2. Python 3.x (Make sure pip3 is there)
-3. Python Stem Module
-4. urllib
-5. Beautiful Soup 4
-6. Socket
-7. Sock
-8. Argparse
-9. Stem module
-10. Git
+2. Python 3.x (Make sure pip3 is installed)
+3. requests
+4. Beautiful Soup 4
+5. Socket
+6. Sock
+7. Argparse
+8. Git
+9. termcolor
+10. tldextract
 
 ## Basic setup
 Before you run the torBot make sure the following things are done properly:
@@ -95,32 +100,34 @@ Before you run the torBot make sure the following things are done properly:
 * Run tor service
 `sudo service tor start`
 
-* Set a password for tor
-`tor --hash-password "my_password" `
+* Make sure that your torrc is configured to SOCKS_PORT localhost:9050 
 
-* Give the password inside torbot.py
-`from stem.control import Controller
-with Controller.from_port(port = 9051) as controller:
- controller.authenticate("your_password_hash")
- controller.signal(Signal.NEWNYM)`
-
-`python3 torBot.py`
-`usage: torBot.py [-h] [-q] [-u URL] [-m] [-e EXTENSION] [-l]
+`python3 torBot.py or use the -h/--help argument`
+<pre>
+`usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m] [-e EXTENSION]
+                 [-l] [-i]
 
 optional arguments:
-  -h, --help            show this help message and exit
-  -q, --quiet
-  -u URL, --url URL     Specifiy a website link to crawl
+  -h, --help            Show this help message and exit
+  -v, --version         Show current version of TorBot.
+  --update              Update TorBot to the latest stable version
+  -q, --quiet           Prevent header from displaying
+  -u URL, --url URL     Specifiy a website link to crawl, currently returns links on that page
+  -s, --save            Save results to a file in json format
   -m, --mail            Get e-mail addresses from the crawled sites
   -e EXTENSION, --extension EXTENSION
                         Specifiy additional website extensions to the
                         list(.com or .org etc)
-  -l, --live            Check if websites are live or not (slow)` 
+  -l, --live            Check if websites are live or not (slow)
+  -i, --info            Info displays basic info of the scanned site (very
+                        slow)` </pre>
+
+* NOTE: All flags under -u URL, --url URL must also be passed a -u flag.
 
 Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
 
 ## TO-DO
-A TO-DO list will be added here as soon as its complete.
+- [ ] Implement A\* Search for webcrawler
 
 ### Have ideas?
 If you have new ideas which is worth implementing, mention those by starting a new issue with the title [FEATURE_REQUEST].
@@ -133,7 +140,11 @@ GNU Public License
 
 - [X] [P5N4PPZ](https://github.com/PSNAppz) - Owner
 - [X] [agrepravin](https://github.com/agrepravin) - Contributor,Reviewer
-- [X] [y-mehta](https://github.com/y-mehta) - Contributer
+- [X] [y-mehta](https://github.com/y-mehta) - Contributor
+- [X] [Manfredi Martorana](https://github.com/Agostinelli) - Contributor
+- [X] [KingAkeem](https://github.com/KingAkeem) - Contributor
+- [X] [Evan Sia Wai Suan](https://github.com/waisuan) - New Contributor
+
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Opensource.svg/200px-Opensource.svg.png)
 

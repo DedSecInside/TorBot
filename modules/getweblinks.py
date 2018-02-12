@@ -1,79 +1,112 @@
-import sys
-import os
-sys.path.append(os.path.abspath('../'))
-from modules.savefile import saveJson 
-import urllib.request 
+import re
+import requests
+import tldextract
+
+from bs4 import BeautifulSoup
 from modules.bcolors import Bcolors
-import bs4
-import time
-import threading
-import http
-
-__all__ = ['getLinks']
+from requests.exceptions import ConnectionError, HTTPError
 
 
-def link_status(web,out_queue,index):
-    link_live = False
-    out_queue[index] = web + " is_live = False "
+def valid_url(url, extensions=False):
+    """Checks for any valid url using regular expression matching
+
+        Matches all possible url patterns with the url that is passed and
+        returns True if it is a url and returns False if it is not.
+
+        Args:
+            url: string representing url to be checked
+
+        Returns:
+            bool: True if valid url format and False if not
+    """
+    pattern = r"^https?:\/\/(www\.)?([a-z,A-Z,0-9]*)\.([a-z, A-Z]+)(.*)"
+    regex = re.compile(pattern)
+    if not extensions:
+        if regex.match(url):
+            return True
+        return False
+
+    parts = tldextract.extract(url)
+    valid_sites = list()
+    for ext in extensions:
+        if regex.match(url) and '.'+parts.suffix in ext:
+            valid_sites.append(url)
+    return valid_sites
+
+
+def valid_onion_url(url):
+    """Checks for valid onion url using regular expression matching
+
+        Only matches onion urls
+
+        Args:
+            url: string representing url to be checked
+
+        Returns:
+            bool: True if valid onion url format, False if not
+    """
+    pattern = r"^https?:\/\/(www\.)?([a-z,A-Z,0-9]*)\.onion/(.*)"
+    regex = re.compile(pattern)
+    if regex.match(url):
+        return True
+    return False
+
+
+def get_link_status(link, colors):
+    """Generator that yields links as they come
+
+        Uses head request because it uses less bandwith than get and timeout is
+        set to 10 seconds and then link is automatically declared as dead.
+
+        Args:
+            link: link to be tested
+            colors: object containing colors for link
+
+        Yields:
+            string: link with either no color or red which indicates failure
+    """
+
     try:
-        urllib.request.urlopen(web)    
-        link_live = True
-        out_queue[index] = web + " is_live = True "
-        print(web)
-    except urllib.error.HTTPError as e:
-        print(Bcolors.On_Red+web+Bcolors.ENDC)
-    except urllib.error.URLError as e:
-        print(Bcolors.On_Red+web+Bcolors.ENDC)
-    except http.client.RemoteDisconnected as e:
-        print(Bcolors.On_Red+web+Bcolors.ENDC)
-    return
+        resp = requests.head(link, timeout=10)
+        resp.raise_for_status()
+        yield '\t'+link
+    except (ConnectionError, HTTPError):
+        yield '\t'+colors.On_Red+link+colors.ENDC
 
 
-"""Get all onion links from the website"""
-def getLinks(soup,ext,live=0,save=0):
-    _soup_instance = bs4.BeautifulSoup
-    extensions = []
-    if ext:
-        for e in ext:
-            extensions.append(e) 
-    if isinstance(type(soup), type(_soup_instance)):
+def getLinks(soup, ext=False, live=False):
+    """
+        Searches through all <a ref> (hyperlinks) tags and stores them in a
+        list then validates if the url is formatted correctly.
+
+        Args:
+            soup: BeautifulSoup instance currently being used.
+
+        Returns:
+            websites: List of websites that were found
+    """
+    b_colors = Bcolors()
+    if isinstance(soup, BeautifulSoup):
         websites = []
-        start_time = time.time()
-        for link in soup.find_all('a'):
-            web_link = link.get('href')
-            if web_link != None:
-                if ('http' in web_link or 'https' in web_link):
-                    if ext:
-                        for exten in extensions:
-                            if web_link.endswith(exten):
-                                websites.append(web_link)
-                    else:
-                        websites.append(web_link)            
+
+        links = soup.find_all('a')
+        for ref in links:
+            url = ref.get('href')
+            if ext:
+                if url and valid_url(url, ext):
+                    websites.append(url)
             else:
-                pass
+                if url and valid_onion_url(url):
+                    websites.append(url)
+
         """Pretty print output as below"""
-        print ('') 
-        print (Bcolors.OKGREEN+'Websites Found - '+Bcolors.ENDC+str(len(websites)))
-        print ('-------------------------------')
-        if live:
-            threads = []
-            result = [{} for x in websites]
-            for web in websites:
-                t = threading.Thread(target=link_status, args=(web,result,websites.index(web)))
-                t.start()
-                threads.append(t)
-            try:
-                for t in threads:
-                    t.join()
-                if save:
-                    saveJson("Live-Onion-Links",result)
-            except:
-                pass
-        else:
-            for web in websites:
-                print(web)
-            if save:
-                saveJson("Onion-Links",websites)
-        return websites           
+        print(''.join((b_colors.OKGREEN,
+              'Websites Found - ', b_colors.ENDC, str(len(websites)))))
+        print('------------------------------------')
+
+        for link in websites:
+            print(next(get_link_status(link, b_colors)))
+        return websites
+
     else:
-        raise('Method parameter is not of instance bs4.BeautifulSoup')
+        raise(Exception('Method parameter is not of instance BeautifulSoup'))

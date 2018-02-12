@@ -1,35 +1,41 @@
-import sys
-import os
-sys.path.append(os.path.abspath('../'))
 from modules.bcolors import Bcolors
-from modules.savefile import saveJson
-import bs4
+from bs4 import BeautifulSoup
 
-__all__ = ['getMails']
 
-"""Get all emails from the website"""
+def getMails(soup):
 
-def getMails(soup,save=0):
-    _soup_instance = bs4.BeautifulSoup
-    if isinstance(type(soup), type(_soup_instance)):
+    """
+        Searches for <a href> tags for links then checks if link contains the
+        substring 'mailto' indicating that it's an email. If it is determined
+        to be an email then the link is split and the username is appeneded to
+        the list
+
+        Args:
+            soup: BeautifulSoup isntance that will be used for parsing
+
+        Returns:
+            emails: list of email IDs
+    """
+    b_colors = Bcolors()
+
+    if isinstance(type(soup), type(BeautifulSoup)):
+
         emails = []
-        for link in soup.find_all('a'):
-            email_link = link.get('href')
-            if email_link != None:
-                if 'mailto' in email_link:
-                    """Split email address on"""
-                    email_addr = email_link.split(':')
+        links = soup.find_all('a')
+        for ref in links:
+            url = ref.get('href')
+            if url and 'mailto' in url:
+                """Split email address on"""
+                email_addr = url.split(':')
+                if (len(email_addr) > 1):
                     emails.append(email_addr[1])
-            else:
-                pass
+
         """Pretty print output as below"""
-        print ('') 
-        print (Bcolors.OKGREEN+'Mails Found - '+Bcolors.ENDC+str(len(emails)))
+        print ('')
+        print (b_colors.OKGREEN+'Mails Found - '+b_colors.ENDC+str(len(emails)))
         print ('-------------------------------')
-        for mail in emails:
-            print (mail)
-        if save:
-            saveJson("Extracted-Mail-IDs",emails)
-        return ''
+
+        return emails
+
     else:
-        raise(Bcolors.FAIL+'Method parameter is not of instance bs4.BeautifulSoup'+Bcolors.ENDC)
+        raise('Method parameter is not of instance BeautifulSoup')

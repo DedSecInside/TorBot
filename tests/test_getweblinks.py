@@ -1,27 +1,25 @@
+#!/usr/bin/env python
+
 import sys
 import os
-import unittest
-from io import StringIO
-sys.path.append(os.path.abspath('../modules'))
-import getweblinks
-from bcolors import Bcolors
-import pagereader
+PACKAGE_PARENT = '..'
+SCRIPT_DIR = os.path.dirname(os.path.realpath(
+             os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 
-soup = pagereader.readPage('http://www.whatsmyip.net/')
+sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
+from modules import getweblinks, pagereader
 
-class getLinksTestCase(unittest.TestCase):
-	
-	def setUp(self):
-		self.held, sys.stdout = sys.stdout, StringIO()
-		self.maxDiff=None
-	
-	def test_print_links(self):
-		#data = "\nWebsites Found - 7\n-------------------------------\nhttp://ads.wsrs.net/www/delivery/ck.php?n=MyIP856a6b4\nhttp://ads.wsrs.net/www/delivery/ck.php?n=MyIPbf5d683\nhttp://aff.ironsocket.com/SH7L\nhttp://aff.ironsocket.com/SH7L\nhttp://ads.wsrs.net/www/delivery/ck.php?n=MyIPdb5f512\nhttp://wsrs.net/\nhttp://cmsgear.com/\n"
-		data = "\n"+Bcolors.OKGREEN+"Websites Found - "+Bcolors.ENDC+"1\n-------------------------------\nhttp://cmsgear.com/\n"
-		ext = ['.com/']
-		getweblinks.getLinks(soup,ext)
-		self.assertEqual(sys.stdout.getvalue(),data)
+
+def test_get_links_successful():
+    soup = pagereader.readPage('http://www.whatsmyip.net/')
+    data = ['http://aff.ironsocket.com/SH7L',
+            'http://aff.ironsocket.com/SH7L',
+            'http://wsrs.net/',
+            'http://cmsgear.com/']
+
+    result = getweblinks.getLinks(soup, ext=['.com', '.net'])
+    assert result == data
 
 
 if __name__ == '__main__':
-	unittest.main()
+	test_get_links_successful()

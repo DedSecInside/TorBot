@@ -1,24 +1,20 @@
 import sys
 import os
-import unittest
-from io import StringIO
-sys.path.append(os.path.abspath('../modules'))
-import getemails
-from bcolors import Bcolors
-import pagereader
 
-soup = pagereader.readPage('http://www.whatsmyip.net/')
+PACKAGE_PARENT = '..'
+SCRIPT_DIR = os.path.dirname(os.path.realpath(
+             os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 
-class getMailsTestCase(unittest.TestCase):
-	
-	def setUp(self):
-		self.held, sys.stdout = sys.stdout, StringIO()
-	
-	def test_print_emails(self):
-		data = "\n"+Bcolors.OKGREEN+"Mails Found - "+Bcolors.ENDC+"1\n-------------------------------\nadvertise@provaz.eu\n"
-		getemails.getMails(soup)
-		self.assertEqual(sys.stdout.getvalue(),data)
-		
+sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
+
+from modules import pagereader, getemails
+
+
+def test_get_emails_successful():
+    soup = pagereader.readPage('https://www.helloaddress.com/')
+    test_emails = ["hello@helloaddress.com"]
+    emails = getemails.getMails(soup)
+    assert emails == test_emails
 
 if __name__ == '__main__':
-	unittest.main()
+    test_get_emails_successful()
