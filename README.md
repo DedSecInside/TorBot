@@ -85,14 +85,13 @@ Contributor name will be updated to the below list. :D
 ## Dependencies 
 1. Tor 
 2. Python 3.x (Make sure pip3 is installed)
-3. Python Stem Module
-4. urllib
-5. Beautiful Soup 4
-6. Socket
-7. Sock
-8. Argparse
-9. Git
-10. termcolor
+3. requests
+4. Beautiful Soup 4
+5. Socket
+6. Sock
+7. Argparse
+8. Git
+9. termcolor
 
 
 ## Basic setup
