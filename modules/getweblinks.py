@@ -1,53 +1,80 @@
 import re
-from modules.bcolors import Bcolors
+import requests
+import tldextract
+
 from bs4 import BeautifulSoup
+from modules.bcolors import Bcolors
+from requests.exceptions import ConnectionError, HTTPError
 
 
-def valid_onion_url(link):
+def valid_url(url, extensions=False):
+    """Checks for any valid url using regular expression matching
 
-    """
-        Validates onion urls using regex
+        Matches all possible url patterns with the url that is passed and
+        returns True if it is a url and returns False if it is not.
 
         Args:
-            link: the url to be checked
+            url: string representing url to be checked
 
         Returns:
-            bool: True/False based on link
+            bool: True if valid url format and False if not
     """
+    pattern = r"^https?:\/\/(www\.)?([a-z,A-Z,0-9]*)\.([a-z, A-Z]+)(.*)"
+    regex = re.compile(pattern)
+    if not extensions:
+        if regex.match(url):
+            return True
+        return False
 
-    pattern = r"^https?\b(://+)(.+)(.+)\bonion/(.*)"
-    re_obj = re.compile(pattern)
-    if re_obj.fullmatch(link):
+    parts = tldextract.extract(url)
+    valid_sites = list()
+    for ext in extensions:
+        if regex.match(url) and '.'+parts.suffix in ext:
+            valid_sites.append(url)
+    return valid_sites
+
+
+def valid_onion_url(url):
+    """Checks for valid onion url using regular expression matching
+
+        Only matches onion urls
+
+        Args:
+            url: string representing url to be checked
+
+        Returns:
+            bool: True if valid onion url format, False if not
+    """
+    pattern = r"^https?:\/\/(www\.)?([a-z,A-Z,0-9]*)\.onion/(.*)"
+    regex = re.compile(pattern)
+    if regex.match(url):
         return True
-
     return False
 
 
-def valid_url(link):
+def get_link_status(link, colors):
+    """Generator that yields links as they come
 
-    """
-        Validates general urls using regex
-
-        Takes in string which is a link and returns decides validitity of url
-        using regex
+        Uses head request because it uses less bandwith than get and timeout is
+        set to 10 seconds and then link is automatically declared as dead.
 
         Args:
-            link: the url to be checked
+            link: link to be tested
+            colors: object containing colors for link
 
-        Returns:
-            bool: True/False based on link
+        Yields:
+            string: link with either no color or red which indicates failure
     """
 
-    pattern = r"^https?\b(://+)(.+)(.+)\b...(.*)"
-    re_obj = re.compile(pattern)
-    if re_obj.fullmatch(link):
-        return True
+    try:
+        resp = requests.head(link, timeout=10)
+        resp.raise_for_status()
+        yield '\t'+link
+    except (ConnectionError, HTTPError):
+        yield '\t'+colors.On_Red+link+colors.ENDC
 
-    return False
 
-
-def getLinks(soup):
-
+def getLinks(soup, ext=False, live=False):
     """
         Searches through all <a ref> (hyperlinks) tags and stores them in a
         list then validates if the url is formatted correctly.
@@ -58,23 +85,29 @@ def getLinks(soup):
         Returns:
             websites: List of websites that were found
     """
-
     b_colors = Bcolors()
-
-    if isinstance(type(soup), type(BeautifulSoup)):
+    if isinstance(soup, BeautifulSoup):
         websites = []
 
         links = soup.find_all('a')
         for ref in links:
             url = ref.get('href')
-            if url and (valid_onion_url(url) or valid_url(url)):
-                websites.append(url)
+            if ext:
+                if url and valid_url(url, ext):
+                    websites.append(url)
+            else:
+                print("else clause")
+                if url and valid_onion_url(url):
+                    websites.append(url)
 
         """Pretty print output as below"""
         print(''.join((b_colors.OKGREEN,
               'Websites Found - ', b_colors.ENDC, str(len(websites)))))
-        print('-------------------------------')
+        print('------------------------------------')
+
+        for link in websites:
+            print(next(get_link_status(link, b_colors)))
         return websites
 
     else:
-        raise('Method parameter is not of instance BeautifulSoup')
+        raise(Exception('Method parameter is not of instance BeautifulSoup'))

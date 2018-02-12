@@ -65,13 +65,13 @@ the following steps:
 8. After all URLs are processed, return the most relevant page.
 
 ### Features
-1. Crawls Tor links (.onion).(Partially Completed)
-2. Returns Page title and address with a short description about the site.(Partially Completed)
+1. Crawls Tor links (.onion).(Completed)
+2. Returns Page title and address with a short description about the site.(Not Started)
 3. Save links to database.(Not Started)
 4. Get emails from site.(Completed)
-5. Save crawl info to file.(Completed)
+5. Save crawl info to JSON file.(Completed)
 6. Crawl custom domains.(Completed)
-7. Check if the link is live.(Complete)
+7. Check if the link is live.(Not Started)
 4. Built-in Updater.(Completed)
 ...(will be updated)
 
@@ -93,7 +93,6 @@ Contributor name will be updated to the below list. :D
 8. Git
 9. termcolor
 
-
 ## Basic setup
 Before you run the torBot make sure the following things are done properly:
 
@@ -102,7 +101,7 @@ Before you run the torBot make sure the following things are done properly:
 
 * Make sure that your torrc is configured to SOCKS_PORT localhost:9050 
 
-`python3 torBot.py`
+`python3 torBot.py or use the -h/--help argument`
 <pre>
 `usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m] [-e EXTENSION]
                  [-l] [-i]
@@ -127,7 +126,7 @@ optional arguments:
 Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
 
 ## TO-DO
-A TO-DO list will be added here as soon as its complete.
+- [ ] Implement A\* Search for webcrawler
 
 ### Have ideas?
 If you have new ideas which is worth implementing, mention those by starting a new issue with the title [FEATURE_REQUEST].

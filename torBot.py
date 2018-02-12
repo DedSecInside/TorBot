@@ -21,23 +21,19 @@ def connect(address, port):
         address: address for port to bound to
         port: Establishes connect to this port
     """
-
     socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, port)
     socket.socket = socks.socksocket  # Monkey Patch our socket to tor socket
 
     def getaddrinfo(*args):
         """
         Overloads socket function for std socket library
-
         Check socket.getaddrinfo() documentation to understand parameters.
-
         Simple description below:
         argument - explanation (actual value)
         socket.AF_INET - the type of address the socket can speak to (IPV4)
         sock.SOCK_STREAM - creates a stream connecton rather than packets
         6 - protocol being used is TCP
         Last two arguments should be a tuple containing the address and port
-
         """
         return [(socket.AF_INET, socket.SOCK_STREAM, 6,
                 '', (args[0], args[1]))]
@@ -90,8 +86,8 @@ def header():
                 {FAIL} + {BOLD}
                            __  ____  ____  __        ______
                           / /_/ __ \/ __ \/ /_  ____/_  __/
-                         / __/ / / / /_/ / __ \/ __ \/ / 
-                        / /_/ /_/ / _, _/ /_/ / /_/ / /  
+                         / __/ / / / /_/ / __ \/ __ \/ /
+                        / /_/ /_/ / _, _/ /_/ / /_/ / /
                         \__/\____/_/ |_/_____/\____/_/  V{VERSION}
                 {FAIL} + {On_Black}
                 #######################################################
@@ -102,13 +98,16 @@ def header():
                       {FAIL} + "LICENSE: GNU Public License" + {END}""".format(
                 D3DSEC=D3DSEC, INS1DE=INS1DE, FAIL=b_color.FAIL,
                 BOLD=b_color.BOLD, VERSION=__VERSION, END=b_color.ENDC,
-                On_Black=b_color.On_Black,WHITE=b_color.WHITE
+                On_Black=b_color.On_Black, WHITE=b_color.WHITE
                 )
     print(header)
 
 
-def main():
-    connect(LOCALHOST, PORT)
+def main(conn=False):
+
+    if conn:
+        connect(LOCALHOST, PORT)
+
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--version",
                         action="store_true",
@@ -141,6 +140,8 @@ def main():
                                        "scanned site, (very slow)")))
     args = parser.parse_args()
 
+    link = args.url
+
     # If flag is -v, --update, -q/--quiet then user only runs that operation
     # because these are single flags only
     if args.version:
@@ -151,13 +152,11 @@ def main():
         exit()
     if not args.quiet:
         header()
-
     # If url flag is set then check for accompanying flag set. Only one
     # additional flag can be set with -u/--url flag
     if args.url:
         print("Tor IP Address :", pagereader.get_ip())
-        link = args.url
-        html_content = pagereader.readPage(link)
+        html_content = pagereader.readPage(link, args.extension)
         # -m/--mail
         if args.mail:
             emails = getemails.getMails(html_content)
@@ -170,8 +169,9 @@ def main():
             if args.save:
                 print('Nothing to save.\n')
         else:
-            links = getweblinks.getLinks(html_content)
-            print(links)
+            links = getweblinks.getLinks(soup=html_content,
+                                         live=args.live,
+                                         ext=args.extension)
             if args.save:
                 savefile.saveJson("Links", links)
     else:
@@ -183,7 +183,7 @@ def main():
 if __name__ == '__main__':
 
     try:
-        main()
+        main(conn=True)
 
     except KeyboardInterrupt:
         print("Interrupt received! Exiting cleanly...")

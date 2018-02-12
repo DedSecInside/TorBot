@@ -17,5 +17,5 @@ def test_get_links_successful():
             'http://wsrs.net/',
             'http://cmsgear.com/']
 
-    result = getweblinks.getLinks(soup)
+    result = getweblinks.getLinks(soup, ext=['.com', '.net'])
     assert result == data
