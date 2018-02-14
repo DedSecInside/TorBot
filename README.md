@@ -128,6 +128,9 @@ Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob
 
 ## TO-DO
 - [ ] Implement A\* Search for webcrawler
+- [ ] Multithreading
+- [ ] Optimization
+- [ ] Randomize Tor Connection (Random Header and Identity)
 
 ### Have ideas?
 If you have new ideas which is worth implementing, mention those by starting a new issue with the title [FEATURE_REQUEST].
