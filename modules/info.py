@@ -4,7 +4,7 @@ from urllib.parse import urlsplit
 from termcolor import cprint
 
 
-def executeAll(target):
+def executeAll(target, soup):
     try:
         get_robots_txt(target)
     except Exception:
@@ -21,6 +21,7 @@ def executeAll(target):
         get_dot_htaccess(target)
     except Exception:
         cprint("Error""red")
+    #TODO: get_webpage_title()
 
 
 def get_robots_txt(target):
@@ -71,3 +72,7 @@ def get_dot_htaccess(target):
     else:
         cprint("Status code"'blue')
         cprint(statcode)
+
+
+
+#def get_webpage_title(target, soup):

@@ -2,6 +2,7 @@ import re
 import requests
 import tldextract
 
+from modules import pagereader
 from bs4 import BeautifulSoup
 from modules.bcolors import Bcolors
 from requests.exceptions import ConnectionError, HTTPError
@@ -52,7 +53,7 @@ def valid_onion_url(url):
     return False
 
 
-def get_link_status(link, colors):
+def get_link_status(link):
     """Generator that yields links as they come
 
         Uses head request because it uses less bandwith than get and timeout is
@@ -69,9 +70,14 @@ def get_link_status(link, colors):
     try:
         resp = requests.head(link, timeout=10)
         resp.raise_for_status()
-        yield '\t'+link
+        return True
     except (ConnectionError, HTTPError):
-        yield '\t'+colors.On_Red+link+colors.ENDC
+        return False
+
+def addColorToLinks(link, colors):
+    if get_link_status(link):
+        return '\t'+link
+    return '\t' + colors.On_Red + link + colors.ENDC
 
 
 def getLinks(soup, ext=False, live=False):
@@ -105,8 +111,21 @@ def getLinks(soup, ext=False, live=False):
         print('------------------------------------')
 
         for link in websites:
-            print(next(get_link_status(link, b_colors)))
+            if get_link_status(link):
+                coloredLink = addColorToLinks(link, b_colors)
+                page = pagereader.readPage(link)
+                if page is not None and page.title is not None:
+                    printRow(b_colors.OKGREEN + coloredLink + b_colors.ENDC, page.title.string)
+            else:
+                printRow('\t' + b_colors.On_Red + link + b_colors.ENDC, "Not found")
+
         return websites
+
 
     else:
         raise(Exception('Method parameter is not of instance BeautifulSoup'))
+
+
+def printRow(url, description):
+    print("%-80s %-30s" % (url, description))
+

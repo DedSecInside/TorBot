@@ -18,21 +18,21 @@ def readPage(site, extension=False):
     while attempts_left:
         try:
             if not extension:
-                print(next(connection_msg(site)))
+                #print(next(connection_msg(site)))
                 response = requests.get(site, headers=headers)
-                print("Connection successful.")
+                #print("Connection successful.")
                 page = BeautifulSoup(response.text, 'html.parser')
                 return page
             if extension and attempts_left == 3:
-                print(next(connection_msg('https://'+site)))
+                #print(next(connection_msg('https://'+site)))
                 response = requests.get('https://'+site, headers=headers)
-                print("Connection successful.")
+                #print("Connection successful.")
                 page = BeautifulSoup(response.text, 'html.parser')
                 return page
             if extension and attempts_left == 2:
-                print(next(connection_msg('http://'+site)))
+                #print(next(connection_msg('http://'+site)))
                 response = requests.get('http://'+site, headers=headers)
-                print("Connection successful.")
+                #print("Connection successful.")
                 page = BeautifulSoup(response.text, 'html.parser')
                 return page
             if extension and attempts_left == 1:

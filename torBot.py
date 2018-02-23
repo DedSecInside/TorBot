@@ -165,7 +165,7 @@ def main(conn=False):
                 savefile.saveJson('Emails', emails)
         # -i/--info
         elif args.info:
-            info.executeAll(link)
+            info.executeAll(link, html_content)
             if args.save:
                 print('Nothing to save.\n')
         else:
