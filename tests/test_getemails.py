@@ -11,7 +11,7 @@ from modules import pagereader, getemails
 
 
 def test_get_emails_successful():
-    soup = pagereader.readPage('https://www.helloaddress.com/')
+    soup = pagereader.read_first_page('https://www.helloaddress.com/')
     test_emails = ["hello@helloaddress.com"]
     emails = getemails.getMails(soup)
     assert emails == test_emails
