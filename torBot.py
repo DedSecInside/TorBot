@@ -156,7 +156,7 @@ def main(conn=False):
     # additional flag can be set with -u/--url flag
     if args.url:
         print("Tor IP Address :", pagereader.get_ip())
-        html_content = pagereader.readPage(link, args.extension)
+        html_content = pagereader.read_first_page(link, args.extension)
         # -m/--mail
         if args.mail:
             emails = getemails.getMails(html_content)
@@ -165,13 +165,13 @@ def main(conn=False):
                 savefile.saveJson('Emails', emails)
         # -i/--info
         elif args.info:
-            info.executeAll(link)
+            info.executeAll(link, html_content)
             if args.save:
                 print('Nothing to save.\n')
         else:
-            links = getweblinks.getLinks(soup=html_content,
-                                         live=args.live,
-                                         ext=args.extension)
+            links = getweblinks.get_links(soup=html_content,
+                                          live=args.live,
+                                          ext=args.extension)
             if args.save:
                 savefile.saveJson("Links", links)
     else:

@@ -2,6 +2,7 @@ import re
 import requests
 import tldextract
 
+from modules import pagereader
 from bs4 import BeautifulSoup
 from modules.bcolors import Bcolors
 from requests.exceptions import ConnectionError, HTTPError
@@ -52,7 +53,7 @@ def valid_onion_url(url):
     return False
 
 
-def get_link_status(link, colors):
+def is_link_alive(link):
     """Generator that yields links as they come
 
         Uses head request because it uses less bandwith than get and timeout is
@@ -69,12 +70,22 @@ def get_link_status(link, colors):
     try:
         resp = requests.head(link, timeout=10)
         resp.raise_for_status()
-        yield '\t'+link
+        return True
     except (ConnectionError, HTTPError):
-        yield '\t'+colors.On_Red+link+colors.ENDC
+        return False
 
 
-def getLinks(soup, ext=False, live=False):
+def add_green(link):
+    colors = Bcolors()
+    return '\t'+ colors.OKGREEN + link + colors.ENDC
+
+
+def add_red(link):
+    colors = Bcolors()
+    return '\t' + colors.On_Red + link + colors.ENDC
+
+
+def get_links(soup, ext=False, live=False):
     """
         Searches through all <a ref> (hyperlinks) tags and stores them in a
         list then validates if the url is formatted correctly.
@@ -105,8 +116,22 @@ def getLinks(soup, ext=False, live=False):
         print('------------------------------------')
 
         for link in websites:
-            print(next(get_link_status(link, b_colors)))
+            if is_link_alive(link):
+                coloredlink = add_green(link)
+                page = pagereader.read_page(link)
+                if page is not None and page.title is not None:
+                    print_row(coloredlink, page.title.string)
+            else:
+                coloredlink = add_red(link)
+                print_row(coloredlink, "Not found")
+
         return websites
+
 
     else:
         raise(Exception('Method parameter is not of instance BeautifulSoup'))
+
+
+def print_row(url, description):
+    print("%-80s %-30s" % (url, description))
+
