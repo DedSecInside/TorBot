@@ -11,13 +11,13 @@ from modules import getweblinks, pagereader
 
 
 def test_get_links_successful():
-    soup = pagereader.readPage('http://www.whatsmyip.net/')
+    soup = pagereader.read_first_page('http://www.whatsmyip.net/')
     data = ['http://aff.ironsocket.com/SH7L',
             'http://aff.ironsocket.com/SH7L',
             'http://wsrs.net/',
             'http://cmsgear.com/']
 
-    result = getweblinks.getLinks(soup, ext=['.com', '.net'])
+    result = getweblinks.get_links(soup, ext=['.com', '.net'])
     assert result == data
 
 
