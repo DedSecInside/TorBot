@@ -44,7 +44,7 @@
 
 </pre>
 
-## A python web crawler for Deep and Dark Web.
+## OSNIT tool for Deep and Dark Web.
 [![Build Status](https://travis-ci.org/DedSecInside/TorBoT.svg?branch=master)](https://travis-ci.org/DedSecInside/TorBoT)
 [![](https://img.shields.io/badge/Donate-Bitcoin-blue.svg?style=flat)](https://blockchain.info/address/14st7SzDbQZuu8fpQ74x477WoRJ7gpHFaj)
 [![](https://img.shields.io/badge/Built%20with-❤-orange.svg?style=flat)]()
@@ -65,13 +65,13 @@ the following steps:
 8. After all URLs are processed, return the most relevant page.
 
 ### Features
-1. Crawls Tor links (.onion).(Completed)
-2. Returns Page title and address with a short description about the site.(Not Started)
+1. Onion Crawler (.onion).(Completed)
+2. Returns Page title and address with a short description about the site.(Partially Completed)
 3. Save links to database.(Not Started)
 4. Get emails from site.(Completed)
 5. Save crawl info to JSON file.(Completed)
 6. Crawl custom domains.(Completed)
-7. Check if the link is live.(Not Started)
+7. Check if the link is live.(Completed)
 8. Built-in Updater.(Completed)
 ...(will be updated)
 
