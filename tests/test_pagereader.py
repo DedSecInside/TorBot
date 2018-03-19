@@ -2,6 +2,7 @@ import pytest
 import requests
 import requests_mock
 
+from bs4 import BeautifulSoup
 from requests.exceptions import HTTPError, ConnectionError
 
 @pytest.fixture
