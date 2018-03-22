@@ -160,7 +160,7 @@ def main(conn=False):
             DATABASE_PASSWORD = os.getenv("DATABASE_PASSWORD")
             DATABASE_USERNAME = os.getenv("DATABASE_USERNAME")
             DATABASE_NAME = os.getenv("DATABASE_NAME")
-            print("DB - ", DATABASE_NAME, " - ", DATABASE_USERNAME, " - ", DATABASE_PASSWORD)
+            #print("DB - ", DATABASE_NAME, " - ", DATABASE_USERNAME, " - ", DATABASE_PASSWORD)
         else:
             print("Wrong Database Configurations")
             exit()

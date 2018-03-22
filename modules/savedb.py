@@ -35,15 +35,10 @@ def saveToDatabase(database, user, password, links):
                 link VARCHAR(30) NOT NULL UNIQUE,
                 reg_date TIMESTAMP)"""
                 cur.execute(query)
-                first_result = cur.fetchall()
-                print(first_result)
                 for link in links:
                         query = "INSERT IGNORE INTO `tor_url` (link) VALUES ('{0}')".format(link)
                         cur.execute(query)
-                        print(query)
-                
-                second_result = cur.fetchall()
-                print(second_result)
+                        #print(query)            
                 db.commit()
                 
         except (MySQLdb.Error, MySQLdb.Warning) as e:
