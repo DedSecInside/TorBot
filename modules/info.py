@@ -21,7 +21,10 @@ def executeAll(target, soup):
         get_dot_htaccess(target)
     except Exception:
         cprint("Error""red")
-    #TODO: get_webpage_title()
+    try:
+        get_webpage_description(soup)
+    except Exception:
+        cprint("Error""red")
 
 
 def get_robots_txt(target):
@@ -73,6 +76,16 @@ def get_dot_htaccess(target):
         cprint("Status code"'blue')
         cprint(statcode)
 
+def has_content(tag):
+    return tag.has_attr('name')
 
 
-#def get_webpage_title(target, soup):
+def get_webpage_description(soup):
+    cprint("[*]Checking for description meta tag"'yellow')
+    metatags = soup.find_all('meta')
+    for meta in metatags:
+        if meta.has_attr('name'):
+            attributes = meta.attrs
+            if attributes['name'] == 'description':
+                cprint("Page description: " + attributes['content'])
+
