@@ -76,9 +76,6 @@ def get_dot_htaccess(target):
         cprint("Status code"'blue')
         cprint(statcode)
 
-def has_content(tag):
-    return tag.has_attr('name')
-
 
 def get_webpage_description(soup):
     cprint("[*]Checking for description meta tag"'yellow')
