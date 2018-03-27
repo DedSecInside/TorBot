@@ -15,7 +15,7 @@ def saveToDatabase(database, user, password, links):
                 password = password of MYSQL
                 link = URLs from the crawler
         """
-        if database and user and password is None:
+        if not database and not user and not password:
                 print("Wrong DB Credentials")
                 exit()
 
