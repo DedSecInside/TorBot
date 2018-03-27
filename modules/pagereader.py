@@ -44,10 +44,13 @@ def read_first_page(site, extension=False):
             attempts_left -= 1
             err = e
 
-    if err == HTTPError:
-        raise("There has been an HTTP error after three attempts.")
-    if err == ConnectionError:
-        raise("There has been a connection error after three attempts.")
+    if type(err) == HTTPError:
+        print ("There has been an HTTP error after three attempts.")
+        exit (2)
+    if type(err) == ConnectionError:
+        print("Got ConnectionError after three attempts... ",
+              "Please check if the TOR service is running or not.")
+        exit (2)
 
 
 def read_page(site, extension=False):
@@ -85,10 +88,11 @@ def read_page(site, extension=False):
             err = e
 
     if err == HTTPError:
-        raise("There has been an HTTP error after three attempts.")
+        print("There has been an HTTP error after three attempts.")
+        exit (2)
     if err == ConnectionError:
-        raise("There has been a connection error after three attempts.")
-
+        print("There has been a connection error after three attempts.")
+        exit (2)
 
 def get_ip():
     """Returns users tor ip address
