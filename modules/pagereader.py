@@ -44,11 +44,11 @@ def read_first_page(site, extension=False):
             attempts_left -= 1
             err = e
 
-    if err is HTTPError:
+    if type(err) == HTTPError:
         print ("There has been an HTTP error after three attempts.")
         #exit 2 to indicate that there has been exception
         exit (2)
-    if err is ConnectionError:
+    if type(err) == ConnectionError:
         print("Got ConnectionError after three attempts... ",
               "Please check if the TOR service is running or not.")
         #exit 2 to indicate that there has been exception
@@ -89,11 +89,11 @@ def read_page(site, extension=False):
             attempts_left -= 1
             err = e
 
-    if err is HTTPError:
+    if type(err) == HTTPError:
         print("There has been an HTTP error after three attempts."
         #exit 2 to indicate that there has been exception
         exit (2)
-    if err is ConnectionError:
+    if type(err) == ConnectionError:
         print("There has been a connection error after three attempts.")
         #exit 2 to indicate that there has been exception
         exit (2)
