@@ -88,7 +88,7 @@ def read_page(site, extension=False):
             err = e
 
     if type(err) == HTTPError:
-        print("There has been an HTTP error after three attempts."
+        print("There has been an HTTP error after three attempts.")
         exit (1)
     if type(err) == ConnectionError:
         print("There has been a connection error after three attempts.")
