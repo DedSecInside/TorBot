@@ -77,7 +77,7 @@ def is_link_alive(link):
 
 def add_green(link):
     colors = Bcolors()
-    return '\t'+ colors.OKGREEN + link + colors.ENDC
+    return '\t' + colors.OKGREEN + link + colors.ENDC
 
 
 def add_red(link):
@@ -127,11 +127,9 @@ def get_links(soup, ext=False, live=False):
 
         return websites
 
-
     else:
         raise(Exception('Method parameter is not of instance BeautifulSoup'))
 
 
 def print_row(url, description):
     print("%-80s %-30s" % (url, description))
-

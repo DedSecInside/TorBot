@@ -2,7 +2,7 @@ import requests
 
 from bs4 import BeautifulSoup
 from modules.bcolors import Bcolors
-from requests.exceptions import ConnectionError, HTTPError
+from requests.exceptions import ConnectionError, HTTPError, MissingSchema
 from sys import exit
 
 
@@ -10,37 +10,37 @@ def connection_msg(site):
     yield "Attempting to connect to {site}".format(site=site)
 
 
-def read_first_page(site, extension=False):
+def read_first_page(site):
     headers = {'User-Agent':
                'TorBot - Onion crawler | www.github.com/DedSecInside/TorBot'}
     attempts_left = 3
     err = " "
     while attempts_left:
         try:
-            if not extension:
+            if attempts_left == 3:
                 print(next(connection_msg(site)))
                 response = requests.get(site, headers=headers)
                 print("Connection successful.")
                 page = BeautifulSoup(response.text, 'html.parser')
                 return page
-            if extension and attempts_left == 3:
+            if attempts_left == 2:
                 print(next(connection_msg('https://'+site)))
                 response = requests.get('https://'+site, headers=headers)
                 print("Connection successful.")
                 page = BeautifulSoup(response.text, 'html.parser')
                 return page
-            if extension and attempts_left == 2:
+            if attempts_left == 1:
                 print(next(connection_msg('http://'+site)))
                 response = requests.get('http://'+site, headers=headers)
                 print("Connection successful.")
                 page = BeautifulSoup(response.text, 'html.parser')
                 return page
-            if extension and attempts_left == 1:
+            if not attempts_left:
                 msg = ''.join(("There has been an {err} while attempting to ",
                               "connect to {site}.")).format(err=err, site=site)
                 exit(msg)
 
-        except (HTTPError, ConnectionError) as e:
+        except (HTTPError, MissingSchema, ConnectionError) as e:
             attempts_left -= 1
             err = e
 
@@ -53,37 +53,37 @@ def read_first_page(site, extension=False):
         exit (1)
 
 
-def read_page(site, extension=False):
+def read_page(site):
     headers = {'User-Agent':
                'TorBot - Onion crawler | www.github.com/DedSecInside/TorBot'}
     attempts_left = 3
     err = " "
     while attempts_left:
         try:
-            if not extension:
+            if attempts_left == 3:
                 #print(next(connection_msg(site)))
                 response = requests.get(site, headers=headers)
                 #print("Connection successful.")
                 page = BeautifulSoup(response.text, 'html.parser')
                 return page
-            if extension and attempts_left == 3:
+            if attempts_left == 2:
                 #print(next(connection_msg('https://'+site)))
                 response = requests.get('https://'+site, headers=headers)
                 #print("Connection successful.")
                 page = BeautifulSoup(response.text, 'html.parser')
                 return page
-            if extension and attempts_left == 2:
+            if attempts_left == 1:
                 #print(next(connection_msg('http://'+site)))
                 response = requests.get('http://'+site, headers=headers)
                 #print("Connection successful.")
                 page = BeautifulSoup(response.text, 'html.parser')
                 return page
-            if extension and attempts_left == 1:
+            if not attempts_left:
                 msg = ''.join(("There has been an {err} while attempting to ",
                               "connect to {site}.")).format(err=err, site=site)
                 exit(msg)
 
-        except (HTTPError, ConnectionError) as e:
+        except (HTTPError, MissingSchema, ConnectionError) as e:
             attempts_left -= 1
             err = e
 
