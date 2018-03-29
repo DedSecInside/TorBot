@@ -156,7 +156,7 @@ def main(conn=False):
     # additional flag can be set with -u/--url flag
     if args.url:
         print("Tor IP Address :", pagereader.get_ip())
-        html_content = pagereader.read_first_page(link, args.extension)
+        html_content = pagereader.read_first_page(link)
         # -m/--mail
         if args.mail:
             emails = getemails.getMails(html_content)

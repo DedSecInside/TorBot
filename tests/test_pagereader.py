@@ -3,11 +3,11 @@ import requests
 import requests_mock
 
 from bs4 import BeautifulSoup
-from requests.exceptions import HTTPError, ConnectionError
+from requests.exceptions import HTTPError, MissingSchema, ConnectionError
 
 
 @pytest.fixture
-def test_read_first_page(site, extension=False):
+def test_read_first_page(site):
 
     with requests_mock.Mocker() as m:
         m.get('https://www.test.com', text='This is a dot com site.')
@@ -26,49 +26,44 @@ def test_read_first_page(site, extension=False):
         # Removed unnecessary code such as printing
         while attempts_left:
             try:
-                if not extension:
+                if attempts_left == 3:
                     response = requests.get(site, headers=headers)
                     page = BeautifulSoup(response.text, 'html.parser')
                     return str(page)
-                if extension and attempts_left == 3:
+                if attempts_left == 2:
                     response = requests.get('https://'+site, headers=headers)
                     page = BeautifulSoup(response.text, 'html.parser')
                     return str(page)
-                if extension and attempts_left == 2:
+                if attempts_left == 1:
                     response = requests.get('http://'+site, headers=headers)
                     page = BeautifulSoup(response.text, 'html.parser')
                     return str(page)
-                if extension and attempts_left == 1:
+                if not attempts_left:
                     raise err
 
-            except (HTTPError, ConnectionError) as e:
+            except (HTTPError, MissingSchema, ConnectionError) as e:
                 err = e
                 attempts_left -= 1
 
         raise err
 
 
-def test_single_extension():
-    uris = {
-        '.com': 'www.test.com',
-        '.org': 'www.test.org',
-        '.net': 'www.test.net',
-        '.onion': 'www.test.onion',
-        '.cannotbefound': 'www.test.cannotbefound'
-            }
+def test_run():
+    urls = ['www.test.com', 'www.test.org', 'www.test.net', 'www.test.onion',
+            'www.test.cannotbefound']
 
     with pytest.raises(HTTPError):
-        for toplevel_domain, url in uris.items():
-            page = test_read_first_page(url, toplevel_domain)
-            if toplevel_domain == '.com':
+        for url in urls:
+            page = test_read_first_page(url)
+            if url[-4:] == '.com':
                 assert page == 'This is a dot com site.'
-            elif toplevel_domain == '.org':
+            elif url[-4:] == '.org':
                 assert page == 'This is a dot org site.'
-            elif toplevel_domain == '.net':
+            elif url[-4:] == '.net':
                 assert page == 'This is a dot net site.'
-            elif toplevel_domain == '.onion':
+            elif url[-6:] == '.onion':
                 assert page == 'This is a dot onion site.'
 
 
 if __name__ == '__main__':
-    test_single_extension()
+    test_run()
