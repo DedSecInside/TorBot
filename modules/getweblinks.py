@@ -86,7 +86,7 @@ def add_red(link):
     colors = Bcolors()
     return '\t' + colors.On_Red + link + colors.ENDC
 
-def new_func(link):
+def get_link_status(link):
     if is_link_alive(link):
         coloredlink = add_green(link)
         page = pagereader.read_page(link)
@@ -127,7 +127,7 @@ def get_links(soup, ext=False, live=False):
         print('------------------------------------')
 
         p = Pool(5)
-        p.map(new_func, websites)
+        p.map(get_link_status, websites)
 
         return websites
 
