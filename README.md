@@ -147,7 +147,7 @@ GNU Public License
 - [X] [Manfredi Martorana](https://github.com/Agostinelli) - Contributor
 - [X] [KingAkeem](https://github.com/KingAkeem) - Contributor
 - [X] [Evan Sia Wai Suan](https://github.com/waisuan) - New Contributor
-
+- [X] [Lean](https://github.com/leaen) - New Contributor
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Opensource.svg/200px-Opensource.svg.png)
 
