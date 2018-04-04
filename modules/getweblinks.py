@@ -85,7 +85,7 @@ def add_red(link):
     return '\t' + colors.On_Red + link + colors.ENDC
 
 
-def get_links(soup, ext=False, live=False):
+def get_links(soup, ext=False):
     """
         Searches through all <a ref> (hyperlinks) tags and stores them in a
         list then validates if the url is formatted correctly.
