@@ -143,11 +143,12 @@ GNU Public License
 
 - [X] [P5N4PPZ](https://github.com/PSNAppz) - Owner
 - [X] [agrepravin](https://github.com/agrepravin) - Contributor,Reviewer
+- [X] [KingAkeem](https://github.com/KingAkeem) - Experienced Contributor,Reviewer
 - [X] [y-mehta](https://github.com/y-mehta) - Contributor
 - [X] [Manfredi Martorana](https://github.com/Agostinelli) - Contributor
-- [X] [KingAkeem](https://github.com/KingAkeem) - Contributor
 - [X] [Evan Sia Wai Suan](https://github.com/waisuan) - New Contributor
 - [X] [Lean](https://github.com/leaen) - New Contributor
+- [X] [shivankar-madaan](https://github.com/shivankar-madaan) - New Contributor
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Opensource.svg/200px-Opensource.svg.png)
 
