@@ -22,19 +22,19 @@ def read_first_page(site):
                 response = requests.get(site, headers=headers)
                 print("Connection successful.")
                 page = BeautifulSoup(response.text, 'html.parser')
-                return page
+                return page, response
             if attempts_left == 2:
                 print(next(connection_msg('https://'+site)))
                 response = requests.get('https://'+site, headers=headers)
                 print("Connection successful.")
                 page = BeautifulSoup(response.text, 'html.parser')
-                return page
+                return page, response
             if attempts_left == 1:
                 print(next(connection_msg('http://'+site)))
                 response = requests.get('http://'+site, headers=headers)
                 print("Connection successful.")
                 page = BeautifulSoup(response.text, 'html.parser')
-                return page
+                return page, response
             if not attempts_left:
                 msg = ''.join(("There has been an {err} while attempting to ",
                               "connect to {site}.")).format(err=err, site=site)
@@ -102,7 +102,7 @@ def get_ip():
     """
 
     b_colors = Bcolors()
-    page = read_first_page('https://check.torproject.org/')
+    page = read_first_page('https://check.torproject.org/')[0]
     pg = page.find('strong')
     ip_addr = pg.renderContents()
 

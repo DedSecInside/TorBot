@@ -11,7 +11,7 @@ from modules import getweblinks, pagereader
 
 
 def test_get_links_successful():
-    soup = pagereader.read_first_page('http://www.whatsmyip.net/')
+    soup = pagereader.read_first_page('http://www.whatsmyip.net/')[0]
     data = ['http://aff.ironsocket.com/SH7L',
             'http://aff.ironsocket.com/SH7L',
             'http://wsrs.net/',
