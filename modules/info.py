@@ -4,7 +4,8 @@ from urllib.parse import urlsplit
 from termcolor import cprint
 
 
-def executeAll(target, soup):
+def executeAll(target, soup, response):
+
     try:
         get_robots_txt(target)
     except Exception:
@@ -25,6 +26,19 @@ def executeAll(target, soup):
         get_webpage_description(soup)
     except Exception:
         cprint("Error""red")
+    try:
+        get_headers(response)
+    except Exception:
+        cprint("Error""red")
+
+
+def get_headers(response):
+    print('''
+          RESPONSE HEADERS
+          __________________
+          ''')
+    for key, val in response.headers.items():
+        print('*', key, ':', val)
 
 
 def get_robots_txt(target):
@@ -85,4 +99,3 @@ def get_webpage_description(soup):
             attributes = meta.attrs
             if attributes['name'] == 'description':
                 cprint("Page description: " + attributes['content'])
-
