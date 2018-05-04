@@ -137,6 +137,9 @@ Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob
 - [X] Multithreading
 - [ ] Optimization
 - [ ] Randomize Tor Connection (Random Header and Identity)
+- [ ] Keyword/Phrase search
+- [ ] Social Media Integration
+- [ ] Increase anonymity and efficienct
 
 ### Have ideas?
 If you have new ideas which is worth implementing, mention those by starting a new issue with the title [FEATURE_REQUEST].
