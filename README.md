@@ -102,6 +102,12 @@ Before you run the torBot make sure the following things are done properly:
 
 * Make sure that your torrc is configured to SOCKS_PORT localhost:9050 
 
+On Linux platforms, you can make an executable for TorBot by using the install.sh script.
+You will need to give the script the correct permissions using `chmod +x install.sh`
+Now you should have an executable file named torBot, run `./torBot` to execute the program. 
+
+An alternative way of running torBot is shown below, along with help instructions.
+
 `python3 torBot.py or use the -h/--help argument`
 <pre>
 `usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m] [-e EXTENSION]
