@@ -4,4 +4,4 @@ termcolor==1.1.0
 requests==2.18.4
 requests_mock==1.4.0
 tldextract==2.2.0
-
+pyinstaller==3.3.1
