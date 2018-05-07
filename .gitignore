@@ -7,3 +7,4 @@ tests/__pycache__/
 modules/__init__.py
 .idea/
 tests/.ropeproject/
+*.pyc
