@@ -2,7 +2,7 @@ import argparse
 import socket
 import socks
 from modules import (bcolors, getemails, pagereader, getweblinks, updater,
-                     info, savefile)
+                     info, savefile, go_modules)
 
 
 LOCALHOST = "127.0.0.1"
@@ -169,9 +169,7 @@ def main(conn=False):
             if args.save:
                 print('Nothing to save.\n')
         else:
-            links = getweblinks.get_links(soup=html_content,
-                                          live=args.live,
-                                          ext=args.extension)
+            links = go_modules.GetLinks(LOCALHOST, PORT, args.url)
             if args.save:
                 savefile.saveJson("Links", links)
     else:

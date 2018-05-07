@@ -33,7 +33,7 @@ func asyncHead(client *http.Client, link string) {
 }
 
 // Parses html attributes to find urls
-func parseUrls(var attr []Attribute) []string {
+func parseUrls(attributes []html.Attribute) []string {
 	var found_urls = make([]string, 0)
 	for i := 0; i < len(attributes); i++ {
 		if attributes[i].Key == "href" && validOnionUrl(attributes[i].Val) {
@@ -44,7 +44,7 @@ func parseUrls(var attr []Attribute) []string {
 }
 
 // Establishes tor connection for tcp
-func setupTor(addr string, port, string, timeout int) *http.Client {
+func setupTor(addr string, port string, timeout int) *http.Client {
 	var torProxy string = "socks5://" + addr + ":" + port
 	torProxyUrl, err := url.Parse(torProxy)
 	if err != nil {
@@ -66,6 +66,7 @@ func GetLinks(searchUrl string, addr string, port string, timeout int) {
 	defer resp.Body.Close()
 	bytes := resp.Body
 	tokenizer := html.NewTokenizer(bytes)
+	var urls []string
 	for not_end := true; not_end; {
 		currentTokenType := tokenizer.Next()
 		switch {
@@ -75,12 +76,12 @@ func GetLinks(searchUrl string, addr string, port string, timeout int) {
 			token := tokenizer.Token()
 			if token.Data == "a" {
 				attributes := token.Attr
-				var urls = parseUrls(attributes)
+				urls = parseUrls(attributes)
 			}
 		}
 	}
 	fmt.Printf("Number of URLs found: %v\n", len(urls))
-	for _, link := range found_urls {
+	for _, link := range urls {
 		_, err := url.ParseRequestURI(link)
 		if err != nil {
 			continue
