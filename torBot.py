@@ -170,7 +170,7 @@ def main(conn=False):
             if args.save:
                 print('Nothing to save.\n')
         else:
-            links = go_linker.go_get_urls(link, LOCALHOST, PORT, 15)
+            links = go_linker.GetLinks(link, LOCALHOST, PORT, 15)
             #links = getweblinks.get_links(soup=html_content, ext=args.extension, live=args.live)
             if args.save:
                 savefile.saveJson("Links", links)

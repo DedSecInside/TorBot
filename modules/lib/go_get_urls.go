@@ -90,7 +90,11 @@ func GetLinks(searchURL string, addr string, port string, timeout int) {
 	ch := make(chan string)
 	signal.Notify(sig, os.Interrupt)
 	fmt.Printf("Number of URLs found: %v\n", len(urls))
+	if len(urls) == 0 {
+		os.Exit(0)
+	}
 	fmt.Println("_____________________________")
+
 	for _, url := range urls {
 		_, err := urllib.ParseRequestURI(url)
 		if err != nil {
