@@ -7,10 +7,12 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"os"
+	"os/signal"
 	"regexp"
-	"sync"
 	"time"
 
+	"github.com/mgutz/ansi"
 	"golang.org/x/net/html"
 )
 
@@ -22,13 +24,13 @@ func validOnionURL(url string) bool {
 }
 
 // Used to perform ascynchrounous head requess
-func asyncHead(client *http.Client, link string) {
-	defer wg.Done()
-	resp, err := client.Get(link)
+func headRequest(client *http.Client, link string, ch chan<- string) {
+	red := ansi.ColorFunc("red")
+	resp, err := client.Head(link)
 	if err == nil && resp.StatusCode < 400 {
-		fmt.Printf("%v is reachable.\n", link)
+		ch <- fmt.Sprintf("%v is reachable.\n", link)
 	} else {
-		fmt.Printf("%v is not reachable.\n", link)
+		ch <- fmt.Sprintf("%v is not reachable.\n", red(link))
 	}
 }
 
@@ -53,8 +55,6 @@ func setupTor(addr string, port string, timeout int) *http.Client {
 	torTransport := &http.Transport{Proxy: http.ProxyURL(torProxyURL)}
 	return &http.Client{Transport: torTransport, Timeout: time.Second * time.Duration(timeout)}
 }
-
-var wg sync.WaitGroup
 
 //export GetLinks
 func GetLinks(searchURL string, addr string, port string, timeout int) {
@@ -82,16 +82,32 @@ func GetLinks(searchURL string, addr string, port string, timeout int) {
 			}
 		}
 	}
+	sig := make(chan os.Signal, 1)
+	ch := make(chan string, len(urls))
+	signal.Notify(sig, os.Interrupt)
 	fmt.Printf("Number of URLs found: %v\n", len(urls))
+	fmt.Println("___________________________\n")
 	for _, link := range urls {
 		_, err := url.ParseRequestURI(link)
 		if err != nil {
 			continue
 		}
-		wg.Add(1)
-		go asyncHead(client, link)
+		select {
+		case <-sig:
+			os.Exit(0)
+		default:
+			go headRequest(client, link, ch)
+		}
 	}
-	wg.Wait()
+
+	for result := range ch {
+		fmt.Print(result)
+		select {
+		case <-sig:
+			os.Exit(0)
+		default:
+		}
+	}
 }
 
 func main() {
