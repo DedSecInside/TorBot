@@ -86,7 +86,7 @@ func GetLinks(searchURL string, addr string, port string, timeout int) {
 	ch := make(chan string, len(urls))
 	signal.Notify(sig, os.Interrupt)
 	fmt.Printf("Number of URLs found: %v\n", len(urls))
-	fmt.Println("___________________________\n")
+	fmt.Println("___________________________")
 	for _, link := range urls {
 		_, err := url.ParseRequestURI(link)
 		if err != nil {
@@ -101,11 +101,11 @@ func GetLinks(searchURL string, addr string, port string, timeout int) {
 	}
 
 	for result := range ch {
-		fmt.Print(result)
 		select {
 		case <-sig:
 			os.Exit(0)
 		default:
+			fmt.Println(result)
 		}
 	}
 }
