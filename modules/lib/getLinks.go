@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"net/url"
+	urllib "net/url"
 	"os"
 	"os/signal"
 	"regexp"
@@ -23,19 +23,24 @@ func validOnionURL(url string) bool {
 	return re.Match([]byte(url))
 }
 
-// Used to perform ascynchrounous head requess
-func headRequest(client *http.Client, link string, ch chan<- string) {
+type netClient interface {
+	Head(string) (*http.Response, error)
+}
+
+// Sends string to channel that contains a message that explains the
+// status of the url passed
+func checkURL(client netClient, url string, ch chan<- string) {
 	red := ansi.ColorFunc("red")
-	resp, err := client.Head(link)
+	resp, err := client.Head(url)
 	if err == nil && resp.StatusCode < 400 {
-		ch <- fmt.Sprintf("%v is reachable.\n", link)
+		ch <- fmt.Sprintf("%v is reachable.\n", url)
 	} else {
-		ch <- fmt.Sprintf("%v is not reachable.\n", red(link))
+		ch <- red(fmt.Sprintf("%v is not reachable.\n", url))
 	}
 }
 
 // Parses html attributes to find urls
-func parseUrls(attributes []html.Attribute) []string {
+func parseAttrs(attributes []html.Attribute) []string {
 	var foundUrls = make([]string, 0)
 	for i := 0; i < len(attributes); i++ {
 		if attributes[i].Key == "href" && validOnionURL(attributes[i].Val) {
@@ -48,7 +53,7 @@ func parseUrls(attributes []html.Attribute) []string {
 // Establishes tor connection for tcp
 func setupTor(addr string, port string, timeout int) *http.Client {
 	var torProxy = "socks5://" + addr + ":" + port
-	torProxyURL, err := url.Parse(torProxy)
+	torProxyURL, err := urllib.Parse(torProxy)
 	if err != nil {
 		log.Fatal("Error parsing URL: ", err)
 	}
@@ -77,18 +82,18 @@ func GetLinks(searchURL string, addr string, port string, timeout int) {
 			token := tokenizer.Token()
 			if token.Data == "a" {
 				attributes := token.Attr
-				found = parseUrls(attributes)
+				found = parseAttrs(attributes)
 				urls = append(urls, found...)
 			}
 		}
 	}
 	sig := make(chan os.Signal, 1)
-	ch := make(chan string, len(urls))
+	ch := make(chan string)
 	signal.Notify(sig, os.Interrupt)
 	fmt.Printf("Number of URLs found: %v\n", len(urls))
-	fmt.Println("___________________________")
-	for _, link := range urls {
-		_, err := url.ParseRequestURI(link)
+	fmt.Println("_____________________________")
+	for _, url := range urls {
+		_, err := urllib.ParseRequestURI(url)
 		if err != nil {
 			continue
 		}
@@ -96,7 +101,7 @@ func GetLinks(searchURL string, addr string, port string, timeout int) {
 		case <-sig:
 			os.Exit(0)
 		default:
-			go headRequest(client, link, ch)
+			go checkURL(client, url, ch)
 		}
 	}
 

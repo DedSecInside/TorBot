@@ -8,3 +8,5 @@ modules/__init__.py
 .idea/
 tests/.ropeproject/
 *.pyc
+modules/*.pyc
+tests/*.pyc
