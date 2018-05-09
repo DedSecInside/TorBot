@@ -10,3 +10,4 @@ tests/.ropeproject/
 *.pyc
 modules/*.pyc
 tests/*.pyc
+modules/lib/*.so
