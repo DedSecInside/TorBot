@@ -2,11 +2,10 @@ import argparse
 import socket
 import socks
 from modules import (bcolors, getemails, pagereader, getweblinks, updater,
-                     info, savefile)
+                     info, savefile, go_linker)
 
 
-LOCALHOST = "127.0.0.1"
-PORT = 9050
+
 # TorBot VERSION
 __VERSION = "1.2"
 
@@ -104,6 +103,8 @@ def header():
 
 
 def main(conn=False):
+    LOCALHOST = "127.0.0.1"
+    PORT = 9050
 
     if conn:
         connect(LOCALHOST, PORT)
@@ -169,9 +170,8 @@ def main(conn=False):
             if args.save:
                 print('Nothing to save.\n')
         else:
-            links = getweblinks.get_links(soup=html_content,
-                                          live=args.live,
-                                          ext=args.extension)
+            #links = go_linker.GetLinks(link, LOCALHOST, PORT, 15)
+            links = getweblinks.get_links(soup=html_content, ext=args.extension, live=args.live)
             if args.save:
                 savefile.saveJson("Links", links)
     else:
