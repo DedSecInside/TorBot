@@ -1,6 +1,8 @@
 import re
 import requests
 import tldextract
+from multiprocessing import Pool
+from multiprocessing.dummy import Pool as ThreadPool
 
 from modules import pagereader
 from bs4 import BeautifulSoup
@@ -84,6 +86,15 @@ def add_red(link):
     colors = Bcolors()
     return '\t' + colors.On_Red + link + colors.ENDC
 
+def get_link_status(link):
+    if is_link_alive(link):
+        coloredlink = add_green(link)
+        page = pagereader.read_page(link)
+        if page is not None and page.title is not None:
+            print_row(coloredlink, page.title.string)
+    else:
+        coloredlink = add_red(link)
+        print_row(coloredlink, "Not found")
 
 def get_links(soup, ext=False, live=False):
     """
@@ -115,15 +126,8 @@ def get_links(soup, ext=False, live=False):
               'Websites Found - ', b_colors.ENDC, str(len(websites)))))
         print('------------------------------------')
 
-        for link in websites:
-            if is_link_alive(link):
-                coloredlink = add_green(link)
-                page = pagereader.read_page(link)
-                if page is not None and page.title is not None:
-                    print_row(coloredlink, page.title.string)
-            else:
-                coloredlink = add_red(link)
-                print_row(coloredlink, "Not found")
+        p = Pool(5)
+        p.map(get_link_status, websites)
 
         return websites
 
