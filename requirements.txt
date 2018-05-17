@@ -5,3 +5,4 @@ requests==2.18.4
 requests_mock==1.4.0
 tldextract==2.2.0
 pyinstaller
+pytest
