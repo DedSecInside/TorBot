@@ -1,4 +1,5 @@
 modules/__pycache__/
+torBot
 .cache
 .*.swp
 .ropeproject/
@@ -11,3 +12,4 @@ tests/.ropeproject/
 modules/*.pyc
 tests/*.pyc
 modules/lib/*.so
+.pytestc*
