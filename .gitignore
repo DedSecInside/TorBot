@@ -7,3 +7,7 @@ tests/__pycache__/
 modules/__init__.py
 .idea/
 tests/.ropeproject/
+*.pyc
+modules/*.pyc
+tests/*.pyc
+modules/lib/*.so

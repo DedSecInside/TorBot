@@ -87,12 +87,10 @@ Contributor name will be updated to the below list. :D
 2. Python 3.x (Make sure pip3 is installed)
 3. requests
 4. Beautiful Soup 4
-5. Socket
-6. Sock
-7. Argparse
-8. Git
-9. termcolor
-10. tldextract
+5. Sock
+6. Git
+7. termcolor
+8. tldextract
 
 ## Basic setup
 Before you run the torBot make sure the following things are done properly:
