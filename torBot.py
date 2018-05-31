@@ -170,7 +170,6 @@ def main(conn=False):
                 print('Nothing to save.\n')
         else:
             links = getweblinks.get_links(soup=html_content,
-                                          live=args.live,
                                           ext=args.extension)
             if args.save:
                 savefile.saveJson("Links", links)
