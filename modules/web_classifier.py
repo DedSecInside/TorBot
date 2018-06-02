@@ -24,11 +24,11 @@ def clean_html(html_docs):
 
         return clean_docs
 
-        # Removing all nonalphanumeric characters
-        letters_only = re.sub("[^a-zA-Z]", " ", html_docs)
-        # Turning document into lower case words
-        words = letters_only.lower()
-        return words
+    # Removing all nonalphanumeric characters
+    letters_only = re.sub("[^a-zA-Z]", " ", html_docs)
+    # Turning document into lower case words
+    words = letters_only.lower()
+    return words
 
 
 def classify_site(site_html):
