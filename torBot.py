@@ -156,7 +156,7 @@ def main(conn=False):
     # additional flag can be set with -u/--url flag
     if args.url:
         print("Tor IP Address :", pagereader.get_ip())
-        html_content = pagereader.read_first_page(link)
+        html_content, response = pagereader.read_first_page(link)
         # -m/--mail
         if args.mail:
             emails = getemails.getMails(html_content)
@@ -165,13 +165,13 @@ def main(conn=False):
                 savefile.saveJson('Emails', emails)
         # -i/--info
         elif args.info:
-            info.executeAll(link, html_content)
             cl = web_classifier.classify_site(html_content)
             if cl == 'Sport':
                 print('Category: This is a sports site.\n')
             elif cl == 'News':
                 print('Category: This is a news site.\n')
 
+            info.executeAll(link, html_content, response)
             if args.save:
                 print('Nothing to save.\n')
         else:
