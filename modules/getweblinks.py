@@ -85,7 +85,7 @@ def add_red(link):
     return '\t' + colors.On_Red + link + colors.ENDC
 
 
-def get_links(soup, ext=False, live=False):
+def get_links(soup, ext=False):
     """
         Searches through all <a ref> (hyperlinks) tags and stores them in a
         list then validates if the url is formatted correctly.
@@ -114,17 +114,16 @@ def get_links(soup, ext=False, live=False):
         print(''.join((b_colors.OKGREEN,
               'Websites Found - ', b_colors.ENDC, str(len(websites)))))
         print('------------------------------------')
-        
-        if live:
-            for link in websites:
-                if is_link_alive(link):
-                    coloredlink = add_green(link)
-                    page = pagereader.read_page(link)
-                    if page is not None and page.title is not None:
-                        print_row(coloredlink, page.title.string)
-                else:
-                    coloredlink = add_red(link)
-                    print_row(coloredlink, "Not found")
+
+        for link in websites:
+            if is_link_alive(link):
+                coloredlink = add_green(link)
+                page = pagereader.read_page(link)
+                if page is not None and page.title is not None:
+                    print_row(coloredlink, page.title.string)
+            else:
+                coloredlink = add_red(link)
+                print_row(coloredlink, "Not found")
 
         return websites
 

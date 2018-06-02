@@ -2,7 +2,7 @@ import argparse
 import socket
 import socks
 from modules import (bcolors, getemails, pagereader, getweblinks, updater,
-                     info, savefile)
+                     info, savefile, web_classifier)
 
 
 LOCALHOST = "127.0.0.1"
@@ -165,6 +165,12 @@ def main(conn=False):
                 savefile.saveJson('Emails', emails)
         # -i/--info
         elif args.info:
+            cl = web_classifier.classify_site(html_content)
+            if cl == 'Sport':
+                print('Category: This is a sports site.\n')
+            elif cl == 'News':
+                print('Category: This is a news site.\n')
+
             info.executeAll(link, html_content, response)
             if args.save:
                 print('Nothing to save.\n')
