@@ -38,7 +38,7 @@ def classify_site(site_html):
 
     # Reading in data and splitting into training and testing set
     data = pd.read_csv('datasets/training_data.csv', header=0, delimiter=',')
-    train, test = train_test_split(data)
+    train = train_test_split(data)[0] 
 
     # Creating Count vectorizer and training it
     vec = CountVectorizer(analyzer='word', stop_words='english', max_features=5000)
