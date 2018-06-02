@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 
 def clean_html(html_docs):
 
-    if type(html_docs) != str:
+    if not isinstance(html_docs, str):
         clean_docs = list()
         for i, html in enumerate(html_docs):
             if i % 2 == 0:
@@ -23,7 +23,7 @@ def clean_html(html_docs):
             clean_docs.append(" ".join(words))
 
         return clean_docs
-    else:
+
         # Removing all nonalphanumeric characters
         letters_only = re.sub("[^a-zA-Z]", " ", html_docs)
         # Turning document into lower case words
