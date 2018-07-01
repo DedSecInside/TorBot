@@ -133,6 +133,7 @@ optional arguments:
 Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
 
 ## TO-DO
+- [ ] Visualization Module
 - [ ] Implement A\* Search for webcrawler
 - [X] Multithreading
 - [ ] Optimization
