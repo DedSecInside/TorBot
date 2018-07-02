@@ -16,5 +16,6 @@ def test_get_emails_successful():
     emails = getemails.getMails(soup)
     assert emails == test_emails
 
+
 if __name__ == '__main__':
     test_get_emails_successful()

@@ -11,8 +11,7 @@ def connection_msg(site):
 
 
 def read_first_page(site):
-    headers = {'User-Agent':
-               'TorBot - Onion crawler | www.github.com/DedSecInside/TorBot'}
+    headers = {'User-Agent': 'TorBot - Onion crawler | www.github.com/DedSecInside/TorBot'}
     attempts_left = 3
     err = " "
     while attempts_left:
@@ -24,63 +23,20 @@ def read_first_page(site):
                 page = BeautifulSoup(response.text, 'html.parser')
                 return page, response
             if attempts_left == 2:
-                print(next(connection_msg('https://'+site)))
-                response = requests.get('https://'+site, headers=headers)
+                print(next(connection_msg('https://' + site)))
+                response = requests.get('https://' + site, headers=headers)
                 print("Connection successful.")
                 page = BeautifulSoup(response.text, 'html.parser')
                 return page, response
             if attempts_left == 1:
-                print(next(connection_msg('http://'+site)))
-                response = requests.get('http://'+site, headers=headers)
+                print(next(connection_msg('http://' + site)))
+                response = requests.get('http://' + site, headers=headers)
                 print("Connection successful.")
                 page = BeautifulSoup(response.text, 'html.parser')
                 return page, response
             if not attempts_left:
                 msg = ''.join(("There has been an {err} while attempting to ",
-                              "connect to {site}.")).format(err=err, site=site)
-                exit(msg)
-
-        except (HTTPError, MissingSchema, ConnectionError) as e:
-            attempts_left -= 1
-            err = e
-
-    if isinstance(err, HTTPError):
-        print ("There has been an HTTP error after three attempts.")
-        exit (1)
-    if isinstance(err, ConnectionError):
-        print("Got ConnectionError after three attempts... ",
-              "Please check if the TOR service is running or not.")
-        exit (1)
-
-
-def read_page(site):
-    headers = {'User-Agent':
-               'TorBot - Onion crawler | www.github.com/DedSecInside/TorBot'}
-    attempts_left = 3
-    err = " "
-    while attempts_left:
-        try:
-            if attempts_left == 3:
-                #print(next(connection_msg(site)))
-                response = requests.get(site, headers=headers)
-                #print("Connection successful.")
-                page = BeautifulSoup(response.text, 'html.parser')
-                return page
-            if attempts_left == 2:
-                #print(next(connection_msg('https://'+site)))
-                response = requests.get('https://'+site, headers=headers)
-                #print("Connection successful.")
-                page = BeautifulSoup(response.text, 'html.parser')
-                return page
-            if attempts_left == 1:
-                #print(next(connection_msg('http://'+site)))
-                response = requests.get('http://'+site, headers=headers)
-                #print("Connection successful.")
-                page = BeautifulSoup(response.text, 'html.parser')
-                return page
-            if not attempts_left:
-                msg = ''.join(("There has been an {err} while attempting to ",
-                              "connect to {site}.")).format(err=err, site=site)
+                               "connect to {site}.")).format(err=err, site=site)
                 exit(msg)
 
         except (HTTPError, MissingSchema, ConnectionError) as e:
@@ -89,10 +45,53 @@ def read_page(site):
 
     if isinstance(err, HTTPError):
         print("There has been an HTTP error after three attempts.")
-        exit (1)
+        exit(1)
+    if isinstance(err, ConnectionError):
+        print("Got ConnectionError after three attempts... ",
+              "Please check if the TOR service is running or not.")
+        exit(1)
+
+
+def read_page(site):
+    headers = {'User-Agent': 'TorBot - Onion crawler | www.github.com/DedSecInside/TorBot'}
+    attempts_left = 3
+    err = " "
+    while attempts_left:
+        try:
+            if attempts_left == 3:
+                # print(next(connection_msg(site)))
+                response = requests.get(site, headers=headers)
+                # print("Connection successful.")
+                page = BeautifulSoup(response.text, 'html.parser')
+                return page
+            if attempts_left == 2:
+                # print(next(connection_msg('https://'+site)))
+                response = requests.get('https://' + site, headers=headers)
+                # print("Connection successful.")
+                page = BeautifulSoup(response.text, 'html.parser')
+                return page
+            if attempts_left == 1:
+                # print(next(connection_msg('http://'+site)))
+                response = requests.get('http://' + site, headers=headers)
+                # print("Connection successful.")
+                page = BeautifulSoup(response.text, 'html.parser')
+                return page
+            if not attempts_left:
+                msg = ''.join(("There has been an {err} while attempting to ",
+                               "connect to {site}.")).format(err=err, site=site)
+                exit(msg)
+
+        except (HTTPError, MissingSchema, ConnectionError) as e:
+            attempts_left -= 1
+            err = e
+
+    if isinstance(err, HTTPError):
+        print("There has been an HTTP error after three attempts.")
+        exit(1)
     if isinstance(err, ConnectionError):
         print("There has been a connection error after three attempts.")
-        exit (1)
+        exit(1)
+
 
 def get_ip():
     """Returns users tor ip address
@@ -106,4 +105,4 @@ def get_ip():
     pg = page.find('strong')
     ip_addr = pg.renderContents()
 
-    return b_colors.WARNING+b_colors.BOLD+ip_addr.decode("utf-8")+b_colors.ENDC
+    return b_colors.WARNING + b_colors.BOLD + ip_addr.decode("utf-8") + b_colors.ENDC

@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 
 
 def getMails(soup):
-
     """
         Searches for <a href> tags for links then checks if link contains the
         substring 'mailto' indicating that it's an email. If it is determined
@@ -27,15 +26,15 @@ def getMails(soup):
             if url and 'mailto' in url:
                 """Split email address on"""
                 email_addr = url.split(':')
-                if (len(email_addr) > 1):
+                if len(email_addr) > 1:
                     emails.append(email_addr[1])
 
         """Pretty print output as below"""
-        print ('')
-        print (b_colors.OKGREEN+'Mails Found - '+b_colors.ENDC+str(len(emails)))
-        print ('-------------------------------')
+        print('')
+        print(b_colors.OKGREEN + 'Mails Found - ' + b_colors.ENDC + str(len(emails)))
+        print('-------------------------------')
 
         return emails
 
     else:
-        raise('Method parameter is not of instance BeautifulSoup')
+        raise ValueError('Method parameter is not of instance BeautifulSoup')
