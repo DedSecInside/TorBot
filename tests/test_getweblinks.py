@@ -22,4 +22,4 @@ def test_get_links_successful():
 
 
 if __name__ == '__main__':
-	test_get_links_successful()
+    test_get_links_successful()

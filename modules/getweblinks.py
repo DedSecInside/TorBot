@@ -8,7 +8,7 @@ from modules.bcolors import Bcolors
 from requests.exceptions import ConnectionError, HTTPError
 
 
-def valid_url(url, extensions=False):
+def valid_url(url, extensions=None):
     """Checks for any valid url using regular expression matching
 
         Matches all possible url patterns with the url that is passed and
@@ -56,7 +56,7 @@ def valid_onion_url(url):
 def is_link_alive(link):
     """Generator that yields links as they come
 
-        Uses head request because it uses less bandwith than get and timeout is
+        Uses head request because it uses less bandwidth than get and timeout is
         set to 10 seconds and then link is automatically declared as dead.
 
         Args:
