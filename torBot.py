@@ -157,6 +157,7 @@ def main(conn=False):
     if args.url:
         print("Tor IP Address :", pagereader.get_ip())
         html_content, response = pagereader.read_first_page(link)
+        print("Connection successful.")
         # -m/--mail
         if args.mail:
             emails = getemails.getMails(html_content)
