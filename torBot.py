@@ -48,7 +48,7 @@ def header():
     D3DSEC = b_color.FAIL + " D3DSEC " + b_color.WHITE
     INS1DE = b_color.FAIL + " INS1DE " + b_color.WHITE
 
-    header = r"""
+    text_header = r"""
                 {WHITE}
                 ######################################################
                 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWMMMMMMMMMMMMM
@@ -99,7 +99,7 @@ def header():
                 BOLD=b_color.BOLD, VERSION=__VERSION, END=b_color.ENDC,
                 On_Black=b_color.On_Black, WHITE=b_color.WHITE
                 )
-    print(header)
+    print(text_header)
 
 
 def main(conn=False):
@@ -158,6 +158,7 @@ def main(conn=False):
     if args.url:
         print("Tor IP Address :", pagereader.get_ip())
         html_content, response = pagereader.read_first_page(link)
+        print("Connection successful.")
         # -m/--mail
         if args.mail:
             emails = getemails.getMails(html_content)
