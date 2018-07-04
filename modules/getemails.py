@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 
 
 def getMails(soup):
-
     """
         Searches for <a href> tags for links then checks if link contains the
         substring 'mailto' indicating that it's an email. If it is determined
@@ -31,4 +30,4 @@ def getMails(soup):
         return emails
 
     else:
-        raise('Method parameter is not of instance BeautifulSoup')
+        raise ValueError('Method parameter is not of instance BeautifulSoup')

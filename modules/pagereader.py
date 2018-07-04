@@ -9,12 +9,10 @@ def connection_msg(site):
 
 
 def read_first_page(site):
-    headers = {'User-Agent':
-               'TorBot - Onion crawler | www.github.com/DedSecInside/TorBot'}
+    headers = {'User-Agent': 'TorBot - Onion crawler | www.github.com/DedSecInside/TorBot'}
     attempts_left = 3
     err = " "
     while attempts_left:
-
         if attempts_left == 3:
             print(next(connection_msg(site)))
             response = get_url_status(site, headers)
@@ -52,7 +50,6 @@ def read_first_page(site):
                            "connect to {site}.")).format(err=err, site=site)
             exit(msg)
 
-
 def get_ip():
     """Returns users tor ip address
 
@@ -65,4 +62,4 @@ def get_ip():
     pg = page.find('strong')
     ip_addr = pg.renderContents()
 
-    return b_colors.WARNING+b_colors.BOLD+ip_addr.decode("utf-8")+b_colors.ENDC
+    return b_colors.WARNING + b_colors.BOLD + ip_addr.decode("utf-8") + b_colors.ENDC
