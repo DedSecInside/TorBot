@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from .net_utils import get_url_status
+from modules.net_utils import get_url_status
 from modules.bcolors import Bcolors
 from sys import exit
 

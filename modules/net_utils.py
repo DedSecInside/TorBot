@@ -9,8 +9,8 @@ def check_connection(url):
     print("Attempting to connect to {site}".format(site=url))
     if get_url_status(url) != 0:
         return 1
-    else:
-        return 0
+
+    return 0
 
 
 def get_url_status(url, headers=False):

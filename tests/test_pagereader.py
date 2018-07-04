@@ -29,8 +29,10 @@ def test_read_first_page():
         websites.append(doc.getvalue())
 
     with requests_mock.Mocker() as mock_connection:
-        for i, website in enumerate(websites):
-            mock_connection.register_uri('GET', test_data[i][0], text=test_data[i][1])
+        for i in range(len(websites)):
+            mock_connection.register_uri('GET',
+                                         test_data[i][0],
+                                         text=test_data[i][1])
             result = str(pagereader.read_first_page(test_data[i][0])[0])
             assert result == test_data[i][1]
 

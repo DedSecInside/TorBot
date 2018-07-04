@@ -16,7 +16,7 @@ def test_get_links():
                  'https://wsrs.net/',
                  'https://cmsgear.com/']
 
-    doc, tag, text, line = Doc().ttl()
+    doc, tag, _, line = Doc().ttl()
     doc.asis('<!DOCTYPE html>')
     with tag('html'):
         with tag('body'):

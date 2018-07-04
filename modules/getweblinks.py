@@ -1,4 +1,4 @@
-from .net_utils import get_urls_from_page, get_url_status
+from modules.net_utils import get_urls_from_page, get_url_status
 from modules import pagereader
 from bs4 import BeautifulSoup
 from modules.bcolors import Bcolors

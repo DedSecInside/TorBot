@@ -10,7 +10,7 @@ from yattag import Doc
 
 def test_get_emails():
     test_emails = ['hello@helloaddress.com']
-    doc, tag, text, line = Doc().ttl()
+    doc, tag, _, line = Doc().ttl()
     doc.asis('<!DOCTYPE html>')
     with tag('html'):
         with tag('body'):
