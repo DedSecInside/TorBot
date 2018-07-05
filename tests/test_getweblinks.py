@@ -1,25 +1,42 @@
-#!/usr/bin/env python
-
 import sys
-import os
-PACKAGE_PARENT = '..'
-SCRIPT_DIR = os.path.dirname(os.path.realpath(
-             os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+sys.path.append('../')
 
-sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
-from modules import getweblinks, pagereader
+import modules.getweblinks as getweblinks
+import pytest
+import requests_mock
+
+from bs4 import BeautifulSoup
+from yattag import Doc
 
 
-def test_get_links_successful():
-    soup = pagereader.read_first_page('http://www.whatsmyip.net/')[0]
-    data = ['http://aff.ironsocket.com/SH7L',
-            'http://aff.ironsocket.com/SH7L',
-            'http://wsrs.net/',
-            'http://cmsgear.com/']
+@pytest.fixture
+def test_get_links():
+    test_data = ['https://aff.ironsocket.com/SH7L',
+                 'https://aff.ironsocket.com/SH7L',
+                 'https://wsrs.net/',
+                 'https://cmsgear.com/']
 
-    result = getweblinks.get_links(soup, ext=['.com', '.net'])
-    assert result == data
+    doc, tag, _, line = Doc().ttl()
+    doc.asis('<!DOCTYPE html>')
+    with tag('html'):
+        with tag('body'):
+            for data in test_data:
+                line('a', 'test_anchor', href=data)
+
+    mock_html = doc.getvalue()
+
+    mock_soup = BeautifulSoup(mock_html, 'html.parser')
+    with requests_mock.Mocker() as mock_connection:
+        for data in test_data:
+            mock_connection.register_uri('GET', data, text='Received')
+
+        result = getweblinks.get_links(mock_soup, ext=['.com', '.net'])
+        assert result == test_data
+
+
+def test_run():
+    test_get_links()
 
 
 if __name__ == '__main__':
-	test_get_links_successful()
+    test_run()
