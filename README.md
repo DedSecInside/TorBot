@@ -45,6 +45,14 @@
 </pre>
 
 ## OSINT tool for Deep and Dark Web.
+
+TorBot is an opensource intelligence tool developed in python. The main objective of this project is to collect open source  
+data from the deep web (aka dark web) and with the help of some mining algorithms collect as much information as possible to anyone who uses this tool. 
+
+### Motivation 
+
+The idea of developing an OpenSource intelligence tool like TorBot emerged from the deep web itself. Crawling a collection of webpages which has high anonymity and complex data encryption without an index is a complex task. The crawling algorithm in torbot is designed in such a way that the links are identified from a webpage (any webpage) and other links are identified recursively. 
+
 [![Build Status](https://travis-ci.org/DedSecInside/TorBoT.svg?branch=master)](https://travis-ci.org/DedSecInside/TorBoT)
 [![](https://img.shields.io/badge/Donate-Bitcoin-blue.svg?style=flat)](https://blockchain.info/address/14st7SzDbQZuu8fpQ74x477WoRJ7gpHFaj)
 [![](https://img.shields.io/badge/Built%20with-❤-orange.svg?style=flat)]()
@@ -67,12 +75,14 @@ the following steps:
 ### Features
 1. Onion Crawler (.onion).(Completed)
 2. Returns Page title and address with a short description about the site.(Partially Completed)
-3. Save links to database.(Not Started)
+3. Save links to database.(PR to be reviewed)
 4. Get emails from site.(Completed)
 5. Save crawl info to JSON file.(Completed)
 6. Crawl custom domains.(Completed)
 7. Check if the link is live.(Completed)
 8. Built-in Updater.(Completed)
+9. Visualizer module.(Not started)
+10. Social Media integration.(not Started)
 ...(will be updated)
 
 ## Contribute
@@ -110,7 +120,7 @@ An alternative way of running torBot is shown below, along with help instruction
 
 `python3 torBot.py or use the -h/--help argument`
 <pre>
-`usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m] [-e EXTENSION]
+usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m] [-e EXTENSION]
                  [-l] [-i]
 
 optional arguments:
