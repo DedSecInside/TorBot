@@ -51,7 +51,9 @@ data from the deep web (aka dark web) and with the help of some mining algorithm
 
 ### Motivation 
 
-The idea of developing an OpenSource intelligence tool like TorBot emerged from the deep web itself. Crawling a collection of webpages which has high anonymity and complex data encryption without an index is a complex task. The crawling algorithm in torbot is designed in such a way that the links are identified from a webpage (any webpage) and other links are identified recursively. 
+The idea of developing an OpenSource intelligence tool like TorBot emerged from the deep web itself. Crawling a collection of webpages which has high anonymity and complex data encryption without an index is a complex task. The crawling algorithm in torbot is designed in such a way that the links are identified from a webpage (any webpage) and other links are identified recursively.
+
+TorBot should be able to monitor illegal activities that are happening in this encrypted network. Therefore this tool will be able to ease the task of  finding such activities by an intelligence group or researchers. This is the of main objective of TorBot. 
 
 [![Build Status](https://travis-ci.org/DedSecInside/TorBoT.svg?branch=master)](https://travis-ci.org/DedSecInside/TorBoT)
 [![](https://img.shields.io/badge/Donate-Bitcoin-blue.svg?style=flat)](https://blockchain.info/address/14st7SzDbQZuu8fpQ74x477WoRJ7gpHFaj)
