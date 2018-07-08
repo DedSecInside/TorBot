@@ -43,6 +43,10 @@
 
 
 </pre>
+[![Build Status](https://travis-ci.org/DedSecInside/TorBoT.svg?branch=master)](https://travis-ci.org/DedSecInside/TorBoT)
+[![](https://img.shields.io/badge/Donate-Bitcoin-blue.svg?style=flat)](https://blockchain.info/address/14st7SzDbQZuu8fpQ74x477WoRJ7gpHFaj)
+[![](https://img.shields.io/badge/Built%20with-❤-orange.svg?style=flat)]()
+[![](https://img.shields.io/badge/Made%20with-Python-red.svg?style=flat)]()
 
 ## OSINT tool for Deep and Dark Web.
 
@@ -53,11 +57,6 @@ Open-source intelligence offers value in information security decision making th
 
 The idea of  developing an open source intelligence tool like TorBot emerged from the deep web itself. Crawling a collection of webpages which has high anonymity and complex data encryption without an index is a tedious task. The crawler in TorBot has to be designed in such a way that the links are identified from a webpage (any webpage) and other links are identified and crawled recursively, then combining all these links to form an index. Each link is then crawled for more links and emails for intelligence information. Unlike a surface web discovery tool a deep web discovery tool are limited for both general and domain-specific search.Extensive use of Dark web for communication of terrorism-related information makes it a challenge for Law Enforcement Agencies. TorBot should be able to monitor such illegal activities that are happening in this encrypted network. Therefore this tool will be able to ease the task of finding such activities by an intelligence group or researchers, thus making this the main objective of TorBot. 
  
-
-[![Build Status](https://travis-ci.org/DedSecInside/TorBoT.svg?branch=master)](https://travis-ci.org/DedSecInside/TorBoT)
-[![](https://img.shields.io/badge/Donate-Bitcoin-blue.svg?style=flat)](https://blockchain.info/address/14st7SzDbQZuu8fpQ74x477WoRJ7gpHFaj)
-[![](https://img.shields.io/badge/Built%20with-❤-orange.svg?style=flat)]()
-[![](https://img.shields.io/badge/Made%20with-Python-red.svg?style=flat)]()
 
 
 ### Working Procedure/Basic Plan
@@ -104,6 +103,7 @@ Contributor name will be updated to the below list. :D
 8. Git
 9. termcolor
 10. tldextract
+11. Golang
 
 ## Basic setup
 Before you run the torBot make sure the following things are done properly:
