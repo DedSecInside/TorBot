@@ -46,7 +46,7 @@ Now merge the PR:
 $ git merge pr99
 ```
 
-NOTE: You should edit the merge commit message to reference the PR (using, say `#37` in it).
+NOTE: You should edit the merge commit message to reference the PR (using, say `#99` in it).
 
 Now push:
 ```
