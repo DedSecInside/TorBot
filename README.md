@@ -170,6 +170,9 @@ GNU Public License
 - [X] [Evan Sia Wai Suan](https://github.com/waisuan) - New Contributor
 - [X] [Lean](https://github.com/leaen) - New Contributor
 - [X] [shivankar-madaan](https://github.com/shivankar-madaan) - New Contributor
+- [X] [Gus](https://github.com/HotPushUpGuy420) - New Contributor
+- [X] [SubaruSama](https://github.com/SubaruSama) - New Contributor
+- [X] [robly78746](https://github.com/robly78746) - New Contributor
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Opensource.svg/200px-Opensource.svg.png)
 
