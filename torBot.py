@@ -4,9 +4,10 @@ import socks
 from modules import (bcolors, getemails, pagereader, getweblinks, updater,
                      info, savefile)
 
-
+# GLOBAL CONSTS
 LOCALHOST = "127.0.0.1"
-PORT = 9050
+DEFPORT = 9050
+
 # TorBot VERSION
 __VERSION = "1.2"
 
@@ -21,7 +22,16 @@ def connect(address, port):
         address: address for port to bound to
         port: Establishes connect to this port
     """
-    socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, port)
+
+    if address and port:
+        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, port)
+    elif address:
+        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, DEFPORT)
+    elif port:
+        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, LOCALHOST, port)
+    else:
+        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, LOCALHOST, DEFPORT)
+
     socket.socket = socks.socksocket  # Monkey Patch our socket to tor socket
 
     def getaddrinfo(*args):
@@ -103,11 +113,7 @@ def header():
     print(text_header)
 
 
-def main(conn=False):
-
-    if conn:
-        connect(LOCALHOST, PORT)
-
+def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--version",
                         action="store_true",
@@ -119,6 +125,9 @@ def main(conn=False):
                         action="store_true")
     parser.add_argument("-u", "--url",
                         help="Specifiy a website link to crawl")
+    parser.add_argument("--ip", help="Change ip address for tor")
+    parser.add_argument("-p", "--port",
+                        help="Change port number for tor")
     parser.add_argument("-s", "--save",
                         action="store_true",
                         help="Save results in a file")
@@ -129,8 +138,9 @@ def main(conn=False):
                         action='append',
                         dest='extension',
                         default=[],
-                        help=' '.join(("Specifiy additional website extensions",
-                                       "to the list(.com , .org etc)")))
+                        help=' '.join(("Specifiy additional website",
+                                       "extensions to the list(.com , .org",
+                                       ",.etc)")))
     parser.add_argument("-l", "--live",
                         action="store_true",
                         help="Check if websites are live or not (slow)")
@@ -138,8 +148,12 @@ def main(conn=False):
                         action="store_true",
                         help=' '.join(("Info displays basic info of the",
                                        "scanned site, (very slow)")))
-    args = parser.parse_args()
+    return parser.parse_args()
 
+
+def main(conn=False):
+    args = get_args()
+    connect(args.ip, args.port)
     link = args.url
 
     # If flag is -v, --update, -q/--quiet then user only runs that operation
@@ -176,7 +190,8 @@ def main(conn=False):
             if args.save:
                 savefile.saveJson("Links", links)
     else:
-        print("usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m] [-e EXTENSION] [-l] [-i]")
+        print("usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m]",
+              "[-e EXTENSION] [-l] [-i]")
 
     print("\n\n")
 
