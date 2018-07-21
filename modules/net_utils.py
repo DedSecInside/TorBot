@@ -1,8 +1,6 @@
 import re
 import requests
 
-from requests.exceptions import ConnectionError, HTTPError
-
 
 def check_connection(url):
     print("Attempting to connect to {site}".format(site=url))
@@ -32,7 +30,7 @@ def get_url_status(url, headers=False):
             resp = requests.get(url)
         resp.raise_for_status()
         return resp
-    except (ConnectionError, HTTPError):
+    except (requests.exceptions.ConnectionError, requests.exceptions.HTTPError):
         return 0
 
 

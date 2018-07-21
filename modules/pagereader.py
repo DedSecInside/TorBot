@@ -1,7 +1,7 @@
+import sys
 from bs4 import BeautifulSoup
 from modules.net_utils import get_url_status
 from modules.bcolors import Bcolors
-from sys import exit
 
 
 def connection_msg(site):
@@ -48,7 +48,7 @@ def read_first_page(site):
         if not attempts_left:
             msg = ''.join(("There has been an {err} while attempting to ",
                            "connect to {site}.")).format(err=err, site=site)
-            exit(msg)
+            sys.exit(msg)
 
 
 def get_ip():
