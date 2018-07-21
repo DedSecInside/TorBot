@@ -24,23 +24,23 @@ def read_first_page(site):
                 continue
 
         if attempts_left == 2:
-            https_url = 'https://'+site
+            https_url = 'https://' + site
             print(next(connection_msg(https_url)))
             response = get_url_status(https_url, headers)
             if response != 0:
-                    page = BeautifulSoup(response.text, 'html.parser')
-                    return page, response
+                page = BeautifulSoup(response.text, 'html.parser')
+                return page, response
             else:
                 attempts_left -= 1
                 continue
 
         if attempts_left == 1:
-            http_url = 'http://'+site
+            http_url = 'http://' + site
             print(next(connection_msg(http_url)))
             response = get_url_status(http_url, headers)
             if response != 0:
-                    page = BeautifulSoup(response.text, 'html.parser')
-                    return page, response
+                page = BeautifulSoup(response.text, 'html.parser')
+                return page, response
             else:
                 attempts_left -= 1
                 continue
@@ -49,6 +49,7 @@ def read_first_page(site):
             msg = ''.join(("There has been an {err} while attempting to ",
                            "connect to {site}.")).format(err=err, site=site)
             exit(msg)
+
 
 def get_ip():
     """Returns users tor ip address
