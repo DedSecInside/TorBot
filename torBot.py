@@ -6,9 +6,10 @@ import settings
 from modules import (bcolors, getemails, pagereader, getweblinks, updater,
                      info, savefile, savedb)
 
-
+# GLOBAL CONSTS
 LOCALHOST = "127.0.0.1"
-PORT = 9050
+DEFPORT = 9050
+
 # TorBot VERSION
 __VERSION = "1.2"
 
@@ -23,7 +24,16 @@ def connect(address, port):
         address: address for port to bound to
         port: Establishes connect to this port
     """
-    socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, port)
+
+    if address and port:
+        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, port)
+    elif address:
+        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, DEFPORT)
+    elif port:
+        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, LOCALHOST, port)
+    else:
+        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, LOCALHOST, DEFPORT)
+
     socket.socket = socks.socksocket  # Monkey Patch our socket to tor socket
 
     def getaddrinfo(*args):
@@ -51,7 +61,7 @@ def header():
     D3DSEC = b_color.FAIL + " D3DSEC " + b_color.WHITE
     INS1DE = b_color.FAIL + " INS1DE " + b_color.WHITE
 
-    header = r"""
+    text_header = r"""
                 {WHITE}
                 ######################################################
                 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWMMMMMMMMMMMMM
@@ -102,14 +112,10 @@ def header():
                 BOLD=b_color.BOLD, VERSION=__VERSION, END=b_color.ENDC,
                 On_Black=b_color.On_Black, WHITE=b_color.WHITE
                 )
-    print(header)
+    print(text_header)
 
 
-def main(conn=False):
-
-    if conn:
-        connect(LOCALHOST, PORT)
-
+def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--version",
                         action="store_true",
@@ -121,6 +127,9 @@ def main(conn=False):
                         action="store_true")
     parser.add_argument("-u", "--url",
                         help="Specifiy a website link to crawl")
+    parser.add_argument("--ip", help="Change ip address for tor")
+    parser.add_argument("-p", "--port",
+                        help="Change port number for tor")
     parser.add_argument("-s", "--save",
                         action="store_true",
                         help="Save results in a file")
@@ -131,8 +140,9 @@ def main(conn=False):
                         action='append',
                         dest='extension',
                         default=[],
-                        help=' '.join(("Specifiy additional website extensions",
-                                       "to the list(.com , .org etc)")))
+                        help=' '.join(("Specifiy additional website",
+                                       "extensions to the list(.com , .org",
+                                       ",.etc)")))
     parser.add_argument("-l", "--live",
                         action="store_true",
                         help="Check if websites are live or not (slow)")
@@ -145,6 +155,10 @@ def main(conn=False):
                             help="Specify a database to connect.")                                    
     args = parser.parse_args()
 
+
+def main(conn=False):
+    args = get_args()
+    connect(args.ip, args.port)
     link = args.url
 
     # If flag is -v, --update, -q/--quiet then user only runs that operation
@@ -171,7 +185,8 @@ def main(conn=False):
     # additional flag can be set with -u/--url flag
     if args.url:
         print("Tor IP Address :", pagereader.get_ip())
-        html_content = pagereader.read_first_page(link, args.extension)
+        html_content, response = pagereader.read_first_page(link)
+        print("Connection successful.")
         # -m/--mail
         if args.mail:
             emails = getemails.getMails(html_content)
@@ -180,7 +195,7 @@ def main(conn=False):
                 savefile.saveJson('Emails', emails)
         # -i/--info
         elif args.info:
-            info.executeAll(link, html_content)
+            info.executeAll(link, html_content, response)
             if args.save:
                 print('Nothing to save.\n')
         else:
@@ -192,7 +207,8 @@ def main(conn=False):
             if(args.database):
                 savedb.saveToDatabase(DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD, links)
     else:
-        print("usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m] [-e EXTENSION] [-l] [-i] [-db]")
+        print("usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m]",
+              "[-e EXTENSION] [-l] [-i] [-db]")
 
     print("\n\n")
 

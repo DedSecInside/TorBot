@@ -1,9 +1,18 @@
+# Modules
+modules/.ropeproject/
 modules/__pycache__/
+modules/.pytest_cache/
+modules/*.pyc
+
+# Tests
+tests/.ropeproject/
+tests/__pycache__/
+tests/.pytest_cache/
+
+# Main
+__pycache__
 .cache
 .*.swp
 .ropeproject/
-modules/.ropeproject/
-tests/__pycache__/
-modules/__init__.py
 .idea/
-tests/.ropeproject/
+.pytest_cache
