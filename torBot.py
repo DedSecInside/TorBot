@@ -151,7 +151,7 @@ def get_args():
     return parser.parse_args()
 
 
-def main(conn=False):
+def main():
     args = get_args()
     connect(args.ip, args.port)
     link = args.url
@@ -199,7 +199,7 @@ def main(conn=False):
 if __name__ == '__main__':
 
     try:
-        main(conn=True)
+        main()
 
     except KeyboardInterrupt:
         print("Interrupt received! Exiting cleanly...")
