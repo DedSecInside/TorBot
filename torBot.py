@@ -4,7 +4,9 @@ import socks
 from modules import (bcolors, getemails, pagereader, getweblinks, updater,
                      info, go_linker, savefile)
 
-
+# GLOBAL CONSTS
+LOCALHOST = "127.0.0.1"
+DEFPORT = 9050
 
 # TorBot VERSION
 __VERSION = "1.2"
@@ -20,7 +22,16 @@ def connect(address, port):
         address: address for port to bound to
         port: Establishes connect to this port
     """
-    socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, port)
+
+    if address and port:
+        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, port)
+    elif address:
+        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, DEFPORT)
+    elif port:
+        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, LOCALHOST, port)
+    else:
+        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, LOCALHOST, DEFPORT)
+
     socket.socket = socks.socksocket  # Monkey Patch our socket to tor socket
 
     def getaddrinfo(*args):
@@ -49,40 +60,6 @@ def header():
     INS1DE = b_color.FAIL + " INS1DE " + b_color.WHITE
 
     text_header = r"""
-                {WHITE}
-                ######################################################
-                MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWMMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWMMMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWNXNWWWWWMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWWX0KXXKKXWMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMMMMMMMMWNNKOkOOkOXWMMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMMMMMMMNX0kdodoxKWMMMMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMMMMMMW0doccloONMWWMMMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMMMMMMKl;;:cxKWMMMMMMMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMWKOXNx;,,cONMMMMMMMMMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMMXdxKk:',lONMMMM{D3DSEC}MMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMMMOo0NOdxc,kMMMM{INS1DE}MMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMMMOcONOxkx;dWMMMMMMMMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMNkcdXXOkxkd:oXMMMMMMMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMNOoclONNX00OkOxc:lkXWMMMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMN0olld0NWNNX0O00kxkxl:;ckXMWWMMMMMMMMM
-                MMMMMMMMMMMWMMNxccd0NNNNNXNXOkOK0dodxdo:,;o0WMMMMMMMMM
-                MMMMMMMMMMMMNk:ckXNNWNXXXXNXOOOOK0oloooooc,'oKMMMMMMMM
-                MMMMMMMMMMMXc;xXNNNXKXXXNNWKOO0Ok0x:clllllc:.,OWMMMMMM
-                MMMMMMMMMMX:;0WNNX00XNNNNNNKOO0KkkOc,ccccccc:.'OWMMMMM
-                MMMMMMMMMNl,ONNN0OXNNNNNXXNKOkOK0xkl':c::::::;.;KMMMMM
-                MMMMMMMMM0,lNWXO0NNNNXKKXXNXO0Ok0Oxl',:;;;;;;;..dMMMMM
-                MMMMMMMMMk,xWNOONNNX00XNNNWKOO0OkOxc'';;,,,,,,'.cMMMMM
-                MMMMMMMMMx,xWKkKWNXOKNWNNNX0xxOKxxx:..,,,,,''''.cMMMMM
-                MMMMMMMMM0,oWXkOWXOKNNNNN00Xkdx0kdd;..,'''''''..oMMMMM
-                MMMMMMMMMNl;0W0kKKkKWNNN0ONNOxdOOll,..'''......,0MMMMM
-                MMMMMMMMMMK::KN0kKOkNNWXk0WX0kdxkc:............xWMMMMM
-                MMMMMMMMMMMKl:kX0k0kONWNOONX0koxd:,..........'kWMMMMMM
-                MMMMMMMMMMMMNxccxOkkxkKWKx0NOoooc'..........lKWMMMMMMM
-                MMMMMMMMMMMMMWNklccclldk0OxOdcc;. .......;oKWWMMMMMMMM
-                MMMMMMMMMMMMMMMMWXOdl:::;cc;'... ..',:lx0NMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMNKOkxddolloodk0XWMMMMMMMMMMMMMMMM
-                {FAIL} + {BOLD}
                            __  ____  ____  __        ______
                           / /_/ __ \/ __ \/ /_  ____/_  __/
                          / __/ / / / /_/ / __ \/ __ \/ /
@@ -101,46 +78,10 @@ def header():
                 )
     print(text_header)
 
-
-def main(conn=False):
-    LOCALHOST = "127.0.0.1"
-    PORT = 9050
-
-    if conn:
-        connect(LOCALHOST, PORT)
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-v", "--version",
-                        action="store_true",
-                        help="Show current version of TorBot.")
-    parser.add_argument("--update",
-                        action="store_true",
-                        help="Update TorBot to the latest stable version")
-    parser.add_argument("-q", "--quiet",
-                        action="store_true")
-    parser.add_argument("-u", "--url",
-                        help="Specifiy a website link to crawl")
-    parser.add_argument("-s", "--save",
-                        action="store_true",
-                        help="Save results in a file")
-    parser.add_argument("-m", "--mail",
-                        action="store_true",
-                        help="Get e-mail addresses from the crawled sites")
-    parser.add_argument("-e", "--extension",
-                        action='append',
-                        dest='extension',
-                        default=[],
-                        help=' '.join(("Specifiy additional website extensions",
-                                       "to the list(.com , .org etc)")))
-    parser.add_argument("-l", "--live",
-                        action="store_true",
-                        help="Check if websites are live or not (slow)")
-    parser.add_argument("-i", "--info",
-                        action="store_true",
-                        help=' '.join(("Info displays basic info of the",
-                                       "scanned site, (very slow)")))
-    args = parser.parse_args()
-
+    
+def main():
+    args = get_args()
+    connect(args.ip, args.port)
     link = args.url
 
     # If flag is -v, --update, -q/--quiet then user only runs that operation
@@ -177,15 +118,16 @@ def main(conn=False):
             if args.save:
                 savefile.saveJson("Links", links)
     else:
-        print("usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m] [-e EXTENSION] [-l] [-i]")
+        print("usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m]",
+              "[-e EXTENSION] [-l] [-i]")
 
     print("\n\n")
 
-
+    
 if __name__ == '__main__':
 
     try:
-        main(conn=True)
+        main()
 
     except KeyboardInterrupt:
         print("Interrupt received! Exiting cleanly...")

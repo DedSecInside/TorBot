@@ -22,7 +22,7 @@ def getMails(soup):
 
         emails = get_urls_from_page(soup, email=True)
 
-        """Pretty print output as below"""
+        # Pretty print output as below
         print('')
         print(b_colors.OKGREEN+'Mails Found - '+b_colors.ENDC+str(len(emails)))
         print('-------------------------------')

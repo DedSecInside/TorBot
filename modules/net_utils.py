@@ -1,11 +1,8 @@
 import re
 import requests
 
-from requests.exceptions import ConnectionError, HTTPError
-
 
 def check_connection(url):
-
     print("Attempting to connect to {site}".format(site=url))
     if get_url_status(url) != 0:
         return 1
@@ -28,12 +25,12 @@ def get_url_status(url, headers=False):
     """
     try:
         if headers:
-                resp = requests.get(url, headers=headers)
+            resp = requests.get(url, headers=headers)
         else:
-                resp = requests.get(url)
+            resp = requests.get(url)
         resp.raise_for_status()
         return resp
-    except (ConnectionError, HTTPError):
+    except (requests.exceptions.ConnectionError, requests.exceptions.HTTPError):
         return 0
 
 
@@ -41,7 +38,7 @@ def is_url(url):
     pattern = r"^https?:\/\/(www\.)?([a-z,A-Z,0-9]*)\.([a-z, A-Z]+)(.*)"
     regex = re.compile(pattern)
     if regex.match(url):
-            return 1
+        return 1
     return 0
 
 

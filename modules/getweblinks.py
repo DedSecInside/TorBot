@@ -28,7 +28,7 @@ def get_links(soup, ext=False, live=False):
     b_colors = Bcolors()
     if isinstance(soup, BeautifulSoup):
         websites = get_urls_from_page(soup, extension=ext)
-        """Pretty print output as below"""
+        # Pretty print output as below
         print(''.join((b_colors.OKGREEN,
               'Websites Found - ', b_colors.ENDC, str(len(websites)))))
         print('------------------------------------')
