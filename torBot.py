@@ -113,8 +113,8 @@ def main():
                 print('Nothing to save.\n')
         else:
             # Golang library is now being used
-            links = go_linker.GetLinks(link, LOCALHOST, PORT, 15)
-            #links = getweblinks.get_links(soup=html_content, ext=args.extension, live=args.live)
+            #links = go_linker.GetLinks(link, LOCALHOST, PORT, 15)
+            links = getweblinks.get_links(soup=html_content, ext=args.extension, live=args.live)
             if args.save:
                 savefile.saveJson("Links", links)
     else:
