@@ -1,14 +1,43 @@
  <pre>
-    
 
-                           ████████╗ ██████╗ ██████╗     ██████╗  ██████╗ ████████╗ 
-                           ╚══██╔══╝██╔═══██╗██╔══██╗    ██╔══██╗██╔═████╗╚══██╔══╝ 
-                              ██║   ██║   ██║██████╔╝    ██████╔╝██║██╔██║   ██║ 
-                              ██║   ██║   ██║██╔══██╗    ██╔══██╗████╔╝██║   ██║
-                              ██║   ╚██████╔╝██║  ██║    ██████╔╝╚██████╔╝   ██║ 
-                              ╚═╝    ╚═════╝ ╚═╝  ╚═╝    ╚═════╝  ╚═════╝    ╚═╝ 
-                                                            
+                              ████████╗ ██████╗ ██████╗     ██████╗  ██████╗ ████████╗
+                              ╚══██╔══╝██╔═══██╗██╔══██╗    ██╔══██╗██╔═████╗╚══██╔══╝
+                                 ██║   ██║   ██║██████╔╝    ██████╔╝██║██╔██║   ██║
+                                 ██║   ██║   ██║██╔══██╗    ██╔══██╗████╔╝██║   ██║
+                                 ██║   ╚██████╔╝██║  ██║    ██████╔╝╚██████╔╝   ██║
+                                 ╚═╝    ╚═════╝ ╚═╝  ╚═╝    ╚═════╝  ╚═════╝    ╚═╝
 
+
+
+                                                           `.` `     
+                                                       ``.:.--.`     
+                                                      .-+++/-`       
+                                                     `+sso:`         
+                                                  `` /yy+.           
+                                                  -+.oho.            
+                                                   o../+y            
+                                                  -s.-/:y:`          
+                                               .:o+-`--::oo/-`       
+                                            `/o+:.```---///oss+-     
+                                          .+o:.``...`-::-+++++sys-   
+                                         :y/```....``--::-yooooosh+  
+                                        -h-``--.```..-:-::ssssssssd+
+                                        h:``:.``....`--:-++hsssyyyym.
+                                       .d.`/.``--.```:--//odyyyyyyym/
+                                       `d.`+``:.```.--/-+/smyyhhhhhm:
+                                        os`./`/````/`-/:+oydhhhhhhdh`
+                                        `so.-/-:``./`.//osmddddddmd.
+                                          /s/-/:/.`/..+/ydmdddddmo`
+                                           `:oosso/:+/syNmddmdy/.
+                                               `-/++oosyso+/.`
+
+
+          ██████╗ ███████╗██████╗ ███████╗██████╗  ██████╗    ██╗███╗   ██╗███████╗██╗██████╗ ███████╗
+          ██╔══██╗██╔════╝██╔══██╗██╔════╝╚════██╗██╔════╝    ██║████╗  ██║██╔════╝██║██╔══██╗██╔════╝
+          ██║  ██║█████╗  ██║  ██║███████╗ █████╔╝██║         ██║██╔██╗ ██║███████╗██║██║  ██║█████╗
+          ██║  ██║██╔══╝  ██║  ██║╚════██║ ╚═══██╗██║         ██║██║╚██╗██║╚════██║██║██║  ██║██╔══╝
+          ██████╔╝███████╗██████╔╝███████║██████╔╝╚██████╗    ██║██║ ╚████║███████║██║██████╔╝███████╗
+          ╚═════╝ ╚══════╝╚═════╝ ╚══════╝╚═════╝  ╚═════╝    ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝╚═════╝ ╚══════╝                                                          
 </pre>
 [![Build Status](https://travis-ci.org/DedSecInside/TorBot.svg?branch=dev)](https://travis-ci.org/DedSecInside/TorBoT)
 [![](https://img.shields.io/badge/Donate-Bitcoin-blue.svg?style=flat)](https://blockchain.info/address/14st7SzDbQZuu8fpQ74x477WoRJ7gpHFaj)
@@ -58,14 +87,14 @@ the following steps:
 ...(will be updated)
 
 ## Contribute
-Contributions to this project are always welcome. 
+Contributions to this project are always welcome.
 To add a new feature fork the dev branch and give a pull request when your new feature is tested and complete.
 If its a new module, it should be put inside the modules directory and imported to the main file.
 The branch name should be your new feature name in the format <Feature_featurename_version(optional)>. For example, <i>Feature_FasterCrawl_1.0</i>.
 Contributor name will be updated to the below list. :D
 
-## Dependencies 
-1. Tor 
+## Dependencies
+1. Tor
 2. Python 3.x (Make sure pip3 is installed)
 3. requests
 4. Beautiful Soup 4
@@ -83,11 +112,12 @@ Before you run the torBot make sure the following things are done properly:
 * Run tor service
 `sudo service tor start`
 
-* Make sure that your torrc is configured to SOCKS_PORT localhost:9050 
+* Make sure that your torrc is configured to SOCKS_PORT localhost:9050
 
 On Linux platforms, you can make an executable for TorBot by using the install.sh script.
 You will need to give the script the correct permissions using `chmod +x install.sh`
-Now you should have an executable file named torBot, run `./torBot` to execute the program. 
+Now you can run `./install.sh` to create the torBot binary.
+Run `./torBot` to execute the program. 
 
 An alternative way of running torBot is shown below, along with help instructions.
 
@@ -166,4 +196,3 @@ GNU Public License
 - [X] [robly78746](https://github.com/robly78746) - New Contributor
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Opensource.svg/200px-Opensource.svg.png)
-
