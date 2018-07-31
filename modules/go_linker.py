@@ -2,7 +2,7 @@ import sys
 
 from ctypes import cdll, c_char_p, c_longlong, c_int, Structure
 
-go_linker = cdll.LoadLibrary("modules/lib/go_get_urls.so")
+go_linker = cdll.LoadLibrary("modules/lib/go_get_urls.go")
 
 class GoString(Structure):
     _fields_ = [("p", c_char_p), ("n", c_longlong)]
