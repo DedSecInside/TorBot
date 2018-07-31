@@ -1,9 +1,3 @@
----
-name: Pull Request
-about: For submitting pull request to project
-
----
-
 Issue #
 
 ### Changes Proposed
