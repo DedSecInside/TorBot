@@ -65,13 +65,13 @@ def header():
                          / __/ / / / /_/ / __ \/ __ \/ /
                         / /_/ /_/ / _, _/ /_/ / /_/ / /
                         \__/\____/_/ |_/_____/\____/_/  V{VERSION}
-                {FAIL} + {On_Black}
+                {FAIL} {On_Black}
                 #######################################################
-                #  TorBot - A python Tor Crawler                      #
+                #  TorBot - An OSINT Tool for Deep Web                #
                 #  GitHub : https://github.com/DedsecInside/TorBot    #
                 #  Help : use -h for help text                        #
                 #######################################################
-                      {FAIL} + "LICENSE: GNU Public License" + {END}""".format(
+                      {FAIL}   LICENSE: GNU Public License {END}""".format(
                 D3DSEC=D3DSEC, INS1DE=INS1DE, FAIL=b_color.FAIL,
                 BOLD=b_color.BOLD, VERSION=__VERSION, END=b_color.ENDC,
                 On_Black=b_color.On_Black, WHITE=b_color.WHITE
@@ -91,9 +91,9 @@ def get_args():
                         action="store_true")
     parser.add_argument("-u", "--url",
                         help="Specifiy a website link to crawl")
-    parser.add_argument("--ip", help="Change ip address for tor")
+    parser.add_argument("--ip", help="Change default ip of tor")
     parser.add_argument("-p", "--port",
-                        help="Change port number for tor")
+                        help="Change default port of tor")
     parser.add_argument("-s", "--save",
                         action="store_true",
                         help="Save results in a file")
