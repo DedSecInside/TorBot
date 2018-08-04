@@ -2,7 +2,7 @@ import argparse
 import socket
 import socks
 from modules import (bcolors, getemails, pagereader, getweblinks, updater,
-                     info, savefile)
+                     info, go_linker, savefile)
 
 # GLOBAL CONSTS
 LOCALHOST = "127.0.0.1"
@@ -59,7 +59,7 @@ def header():
     D3DSEC = b_color.FAIL + " D3DSEC " + b_color.WHITE
     INS1DE = b_color.FAIL + " INS1DE " + b_color.WHITE
 
-    header = r"""
+    text_header = r"""
                            __  ____  ____  __        ______
                           / /_/ __ \/ __ \/ /_  ____/_  __/
                          / __/ / / / /_/ / __ \/ __ \/ /
@@ -76,48 +76,10 @@ def header():
                 BOLD=b_color.BOLD, VERSION=__VERSION, END=b_color.ENDC,
                 On_Black=b_color.On_Black, WHITE=b_color.WHITE
                 )
-    print(header)
+    print(text_header)
 
-
-def get_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-v", "--version",
-                        action="store_true",
-                        help="Show current version of TorBot.")
-    parser.add_argument("--update",
-                        action="store_true",
-                        help="Update TorBot to the latest stable version")
-    parser.add_argument("-q", "--quiet",
-                        action="store_true")
-    parser.add_argument("-u", "--url",
-                        help="Specifiy a website link to crawl")
-    parser.add_argument("--ip", help="Change ip address for tor")
-    parser.add_argument("-p", "--port",
-                        help="Change port number for tor")
-    parser.add_argument("-s", "--save",
-                        action="store_true",
-                        help="Save results in a file")
-    parser.add_argument("-m", "--mail",
-                        action="store_true",
-                        help="Get e-mail addresses from the crawled sites")
-    parser.add_argument("-e", "--extension",
-                        action='append',
-                        dest='extension',
-                        default=[],
-                        help=' '.join(("Specifiy additional website",
-                                       "extensions to the list(.com , .org",
-                                       ",.etc)")))
-    parser.add_argument("-l", "--live",
-                        action="store_true",
-                        help="Check if websites are live or not (slow)")
-    parser.add_argument("-i", "--info",
-                        action="store_true",
-                        help=' '.join(("Info displays basic info of the",
-                                       "scanned site, (very slow)")))
-    return parser.parse_args()
-
-
-def main(conn=False):
+    
+def main():
     args = get_args()
     connect(args.ip, args.port)
     link = args.url
@@ -151,7 +113,7 @@ def main(conn=False):
                 print('Nothing to save.\n')
         else:
             # Golang library isn't being used.
-            # links = go_linker.GetLinks(link, LOCALHOST, PORT, 15)
+            #links = go_linker.GetLinks(link, LOCALHOST, PORT, 15)
             links = getweblinks.get_links(soup=html_content, ext=args.extension, live=args.live)
             if args.save:
                 savefile.saveJson("Links", links)
@@ -161,7 +123,7 @@ def main(conn=False):
 
     print("\n\n")
 
-
+    
 if __name__ == '__main__':
 
     try:
