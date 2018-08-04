@@ -9,12 +9,11 @@ def connection_msg(site):
 
 
 def read_first_page(site):
-    headers = {'User-Agent': 'TorBot - Onion crawler | www.github.com/DedSecInside/TorBot'}
+    headers = {'User-Agent': 'XXXX-XXXXX-XXXX'}
     attempts_left = 3
     err = " "
     while attempts_left:
         if attempts_left == 3:
-            print(next(connection_msg(site)))
             response = get_url_status(site, headers)
             if response != 0:
                 page = BeautifulSoup(response.text, 'html.parser')
