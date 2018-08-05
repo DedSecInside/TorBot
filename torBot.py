@@ -1,8 +1,10 @@
 import argparse
 import socket
 import socks
+import os
+import settings
 from modules import (bcolors, getemails, pagereader, getweblinks, updater,
-                     info, savefile)
+                     info, savefile, savedb)
 
 # GLOBAL CONSTS
 LOCALHOST = "127.0.0.1"
@@ -114,7 +116,10 @@ def get_args():
                         action="store_true",
                         help=' '.join(("Info displays basic info of the",
                                        "scanned site, (very slow)")))
-    return parser.parse_args()
+    parser.add_argument("-db", "--database",
+                            action="store_true",
+                            help="Specify a database to connect.")                                    
+    args = parser.parse_args()
 
 
 def main(conn=False):
@@ -130,6 +135,16 @@ def main(conn=False):
     if args.update:
         updater.updateTor()
         exit()
+    if args.database:
+        if 'DATABASE_NAME' and 'DATABASE_USERNAME' and 'DATABASE_PASSWORD' in os.environ:
+            DATABASE_PASSWORD = os.getenv("DATABASE_PASSWORD")
+            DATABASE_USERNAME = os.getenv("DATABASE_USERNAME")
+            DATABASE_NAME = os.getenv("DATABASE_NAME")
+            #print("DB - ", DATABASE_NAME, " - ", DATABASE_USERNAME, " - ", DATABASE_PASSWORD)
+        else:
+            print("Wrong Database Configurations")
+            exit()
+
     if not args.quiet:
         header()
     # If url flag is set then check for accompanying flag set. Only one
@@ -155,9 +170,11 @@ def main(conn=False):
             links = getweblinks.get_links(soup=html_content, ext=args.extension, live=args.live)
             if args.save:
                 savefile.saveJson("Links", links)
+            if(args.database):
+                savedb.saveToDatabase(DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD, links)
     else:
         print("usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m]",
-              "[-e EXTENSION] [-l] [-i]")
+              "[-e EXTENSION] [-l] [-i] [-db]")
 
     print("\n\n")
 
