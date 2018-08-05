@@ -1,7 +1,8 @@
 from modules.net_utils import get_urls_from_page, get_url_status
-from modules import pagereader
 from bs4 import BeautifulSoup
 from modules.bcolors import Bcolors
+from threading import Thread
+from queue import Queue
 
 
 def add_green(link):
@@ -34,20 +35,37 @@ def get_links(soup, ext=False, live=False):
         print('------------------------------------')
 
         if live:
-            for link in websites:
-                if get_url_status(link) != 0:
-                    coloredlink = add_green(link)
-                    page = pagereader.read_first_page(link)[0]
-                    if page is not None and page.title is not None:
-                        print_row(coloredlink, page.title.string)
-                else:
-                    coloredlink = add_red(link)
-                    print_row(coloredlink, "Not found")
-
+            display_link_status(websites)
         return websites
 
     else:
         raise(Exception('Method parameter is not of instance BeautifulSoup'))
+
+
+def display_links(q):
+    while True:
+        link = q.get()
+        resp = get_url_status(link)
+        if resp != 0:
+            title = BeautifulSoup(resp.text, 'html.parser').title
+            coloredlink = add_green(link)
+            print_row(coloredlink, title)
+        else:
+            coloredlink = add_red(link)
+            print_row(coloredlink, "Not found")
+        q.task_done()
+
+
+def display_link_status(websites):
+    q = Queue(len(websites)*2)
+    for _ in websites:
+        t = Thread(target=display_links, args=(q,))
+        t.daemon = True
+        t.start()
+
+    for link in websites:
+        q.put(link)
+    q.join()
 
 
 def print_row(url, description):

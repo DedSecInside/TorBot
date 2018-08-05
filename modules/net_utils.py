@@ -2,14 +2,6 @@ import re
 import requests
 
 
-def check_connection(url):
-    print("Attempting to connect to {site}".format(site=url))
-    if get_url_status(url) != 0:
-        return 1
-
-    return 0
-
-
 def get_url_status(url, headers=False):
     """
         Uses head request because it uses less bandwith than get and timeout is
