@@ -60,7 +60,6 @@ def display_link_status(websites):
     q = Queue(len(websites)*2)
     for _ in websites:
         t = Thread(target=display_links, args=(q,))
-        t.daemon = True
         t.start()
 
     for link in websites:
