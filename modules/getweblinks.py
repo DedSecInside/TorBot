@@ -21,6 +21,7 @@ def get_links(soup, ext=False, live=False):
         is set to true then it will also print the status of each of the links
         and setting ext to an actual extension such as '.com' will allow those
         extensions to be recognized as valid urls and not just '.tor'.
+
         Args:
             soup (bs4.BeautifulSoup): webpage to be searched for links.
 
@@ -44,6 +45,16 @@ def get_links(soup, ext=False, live=False):
 
 
 def display_link(link):
+    """
+        Prints the status of a link based on if it can be reached using a GET
+        request. Link is printed with a color based on status.
+        Green for a reachable status code and red for not reachable.
+
+        Args:
+            link (str): url to be printed
+        Returns:
+            None
+    """
     resp = get_url_status(link)
     if resp != 0:
         title = BeautifulSoup(resp.text, 'html.parser').title
@@ -55,6 +66,17 @@ def display_link(link):
 
 
 def execute_tasks(q, task_func, tasks_args=tuple()):
+    """
+        Executes tasks inside of queue using function and arguments passed
+        inside of threads
+
+        Args:
+            q (queue.Queue): contains tasks
+            task_func (function): function to be executed on tasks and args
+            task_args (tuple): contains arguments for function
+        Returns:
+            None
+    """
     while True:
         task = q.get()
         if tasks_args:
@@ -65,6 +87,17 @@ def execute_tasks(q, task_func, tasks_args=tuple()):
 
 
 def queue_tasks(tasks, task_func, tasks_args=tuple()):
+    """
+        Starts threads with tasks and queue, then queues tasks and spawned threads
+        begin to pull tasks off queue to execute
+
+        Args:
+            tasks (list): lists of values that you'd like to operate on
+            task_func (function): function that you would like to use
+            tasks_args (tuple): arguments for function
+        Returns:
+            None
+    """
     q = Queue(len(tasks)*2)
     for _ in tasks:
         if tasks_args:
