@@ -57,7 +57,7 @@ def display_link(link):
     """
     resp = get_url_status(link)
     if resp != 0:
-        title = BeautifulSoup(resp.text, 'html.parser').title
+        title = BeautifulSoup(resp.text, 'html.parser').title.string
         coloredlink = add_green(link)
         print_row(coloredlink, title)
     else:
