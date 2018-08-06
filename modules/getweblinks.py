@@ -17,14 +17,15 @@ def add_red(link):
 
 def get_links(soup, ext=False, live=False):
     """
-        Searches through all <a ref> (hyperlinks) tags and stores them in a
-        list then validates if the url is formatted correctly.
-
+        Returns list of links listed on the webpage of the soup passed. If live
+        is set to true then it will also print the status of each of the links
+        and setting ext to an actual extension such as '.com' will allow those
+        extensions to be recognized as valid urls and not just '.tor'.
         Args:
-            soup: BeautifulSoup instance currently being used.
+            soup (bs4.BeautifulSoup): webpage to be searched for links.
 
         Returns:
-            websites: List of websites that were found
+            websites (list(str)): List of websites that were found
     """
     b_colors = Bcolors()
     if isinstance(soup, BeautifulSoup):
@@ -35,35 +36,51 @@ def get_links(soup, ext=False, live=False):
         print('------------------------------------')
 
         if live:
-            display_link_status(websites)
+            queue_tasks(websites, display_link)
         return websites
 
     else:
         raise(Exception('Method parameter is not of instance BeautifulSoup'))
 
 
-def display_links(q):
+def display_link(link):
+    resp = get_url_status(link)
+    if resp != 0:
+        title = BeautifulSoup(resp.text, 'html.parser').title
+        coloredlink = add_green(link)
+        print_row(coloredlink, title)
+    else:
+        coloredlink = add_red(link)
+        print_row(coloredlink, "Not found")
+
+
+def execute_tasks(q, task_func, tasks_args=tuple()):
     while True:
-        link = q.get()
-        resp = get_url_status(link)
-        if resp != 0:
-            title = BeautifulSoup(resp.text, 'html.parser').title
-            coloredlink = add_green(link)
-            print_row(coloredlink, title)
+        task = q.get()
+        if tasks_args:
+            task_func(task, tasks_args)
         else:
-            coloredlink = add_red(link)
-            print_row(coloredlink, "Not found")
+            task_func(task)
         q.task_done()
 
 
-def display_link_status(websites):
-    q = Queue(len(websites)*2)
-    for _ in websites:
-        t = Thread(target=display_links, args=(q,))
-        t.start()
+def queue_tasks(tasks, task_func, tasks_args=tuple()):
+    q = Queue(len(tasks)*2)
+    for _ in tasks:
+        if tasks_args:
+            if isinstance(tasks_args, tuple):
+                t = Thread(target=execute_tasks, args=(q, task_func, tasks_args))
+                t.daemon = True
+                t.start()
+            else:
+                raise(Exception('Function arguments must be passed in the form of a tuple.'))
+        else:
+            t = Thread(target=execute_tasks, args=(q, task_func))
+            t.daemon = True
+            t.start()
 
-    for link in websites:
-        q.put(link)
+    for task in tasks:
+        q.put(task)
     q.join()
 
 
