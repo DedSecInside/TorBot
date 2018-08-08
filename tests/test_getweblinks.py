@@ -9,6 +9,17 @@ from bs4 import BeautifulSoup
 from yattag import Doc
 
 
+def setup_html(test_links):
+    doc, tag, _, line = Doc().ttl()
+    doc.asis('<!DOCTYPE html>')
+    with tag('html'):
+        with tag('body'):
+            for data in test_links:
+                line('a', 'test_anchor', href=data)
+
+    return doc.getvalue()
+
+
 @pytest.fixture
 def test_get_links_fail():
     test_data = ['ssh://aff.ironsocket.tor',
@@ -16,15 +27,7 @@ def test_get_links_fail():
                  'lol://wsrs.tor',
                  'dial://cmsgear.tor']
 
-    doc, tag, _, line = Doc().ttl()
-    doc.asis('<!DOCTYPE html>')
-    with tag('html'):
-        with tag('body'):
-            for data in test_data:
-                line('a', 'test_anchor', href=data)
-
-    mock_html = doc.getvalue()
-
+    mock_html = setup_html(test_data)
     mock_soup = BeautifulSoup(mock_html, 'html.parser')
     with requests_mock.Mocker() as mock_connection:
         for data in test_data:
@@ -41,15 +44,7 @@ def test_get_links_tor():
                  'https://wsrs.tor',
                  'https://cmsgear.tor']
 
-    doc, tag, _, line = Doc().ttl()
-    doc.asis('<!DOCTYPE html>')
-    with tag('html'):
-        with tag('body'):
-            for data in test_data:
-                line('a', 'test_anchor', href=data)
-
-    mock_html = doc.getvalue()
-
+    mock_html = setup_html(test_data)
     mock_soup = BeautifulSoup(mock_html, 'html.parser')
     with requests_mock.Mocker() as mock_connection:
         for data in test_data:
