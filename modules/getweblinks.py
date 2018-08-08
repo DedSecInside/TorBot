@@ -1,8 +1,48 @@
+import requests
+
 from modules.net_utils import get_urls_from_page, get_url_status
 from bs4 import BeautifulSoup
 from modules.bcolors import Bcolors
 from threading import Thread
 from queue import Queue
+
+
+def traverse_links(links, ext, depth=0, stop_depth=None, targetLink=None):
+    """
+        Traverses links passed using Breadth First Search. You can specify stop depth
+        or specify a target to look for. The depth argument is used for recursion
+
+        Args:
+            links (list): list of urls to traverse
+            ext (string): string representing extension to use for URLs
+            depth (int): used for recursion
+            stop_depth (int): stops traversing at this depth if specified
+            targetLink (string): stops at this link if specified
+
+        Returns:
+            depth (int): depth stopped at
+    """
+
+    if depth == stop_depth:
+        return depth
+
+    toVisit = list()
+    for link in links:
+        if targetLink == link and targetLink:
+            return depth
+        resp = requests.get(link)
+        soup = BeautifulSoup(resp.text, 'html.parser')
+        websitesToVisit = get_urls_from_page(soup, extension=ext)
+        for site in websitesToVisit:
+            toVisit.append(site)
+    depth += 1
+    traverse_links(toVisit, ext, depth)
+
+
+def search_page(html_text, ext, stop=None):
+    soup = BeautifulSoup(html_text, 'html.parser')
+    links = get_urls_from_page(soup, extension=ext)
+    traverse_links(links, ext, stop=stop) if stop else traverse_links(links, ext)
 
 
 def add_green(link):
