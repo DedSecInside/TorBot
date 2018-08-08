@@ -36,7 +36,14 @@ def traverse_links(links, ext, depth=0, stop_depth=None, targetLink=None):
         for site in websitesToVisit:
             toVisit.append(site)
     depth += 1
-    traverse_links(toVisit, ext, depth)
+    if stop_depth and targetLink:
+        traverse_links(toVisit, ext, depth, stop_depth, targetLink)
+    elif stop_depth:
+        traverse_links(toVisit, ext, depth, stop_depth=stop_depth)
+    elif targetLink:
+        traverse_links(toVisit, ext, depth, targetLink=targetLink)
+    else:
+        traverse_links(toVisit, ext, depth)
 
 
 def search_page(html_text, ext, stop=None):
