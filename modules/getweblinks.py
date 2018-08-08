@@ -42,7 +42,10 @@ def traverse_links(links, ext, depth=0, stop_depth=None, targetLink=None):
 def search_page(html_text, ext, stop=None):
     soup = BeautifulSoup(html_text, 'html.parser')
     links = get_urls_from_page(soup, extension=ext)
-    traverse_links(links, ext, stop=stop) if stop else traverse_links(links, ext)
+    if stop:
+        traverse_links(links, ext, stop=stop)
+    else:
+        traverse_links(links, ext)
 
 
 def add_green(link):
