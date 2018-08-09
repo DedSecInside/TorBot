@@ -33,7 +33,7 @@ def traverse_links(links, ext, depth=0, stop_depth=None, targetLink=None):
         try:
             resp = requests.get(link)
         except Exception:
-            pass
+           continue
         soup = BeautifulSoup(resp.text, 'html.parser')
         websitesToVisit = get_urls_from_page(soup, extension=ext)
         for site in websitesToVisit:
