@@ -30,7 +30,10 @@ def traverse_links(links, ext, depth=0, stop_depth=None, targetLink=None):
     for link in links:
         if targetLink == link and targetLink:
             return depth
-        resp = requests.get(link)
+        try:
+            resp = requests.get(link)
+        except Exception:
+            pass
         soup = BeautifulSoup(resp.text, 'html.parser')
         websitesToVisit = get_urls_from_page(soup, extension=ext)
         for site in websitesToVisit:
