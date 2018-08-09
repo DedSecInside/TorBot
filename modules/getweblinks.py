@@ -1,5 +1,6 @@
 import requests
 
+from requests import HTTPError, ConnectionError
 from modules.net_utils import get_urls_from_page, get_url_status
 from bs4 import BeautifulSoup
 from modules.bcolors import Bcolors
@@ -32,8 +33,8 @@ def traverse_links(links, ext, depth=0, stop_depth=None, targetLink=None):
             return depth
         try:
             resp = requests.get(link)
-        except Exception:
-           continue
+        except (HTTPError, ConnectionError):
+            continue
         soup = BeautifulSoup(resp.text, 'html.parser')
         websitesToVisit = get_urls_from_page(soup, extension=ext)
         for site in websitesToVisit:
