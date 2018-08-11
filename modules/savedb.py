@@ -48,4 +48,3 @@ def saveToDatabase(database, user, password, links):
         finally:
                 cur.close()
                 db.close()
-
