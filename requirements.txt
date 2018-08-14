@@ -5,5 +5,5 @@ requests==2.18.4
 requests_mock==1.4.0
 tldextract==2.2.0
 yattag==1.10.0
-MySQL-python==1.2.5
+libmysqlclient-dev==5.5.6
 python-dotenv==0.9.1
