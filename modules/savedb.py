@@ -28,7 +28,7 @@ def saveToDatabase(database, user, password, links):
             cur = db.cursor()
 
         except Exception as e:
-            print "Error '{0}' occurred. Arguments {1}.".format(e.message, e.args):
+            print("Error '{0}' occurred. Arguments {1}.".format(e.message, e.args))
 
         try:
                 query = """ CREATE TABLE IF NOT EXISTS `tor_url` (
@@ -48,4 +48,3 @@ def saveToDatabase(database, user, password, links):
         finally:
                 cur.close()
                 db.close()
-
