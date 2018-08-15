@@ -17,6 +17,7 @@ tests/.ropeproject/
 *.pyc
 .pytestc*
 .pytest_cache
+__pycache*
 __pycache__/
 
 # Misc
