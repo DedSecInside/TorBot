@@ -1,9 +1,23 @@
+import os
 import socket
 import pymongo
 
 original_socket = socket.socket
 
-def saveToDatabase(url, database, user, passwd, links):
+url = os.getenv("DATABASE_URL")
+passwd = os.getenv("DATABASE_PASSWORD")
+user = os.getenv("DATABASE_USERNAME")
+database = os.getenv("DATABASE_NAME")
+
+def check_db_options():
+    """ Just to check whether database
+    parameters are loaded
+    """
+    if not (url and passwd and user and database):
+        print("Could not load Database Configurations")
+        return 1
+
+def saveToDatabase(links):
     """
     Connects to a MongoDB
     Create Mongo Collection

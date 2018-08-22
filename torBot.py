@@ -1,7 +1,6 @@
 import argparse
 import socket
 import socks
-import os
 import settings
 from modules import (bcolors, getemails, pagereader, getweblinks, updater,
                      info, savefile, savedb)
@@ -136,14 +135,9 @@ def main(conn=False):
         updater.updateTor()
         exit()
     if args.database:
-        if 'DATABASE_URL' and 'DATABASE_NAME' and 'DATABASE_USERNAME' and 'DATABASE_PASSWORD' in os.environ:
-            DATABASE_URL = os.getenv("DATABASE_URL")
-            DATABASE_PASSWORD = os.getenv("DATABASE_PASSWORD")
-            DATABASE_USERNAME = os.getenv("DATABASE_USERNAME")
-            DATABASE_NAME = os.getenv("DATABASE_NAME")
-        else:
-            print("Could not load Database Configurations")
-            exit()
+        check = savedb.check_db_options()
+        if check == 1:
+            exit(1)
 
     if not args.quiet:
         header()
@@ -171,7 +165,7 @@ def main(conn=False):
             if args.save:
                 savefile.saveJson("Links", links)
             if args.database:
-                savedb.saveToDatabase(DATABASE_URL, DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD, links)
+                savedb.saveToDatabase(links)
     else:
         print("usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m]",
               "[-e EXTENSION] [-l] [-i] [-db]")
