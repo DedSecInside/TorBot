@@ -4,9 +4,10 @@ import socks
 from modules import (bcolors, getemails, pagereader, getweblinks, updater,
                      info, savefile)
 
-
+# GLOBAL CONSTS
 LOCALHOST = "127.0.0.1"
-PORT = 9050
+DEFPORT = 9050
+
 # TorBot VERSION
 __VERSION = "1.2"
 
@@ -21,7 +22,16 @@ def connect(address, port):
         address: address for port to bound to
         port: Establishes connect to this port
     """
-    socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, port)
+
+    if address and port:
+        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, port)
+    elif address:
+        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, DEFPORT)
+    elif port:
+        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, LOCALHOST, port)
+    else:
+        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, LOCALHOST, DEFPORT)
+
     socket.socket = socks.socksocket  # Monkey Patch our socket to tor socket
 
     def getaddrinfo(*args):
@@ -50,52 +60,18 @@ def header():
     INS1DE = b_color.FAIL + " INS1DE " + b_color.WHITE
 
     header = r"""
-                {WHITE}
-                ######################################################
-                MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWMMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWMMMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWNXNWWWWWMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWWX0KXXKKXWMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMMMMMMMMWNNKOkOOkOXWMMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMMMMMMMNX0kdodoxKWMMMMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMMMMMMW0doccloONMWWMMMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMMMMMMKl;;:cxKWMMMMMMMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMWKOXNx;,,cONMMMMMMMMMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMMXdxKk:',lONMMMM{D3DSEC}MMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMMMOo0NOdxc,kMMMM{INS1DE}MMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMMMOcONOxkx;dWMMMMMMMMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMMNkcdXXOkxkd:oXMMMMMMMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMNOoclONNX00OkOxc:lkXWMMMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMN0olld0NWNNX0O00kxkxl:;ckXMWWMMMMMMMMM
-                MMMMMMMMMMMWMMNxccd0NNNNNXNXOkOK0dodxdo:,;o0WMMMMMMMMM
-                MMMMMMMMMMMMNk:ckXNNWNXXXXNXOOOOK0oloooooc,'oKMMMMMMMM
-                MMMMMMMMMMMXc;xXNNNXKXXXNNWKOO0Ok0x:clllllc:.,OWMMMMMM
-                MMMMMMMMMMX:;0WNNX00XNNNNNNKOO0KkkOc,ccccccc:.'OWMMMMM
-                MMMMMMMMMNl,ONNN0OXNNNNNXXNKOkOK0xkl':c::::::;.;KMMMMM
-                MMMMMMMMM0,lNWXO0NNNNXKKXXNXO0Ok0Oxl',:;;;;;;;..dMMMMM
-                MMMMMMMMMk,xWNOONNNX00XNNNWKOO0OkOxc'';;,,,,,,'.cMMMMM
-                MMMMMMMMMx,xWKkKWNXOKNWNNNX0xxOKxxx:..,,,,,''''.cMMMMM
-                MMMMMMMMM0,oWXkOWXOKNNNNN00Xkdx0kdd;..,'''''''..oMMMMM
-                MMMMMMMMMNl;0W0kKKkKWNNN0ONNOxdOOll,..'''......,0MMMMM
-                MMMMMMMMMMK::KN0kKOkNNWXk0WX0kdxkc:............xWMMMMM
-                MMMMMMMMMMMKl:kX0k0kONWNOONX0koxd:,..........'kWMMMMMM
-                MMMMMMMMMMMMNxccxOkkxkKWKx0NOoooc'..........lKWMMMMMMM
-                MMMMMMMMMMMMMWNklccclldk0OxOdcc;. .......;oKWWMMMMMMMM
-                MMMMMMMMMMMMMMMMWXOdl:::;cc;'... ..',:lx0NMMMMMMMMMMMM
-                MMMMMMMMMMMMMMMMMMMMMNKOkxddolloodk0XWMMMMMMMMMMMMMMMM
-                {FAIL} + {BOLD}
                            __  ____  ____  __        ______
                           / /_/ __ \/ __ \/ /_  ____/_  __/
                          / __/ / / / /_/ / __ \/ __ \/ /
                         / /_/ /_/ / _, _/ /_/ / /_/ / /
                         \__/\____/_/ |_/_____/\____/_/  V{VERSION}
-                {FAIL} + {On_Black}
+                {FAIL} {On_Black}
                 #######################################################
-                #  TorBot - A python Tor Crawler                      #
+                #  TorBot - An OSINT Tool for Deep Web                #
                 #  GitHub : https://github.com/DedsecInside/TorBot    #
                 #  Help : use -h for help text                        #
                 #######################################################
-                      {FAIL} + "LICENSE: GNU Public License" + {END}""".format(
+                      {FAIL}   LICENSE: GNU Public License {END}""".format(
                 D3DSEC=D3DSEC, INS1DE=INS1DE, FAIL=b_color.FAIL,
                 BOLD=b_color.BOLD, VERSION=__VERSION, END=b_color.ENDC,
                 On_Black=b_color.On_Black, WHITE=b_color.WHITE
@@ -103,11 +79,7 @@ def header():
     print(header)
 
 
-def main(conn=False):
-
-    if conn:
-        connect(LOCALHOST, PORT)
-
+def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--version",
                         action="store_true",
@@ -119,6 +91,9 @@ def main(conn=False):
                         action="store_true")
     parser.add_argument("-u", "--url",
                         help="Specifiy a website link to crawl")
+    parser.add_argument("--ip", help="Change default ip of tor")
+    parser.add_argument("-p", "--port",
+                        help="Change default port of tor")
     parser.add_argument("-s", "--save",
                         action="store_true",
                         help="Save results in a file")
@@ -129,8 +104,9 @@ def main(conn=False):
                         action='append',
                         dest='extension',
                         default=[],
-                        help=' '.join(("Specifiy additional website extensions",
-                                       "to the list(.com , .org etc)")))
+                        help=' '.join(("Specifiy additional website",
+                                       "extensions to the list(.com , .org",
+                                       ",.etc)")))
     parser.add_argument("-l", "--live",
                         action="store_true",
                         help="Check if websites are live or not (slow)")
@@ -138,8 +114,12 @@ def main(conn=False):
                         action="store_true",
                         help=' '.join(("Info displays basic info of the",
                                        "scanned site, (very slow)")))
-    args = parser.parse_args()
+    return parser.parse_args()
 
+
+def main(conn=False):
+    args = get_args()
+    connect(args.ip, args.port)
     link = args.url
 
     # If flag is -v, --update, -q/--quiet then user only runs that operation
@@ -156,7 +136,8 @@ def main(conn=False):
     # additional flag can be set with -u/--url flag
     if args.url:
         print("Tor IP Address :", pagereader.get_ip())
-        html_content = pagereader.read_first_page(link, args.extension)
+        html_content, response = pagereader.read_first_page(link)
+        print("Connection successful.")
         # -m/--mail
         if args.mail:
             emails = getemails.getMails(html_content)
@@ -165,17 +146,18 @@ def main(conn=False):
                 savefile.saveJson('Emails', emails)
         # -i/--info
         elif args.info:
-            info.executeAll(link, html_content)
+            info.executeAll(link, html_content, response)
             if args.save:
                 print('Nothing to save.\n')
         else:
-            links = getweblinks.get_links(soup=html_content,
-                                          live=args.live,
-                                          ext=args.extension)
+            # Golang library isn't being used.
+            # links = go_linker.GetLinks(link, LOCALHOST, PORT, 15)
+            links = getweblinks.get_links(soup=html_content, ext=args.extension, live=args.live)
             if args.save:
                 savefile.saveJson("Links", links)
     else:
-        print("usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m] [-e EXTENSION] [-l] [-i]")
+        print("usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m]",
+              "[-e EXTENSION] [-l] [-i]")
 
     print("\n\n")
 
@@ -183,7 +165,7 @@ def main(conn=False):
 if __name__ == '__main__':
 
     try:
-        main(conn=True)
+        main()
 
     except KeyboardInterrupt:
         print("Interrupt received! Exiting cleanly...")

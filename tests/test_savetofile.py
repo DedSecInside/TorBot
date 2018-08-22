@@ -36,5 +36,6 @@ def test_save_links_successful():
 
     assert mock_data == test_data
 
+
 if __name__ == '__main__':
     test_save_links_successful()

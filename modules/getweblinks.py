@@ -1,83 +1,67 @@
-import re
 import requests
-import tldextract
 
-from modules import pagereader
+from requests import HTTPError, ConnectionError
+from modules.net_utils import get_urls_from_page, get_url_status
 from bs4 import BeautifulSoup
 from modules.bcolors import Bcolors
-from requests.exceptions import ConnectionError, HTTPError
+from threading import Thread
+from queue import Queue
 
 
-def valid_url(url, extensions=False):
-    """Checks for any valid url using regular expression matching
-
-        Matches all possible url patterns with the url that is passed and
-        returns True if it is a url and returns False if it is not.
+def traverse_links(links, ext, depth=0, stop_depth=None, targetLink=None):
+    """
+        Traverses links passed using Breadth First Search. You can specify stop depth
+        or specify a target to look for. The depth argument is used for recursion
 
         Args:
-            url: string representing url to be checked
+            links (list): list of urls to traverse
+            ext (string): string representing extension to use for URLs
+            depth (int): used for recursion
+            stop_depth (int): stops traversing at this depth if specified
+            targetLink (string): stops at this link if specified
 
         Returns:
-            bool: True if valid url format and False if not
-    """
-    pattern = r"^https?:\/\/(www\.)?([a-z,A-Z,0-9]*)\.([a-z, A-Z]+)(.*)"
-    regex = re.compile(pattern)
-    if not extensions:
-        if regex.match(url):
-            return True
-        return False
-
-    parts = tldextract.extract(url)
-    valid_sites = list()
-    for ext in extensions:
-        if regex.match(url) and '.'+parts.suffix in ext:
-            valid_sites.append(url)
-    return valid_sites
-
-
-def valid_onion_url(url):
-    """Checks for valid onion url using regular expression matching
-
-        Only matches onion urls
-
-        Args:
-            url: string representing url to be checked
-
-        Returns:
-            bool: True if valid onion url format, False if not
-    """
-    pattern = r"^https?:\/\/(www\.)?([a-z,A-Z,0-9]*)\.onion/(.*)"
-    regex = re.compile(pattern)
-    if regex.match(url):
-        return True
-    return False
-
-
-def is_link_alive(link):
-    """Generator that yields links as they come
-
-        Uses head request because it uses less bandwith than get and timeout is
-        set to 10 seconds and then link is automatically declared as dead.
-
-        Args:
-            link: link to be tested
-            colors: object containing colors for link
-
-        Yields:
-            string: link with either no color or red which indicates failure
+            depth (int): depth stopped at
     """
 
-    try:
-        resp = requests.head(link, timeout=10)
-        resp.raise_for_status()
-        return True
-    except (ConnectionError, HTTPError):
-        return False
+    if depth == stop_depth:
+        return depth
+
+    toVisit = list()
+    for link in links:
+        if targetLink == link and targetLink:
+            return depth
+        try:
+            resp = requests.get(link)
+        except (HTTPError, ConnectionError):
+            continue
+        soup = BeautifulSoup(resp.text, 'html.parser')
+        websitesToVisit = get_urls_from_page(soup, extension=ext)
+        for site in websitesToVisit:
+            toVisit.append(site)
+    depth += 1
+    if stop_depth and targetLink:
+        traverse_links(toVisit, ext, depth, stop_depth, targetLink)
+    elif stop_depth:
+        traverse_links(toVisit, ext, depth, stop_depth=stop_depth)
+    elif targetLink:
+        traverse_links(toVisit, ext, depth, targetLink=targetLink)
+    else:
+        traverse_links(toVisit, ext, depth)
+
+
+def search_page(html_text, ext, stop=None):
+    soup = BeautifulSoup(html_text, 'html.parser')
+    links = get_urls_from_page(soup, extension=ext)
+    if stop:
+        traverse_links(links, ext, stop=stop)
+    else:
+        traverse_links(links, ext)
 
 
 def add_green(link):
     colors = Bcolors()
-    return '\t'+ colors.OKGREEN + link + colors.ENDC
+    return '\t' + colors.OKGREEN + link + colors.ENDC
 
 
 def add_red(link):
@@ -87,51 +71,105 @@ def add_red(link):
 
 def get_links(soup, ext=False, live=False):
     """
-        Searches through all <a ref> (hyperlinks) tags and stores them in a
-        list then validates if the url is formatted correctly.
+        Returns list of links listed on the webpage of the soup passed. If live
+        is set to true then it will also print the status of each of the links
+        and setting ext to an actual extension such as '.com' will allow those
+        extensions to be recognized as valid urls and not just '.tor'.
 
         Args:
-            soup: BeautifulSoup instance currently being used.
+            soup (bs4.BeautifulSoup): webpage to be searched for links.
 
         Returns:
-            websites: List of websites that were found
+            websites (list(str)): List of websites that were found
     """
     b_colors = Bcolors()
     if isinstance(soup, BeautifulSoup):
-        websites = []
-
-        links = soup.find_all('a')
-        for ref in links:
-            url = ref.get('href')
-            if ext:
-                if url and valid_url(url, ext):
-                    websites.append(url)
-            else:
-                if url and valid_onion_url(url):
-                    websites.append(url)
-
-        """Pretty print output as below"""
+        websites = get_urls_from_page(soup, extension=ext)
+        # Pretty print output as below
         print(''.join((b_colors.OKGREEN,
               'Websites Found - ', b_colors.ENDC, str(len(websites)))))
         print('------------------------------------')
 
-        for link in websites:
-            if is_link_alive(link):
-                coloredlink = add_green(link)
-                page = pagereader.read_page(link)
-                if page is not None and page.title is not None:
-                    print_row(coloredlink, page.title.string)
-            else:
-                coloredlink = add_red(link)
-                print_row(coloredlink, "Not found")
-
+        if live:
+            queue_tasks(websites, display_link)
         return websites
-
 
     else:
         raise(Exception('Method parameter is not of instance BeautifulSoup'))
 
 
+def display_link(link):
+    """
+        Prints the status of a link based on if it can be reached using a GET
+        request. Link is printed with a color based on status.
+        Green for a reachable status code and red for not reachable.
+
+        Args:
+            link (str): url to be printed
+        Returns:
+            None
+    """
+    resp = get_url_status(link)
+    if resp != 0:
+        title = BeautifulSoup(resp.text, 'html.parser').title.string
+        coloredlink = add_green(link)
+        print_row(coloredlink, title)
+    else:
+        coloredlink = add_red(link)
+        print_row(coloredlink, "Not found")
+
+
+def execute_tasks(q, task_func, tasks_args=tuple()):
+    """
+        Executes tasks inside of queue using function and arguments passed
+        inside of threads
+
+        Args:
+            q (queue.Queue): contains tasks
+            task_func (function): function to be executed on tasks and args
+            task_args (tuple): contains arguments for function
+        Returns:
+            None
+    """
+    while True:
+        task = q.get()
+        if tasks_args:
+            task_func(task, tasks_args)
+        else:
+            task_func(task)
+        q.task_done()
+
+
+def queue_tasks(tasks, task_func, tasks_args=tuple()):
+    """
+        Starts threads with tasks and queue, then queues tasks and spawned threads
+        begin to pull tasks off queue to execute
+
+        Args:
+            tasks (list): lists of values that you'd like to operate on
+            task_func (function): function that you would like to use
+            tasks_args (tuple): arguments for function
+        Returns:
+            None
+    """
+    q = Queue(len(tasks)*2)
+    for _ in tasks:
+        if tasks_args:
+            if isinstance(tasks_args, tuple):
+                t = Thread(target=execute_tasks, args=(q, task_func, tasks_args))
+                t.daemon = True
+                t.start()
+            else:
+                raise(Exception('Function arguments must be passed in the form of a tuple.'))
+        else:
+            t = Thread(target=execute_tasks, args=(q, task_func))
+            t.daemon = True
+            t.start()
+
+    for task in tasks:
+        q.put(task)
+    q.join()
+
+
 def print_row(url, description):
     print("%-80s %-30s" % (url, description))
-

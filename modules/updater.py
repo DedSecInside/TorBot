@@ -23,7 +23,7 @@ def updateTor():
                  stdout=subprocess.PIPE,
                  stderr=subprocess.STDOUT)
         update_out = update.stdout.read()
-        if update_out[90:109].decode("utf-8") == 'Already up-to-date.':
+        if update_out[90:109].decode("utf-8") == 'Already up to date.':
             print("TorBot is already up-to-date.")
         else:
             print("TorBot has succesfully updated to latest stable version.")
@@ -42,7 +42,7 @@ def updateTor():
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT)
         update_out = update.stdout.read()
-        if update_out[90:109].decode("utf-8") == 'Already up-to-date.':
+        if update_out[90:109].decode("utf-8") == 'Already up to date.':
             print("TorBot is already up-to-date.")
         else:
             print("TorBot has succesfully updated to latest stable version.")
