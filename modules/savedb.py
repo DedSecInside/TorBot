@@ -23,16 +23,16 @@ def saveToDatabase(links):
     Create Mongo Collection
     Add the links to the collection
     Args:
-        url = url of the mongo server
-        database = data that is being stored in the database
-        user = username to login into Mongo
-        passwd = password of Mongo
-        link = URLs from the crawler
+        url (string) = url of the mongo server
+        database (string) = data that is being stored in the database
+        user (string) = username to login into Mongo
+        passwd (string) = password of Mongo
+        link (list) = URLs from the crawler
+    """
     if not url and not database:
         print("URL and DATABASE are null")
         print("Links are not stored into database")
         exit()
-    """
     socket.socket = original_socket
     if not user and not passwd:
         client = pymongo.MongoClient(url)
