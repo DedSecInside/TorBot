@@ -1,7 +1,42 @@
 import sys
 from bs4 import BeautifulSoup
-from modules.net_utils import get_url_status
+from modules.utils import get_url_status
 from modules.bcolors import Bcolors
+
+
+def display_url(url):
+    """
+        Prints the status of a url based on if it can be reached using a GET
+        request. url is printed with a color based on status.
+        Green for a reachable status code and red for not reachable.
+
+        Args:
+            url (str): url to be printed
+        Returns:
+            None
+    """
+    resp = get_url_status(url)
+    if resp != 0:
+        title = BeautifulSoup(resp.text, 'html.parser').title.string
+        coloredurl = add_green(url)
+        print_row(coloredurl, title)
+    else:
+        coloredurl = add_red(url)
+        print_row(coloredurl, "Not found")
+
+
+def print_row(url, description):
+    print("%-80s %-30s" % (url, description))
+
+
+def add_green(link):
+    colors = Bcolors()
+    return '\t' + colors.OKGREEN + link + colors.ENDC
+
+
+def add_red(link):
+    colors = Bcolors()
+    return '\t' + colors.On_Red + link + colors.ENDC
 
 
 def connection_msg(site):
@@ -61,5 +96,6 @@ def get_ip():
     page = read_first_page('https://check.torproject.org/')[0]
     pg = page.find('strong')
     ip_addr = pg.renderContents()
-
-    return b_colors.WARNING + b_colors.BOLD + ip_addr.decode("utf-8") + b_colors.ENDC
+    COLOR_BEGIN = b_colors.WARNING + b_colors.BOLD
+    COLOR_END = b_colors.ENDC
+    return COLOR_BEGIN + ip_addr.decode("utf-8") + COLOR_END

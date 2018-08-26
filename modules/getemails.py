@@ -1,5 +1,5 @@
 from modules.bcolors import Bcolors
-from modules.net_utils import get_urls_from_page
+from modules.pagereader import get_urls_from_page
 from bs4 import BeautifulSoup
 
 
