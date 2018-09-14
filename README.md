@@ -69,6 +69,7 @@ Contributor name will be updated to the below list. :D
 
 ### Python Dependencies
 - beautifulsoup4
+- pyinstaller
 - PySocks
 - termcolor
 - requests
