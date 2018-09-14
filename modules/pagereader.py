@@ -1,3 +1,4 @@
+
 """
 This module is used for reading HTML pages using either bs4.BeautifulSoup objects or url strings
 """
