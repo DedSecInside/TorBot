@@ -72,8 +72,6 @@ Contributor name will be updated to the below list. :D
 - PySocks
 - termcolor
 - requests
-- python-dotenv
-- tldextract
 - requests_mock
 - yattag
 
