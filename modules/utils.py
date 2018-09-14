@@ -7,12 +7,7 @@ from queue import Queue
 from threading import Thread
 from modules.getweblinks import get_urls_from_page
 
-"""
-
-ALGORITHM UTILITY FUNCTIONS
-
-"""
-
+# ALGORITHM UTILITY FUNCTIONS
 
 def bfs_urls(urls, add_exts, rec_depth=0, stop_depth=None, target_url=None):
     """
@@ -153,11 +148,8 @@ def queue_tasks(tasks, task_func, tasks_args=tuple()):
     q.join()
 
 
-"""
+# Networking functions
 
-Networking functions
-
-"""
 
 
 def get_url_status(url, headers=False):
