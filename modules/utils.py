@@ -1,11 +1,11 @@
 import re
 import requests
+import modules.getweblinks
 
 from bs4 import BeautifulSoup
 from requests.exceptions import HTTPError, ConnectionError
 from queue import Queue
 from threading import Thread
-from modules.getweblinks import get_urls_from_page
 
 # ALGORITHM UTILITY FUNCTIONS
 
@@ -42,7 +42,7 @@ def bfs_urls(urls, add_exts, rec_depth=0, stop_depth=None, target_url=None):
         except (HTTPError, ConnectionError):
             continue
         soup = BeautifulSoup(resp.text, 'html.parser')
-        page_urls = get_urls_from_page(soup, extension=add_exts)
+        page_urls = getweblinks.get_urls_from_page(soup, extension=add_exts)
         for url in page_urls:
             urls_to_visit.append(url)
     rec_depth += 1
@@ -174,19 +174,3 @@ def get_url_status(url, headers=False):
         return resp
     except (ConnectionError, HTTPError):
         return 0
-
-
-def is_url(url):
-    pattern = r"^https?:\/\/(www\.)?([a-z,A-Z,0-9]*)\.([a-z, A-Z]+)(.*)"
-    regex = re.compile(pattern)
-    if regex.match(url):
-        return 1
-    return 0
-
-
-def is_onion_url(url):
-    pattern = r"^https?:\/\/(www\.)?([a-z,A-Z,0-9]*)\.onion/(.*)"
-    regex = re.compile(pattern)
-    if regex.match(url):
-        return 1
-    return 0

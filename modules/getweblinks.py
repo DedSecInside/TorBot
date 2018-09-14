@@ -1,7 +1,23 @@
+import re
+import modules.utils
+
 from bs4 import BeautifulSoup
 from modules.bcolors import Bcolors
-from modules.utils import is_url, is_onion_url, bfs_urls, queue_tasks, display_link
 
+def is_url(url):
+    pattern = r"^https?:\/\/(www\.)?([a-z,A-Z,0-9]*)\.([a-z, A-Z]+)(.*)"
+    regex = re.compile(pattern)
+    if regex.match(url):
+        return 1
+    return 0
+
+
+def is_onion_url(url):
+    pattern = r"^https?:\/\/(www\.)?([a-z,A-Z,0-9]*)\.onion/(.*)"
+    regex = re.compile(pattern)
+    if regex.match(url):
+        return 1
+    return 0
 
 def get_urls_from_page(page_soup, email=False, extension=False):
     """
@@ -54,9 +70,9 @@ def search_page(html, ext, stop_depth=None):
     soup = BeautifulSoup(html, 'html.parser')
     links = get_urls_from_page(soup, extension=ext)
     if stop_depth:
-        links_found = bfs_urls(links, ext, stop_depth=stop_depth)
+        links_found = utils.bfs_urls(links, ext, stop_depth=stop_depth)
     else:
-        links_found = bfs_urls(links, ext)
+        links_found = utils.bfs_urls(links, ext)
 
     return links_found
 
@@ -83,7 +99,7 @@ def get_links(soup, ext=False, live=False):
         print('------------------------------------')
 
         if live:
-            queue_tasks(websites, display_link)
+            utils.queue_tasks(websites, utils.display_link)
         return websites
 
     else:

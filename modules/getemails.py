@@ -1,6 +1,7 @@
-from modules.bcolors import Bcolors
-from modules.pagereader import get_urls_from_page
+import modules.getweblinks as getweblinks
+
 from bs4 import BeautifulSoup
+from modules.bcolors import Bcolors
 
 
 def getMails(soup):
@@ -19,8 +20,7 @@ def getMails(soup):
     b_colors = Bcolors()
 
     if isinstance(type(soup), type(BeautifulSoup)):
-
-        emails = get_urls_from_page(soup, email=True)
+        emails = getweblinks.get_urls_from_page(soup, email=True)
 
         # Pretty print output as below
         print('')
