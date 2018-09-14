@@ -1,8 +1,13 @@
+"""
+This module is used for reading HTML pages using either bs4.BeautifulSoup objects or url strings
+"""
+
 import sys
 from bs4 import BeautifulSoup
 from modules.utils import get_url_status
-from modules.bcolors import Bcolors
+from modules.colors import Colors
 
+COLOR = Colors()
 
 def display_url(url):
     """
@@ -18,70 +23,76 @@ def display_url(url):
     resp = get_url_status(url)
     if resp != 0:
         title = BeautifulSoup(resp.text, 'html.parser').title.string
-        coloredurl = add_green(url)
+        coloredurl = COLOR.add(url, 'green')
         print_row(coloredurl, title)
     else:
-        coloredurl = add_red(url)
+        coloredurl = COLOR.add(url, 'red')
         print_row(coloredurl, "Not found")
 
 
 def print_row(url, description):
+    """
+    Prints row in specified format
+    """
     print("%-80s %-30s" % (url, description))
 
 
-def add_green(link):
-    colors = Bcolors()
-    return '\t' + colors.OKGREEN + link + colors.ENDC
+def connection_msg(url):
+    """
+    Generator used to yield message while waiting for response
+    """
+    yield "Attempting to connect to {url}".format(url=url)
 
 
-def add_red(link):
-    colors = Bcolors()
-    return '\t' + colors.On_Red + link + colors.ENDC
+def read_page(url):
+    """
+    Attempts to connect to url and returns the HTML from page
 
-
-def connection_msg(site):
-    yield "Attempting to connect to {site}".format(site=site)
-
-
-def read_first_page(site):
+    Args:
+        url (str): url of website to be read
+    Returns:
+        page (str): html from page
+        response (int): indicator of success
+    """
     headers = {'User-Agent': 'XXXX-XXXXX-XXXX'}
     attempts_left = 3
     err = " "
     while attempts_left:
         if attempts_left == 3:
-            response = get_url_status(site, headers)
+            print(next(connection_msg(url)))
+            response = get_url_status(url, headers)
             if response != 0:
                 page = BeautifulSoup(response.text, 'html.parser')
                 return page, response
-            else:
-                attempts_left -= 1
-                continue
+
+            attempts_left -= 1
+            continue
 
         if attempts_left == 2:
-            https_url = 'https://' + site
+            https_url = 'https://' + url
             print(next(connection_msg(https_url)))
             response = get_url_status(https_url, headers)
             if response != 0:
                 page = BeautifulSoup(response.text, 'html.parser')
                 return page, response
-            else:
-                attempts_left -= 1
-                continue
+
+            attempts_left -= 1
+            continue
 
         if attempts_left == 1:
-            http_url = 'http://' + site
+            http_url = 'http://' + url
             print(next(connection_msg(http_url)))
             response = get_url_status(http_url, headers)
             if response != 0:
                 page = BeautifulSoup(response.text, 'html.parser')
                 return page, response
-            else:
-                attempts_left -= 1
-                continue
+
+            attempts_left -= 1
+            continue
 
         if not attempts_left:
             msg = ''.join(("There has been an {err} while attempting to ",
-                           "connect to {site}.")).format(err=err, site=site)
+                           "connect to {url}.")).format(err=err, url=url)
             sys.exit(msg)
 
 
@@ -92,10 +103,8 @@ def get_ip():
     displays your IP address which we scape and return
     """
 
-    b_colors = Bcolors()
-    page = read_first_page('https://check.torproject.org/')[0]
-    pg = page.find('strong')
-    ip_addr = pg.renderContents()
-    COLOR_BEGIN = b_colors.WARNING + b_colors.BOLD
-    COLOR_END = b_colors.ENDC
-    return COLOR_BEGIN + ip_addr.decode("utf-8") + COLOR_END
+    page = read_page('https://check.torproject.org/')[0]
+    ip_cont = page.find('strong')
+    ip_addr = ip_cont.renderContents()
+    ip_string = ip_addr.decode("utf-8")
+    return COLOR.add(ip_string, 'yellow')

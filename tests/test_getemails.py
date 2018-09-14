@@ -17,7 +17,7 @@ def test_get_emails_fail():
     mock_html = doc.getvalue()
 
     mock_soup = BeautifulSoup(mock_html, 'html.parser')
-    emails = getemails.getMails(mock_soup)
+    emails = getemails.get_mails(mock_soup)
     assert emails == []
 
 
@@ -36,7 +36,7 @@ def test_get_emails():
     mock_html = doc.getvalue()
 
     mock_soup = BeautifulSoup(mock_html, 'html.parser')
-    emails = getemails.getMails(mock_soup)
+    emails = getemails.get_mails(mock_soup)
     assert emails == test_emails
 
 

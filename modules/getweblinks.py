@@ -1,10 +1,26 @@
+"""
+Module used to interact with a pages urls
+"""
 import re
-import modules.utils
 
 from bs4 import BeautifulSoup
-from modules.bcolors import Bcolors
+
+import modules.utils
+import modules.pagereader
+
+from modules.colors import Colors
+
+COLOR = Colors()
 
 def is_url(url):
+    """
+    Returns an integer representing validity of url syntax
+
+    Args:
+        url (str): url to be verified
+    Returns
+        (int): integer representing if url is a valid format
+    """
     pattern = r"^https?:\/\/(www\.)?([a-z,A-Z,0-9]*)\.([a-z, A-Z]+)(.*)"
     regex = re.compile(pattern)
     if regex.match(url):
@@ -13,6 +29,14 @@ def is_url(url):
 
 
 def is_onion_url(url):
+    """
+    Returns an integer representing validity of an onion url syntax
+
+    Args:
+        url (str): url to be verified
+    Returns
+        (int): integer representing if url is a valid format
+    """
     pattern = r"^https?:\/\/(www\.)?([a-z,A-Z,0-9]*)\.onion/(.*)"
     regex = re.compile(pattern)
     if regex.match(url):
@@ -21,19 +45,19 @@ def is_onion_url(url):
 
 def get_urls_from_page(page_soup, email=False, extension=False):
     """
-        Searches for urls on page using the anchor tag and href attribute,
-        also searchs for emails using 'mailto' if specified.
+    Searches for urls on page using the anchor tag and href attribute,
+    also searchs for emails using 'mailto' if specified.
 
-        Args:
-            page (bs4.BeauitulSoup): html soup to search
-            email (bool): flag whether to collect emails as well
-            extension (bool): flag whether to use additional extensions
+    Args:
+        page (bs4.BeauitulSoup): html soup to search
+        email (bool): flag whether to collect emails as well
+        extension (bool): flag whether to use additional extensions
 
-        Returns:
-            urls (list): urls found on page
+    Returns:
+        urls (list): urls found on page
     """
     if not isinstance(page_soup, BeautifulSoup):
-        raise(Exception("First arg must be bs4.BeautifulSoup object"))
+        raise Exception("First arg must be bs4.BeautifulSoup object")
 
     urls = []
     anchors_on_page = page_soup.find_all('a')
@@ -70,37 +94,35 @@ def search_page(html, ext, stop_depth=None):
     soup = BeautifulSoup(html, 'html.parser')
     links = get_urls_from_page(soup, extension=ext)
     if stop_depth:
-        links_found = utils.bfs_urls(links, ext, stop_depth=stop_depth)
+        links_found = modules.utils.bfs_urls(links, ext, stop_depth=stop_depth)
     else:
-        links_found = utils.bfs_urls(links, ext)
+        links_found = modules.utils.bfs_urls(links, ext)
 
     return links_found
 
 
 def get_links(soup, ext=False, live=False):
     """
-        Returns list of links listed on the webpage of the soup passed. If live
-        is set to true then it will also print the status of each of the links
-        and setting ext to an actual extension such as '.com' will allow those
-        extensions to be recognized as valid urls and not just '.tor'.
+    Returns list of links listed on the webpage of the soup passed. If live
+    is set to true then it will also print the status of each of the links
+    and setting ext to an actual extension such as '.com' will allow those
+    extensions to be recognized as valid urls and not just '.tor'.
 
-        Args:
-            soup (bs4.BeautifulSoup): webpage to be searched for links.
+    Args:
+        soup (bs4.BeautifulSoup): webpage to be searched for links.
 
-        Returns:
-            websites (list(str)): List of websites that were found
+    Returns:
+        websites (list(str)): List of websites that were found
     """
-    b_colors = Bcolors()
     if isinstance(soup, BeautifulSoup):
         websites = get_urls_from_page(soup, extension=ext)
         # Pretty print output as below
-        print(''.join((b_colors.OKGREEN,
-              'Websites Found - ', b_colors.ENDC, str(len(websites)))))
+        success_string = 'Websites Found - ' + str(len(websites))
+        print(COLOR.add(success_string, 'green'))
         print('------------------------------------')
 
         if live:
-            utils.queue_tasks(websites, utils.display_link)
+            modules.utils.queue_tasks(websites, modules.pagereader.display_url)
         return websites
 
-    else:
-        raise(Exception('Method parameter is not of instance BeautifulSoup'))
+    raise Exception('Method parameter is not of instance BeautifulSoup')

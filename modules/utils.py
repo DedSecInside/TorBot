@@ -1,11 +1,13 @@
-import re
-import requests
-import modules.getweblinks
-
-from bs4 import BeautifulSoup
-from requests.exceptions import HTTPError, ConnectionError
+"""
+Provides essential utilites for the rest of TorBot app
+"""
 from queue import Queue
 from threading import Thread
+from bs4 import BeautifulSoup
+from requests.exceptions import HTTPError
+
+import requests
+import modules.getweblinks
 
 # ALGORITHM UTILITY FUNCTIONS
 
@@ -42,18 +44,19 @@ def bfs_urls(urls, add_exts, rec_depth=0, stop_depth=None, target_url=None):
         except (HTTPError, ConnectionError):
             continue
         soup = BeautifulSoup(resp.text, 'html.parser')
-        page_urls = getweblinks.get_urls_from_page(soup, extension=add_exts)
-        for url in page_urls:
-            urls_to_visit.append(url)
+        page_urls = modules.getweblinks.get_urls_from_page(soup, extension=add_exts)
+        for page_url in page_urls:
+            urls_to_visit.append(page_url)
     rec_depth += 1
+
     if stop_depth and target_url:
-        bfs_urls(urls_to_visit, add_exts, rec_depth, stop_depth, target_url)
-    elif stop_depth:
-        bfs_urls(urls_to_visit, add_exts, rec_depth, stop_depth=stop_depth)
-    elif target_url:
-        bfs_urls(urls_to_visit, add_exts, rec_depth, target_url=target_url)
-    else:
-        bfs_urls(urls_to_visit, add_exts, rec_depth=rec_depth)
+        return bfs_urls(urls_to_visit, add_exts, rec_depth, stop_depth, target_url)
+    if stop_depth:
+        return bfs_urls(urls_to_visit, add_exts, rec_depth, stop_depth=stop_depth)
+    if target_url:
+        return bfs_urls(urls_to_visit, add_exts, rec_depth, target_url=target_url)
+
+    return bfs_urls(urls_to_visit, add_exts, rec_depth=rec_depth)
 
 
 def bfs(nodes, target_node=None, rec_depth=0, stop_depth=None):
@@ -78,7 +81,7 @@ def bfs(nodes, target_node=None, rec_depth=0, stop_depth=None):
     adjacent_nodes = list()
     # Checks that nodes is a list or has a Visit method
     if not isinstance(nodes, list) and not hasattr(nodes, 'Visit', False):
-        raise(Exception('nodes must be a list'))
+        raise Exception('nodes must be a list')
 
     for node in nodes:
         if target_node == node and target_node:
@@ -86,35 +89,36 @@ def bfs(nodes, target_node=None, rec_depth=0, stop_depth=None):
         node.Visit()
         adjacent_nodes.append(node)
     rec_depth += 1
+
     if target_node and not stop_depth:
-        bfs(adjacent_nodes, target_node, rec_depth)
-    elif not target_node and stop_depth:
-        bfs(adjacent_nodes, rec_depth=rec_depth, stop_depth=stop_depth)
-    elif target_node and stop_depth:
-        bfs(adjacent_nodes, target_node, rec_depth, stop_depth)
-    else:
-        bfs(adjacent_nodes, rec_depth)
+        return bfs(adjacent_nodes, target_node, rec_depth)
+    if not target_node and stop_depth:
+        return bfs(adjacent_nodes, rec_depth=rec_depth, stop_depth=stop_depth)
+    if target_node and stop_depth:
+        return bfs(adjacent_nodes, target_node, rec_depth, stop_depth)
+
+    return bfs(adjacent_nodes, rec_depth)
 
 
-def exec_tasks(q, task_func, tasks_args=tuple()):
+def exec_tasks(que, task_func, tasks_args=tuple()):
     """
         Executes tasks inside of queue using function and arguments passed
         inside of threads
 
         Args:
-            q (queue.Queue): contains tasks
+            que (queue.Queue): contains tasks
             task_func (function): function to be executed on tasks and args
             task_args (tuple): contains arguments for function
         Returns:
             None
     """
     while True:
-        task = q.get()
+        task = que.get()
         if tasks_args:
             task_func(task, tasks_args)
         else:
             task_func(task)
-        q.task_done()
+        que.task_done()
 
 
 def queue_tasks(tasks, task_func, tasks_args=tuple()):
@@ -129,28 +133,26 @@ def queue_tasks(tasks, task_func, tasks_args=tuple()):
         Returns:
             None
     """
-    q = Queue(len(tasks)*2)
+    que = Queue(len(tasks)*2)
     for _ in tasks:
         if tasks_args:
             if isinstance(tasks_args, tuple):
-                t = Thread(target=exec_tasks, args=(q, task_func, tasks_args))
-                t.daemon = True
-                t.start()
+                thd = Thread(target=exec_tasks, args=(que, task_func, tasks_args))
+                thd.daemon = True
+                thd.start()
             else:
-                raise(Exception('Arguments must be in the form of a tuple.'))
+                raise Exception('Arguments must be in the form of a tuple.')
         else:
-            t = Thread(target=exec_tasks, args=(q, task_func))
-            t.daemon = True
-            t.start()
+            thd = Thread(target=exec_tasks, args=(que, task_func))
+            thd.daemon = True
+            thd.start()
 
     for task in tasks:
-        q.put(task)
-    q.join()
+        que.put(task)
+    que.join()
 
 
 # Networking functions
-
-
 
 def get_url_status(url, headers=False):
     """
