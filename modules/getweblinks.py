@@ -1,175 +1,129 @@
-import requests
 
-from requests import HTTPError, ConnectionError
-from modules.net_utils import get_urls_from_page, get_url_status
+"""
+Module used to interact with a pages urls
+"""
+import re
+
 from bs4 import BeautifulSoup
-from modules.bcolors import Bcolors
-from threading import Thread
-from queue import Queue
 
+import modules.utils
+import modules.pagereader
 
-def traverse_links(links, ext, depth=0, stop_depth=None, targetLink=None):
+from modules.colors import Colors
+
+COLOR = Colors()
+
+def is_url(url):
     """
-        Traverses links passed using Breadth First Search. You can specify stop depth
-        or specify a target to look for. The depth argument is used for recursion
+    Returns an integer representing validity of url syntax
+
+    Args:
+        url (str): url to be verified
+    Returns
+        (int): integer representing if url is a valid format
+    """
+    pattern = r"^https?:\/\/(www\.)?([a-z,A-Z,0-9]*)\.([a-z, A-Z]+)(.*)"
+    regex = re.compile(pattern)
+    if regex.match(url):
+        return 1
+    return 0
+
+
+def is_onion_url(url):
+    """
+    Returns an integer representing validity of an onion url syntax
+
+    Args:
+        url (str): url to be verified
+    Returns
+        (int): integer representing if url is a valid format
+    """
+    pattern = r"^https?:\/\/(www\.)?([a-z,A-Z,0-9]*)\.onion/(.*)"
+    regex = re.compile(pattern)
+    if regex.match(url):
+        return 1
+    return 0
+
+def get_urls_from_page(page_soup, email=False, extension=False):
+    """
+    Searches for urls on page using the anchor tag and href attribute,
+    also searchs for emails using 'mailto' if specified.
+
+    Args:
+        page (bs4.BeauitulSoup): html soup to search
+        email (bool): flag whether to collect emails as well
+        extension (bool): flag whether to use additional extensions
+
+    Returns:
+        urls (list): urls found on page
+    """
+    if not isinstance(page_soup, BeautifulSoup):
+        raise Exception("First arg must be bs4.BeautifulSoup object")
+
+    urls = []
+    anchors_on_page = page_soup.find_all('a')
+    for anchor_tag in anchors_on_page:
+        url = anchor_tag.get('href')
+        if extension:
+            if url and is_url(url) == 1:
+                urls.append(url)
+        elif email:
+            if url and 'mailto' in url:
+                email_addr = url.split(':')
+                if len(email_addr) > 1:
+                    urls.append(email_addr[1])
+        else:
+            if url and is_onion_url(url) == 1:
+                urls.append(url)
+
+    return urls
+
+
+def search_page(html, ext, stop_depth=None):
+    """
+        Takes in a pages HTML and searches the links on the page using
+        BFS.
 
         Args:
-            links (list): list of urls to traverse
-            ext (string): string representing extension to use for URLs
-            depth (int): used for recursion
-            stop_depth (int): stops traversing at this depth if specified
-            targetLink (string): stops at this link if specified
-
+            html (str): HTML with links to search
+            add_exts (str): additional extension
+            stop_depth (int): The depth at which to stop
         Returns:
-            depth (int): depth stopped at
+            links_found (list): links found on page and associated pages
     """
 
-    if depth == stop_depth:
-        return depth
-
-    toVisit = list()
-    for link in links:
-        if targetLink == link and targetLink:
-            return depth
-        try:
-            resp = requests.get(link)
-        except (HTTPError, ConnectionError):
-            continue
-        soup = BeautifulSoup(resp.text, 'html.parser')
-        websitesToVisit = get_urls_from_page(soup, extension=ext)
-        for site in websitesToVisit:
-            toVisit.append(site)
-    depth += 1
-    if stop_depth and targetLink:
-        traverse_links(toVisit, ext, depth, stop_depth, targetLink)
-    elif stop_depth:
-        traverse_links(toVisit, ext, depth, stop_depth=stop_depth)
-    elif targetLink:
-        traverse_links(toVisit, ext, depth, targetLink=targetLink)
-    else:
-        traverse_links(toVisit, ext, depth)
-
-
-def search_page(html_text, ext, stop=None):
-    soup = BeautifulSoup(html_text, 'html.parser')
+    soup = BeautifulSoup(html, 'html.parser')
     links = get_urls_from_page(soup, extension=ext)
-    if stop:
-        traverse_links(links, ext, stop=stop)
+    if stop_depth:
+        links_found = modules.utils.bfs_urls(links, ext, stop_depth=stop_depth)
     else:
-        traverse_links(links, ext)
+        links_found = modules.utils.bfs_urls(links, ext)
 
-
-def add_green(link):
-    colors = Bcolors()
-    return '\t' + colors.OKGREEN + link + colors.ENDC
-
-
-def add_red(link):
-    colors = Bcolors()
-    return '\t' + colors.On_Red + link + colors.ENDC
+    return links_found
 
 
 def get_links(soup, ext=False, live=False):
     """
-        Returns list of links listed on the webpage of the soup passed. If live
-        is set to true then it will also print the status of each of the links
-        and setting ext to an actual extension such as '.com' will allow those
-        extensions to be recognized as valid urls and not just '.tor'.
+    Returns list of links listed on the webpage of the soup passed. If live
+    is set to true then it will also print the status of each of the links
+    and setting ext to an actual extension such as '.com' will allow those
+    extensions to be recognized as valid urls and not just '.tor'.
 
-        Args:
-            soup (bs4.BeautifulSoup): webpage to be searched for links.
+    Args:
+        soup (bs4.BeautifulSoup): webpage to be searched for links.
 
-        Returns:
-            websites (list(str)): List of websites that were found
+    Returns:
+        websites (list(str)): List of websites that were found
     """
-    b_colors = Bcolors()
     if isinstance(soup, BeautifulSoup):
         websites = get_urls_from_page(soup, extension=ext)
         # Pretty print output as below
-        print(''.join((b_colors.OKGREEN,
-              'Websites Found - ', b_colors.ENDC, str(len(websites)))))
+        success_string = 'Websites Found - ' + str(len(websites))
+        print(COLOR.add(success_string, 'green'))
         print('------------------------------------')
 
         if live:
-            queue_tasks(websites, display_link)
+            modules.utils.queue_tasks(websites, modules.pagereader.display_url)
         return websites
 
-    else:
-        raise(Exception('Method parameter is not of instance BeautifulSoup'))
-
-
-def display_link(link):
-    """
-        Prints the status of a link based on if it can be reached using a GET
-        request. Link is printed with a color based on status.
-        Green for a reachable status code and red for not reachable.
-
-        Args:
-            link (str): url to be printed
-        Returns:
-            None
-    """
-    resp = get_url_status(link)
-    if resp != 0:
-        title = BeautifulSoup(resp.text, 'html.parser').title.string
-        coloredlink = add_green(link)
-        print_row(coloredlink, title)
-    else:
-        coloredlink = add_red(link)
-        print_row(coloredlink, "Not found")
-
-
-def execute_tasks(q, task_func, tasks_args=tuple()):
-    """
-        Executes tasks inside of queue using function and arguments passed
-        inside of threads
-
-        Args:
-            q (queue.Queue): contains tasks
-            task_func (function): function to be executed on tasks and args
-            task_args (tuple): contains arguments for function
-        Returns:
-            None
-    """
-    while True:
-        task = q.get()
-        if tasks_args:
-            task_func(task, tasks_args)
-        else:
-            task_func(task)
-        q.task_done()
-
-
-def queue_tasks(tasks, task_func, tasks_args=tuple()):
-    """
-        Starts threads with tasks and queue, then queues tasks and spawned threads
-        begin to pull tasks off queue to execute
-
-        Args:
-            tasks (list): lists of values that you'd like to operate on
-            task_func (function): function that you would like to use
-            tasks_args (tuple): arguments for function
-        Returns:
-            None
-    """
-    q = Queue(len(tasks)*2)
-    for _ in tasks:
-        if tasks_args:
-            if isinstance(tasks_args, tuple):
-                t = Thread(target=execute_tasks, args=(q, task_func, tasks_args))
-                t.daemon = True
-                t.start()
-            else:
-                raise(Exception('Function arguments must be passed in the form of a tuple.'))
-        else:
-            t = Thread(target=execute_tasks, args=(q, task_func))
-            t.daemon = True
-            t.start()
-
-    for task in tasks:
-        q.put(task)
-    q.join()
-
-
-def print_row(url, description):
-    print("%-80s %-30s" % (url, description))
+    raise Exception('Method parameter is not of instance BeautifulSoup')
