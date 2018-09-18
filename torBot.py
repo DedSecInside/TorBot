@@ -120,6 +120,9 @@ def get_args():
                         action="store_true",
                         help=' '.join(("Info displays basic info of the",
                                        "scanned site, (very slow)")))
+    parser.add_argument(""-r", "--random",
+                        action="store_true",
+                        help=' '.join(("Randomize tor identity for every 5 request")))
     return parser.parse_args()
 
 
