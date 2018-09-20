@@ -12,14 +12,14 @@ COLOR = Colors()
 
 def display_url(url):
     """
-        Prints the status of a url based on if it can be reached using a GET
-        request. url is printed with a color based on status.
-        Green for a reachable status code and red for not reachable.
+    Prints the status of a url based on if it can be reached using a GET
+    request. url is printed with a color based on status.
+    Green for a reachable status code and red for not reachable.
 
-        Args:
-            url (str): url to be printed
-        Returns:
-            None
+    Args:
+        url (str): url to be printed
+    Returns:
+        None
     """
     resp = get_url_status(url)
     if resp != 0:

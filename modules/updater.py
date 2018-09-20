@@ -4,9 +4,8 @@ import subprocess
 def updateTor():
 
     """
-        Currently updates Tor by calling terminal commands using subprocess
-        Not a great method and will be replaced in the future.
-
+    Currently updates Tor by calling terminal commands using subprocess
+    Not a great method and will be replaced in the future.
     """
 
     print("Checking for latest stable release")
