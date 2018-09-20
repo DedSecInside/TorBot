@@ -62,18 +62,20 @@ If its a new module, it should be put inside the modules directory and imported 
 The branch name should be your new feature name in the format <Feature_featurename_version(optional)>. For example, <i>Feature_FasterCrawl_1.0</i>.
 Contributor name will be updated to the below list. :D
 
-## Dependencies
-1. Tor
-2. Python 3.x (Make sure pip3 is installed)
-3. requests
-4. Beautiful Soup 4
-5. Socket
-6. Sock
-7. Argparse
-8. Git
-9. termcolor
-10. tldextract
-11. Golang
+### OS Dependencies
+- Tor
+- Python 3.x
+- Golang 1.x (Not Currently Used)
+
+### Python Dependencies
+- beautifulsoup4
+- pyinstaller
+- PySocks
+- termcolor
+- requests
+- requests_mock
+- yattag
+
 
 ## Basic setup
 Before you run the torBot make sure the following things are done properly:
@@ -82,6 +84,9 @@ Before you run the torBot make sure the following things are done properly:
 `sudo service tor start`
 
 * Make sure that your torrc is configured to SOCKS_PORT localhost:9050
+
+* Install TorBot Python requirements
+`pip3 install -r requirements.txt`
 
 On Linux platforms, you can make an executable for TorBot by using the install.sh script.
 You will need to give the script the correct permissions using `chmod +x install.sh`
@@ -116,9 +121,10 @@ Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob
 
 ## TO-DO
 - [ ] Visualization Module
-- [ ] Implement A\* Search for webcrawler
-- [X] Multithreading
-- [ ] Optimization
+- [x] Implement BFS Search for webcrawler
+- [X] Multithreading for Get Links
+- [ ] Improve stability (Handle errors gracefully, expand test coverage and etc.)
+- [ ] Create a user-friendly GUI 
 - [ ] Randomize Tor Connection (Random Header and Identity)
 - [ ] Keyword/Phrase search
 - [ ] Social Media Integration
@@ -153,13 +159,13 @@ GNU Public License
 ## CREDITS
 
 - [X] [P5N4PPZ](https://github.com/PSNAppz) - Owner
+- [X] [KingAkeem](https://github.com/KingAkeem) - Experienced Contributor,Reviewer,Core Member
 - [X] [agrepravin](https://github.com/agrepravin) - Contributor,Reviewer
-- [X] [KingAkeem](https://github.com/KingAkeem) - Experienced Contributor,Reviewer
+- [X] [shivankar-madaan](https://github.com/shivankar-madaan) - Experienced Contributor
 - [X] [y-mehta](https://github.com/y-mehta) - Contributor
 - [X] [Manfredi Martorana](https://github.com/Agostinelli) - Contributor
 - [X] [Evan Sia Wai Suan](https://github.com/waisuan) - New Contributor
 - [X] [Lean](https://github.com/leaen) - New Contributor
-- [X] [shivankar-madaan](https://github.com/shivankar-madaan) - New Contributor
 - [X] [Gus](https://github.com/HotPushUpGuy420) - New Contributor
 - [X] [SubaruSama](https://github.com/SubaruSama) - New Contributor
 - [X] [robly78746](https://github.com/robly78746) - New Contributor

@@ -1,14 +1,16 @@
+"""
+MAIN MODULE
+"""
 import argparse
 import socket
 import socks
-import os
-import settings
-from modules import (bcolors, getemails, pagereader, getweblinks, updater,
-                     info, savefile, savedb)
+from modules import (colors, getemails, pagereader, getweblinks, updater,
+                     info, savefile)
 
 # GLOBAL CONSTS
 LOCALHOST = "127.0.0.1"
 DEFPORT = 9050
+COLOR = colors.Colors()
 
 # TorBot VERSION
 __VERSION = "1.2"
@@ -48,7 +50,7 @@ def connect(address, port):
         Last two arguments should be a tuple containing the address and port
         """
         return [(socket.AF_INET, socket.SOCK_STREAM, 6,
-                '', (args[0], args[1]))]
+                 '', (args[0], args[1]))]
     socket.getaddrinfo = getaddrinfo
 
 
@@ -57,11 +59,7 @@ def header():
     Prints out header ASCII art
     """
 
-    b_color = bcolors.Bcolors()
-    D3DSEC = b_color.FAIL + " D3DSEC " + b_color.WHITE
-    INS1DE = b_color.FAIL + " INS1DE " + b_color.WHITE
-
-    header = r"""
+    title = r"""
                            __  ____  ____  __        ______
                           / /_/ __ \/ __ \/ /_  ____/_  __/
                          / __/ / / / /_/ / __ \/ __ \/ /
@@ -73,15 +71,21 @@ def header():
                 #  GitHub : https://github.com/DedsecInside/TorBot    #
                 #  Help : use -h for help text                        #
                 #######################################################
-                      {FAIL}   LICENSE: GNU Public License {END}""".format(
-                D3DSEC=D3DSEC, INS1DE=INS1DE, FAIL=b_color.FAIL,
-                BOLD=b_color.BOLD, VERSION=__VERSION, END=b_color.ENDC,
-                On_Black=b_color.On_Black, WHITE=b_color.WHITE
-                )
-    print(header)
+                      {FAIL}   LICENSE: GNU Public License {END}"""
+
+    title = title.format(
+        FAIL=COLOR.get('red'),
+        VERSION=__VERSION,
+        END=COLOR.get('end'),
+        On_Black=COLOR.get('black')
+        )
+    print(title)
 
 
 def get_args():
+    """
+    Parses user flags passed to TorBot
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--version",
                         action="store_true",
@@ -116,13 +120,13 @@ def get_args():
                         action="store_true",
                         help=' '.join(("Info displays basic info of the",
                                        "scanned site, (very slow)")))
-    parser.add_argument("-db", "--database",
-                            action="store_true",
-                            help="Specify a database to connect.")                                    
-    args = parser.parse_args()
+    return parser.parse_args()
 
 
-def main(conn=False):
+def main():
+    """
+    TorBot's Core
+    """
     args = get_args()
     connect(args.ip, args.port)
     link = args.url
@@ -135,27 +139,17 @@ def main(conn=False):
     if args.update:
         updater.updateTor()
         exit()
-    if args.database:
-        if 'DATABASE_NAME' and 'DATABASE_USERNAME' and 'DATABASE_PASSWORD' in os.environ:
-            DATABASE_PASSWORD = os.getenv("DATABASE_PASSWORD")
-            DATABASE_USERNAME = os.getenv("DATABASE_USERNAME")
-            DATABASE_NAME = os.getenv("DATABASE_NAME")
-            #print("DB - ", DATABASE_NAME, " - ", DATABASE_USERNAME, " - ", DATABASE_PASSWORD)
-        else:
-            print("Wrong Database Configurations")
-            exit()
-
     if not args.quiet:
         header()
     # If url flag is set then check for accompanying flag set. Only one
     # additional flag can be set with -u/--url flag
     if args.url:
         print("Tor IP Address :", pagereader.get_ip())
-        html_content, response = pagereader.read_first_page(link)
+        html_content, response = pagereader.read_page(link)
         print("Connection successful.")
         # -m/--mail
         if args.mail:
-            emails = getemails.getMails(html_content)
+            emails = getemails.get_mails(html_content)
             print(emails)
             if args.save:
                 savefile.saveJson('Emails', emails)
@@ -170,11 +164,9 @@ def main(conn=False):
             links = getweblinks.get_links(soup=html_content, ext=args.extension, live=args.live)
             if args.save:
                 savefile.saveJson("Links", links)
-            if(args.database):
-                savedb.saveToDatabase(DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD, links)
     else:
         print("usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m]",
-              "[-e EXTENSION] [-l] [-i] [-db]")
+              "[-e EXTENSION] [-l] [-i]")
 
     print("\n\n")
 
