@@ -14,23 +14,23 @@ import modules.getweblinks
 
 def bfs_urls(urls, add_exts, rec_depth=0, stop_depth=None, target_url=None):
     """
-        Traverses urls passed using Breadth First Search. You can specify stop
-        depth or specify a target to look for. The rec_depth argument is used
-        for recursion.
+    Traverses urls passed using Breadth First Search. You can specify stop
+    depth or specify a target to look for. The rec_depth argument is used
+    for recursion.
 
-        *NOTE: This function uses a GET request for each url found, this can
-        be very expensive so avoid if possible try to acquire the urls to
-        be traversed and use bfs function.
+    *NOTE: This function uses a GET request for each url found, this can
+    be very expensive so avoid if possible try to acquire the urls to
+    be traversed and use bfs function.
 
-        Args:
-            urls (list): urls to traverse
-            add_exts (str): additional extensions to use
-            rec_depth (int): used for recursion
-            stop_depth (int): stops traversing at this depth if specified
-            target_url (str): stops at this url if specified
+    Args:
+        urls (list): urls to traverse
+        add_exts (str): additional extensions to use
+        rec_depth (int): used for recursion
+        stop_depth (int): stops traversing at this depth if specified
+        target_url (str): stops at this url if specified
 
-        Returns:
-            rec_depth (int): depth stopped at
+    Returns:
+        rec_depth (int): depth stopped at
     """
 
     if rec_depth == stop_depth:
@@ -62,18 +62,18 @@ def bfs_urls(urls, add_exts, rec_depth=0, stop_depth=None, target_url=None):
 
 def bfs(nodes, target_node=None, rec_depth=0, stop_depth=None):
     """
-        Traverses nodes using Breadth First Search. You can specify stop
-        depth or specify a target to look for. The rec_depth argument is used
-        for recursion.
+    Traverses nodes using Breadth First Search. You can specify stop
+    depth or specify a target to look for. The rec_depth argument is used
+    for recursion.
 
-        Args:
-            nodes (list): objects to traverse
-            target_node (object): object being searched for
-            rec_depth (int): used for recursion
-            stop_depth (int): stops traversing at this depth if specified
+    Args:
+        nodes (list): objects to traverse
+        target_node (object): object being searched for
+        rec_depth (int): used for recursion
+        stop_depth (int): stops traversing at this depth if specified
 
-        Returns:
-            rec_depth (int): depth stopped at
+    Returns:
+        rec_depth (int): depth stopped at
     """
 
     if rec_depth == stop_depth:
@@ -103,15 +103,15 @@ def bfs(nodes, target_node=None, rec_depth=0, stop_depth=None):
 
 def exec_tasks(que, task_func, tasks_args=tuple()):
     """
-        Executes tasks inside of queue using function and arguments passed
-        inside of threads
+    Executes tasks inside of queue using function and arguments passed
+    inside of threads
 
-        Args:
-            que (queue.Queue): contains tasks
-            task_func (function): function to be executed on tasks and args
-            task_args (tuple): contains arguments for function
-        Returns:
-            None
+    Args:
+        que (queue.Queue): contains tasks
+        task_func (function): function to be executed on tasks and args
+        task_args (tuple): contains arguments for function
+    Returns:
+        None
     """
     while True:
         task = que.get()
@@ -124,15 +124,15 @@ def exec_tasks(que, task_func, tasks_args=tuple()):
 
 def queue_tasks(tasks, task_func, tasks_args=tuple()):
     """
-        Starts threads with tasks and queue, then queues tasks and spawned
-        threads begin to pull tasks off queue to execute
+    Starts threads with tasks and queue, then queues tasks and spawned
+    threads begin to pull tasks off queue to execute
 
-        Args:
-            tasks (list): lists of values that you'd like to operate on
-            task_func (function): function that you would like to use
-            tasks_args (tuple): arguments for function
-        Returns:
-            None
+    Args:
+        tasks (list): lists of values that you'd like to operate on
+        task_func (function): function that you would like to use
+        tasks_args (tuple): arguments for function
+    Returns:
+        None
     """
     que = Queue(len(tasks)*2)
     for _ in tasks:
@@ -157,16 +157,16 @@ def queue_tasks(tasks, task_func, tasks_args=tuple()):
 
 def get_url_status(url, headers=False):
     """
-        Uses GET request to check if website exists
+    Uses GET request to check if website exists
 
-        *NOTE: May look into changing this to HEAD requests to improve perf
+    *NOTE: May look into changing this to HEAD requests to improve perf
 
-        Args:
-            url (str): url to be tested
+    Args:
+        url (str): url to be tested
 
-        Return:
-            something? (int/Response object): return value of the connection
-            object's GET request if successful & zero upon failure
+    Return:
+        something? (int/Response object): return value of the connection
+        object's GET request if successful & zero upon failure
     """
     try:
         if headers:
