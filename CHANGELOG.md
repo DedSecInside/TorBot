@@ -2,6 +2,25 @@
 --------------------
 All notable changes to this project will be documented in this file.
 
+## 1.3.0 | Future
+
+### Changed
+* Moderate code improvements
+* Updated README.md
+* Updated dependencies
+* Modularize and documented Golang library
+* Using Golang library instead of Python library for getting links
+
+### Added
+* Unit tests for Golang Library
+* Installation shell script to create torBot binary
+* Testing documentation for Golang test suite.
+* Test for getting links that uses a Mock Object to reproduce tests without touching actual servers.
+* Script for getting Golang dependencies
+* Script for building Golang shared object 
+* Installs Golang dependencies when install.sh is executed
+
+
 ## 1.2.0 | Present (Stable)
 
 ### Changed
