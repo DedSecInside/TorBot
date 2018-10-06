@@ -120,10 +120,9 @@ def exec_tasks(que, task_func, tasks_args=tuple()):
     while True:
         task = que.get()
         if tasks_args:
-           result = task_func(task, tasks_args)
+           task_func(task, tasks_args)
         else:
-           result = task_func(task)
-        result_que.put(result)
+           task_func(task)
         que.task_done()
 
 
@@ -140,7 +139,6 @@ def queue_tasks(tasks, task_func, tasks_args=tuple()):
         None
     """
     que = Queue(len(tasks)*2)
-    results = list()
     for _ in tasks:
         if tasks_args:
             if isinstance(tasks_args, tuple):
@@ -156,10 +154,8 @@ def queue_tasks(tasks, task_func, tasks_args=tuple()):
 
     for task in tasks:
         que.put(task)
-        results.append(result_que.get())
 
     que.join()
-    return results 
 
 
 # Networking functions
