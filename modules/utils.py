@@ -14,7 +14,7 @@ import modules.getweblinks
 
 # ALGORITHM UTILITY FUNCTIONS
 
-def bfs_urls(urls, add_exts, stop_depth=None, target_url=None, rec_depth=0, tree=None):
+def bfs_urls(urls, add_exts, stop_depth=None, rec_depth=0, tree=None):
     """
     Traverses urls passed using Breadth First Search. You can specify stop
     depth or specify a target to look for. The rec_depth argument is used
@@ -29,40 +29,33 @@ def bfs_urls(urls, add_exts, stop_depth=None, target_url=None, rec_depth=0, tree
         add_exts (str): additional extensions to use
         rec_depth (int): used for recursion
         stop_depth (int): stops traversing at this depth if specified
-        target_url (str): stops at this url if specified
 
     Returns:
         rec_depth (int): depth stopped at
     """
-    if rec_depth == stop_depth:
+    if rec_depth == stop_depth and rec_depth != 0:
         return tree
     
     urls_to_visit = list()
     t = Tree(name=tree.name)
     for url in urls:
-        if target_url == url and target_url:
-            return tree 
-        try:
-            resp = requests.get(url)
-        except (HTTPError, ConnectionError):
-            continue
-        soup = BeautifulSoup(resp.text, 'html.parser')
-        page_urls = modules.getweblinks.get_urls_from_page(soup, extension=add_exts)
         parent = t.add_child(name=url)
-        for page_url in page_urls:
-            parent.add_child(name=page_url)
-            urls_to_visit.append(page_url)
+        if stop_depth != rec_depth + 1:
+            try:
+                resp = requests.get(url)
+            except (HTTPError, ConnectionError):
+                continue
+            soup = BeautifulSoup(resp.text, 'html.parser')
+            page_urls = modules.getweblinks.get_urls_from_page(soup, extension=add_exts)
+            for page_url in page_urls:
+                parent.add_child(name=page_url)
+                urls_to_visit.append(page_url)
+    if stop_depth == rec_depth + 1:
+        return t
     child = tree.add_child(t)
     rec_depth += 1
 
-    if stop_depth and target_url:
-        return bfs_urls(urls_to_visit, add_exts, stop_depth, target_url, rec_depth=rec_depth, tree=child)
-    if stop_depth:
-        return bfs_urls(urls_to_visit, add_exts, stop_depth=stop_depth, rec_depth=rec_depth, tree=child)
-    if target_url:
-        return bfs_urls(urls_to_visit, add_exts, target_url=target_url, rec_depth=rec_depth, tree=child)
-    
-    return bfs_urls(urls_to_visit, add_exts, rec_depth=rec_depth, tree=child)
+    return bfs_urls(urls_to_visit, add_exts, stop_depth, rec_depth=rec_depth, tree=child)
 
 
 def bfs(nodes, target_node=None, rec_depth=0, stop_depth=None):

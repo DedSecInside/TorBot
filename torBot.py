@@ -172,7 +172,9 @@ def main():
                 F = TextFace(node.name, tight_text=True)
                 add_face_to_node(F, node, column=0, position='branch-bottom')
             ts.layout_fn = my_layout
-            tree.render("torBotTree.pdf", tree_style=ts)
+            file_name = input("File Name (.pdf/.svg./.png): ")
+            tree.render(file_name, tree_style=ts)
+
         else:
             # Golang library isn't being used.
             # links = go_linker.GetLinks(link, LOCALHOST, PORT, 15)
