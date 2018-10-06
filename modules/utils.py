@@ -82,7 +82,7 @@ def bfs(nodes, target_node=None, rec_depth=0, stop_depth=None):
     """
 
     if rec_depth == stop_depth:
-        return rec_depth 
+        return rec_depth
 
     adjacent_nodes = list()
     # Checks that nodes is a list or has a Visit method
@@ -91,7 +91,8 @@ def bfs(nodes, target_node=None, rec_depth=0, stop_depth=None):
 
     for node in nodes:
         if target_node == node and target_node:
-            return tree
+            return rec_depth
+        node.Visit()
         adjacent_nodes.append(node)
     rec_depth += 1
 
@@ -154,7 +155,6 @@ def queue_tasks(tasks, task_func, tasks_args=tuple()):
 
     for task in tasks:
         que.put(task)
-
     que.join()
 
 
