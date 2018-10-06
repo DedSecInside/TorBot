@@ -4,8 +4,9 @@ MAIN MODULE
 import argparse
 import socket
 import socks
+from ete3 import Tree, TreeStyle, TextFace, add_face_to_node
 from modules import (colors, getemails, pagereader, getweblinks, updater,
-                     info, savefile)
+                     info, savefile, utils)
 
 # GLOBAL CONSTS
 LOCALHOST = "127.0.0.1"
@@ -120,6 +121,9 @@ def get_args():
                         action="store_true",
                         help=' '.join(("Info displays basic info of the",
                                        "scanned site, (very slow)")))
+    parser.add_argument("-g", "--graph",
+                        action="store_true",
+                        help="Testing") 
     return parser.parse_args()
 
 
@@ -158,6 +162,17 @@ def main():
             info.executeAll(link, html_content, response)
             if args.save:
                 print('Nothing to save.\n')
+        elif args.graph:
+            links = getweblinks.get_urls_from_page(html_content, extension=args.extension)
+            t = Tree(name=link)
+            tree = utils.bfs_urls(links, add_exts=args.extension, stop_depth=1, tree=t)
+            ts = TreeStyle()
+            ts.show_leaf_name = False
+            def my_layout(node):
+                F = TextFace(node.name, tight_text=True)
+                add_face_to_node(F, node, column=0, position='branch-bottom')
+            ts.layout_fn = my_layout
+            tree.render("torBotTree.pdf", tree_style=ts)
         else:
             # Golang library isn't being used.
             # links = go_linker.GetLinks(link, LOCALHOST, PORT, 15)

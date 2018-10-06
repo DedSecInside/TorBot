@@ -6,13 +6,15 @@ from queue import Queue
 from threading import Thread
 from bs4 import BeautifulSoup
 from requests.exceptions import HTTPError
+from ete3 import Tree
 
 import requests
 import modules.getweblinks
 
+
 # ALGORITHM UTILITY FUNCTIONS
 
-def bfs_urls(urls, add_exts, rec_depth=0, stop_depth=None, target_url=None):
+def bfs_urls(urls, add_exts, stop_depth=None, target_url=None, rec_depth=0, tree=None):
     """
     Traverses urls passed using Breadth First Search. You can specify stop
     depth or specify a target to look for. The rec_depth argument is used
@@ -32,35 +34,38 @@ def bfs_urls(urls, add_exts, rec_depth=0, stop_depth=None, target_url=None):
     Returns:
         rec_depth (int): depth stopped at
     """
-
     if rec_depth == stop_depth:
-        return rec_depth
-
+        return tree
+    
     urls_to_visit = list()
+    t = Tree(name=tree.name)
     for url in urls:
         if target_url == url and target_url:
-            return rec_depth
+            return tree 
         try:
             resp = requests.get(url)
         except (HTTPError, ConnectionError):
             continue
         soup = BeautifulSoup(resp.text, 'html.parser')
         page_urls = modules.getweblinks.get_urls_from_page(soup, extension=add_exts)
+        parent = t.add_child(name=url)
         for page_url in page_urls:
+            parent.add_child(name=page_url)
             urls_to_visit.append(page_url)
+    child = tree.add_child(t)
     rec_depth += 1
 
     if stop_depth and target_url:
-        return bfs_urls(urls_to_visit, add_exts, rec_depth, stop_depth, target_url)
+        return bfs_urls(urls_to_visit, add_exts, stop_depth, target_url, rec_depth=rec_depth, tree=child)
     if stop_depth:
-        return bfs_urls(urls_to_visit, add_exts, rec_depth, stop_depth=stop_depth)
+        return bfs_urls(urls_to_visit, add_exts, stop_depth=stop_depth, rec_depth=rec_depth, tree=child)
     if target_url:
-        return bfs_urls(urls_to_visit, add_exts, rec_depth, target_url=target_url)
+        return bfs_urls(urls_to_visit, add_exts, target_url=target_url, rec_depth=rec_depth, tree=child)
+    
+    return bfs_urls(urls_to_visit, add_exts, rec_depth=rec_depth, tree=child)
 
-    return bfs_urls(urls_to_visit, add_exts, rec_depth=rec_depth)
 
-
-def bfs(nodes, target_node=None, rec_depth=0, stop_depth=None):
+def bfs(nodes, target_node=None, rec_depth=0, stop_depth=None, tree=None):
     """
     Traverses nodes using Breadth First Search. You can specify stop
     depth or specify a target to look for. The rec_depth argument is used
@@ -77,7 +82,7 @@ def bfs(nodes, target_node=None, rec_depth=0, stop_depth=None):
     """
 
     if rec_depth == stop_depth:
-        return rec_depth
+        return tree
 
     adjacent_nodes = list()
     # Checks that nodes is a list or has a Visit method
@@ -86,8 +91,7 @@ def bfs(nodes, target_node=None, rec_depth=0, stop_depth=None):
 
     for node in nodes:
         if target_node == node and target_node:
-            return rec_depth
-        node.Visit()
+            return tree
         adjacent_nodes.append(node)
     rec_depth += 1
 
@@ -116,9 +120,10 @@ def exec_tasks(que, task_func, tasks_args=tuple()):
     while True:
         task = que.get()
         if tasks_args:
-            task_func(task, tasks_args)
+           result = task_func(task, tasks_args)
         else:
-            task_func(task)
+           result = task_func(task)
+        result_que.put(result)
         que.task_done()
 
 
@@ -135,6 +140,7 @@ def queue_tasks(tasks, task_func, tasks_args=tuple()):
         None
     """
     que = Queue(len(tasks)*2)
+    results = list()
     for _ in tasks:
         if tasks_args:
             if isinstance(tasks_args, tuple):
@@ -150,7 +156,10 @@ def queue_tasks(tasks, task_func, tasks_args=tuple()):
 
     for task in tasks:
         que.put(task)
+        results.append(result_que.get())
+
     que.join()
+    return results 
 
 
 # Networking functions
