@@ -65,7 +65,7 @@ def bfs_urls(urls, add_exts, stop_depth=None, target_url=None, rec_depth=0, tree
     return bfs_urls(urls_to_visit, add_exts, rec_depth=rec_depth, tree=child)
 
 
-def bfs(nodes, target_node=None, rec_depth=0, stop_depth=None, tree=None):
+def bfs(nodes, target_node=None, rec_depth=0, stop_depth=None):
     """
     Traverses nodes using Breadth First Search. You can specify stop
     depth or specify a target to look for. The rec_depth argument is used
@@ -82,7 +82,7 @@ def bfs(nodes, target_node=None, rec_depth=0, stop_depth=None, tree=None):
     """
 
     if rec_depth == stop_depth:
-        return tree
+        return rec_depth 
 
     adjacent_nodes = list()
     # Checks that nodes is a list or has a Visit method
@@ -120,9 +120,9 @@ def exec_tasks(que, task_func, tasks_args=tuple()):
     while True:
         task = que.get()
         if tasks_args:
-           task_func(task, tasks_args)
+            task_func(task, tasks_args)
         else:
-           task_func(task)
+            task_func(task)
         que.task_done()
 
 
