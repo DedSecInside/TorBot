@@ -4,9 +4,10 @@ MAIN MODULE
 import argparse
 import socket
 import socks
-from ete3 import Tree, TreeStyle, TextFace, add_face_to_node
+
+from bs4 import BeautifulSoup
 from modules import (colors, getemails, pagereader, getweblinks, updater,
-                     info, savefile, utils)
+                     info, savefile, visualizer)
 
 # GLOBAL CONSTS
 LOCALHOST = "127.0.0.1"
@@ -123,7 +124,7 @@ def get_args():
                                        "scanned site, (very slow)")))
     parser.add_argument("-g", "--graph",
                         action="store_true",
-                        help="Testing") 
+                        help="Testing")
     return parser.parse_args()
 
 
@@ -149,7 +150,7 @@ def main():
     # additional flag can be set with -u/--url flag
     if args.url:
         print("Tor IP Address :", pagereader.get_ip())
-        html_content, response = pagereader.read_page(link)
+        html_content = pagereader.read_page(link, show_msg=True)
         print("Connection successful.")
         # -m/--mail
         if args.mail:
@@ -159,26 +160,17 @@ def main():
                 savefile.saveJson('Emails', emails)
         # -i/--info
         elif args.info:
-            info.executeAll(link, html_content, response)
+            # info.executeAll(link, html_content, response)
             if args.save:
                 print('Nothing to save.\n')
         elif args.graph:
-            links = getweblinks.get_urls_from_page(html_content, extension=args.extension)
-            t = Tree(name=link)
-            tree = utils.bfs_urls(links, add_exts=args.extension, stop_depth=1, tree=t)
-            ts = TreeStyle()
-            ts.show_leaf_name = False
-            def my_layout(node):
-                F = TextFace(node.name, tight_text=True)
-                add_face_to_node(F, node, column=0, position='branch-bottom')
-            ts.layout_fn = my_layout
-            file_name = input("File Name (.pdf/.svg./.png): ")
-            tree.render(file_name, tree_style=ts)
+            visualizer.show_graph(link, args.extension)
 
         else:
             # Golang library isn't being used.
             # links = go_linker.GetLinks(link, LOCALHOST, PORT, 15)
-            links = getweblinks.get_links(soup=html_content, ext=args.extension, live=args.live)
+            soup = BeautifulSoup(html_content, 'html.parser')
+            links = getweblinks.get_links(soup=soup, ext=args.extension, live=args.live)
             if args.save:
                 savefile.saveJson("Links", links)
     else:
