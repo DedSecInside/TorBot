@@ -1,4 +1,5 @@
 import subprocess
+from random import randint as randi
 
 
 def updateTor():
