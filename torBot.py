@@ -88,43 +88,31 @@ def get_args():
     """
     Parses user flags passed to TorBot
     """
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-v", "--version",
-                        action="store_true",
+    parser = argparse.ArgumentParser(prog="TorBot",
+                                     usage="Gather and analayze data from Tor sites.")
+    parser.add_argument("-v", "--version", action="store_true",
                         help="Show current version of TorBot.")
-    parser.add_argument("--update",
-                        action="store_true",
+    parser.add_argument("--update", action="store_true",
                         help="Update TorBot to the latest stable version")
-    parser.add_argument("-q", "--quiet",
-                        action="store_true")
-    parser.add_argument("-u", "--url",
-                        help="Specifiy a website link to crawl")
+    parser.add_argument("-q", "--quiet", action="store_true")
+    parser.add_argument("-u", "--url", help="Specifiy a website link to crawl")
     parser.add_argument("--ip", help="Change default ip of tor")
-    parser.add_argument("-p", "--port",
-                        help="Change default port of tor")
-    parser.add_argument("-s", "--save",
-                        action="store_true",
+    parser.add_argument("-p", "--port", help="Change default port of tor")
+    parser.add_argument("-s", "--save", action="store_true",
                         help="Save results in a file")
-    parser.add_argument("-m", "--mail",
-                        action="store_true",
+    parser.add_argument("-m", "--mail", action="store_true",
                         help="Get e-mail addresses from the crawled sites")
-    parser.add_argument("-e", "--extension",
-                        action='append',
-                        dest='extension',
+    parser.add_argument("-e", "--extension", action='append', dest='extension',
                         default=[],
                         help=' '.join(("Specifiy additional website",
-                                       "extensions to the list(.com , .org",
-                                       ",.etc)")))
-    parser.add_argument("-l", "--live",
-                        action="store_true",
+                                       "extensions to the list(.com , .org, .etc)")))
+    parser.add_argument("-l", "--live", action="store_true",
                         help="Check if websites are live or not (slow)")
-    parser.add_argument("-i", "--info",
-                        action="store_true",
+    parser.add_argument("-i", "--info", action="store_true",
                         help=' '.join(("Info displays basic info of the",
                                        "scanned site, (very slow)")))
-    parser.add_argument("-g", "--graph",
-                        action="store_true",
-                        help="Testing")
+    parser.add_argument("--visualize", action="store_true",
+                        help="Visualizes tree of data gathered.")
     return parser.parse_args()
 
 
@@ -163,7 +151,7 @@ def main():
             # info.executeAll(link, html_content, response)
             if args.save:
                 print('Nothing to save.\n')
-        elif args.graph:
+        elif args.visualize:
             visualizer.show_graph(link, args.extension)
 
         else:
