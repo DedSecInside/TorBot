@@ -120,6 +120,10 @@ def get_args():
                         action="store_true",
                         help=' '.join(("Info displays basic info of the",
                                        "scanned site, (very slow)")))
+    parser.add_argument("-i", "--info",
+                        action="store_true",
+                        help=' '.join(("Info displays basic info of the",
+                                       "scanned site, (very slow)")))
     return parser.parse_args()
 
 
