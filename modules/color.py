@@ -29,7 +29,8 @@ class color:
     that adds color to a string
 
     Attributes:
-        _colors (dict): A map containing all of the color codes needed
+        message (string): message to be wrapped in color
+        selected (string): color to be displayed
     """
     def __init__(self, message, selected):
         self._msg = message

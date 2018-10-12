@@ -3,13 +3,12 @@
 Module used to interact with a pages urls
 """
 import re
-
 from bs4 import BeautifulSoup
 
-import modules.utils
-import modules.pagereader
-
 from modules.color import color
+from modules.utils import multi_thread
+from modules.pagereader import display_url
+from modules.visualizer import build_tree
 
 
 def is_url(url):
@@ -78,7 +77,7 @@ def get_urls_from_page(page_soup, email=False, extension=False):
     return urls
 
 
-def search_page(html, ext, stop_depth=None):
+def search_page(link, ext, stop_depth=None):
     """
         Takes in a pages HTML and searches the links on the page using
         BFS.
@@ -91,14 +90,12 @@ def search_page(html, ext, stop_depth=None):
             links_found (list): links found on page and associated pages
     """
 
-    soup = BeautifulSoup(html, 'html.parser')
-    links = get_urls_from_page(soup, extension=ext)
     if stop_depth:
-        links_found = modules.utils.bfs_urls(links, ext, stop_depth=stop_depth)
+        tree = build_tree(link, ext, stop=stop_depth)
     else:
-        links_found = modules.utils.bfs_urls(links, ext)
+        tree = build_tree(link, ext)
 
-    return links_found
+    return tree
 
 
 def get_links(soup, ext=False, live=False):
@@ -122,7 +119,7 @@ def get_links(soup, ext=False, live=False):
         print('------------------------------------')
 
         if live:
-            modules.utils.queue_tasks(websites, modules.pagereader.display_url)
+            multi_thread(websites, display_url)
         return websites
 
     raise Exception('Method parameter is not of instance BeautifulSoup')
