@@ -81,7 +81,7 @@ def bfs(nodes, target_node=None, rec_depth=0, stop_depth=None):
 
     adjacent_nodes = list()
     # Checks that nodes is a list or has a Visit method
-    if not isinstance(nodes, list) and not hasattr(nodes, 'Visit', False):
+    if not isinstance(nodes, list) and not hasattr(nodes, 'Visit'):
         raise Exception('nodes must be a list')
 
     for node in nodes:
