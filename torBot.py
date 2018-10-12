@@ -6,13 +6,12 @@ import socket
 import socks
 
 from bs4 import BeautifulSoup
-from modules import (colors, getemails, pagereader, getweblinks, updater,
+from modules import (color, getemails, pagereader, getweblinks, updater,
                      info, savefile, visualizer)
 
 # GLOBAL CONSTS
 LOCALHOST = "127.0.0.1"
 DEFPORT = 9050
-COLOR = colors.Colors()
 
 # TorBot VERSION
 __VERSION = "1.2"
@@ -60,27 +59,27 @@ def header():
     """
     Prints out header ASCII art
     """
-
-    title = r"""
+    license_msg = color.color("LICENSE: GNU Public License", "red")
+    banner = r"""
                            __  ____  ____  __        ______
                           / /_/ __ \/ __ \/ /_  ____/_  __/
                          / __/ / / / /_/ / __ \/ __ \/ /
                         / /_/ /_/ / _, _/ /_/ / /_/ / /
                         \__/\____/_/ |_/_____/\____/_/  V{VERSION}
-                {FAIL} {On_Black}
-                #######################################################
-                #  TorBot - An OSINT Tool for Deep Web                #
-                #  GitHub : https://github.com/DedsecInside/TorBot    #
-                #  Help : use -h for help text                        #
-                #######################################################
-                      {FAIL}   LICENSE: GNU Public License {END}"""
+              """.format(VERSION=__VERSION)
+    banner = color.color(banner, "red")
 
-    title = title.format(
-        FAIL=COLOR.get('red'),
-        VERSION=__VERSION,
-        END=COLOR.get('end'),
-        On_Black=COLOR.get('black')
-        )
+    title = r"""
+                                    {banner}
+                    #######################################################
+                    #  TorBot - An OSINT Tool for Deep Web                #
+                    #  GitHub : https://github.com/DedsecInside/TorBot    #
+                    #  Help : use -h for help text                        #
+                    #######################################################
+                                  {license_msg} 
+              """
+
+    title = title.format(license_msg=license_msg, banner=banner)
     print(title)
 
 
@@ -138,7 +137,7 @@ def main():
     # additional flag can be set with -u/--url flag
     if args.url:
         print("Tor IP Address :", pagereader.get_ip())
-        html_content = pagereader.read_page(link, show_msg=True)
+        html_content = pagereader.read_page(link)
         print("Connection successful.")
         # -m/--mail
         if args.mail:

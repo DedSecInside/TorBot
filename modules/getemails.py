@@ -5,9 +5,8 @@ Module returns emails found on webpage
 from bs4 import BeautifulSoup
 
 import modules.getweblinks
-from modules.colors import Colors
+from modules.color import color
 
-COLOR = Colors()
 
 def get_mails(soup):
     """
@@ -29,7 +28,7 @@ def get_mails(soup):
         # Pretty print output as below
         print('')
         success_string = 'Mails Found - ' + str(len(emails))
-        print(COLOR.add(success_string, 'green'))
+        print(color(success_string, 'green'))
         print('-------------------------------')
 
         return emails

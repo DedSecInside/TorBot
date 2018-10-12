@@ -9,9 +9,8 @@ from bs4 import BeautifulSoup
 import modules.utils
 import modules.pagereader
 
-from modules.colors import Colors
+from modules.color import color
 
-COLOR = Colors()
 
 def is_url(url):
     """
@@ -119,7 +118,7 @@ def get_links(soup, ext=False, live=False):
         websites = get_urls_from_page(soup, extension=ext)
         # Pretty print output as below
         success_string = 'Websites Found - ' + str(len(websites))
-        print(COLOR.add(success_string, 'green'))
+        print(color(success_string, 'green'))
         print('------------------------------------')
 
         if live:

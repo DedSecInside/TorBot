@@ -5,9 +5,7 @@ This module is used for reading HTML pages using either bs4.BeautifulSoup object
 
 from bs4 import BeautifulSoup
 from modules.utils import get_url_status
-from modules.colors import Colors
-
-COLOR = Colors()
+from modules.color import color
 
 def display_url(url):
     """
@@ -22,12 +20,16 @@ def display_url(url):
     """
     resp = get_url_status(url)
     if resp != 0:
-        title = BeautifulSoup(resp.text, 'html.parser').title.string
-        coloredurl = COLOR.add(url, 'green')
-        print_row(coloredurl, title)
+        try:
+            title = BeautifulSoup(resp.text, 'html.parser').title.string
+            colored_url = color(url, 'green')
+            print_row(colored_url, title)
+        except AttributeError:
+            colored_url = color(url, 'red')
+            print_row(colored_url, "Not found")
     else:
-        coloredurl = COLOR.add(url, 'red')
-        print_row(coloredurl, "Not found")
+        colored_url = color(url, 'red')
+        print_row(colored_url, "Not found")
 
 
 def print_row(url, description):
@@ -43,7 +45,7 @@ def connection_msg(url):
     """
     yield "Attempting to connect to {url}".format(url=url)
 
-def read_page(url, headers=None, schemes=None, show_msg=False):
+def read_page(url, headers=None, schemes=None):
     """
     Attempts to connect to url and returns the HTML from page
 
@@ -56,9 +58,7 @@ def read_page(url, headers=None, schemes=None, show_msg=False):
     headers = {'User-Agent': 'XXXX-XXXXX-XXXX'} if not headers else headers
     # Attempts to connect directly to site if no scheme is passed
     if not schemes:
-        if show_msg:
-            print(next(connection_msg(url)))
-        schemes = ['https://', 'http://']
+        print(next(connection_msg(url)))
         resp = get_url_status(url, headers)
         if resp != 0:
             return resp.text
@@ -67,8 +67,7 @@ def read_page(url, headers=None, schemes=None, show_msg=False):
 
     for scheme in schemes:
         temp_url = scheme + url
-        if show_msg:
-            print(next(connection_msg(temp_url)))
+        print(next(connection_msg(temp_url)))
         resp = get_url_status(temp_url, headers)
         if resp != 0:
             return resp.text
@@ -89,4 +88,4 @@ def get_ip():
     ip_cont = page.find('strong')
     ip_addr = ip_cont.renderContents()
     ip_string = ip_addr.decode("utf-8")
-    return COLOR.add(ip_string, 'yellow')
+    return color(ip_string, 'yellow')
