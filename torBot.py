@@ -6,7 +6,7 @@ import socket
 import socks
 
 from bs4 import BeautifulSoup
-from modules.visualizer import LinkTree
+from modules.analyzer import LinkTree
 from modules import (color, getemails, pagereader, getweblinks, updater,
                      info, savefile)
 
@@ -138,8 +138,9 @@ def main():
     # additional flag can be set with -u/--url flag
     if args.url:
         print("Tor IP Address :", pagereader.get_ip())
-        html_content = pagereader.read_page(link)
-        print("Connection successful.")
+        if not args.visualize:
+            html_content = pagereader.read_page(link)
+            print("Connection successful.")
         # -m/--mail
         if args.mail:
             emails = getemails.get_mails(html_content)
@@ -152,7 +153,7 @@ def main():
             if args.save:
                 print('Nothing to save.\n')
         elif args.visualize:
-            tree = LinkTree(link)
+            tree = LinkTree(link, args.extension)
             tree.show()
 
         else:

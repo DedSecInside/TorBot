@@ -10,7 +10,7 @@ import requests
 
 # ALGORITHM UTILITY FUNCTIONS
 
-def process_data(data_queue, process, args=tuple()):
+def process_data(data_queue, stack, process, args=tuple()):
     """
     Processes tasks using by grabbing threads from queue
 
@@ -24,9 +24,12 @@ def process_data(data_queue, process, args=tuple()):
     while True:
         data = data_queue.get()
         if args:
-            process(data, args)
+            result = process(data, args)
+            stack.append(result)
         else:
-            process(data)
+            result = process(data)
+            stack.append(result)
+        print(data)
         data_queue.task_done()
 
 
@@ -43,16 +46,17 @@ def multi_thread(data, data_function, args=tuple()):
         None
     """
     data_queue = Queue(len(data)*2)
+    stack = list()
     for _ in data:
         if args:
             if isinstance(args, tuple):
-                thd = Thread(target=process_data, args=(data_queue, data_function, args))
+                thd = Thread(target=process_data, args=(data_queue, stack, data_function, args))
                 thd.daemon = True
                 thd.start()
             else:
                 raise Exception('Arguments must be in the form of a tuple.')
         else:
-            thd = Thread(target=process_data, args=(data_queue, data_function))
+            thd = Thread(target=process_data, args=(data_queue, stack, data_function))
             thd.daemon = True
             thd.start()
 
@@ -60,6 +64,7 @@ def multi_thread(data, data_function, args=tuple()):
         data_queue.put(data_obj)
 
     data_queue.join()
+    return stack.pop()
 
 
 # Networking functions
