@@ -7,8 +7,13 @@ import socks
 
 from bs4 import BeautifulSoup
 from modules.analyzer import LinkTree
-from modules import (color, getemails, pagereader, getweblinks, updater,
-                     info, savefile)
+from modules.getweblinks import get_links
+from modules.color import color
+from modules.pagereader import read, display_ip
+from modules.getemails import get_mails
+from modules.updater import updateTor
+from modules.savefile import saveJson
+from modules.info import executeAll
 
 # GLOBAL CONSTS
 LOCALHOST = "127.0.0.1"
@@ -60,7 +65,7 @@ def header():
     """
     Prints out header ASCII art
     """
-    license_msg = color.color("LICENSE: GNU Public License", "red")
+    license_msg = color("LICENSE: GNU Public License", "red")
     banner = r"""
                            __  ____  ____  __        ______
                           / /_/ __ \/ __ \/ /_  ____/_  __/
@@ -68,7 +73,7 @@ def header():
                         / /_/ /_/ / _, _/ /_/ / /_/ / /
                         \__/\____/_/ |_/_____/\____/_/  V{VERSION}
               """.format(VERSION=__VERSION)
-    banner = color.color(banner, "red")
+    banner = color(banner, "red")
 
     title = r"""
                                     {banner}
@@ -130,26 +135,26 @@ def main():
         print("TorBot Version:" + __VERSION)
         exit()
     if args.update:
-        updater.updateTor()
+        updateTor()
         exit()
     if not args.quiet:
         header()
     # If url flag is set then check for accompanying flag set. Only one
     # additional flag can be set with -u/--url flag
     if args.url:
-        pagereader.display_ip()
+        display_ip()
         if not args.visualize:
-            html_content = pagereader.read(link)
+            html_content, response = read(link, response=True)
             print("Connection successful.")
         # -m/--mail
         if args.mail:
-            emails = getemails.get_mails(html_content)
+            emails = get_mails(html_content)
             print(emails)
             if args.save:
-                savefile.saveJson('Emails', emails)
+                saveJson('Emails', emails)
         # -i/--info
         elif args.info:
-            # info.executeAll(link, html_content, response)
+            executeAll(link, html_content, response)
             if args.save:
                 print('Nothing to save.\n')
         elif args.visualize:
@@ -160,9 +165,9 @@ def main():
             # Golang library isn't being used.
             # links = go_linker.GetLinks(link, LOCALHOST, PORT, 15)
             soup = BeautifulSoup(html_content, 'html.parser')
-            links = getweblinks.get_links(soup=soup, ext=args.extension, live=args.live)
+            links = get_links(soup=soup, ext=args.extension, live=args.live)
             if args.save:
-                savefile.saveJson("Links", links)
+                saveJson("Links", links)
     else:
         print("usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m]",
               "[-e EXTENSION] [-l] [-i]")

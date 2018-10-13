@@ -7,7 +7,7 @@ from modules.utils import get_url_status
 from modules.color import color
 
 
-def read(link, headers=None, schemes=None):
+def read(link, response=False, headers=None, schemes=None):
     """
     Attempts to retrieve HTML from link
 
@@ -23,7 +23,9 @@ def read(link, headers=None, schemes=None):
         print(f"Attempting to connect to {link}")
         resp = get_url_status(link, headers)
         if resp != 0:
-            return resp.text
+            if response:
+                return resp.text, resp
+            return resp.txt
 
     schemes = ['https://', 'http://'] if not schemes else schemes
 
@@ -33,7 +35,10 @@ def read(link, headers=None, schemes=None):
 
         resp = get_url_status(temp_url, headers)
         if resp != 0:
-            return resp.text
+            if response:
+                return resp.text, resp
+
+            return resp.txt
 
     raise ConnectionError
 
