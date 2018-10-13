@@ -92,8 +92,8 @@ def get_links(soup, ext=False, live=False):
     if isinstance(soup, BeautifulSoup):
         websites = get_urls_from_page(soup, extension=ext)
         # Pretty print output as below
-        success_string = 'Websites Found - ' + str(len(websites))
-        print(color(success_string, 'green'))
+        success_string = color(f'Websites Found - {str(len(websites))}', 'green')
+        print(success_string)
         print('------------------------------------')
 
         if live:

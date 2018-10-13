@@ -25,7 +25,6 @@ def get_mails(soup):
         emails = get_urls_from_page(soup, email=True)
 
         # Pretty print output as below
-        print('')
         success_string = color(f'Mails Found - {str(len(emails))}', 'green')
         print(success_string)
         print('-------------------------------')
