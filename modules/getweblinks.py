@@ -8,7 +8,6 @@ from bs4 import BeautifulSoup
 from modules.color import color
 from modules.utils import multi_thread
 from modules.pagereader import display_url
-from modules.visualizer import build_tree
 
 
 def is_url(url):

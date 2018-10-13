@@ -6,7 +6,36 @@ from ete3 import Tree, TreeStyle, TextFace, add_face_to_node
 
 from modules import getweblinks, pagereader
 
-def build_tree(link, tld, stop=None, rec=0, to_visit=None, tree=None):
+class LinkTree: 
+    def __init__(self, root, stop_depth=1):
+        self._tree = build_tree(root, stop_depth)
+
+    def save(self, style=None):
+        file_name = input("File Name (.pdf/.svg./.png): ")
+        if style:
+            self._tree.render(file_name, tree_style=style)
+        else: 
+            style = TreeStyle()
+            style.show_leaf_name = False
+            def my_layout(node):
+                node_style = TextFace(node.name, tight_text=True)
+                add_face_to_node(node_style, node, column=0, position='branch-bottom')
+            style.layout_fn = my_layout
+            self._tree.render(file_name, tree_style=style)
+
+    def show(self, style=None):
+        if style:
+            self._tree.show(tree_style=style)
+        else:
+            style = TreeStyle()
+            style.show_leaf_name = False
+            def my_layout(node):
+                node_style = TextFace(node.name, tight_text=True)
+                add_face_to_node(node_style, node, column=0, position='branch-bottom')
+            style.layout_fn = my_layout
+            self._tree.show(tree_style=style)
+
+def build_tree(link, stop, rec=0, to_visit=None, tree=None):
     """
     Builds tree using Breadth First Search. You can specify stop depth. 
     Rec & tree arguments are used for recursion.
@@ -29,7 +58,7 @@ def build_tree(link, tld, stop=None, rec=0, to_visit=None, tree=None):
         tree = Tree(name=link)
         html_content = pagereader.read_page(link)
         soup = BeautifulSoup(html_content, 'html.parser')
-        to_visit = getweblinks.get_urls_from_page(soup, extension=tld)
+        to_visit = getweblinks.get_urls_from_page(soup)
 
     t = Tree(name=tree.name)
 
@@ -45,7 +74,7 @@ def build_tree(link, tld, stop=None, rec=0, to_visit=None, tree=None):
         except (HTTPError, ConnectionError):
             continue
         soup = BeautifulSoup(resp.text, 'html.parser')
-        urls = getweblinks.get_urls_from_page(soup, extension=tld)
+        urls = getweblinks.get_urls_from_page(soup)
         # No need to find children if we aren't going to visit them
         if stop != rec + 1:
             for child_url in urls:
@@ -55,15 +84,4 @@ def build_tree(link, tld, stop=None, rec=0, to_visit=None, tree=None):
     rec += 1
 
     # If we've reached stop depth then return tree
-    return t if stop == rec else build_tree(to_visit, tld, stop, rec, child)
-
-def show_graph(link, extension):
-    tree = build_tree(link, tld=extension, stop=1)
-    style = TreeStyle()
-    style.show_leaf_name = False
-    def my_layout(node):
-        node_style = TextFace(node.name, tight_text=True)
-        add_face_to_node(node_style, node, column=0, position='branch-bottom')
-    style.layout_fn = my_layout
-    file_name = input("File Name (.pdf/.svg./.png): ")
-    tree.render(file_name, tree_style=style)
+    return t if stop == rec else build_tree(to_visit, stop, rec, child)

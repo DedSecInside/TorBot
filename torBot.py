@@ -6,8 +6,9 @@ import socket
 import socks
 
 from bs4 import BeautifulSoup
+from modules.visualizer import LinkTree
 from modules import (color, getemails, pagereader, getweblinks, updater,
-                     info, savefile, visualizer)
+                     info, savefile)
 
 # GLOBAL CONSTS
 LOCALHOST = "127.0.0.1"
@@ -151,7 +152,8 @@ def main():
             if args.save:
                 print('Nothing to save.\n')
         elif args.visualize:
-            visualizer.show_graph(link, args.extension)
+            tree = LinkTree(link)
+            tree.show()
 
         else:
             # Golang library isn't being used.
