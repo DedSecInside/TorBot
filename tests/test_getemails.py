@@ -1,8 +1,7 @@
 import sys
 sys.path.append('../')
 
-import modules.getemails as getemails
-
+from modules import getemails
 from bs4 import BeautifulSoup
 from yattag import Doc
 

@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 
 from modules.color import color
 from modules.utils import multi_thread
-from modules.pagereader import display_url
+from modules.pagereader import display
 
 
 def is_url(url):
@@ -76,27 +76,6 @@ def get_urls_from_page(page_soup, email=False, extension=False):
     return urls
 
 
-def search_page(link, ext, stop_depth=None):
-    """
-        Takes in a pages HTML and searches the links on the page using
-        BFS.
-
-        Args:
-            html (str): HTML with links to search
-            add_exts (str): additional extension
-            stop_depth (int): The depth at which to stop
-        Returns:
-            links_found (list): links found on page and associated pages
-    """
-
-    if stop_depth:
-        tree = build_tree(link, ext, stop=stop_depth)
-    else:
-        tree = build_tree(link, ext)
-
-    return tree
-
-
 def get_links(soup, ext=False, live=False):
     """
     Returns list of links listed on the webpage of the soup passed. If live
@@ -118,7 +97,7 @@ def get_links(soup, ext=False, live=False):
         print('------------------------------------')
 
         if live:
-            multi_thread(websites, display_url)
+            multi_thread(websites, display)
         return websites
 
     raise Exception('Method parameter is not of instance BeautifulSoup')

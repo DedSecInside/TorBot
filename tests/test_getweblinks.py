@@ -1,9 +1,9 @@
 import sys
 sys.path.append('../')
-
-import modules.getweblinks as getweblinks
 import pytest
 import requests_mock
+
+from modules import getweblinks
 
 from bs4 import BeautifulSoup
 from yattag import Doc

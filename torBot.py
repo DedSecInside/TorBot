@@ -137,9 +137,9 @@ def main():
     # If url flag is set then check for accompanying flag set. Only one
     # additional flag can be set with -u/--url flag
     if args.url:
-        print("Tor IP Address :", pagereader.get_ip())
+        pagereader.display_ip()
         if not args.visualize:
-            html_content = pagereader.read_page(link)
+            html_content = pagereader.read(link)
             print("Connection successful.")
         # -m/--mail
         if args.mail:
