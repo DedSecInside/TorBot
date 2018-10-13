@@ -25,7 +25,7 @@ def read(link, response=False, headers=None, schemes=None):
         if resp != 0:
             if response:
                 return resp.text, resp
-            return resp.txt
+            return resp.text
 
     schemes = ['https://', 'http://'] if not schemes else schemes
 
