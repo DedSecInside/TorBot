@@ -38,7 +38,7 @@ def read(link, response=False, headers=None, schemes=None):
             if response:
                 return resp.text, resp
 
-            return resp.txt
+            return resp.text
 
     raise ConnectionError
 
