@@ -5,15 +5,14 @@ import argparse
 import socket
 import socks
 
-from bs4 import BeautifulSoup
 from modules.analyzer import LinkTree
 from modules.getweblinks import get_links
 from modules.color import color
-from modules.pagereader import read, display_ip
+from modules.pagereader import display_ip
 from modules.getemails import get_mails
 from modules.updater import updateTor
 from modules.savefile import saveJson
-from modules.info import executeAll
+from modules.info import execute_all
 
 # GLOBAL CONSTS
 LOCALHOST = "127.0.0.1"
@@ -118,6 +117,8 @@ def get_args():
                                        "scanned site, (very slow)")))
     parser.add_argument("--visualize", action="store_true",
                         help="Visualizes tree of data gathered.")
+    parser.add_argument("--download", action="store_true",
+                        help="Downloads tree of data gathered.")
     return parser.parse_args()
 
 
@@ -143,29 +144,28 @@ def main():
     # additional flag can be set with -u/--url flag
     if args.url:
         display_ip()
-        if not args.visualize:
-            html_content, response = read(link, response=True)
-            print("Connection successful.")
         # -m/--mail
         if args.mail:
-            emails = get_mails(html_content)
+            emails = get_mails(link)
             print(emails)
             if args.save:
                 saveJson('Emails', emails)
         # -i/--info
         elif args.info:
-            executeAll(link, html_content, response)
+            execute_all(link)
             if args.save:
                 print('Nothing to save.\n')
         elif args.visualize:
             tree = LinkTree(link, args.extension)
             tree.show()
-
+        elif args.download:
+            tree = LinkTree(link, args.extension)
+            file_name = str(input("File Name (.pdf/.png/.svg): "))
+            tree.save(file_name)
         else:
             # Golang library isn't being used.
             # links = go_linker.GetLinks(link, LOCALHOST, PORT, 15)
-            soup = BeautifulSoup(html_content, 'html.parser')
-            links = get_links(soup=soup, ext=args.extension, live=args.live)
+            links = get_links(link, ext=args.extension, display_status=args.live)
             if args.save:
                 saveJson("Links", links)
     else:
