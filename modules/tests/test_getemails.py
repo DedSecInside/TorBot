@@ -3,7 +3,7 @@ Test module for getemails
 """
 from bs4 import BeautifulSoup
 from yattag import Doc
-from .. import getemails
+from ..getemails import get_mails
 
 
 def test_get_emails_fail():
@@ -19,7 +19,7 @@ def test_get_emails_fail():
     mock_html = doc.getvalue()
 
     mock_soup = BeautifulSoup(mock_html, 'html.parser')
-    emails = getemails.get_mails(mock_soup)
+    emails = get_mails(mock_soup)
     assert emails == []
 
 
@@ -41,7 +41,7 @@ def test_get_emails():
     mock_html = doc.getvalue()
 
     mock_soup = BeautifulSoup(mock_html, 'html.parser')
-    emails = getemails.get_mails(mock_soup)
+    emails = get_mails(mock_soup)
     assert emails == test_emails
 
 
