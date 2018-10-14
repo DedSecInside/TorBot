@@ -44,7 +44,7 @@ def test_get_links_fail():
         for data in test_data:
             mock_connection.register_uri('GET', data, text='Received')
 
-        result = get_links(data, test_html=mock_soup)
+        result = get_links('test', test_html=mock_soup)
         assert result == []
 
 
@@ -64,7 +64,7 @@ def test_get_links_tor():
         for data in test_data:
             mock_connection.register_uri('GET', data, text='Received')
 
-        result = get_links(data, test_html=mock_soup, ext=['.tor'])
+        result = get_links('test', test_html=mock_soup, ext=['.tor'])
         assert result == test_data
 
 
