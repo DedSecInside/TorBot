@@ -7,7 +7,7 @@ from .utils import get_url_status
 from .color import color
 
 
-def read(link, response=False, headers=None, schemes=None):
+def read(link, *, response=False, show_msg=False, headers=None, schemes=None):
     """
     Attempts to retrieve HTML from link
 
@@ -20,7 +20,8 @@ def read(link, response=False, headers=None, schemes=None):
     headers = {'User-Agent': 'XXXX-XXXXX-XXXX'} if not headers else headers
     # Attempts to connect directly to site if no scheme is passed
     if not schemes:
-        print(f"Attempting to connect to {link}")
+        if show_msg: 
+            print(f"Attempting to connect to {link}")
         resp = get_url_status(link, headers)
         if resp != 0:
             if response:
@@ -31,7 +32,8 @@ def read(link, response=False, headers=None, schemes=None):
 
     for scheme in schemes:
         temp_url = scheme + link
-        print(f"Attempting to connect to {link}")
+        if show_msg:
+            print(f"Attempting to connect to {link}")
 
         resp = get_url_status(temp_url, headers)
         if resp != 0:

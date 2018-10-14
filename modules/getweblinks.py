@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 
 from .color import color
 from .utils import multi_thread
-from .pagereader import display
+from .pagereader import read, display
 
 
 def is_url(url):
@@ -76,7 +76,7 @@ def get_urls_from_page(page_soup, email=False, extension=False):
     return urls
 
 
-def get_links(soup, ext=False, live=False):
+def get_links(link, ext=False, display_status=False):
     """
     Returns list of links listed on the webpage of the soup passed. If live
     is set to true then it will also print the status of each of the links
@@ -84,20 +84,23 @@ def get_links(soup, ext=False, live=False):
     extensions to be recognized as valid urls and not just '.tor'.
 
     Args:
-        soup (bs4.BeautifulSoup): webpage to be searched for links.
+        link (str): link to find children of
+        ext (bool): additional top-level-domains
 
     Returns:
         websites (list(str)): List of websites that were found
     """
+    page = read(link, show_msg=display_status)
+    soup = BeautifulSoup(page, 'html.parser')
     if isinstance(soup, BeautifulSoup):
-        websites = get_urls_from_page(soup, extension=ext)
+        links = get_urls_from_page(soup, extension=ext)
         # Pretty print output as below
-        success_string = color(f'Websites Found - {str(len(websites))}', 'green')
+        success_string = color(f'Links Found - {str(len(links))}', 'green')
         print(success_string)
         print('------------------------------------')
 
-        if live:
-            multi_thread(websites, display)
-        return websites
+        if display_status:
+            multi_thread(links, display)
+        return links
 
     raise Exception('Method parameter is not of instance BeautifulSoup')
