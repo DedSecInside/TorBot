@@ -3,8 +3,8 @@
 Module returns emails found on webpage
 """
 from bs4 import BeautifulSoup
-from modules.getweblinks import get_urls_from_page
-from modules.color import color
+from .getweblinks import get_urls_from_page
+from .color import color
 
 
 def get_mails(soup):

@@ -6,9 +6,20 @@ from requests.exceptions import HTTPError
 
 from bs4 import BeautifulSoup
 from ete3 import Tree, TreeStyle, TextFace, add_face_to_node
-from modules import getweblinks, pagereader
+from .getweblinks import get_urls_from_page
+from .pagereader import read
 
 class LinkTree:
+    """
+    This is a class that represents a tree of links within TorBot. This can be used to build a tree,
+    examine the number of nodes, if a node exists within a tree, displaying the tree and
+    downloading the tree, and will be expanded in the future to meet further needs.
+
+    Attributes:
+        root (str): Represents root link
+        tld (bool): Decides whether or not to use additional top-level-domains besides .tor
+        stop_depth (int): Depth of which to stop searching for links
+    """
     def __init__(self, root, tld=False, stop_depth=1):
         self._tree = build_tree(root, tld=tld, stop=stop_depth)
 
@@ -18,8 +29,14 @@ class LinkTree:
     def __contains__(self, link):
         return link in self._tree
 
-    def save(self):
-        file_name = input("File Name (.t = pdf/.svg./.png): ")
+    def save(self, file_name):
+        """
+        Saves LinkTree to file with given file_name
+        Current file types supported are .png, .pdf, .svg
+
+        Args:
+            file_name (str): Name of file being saved to
+        """
         style = TreeStyle()
         style.show_leaf_name = False
         def my_layout(node):
@@ -29,6 +46,9 @@ class LinkTree:
         self._tree.render(file_name, tree_style=style)
 
     def show(self):
+        """
+        Allows user to quickly view LinkTree
+        """
         style = TreeStyle()
         style.show_leaf_name = False
         def my_layout(node):
@@ -38,24 +58,40 @@ class LinkTree:
         self._tree.show(tree_style=style)
 
 def get_node_children(link, tld):
+    """
+    Returns children for link node
+
+    Args:
+        link (str): link node to get children for
+        tld (bool): Additional top-level-domains
+    Returns:
+        children (list): A list of children from linknode
+    """
     try:
         resp = requests.get(link)
         soup = BeautifulSoup(resp.text, 'html.parser')
-        children = getweblinks.get_urls_from_page(soup, tld)
+        children = get_urls_from_page(soup, tld)
     except (HTTPError, ConnectionError):
         children = []
-
     return children
 
 def initialize_tree(link, tld):
+    """
+    Creates root of tree
+    Args:
+        link (str): link node to be used as root
+        tld (bool): Additional top-level-domains
+    Returns:
+        root (ete3.Tree): root node of tree
+        to_visit (list): Children of root node
+    """
     root = Tree(name=link)
-    html_content = pagereader.read_page(link)
+    html_content = read(link)
     soup = BeautifulSoup(html_content, 'html.parser')
-    to_visit = getweblinks.get_urls_from_page(soup, extension=tld)
-
+    to_visit = get_urls_from_page(soup, extension=tld)
     return root, to_visit
 
-def build_tree(link, tld, stop=1, rec=0, to_visit=None, tree=None):
+def build_tree(link, tld, stop=1, *, rec=0, to_visit=None, tree=None):
     """
     Builds tree using Breadth First Search. You can specify stop depth.
     Rec & tree arguments are used for recursion.
@@ -99,4 +135,4 @@ def build_tree(link, tld, stop=1, rec=0, to_visit=None, tree=None):
         return sub_tree
 
     new_tree = tree.add_child(sub_tree)
-    build_tree(to_visit, tld, stop, rec, new_tree)
+    return build_tree(to_visit, tld, stop, rec=rec, tree=new_tree)

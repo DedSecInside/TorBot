@@ -5,9 +5,14 @@ Module used to interact with a pages urls
 import re
 from bs4 import BeautifulSoup
 
+from .color import color
+from .utils import multi_thread
+from .pagereader import display
+"""
 from modules.color import color
 from modules.utils import multi_thread
 from modules.pagereader import display
+"""
 
 
 def is_url(url):

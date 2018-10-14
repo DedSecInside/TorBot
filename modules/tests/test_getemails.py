@@ -1,17 +1,20 @@
-import sys
-sys.path.append('../')
-
-from modules import getemails
+"""
+Test module for getemails
+"""
 from bs4 import BeautifulSoup
 from yattag import Doc
+from .. import getemails
 
 
 def test_get_emails_fail():
+    """
+    Test case for if website doesn't contain any email links
+    """
     doc, tag, _, line = Doc().ttl()
     doc.asis('<!DOCTYPE html>')
     with tag('html'):
         with tag('body'):
-                line('a', 'test_anchor')
+            line('a', 'test_anchor')
 
     mock_html = doc.getvalue()
 
@@ -21,6 +24,9 @@ def test_get_emails_fail():
 
 
 def test_get_emails():
+    """
+    Test case for if website has multiple email links
+    """
     test_emails = ['hello@helloaddress.com',
                    'test@testemail.com',
                    'foo@bar.com',
@@ -40,6 +46,9 @@ def test_get_emails():
 
 
 def test_run():
+    """
+    Execute test cases
+    """
     test_get_emails()
     test_get_emails_fail()
 
