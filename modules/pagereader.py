@@ -1,111 +1,80 @@
-
 """
 This module is used for reading HTML pages using either bs4.BeautifulSoup objects or url strings
 """
 
-import sys
 from bs4 import BeautifulSoup
-from modules.utils import get_url_status
-from modules.colors import Colors
+from .utils import get_url_status
+from .color import color
 
-COLOR = Colors()
 
-def display_url(url):
+def read(link, *, response=False, show_msg=False, headers=None, schemes=None):
     """
-    Prints the status of a url based on if it can be reached using a GET
-    request. url is printed with a color based on status.
-    Green for a reachable status code and red for not reachable.
+    Attempts to retrieve HTML from link
 
     Args:
-        url (str): url to be printed
+        headers (dict)
+        schemes (list)
     Returns:
-        None
+        resp.text (str): html from page
     """
-    resp = get_url_status(url)
+    headers = {'User-Agent': 'XXXX-XXXXX-XXXX'} if not headers else headers
+    # Attempts to connect directly to site if no scheme is passed
+    if not schemes:
+        if show_msg: 
+            print(f"Attempting to connect to {link}")
+        resp = get_url_status(link, headers)
+        if resp != 0:
+            if response:
+                return resp.text, resp
+            return resp.text
+
+    schemes = ['https://', 'http://'] if not schemes else schemes
+
+    for scheme in schemes:
+        temp_url = scheme + link
+        if show_msg:
+            print(f"Attempting to connect to {link}")
+
+        resp = get_url_status(temp_url, headers)
+        if resp != 0:
+            if response:
+                return resp.text, resp
+
+            return resp.text
+
+    raise ConnectionError
+
+
+def display(link):
+    """
+    Prints the status of a link
+    """
+    resp = get_url_status(link)
     if resp != 0:
-        title = BeautifulSoup(resp.text, 'html.parser').title.string
-        coloredurl = COLOR.add(url, 'green')
-        print_row(coloredurl, title)
+        try:
+            title = BeautifulSoup(resp.text, 'html.parser').title.string
+            link_status = color(link, 'green')
+        except AttributeError:
+            title = "Not Found"
+            link_status = color(link, 'red')
     else:
-        coloredurl = COLOR.add(url, 'red')
-        print_row(coloredurl, "Not found")
+        title = "Not Found"
+        link_status = color(link, 'red')
+
+    print("%-80s %-30s" % (link_status, title))
 
 
-def print_row(url, description):
-    """
-    Prints row in specified format
-    """
-    print("%-80s %-30s" % (url, description))
 
-
-def connection_msg(url):
-    """
-    Generator used to yield message while waiting for response
-    """
-    yield "Attempting to connect to {url}".format(url=url)
-
-
-def read_page(url):
-    """
-    Attempts to connect to url and returns the HTML from page
-
-    Args:
-        url (str): url of website to be read
-    Returns:
-        page (str): html from page
-        response (int): indicator of success
-    """
-    headers = {'User-Agent': 'XXXX-XXXXX-XXXX'}
-    attempts_left = 3
-    err = " "
-    while attempts_left:
-        if attempts_left == 3:
-            print(next(connection_msg(url)))
-            response = get_url_status(url, headers)
-            if response != 0:
-                page = BeautifulSoup(response.text, 'html.parser')
-                return page, response
-
-            attempts_left -= 1
-            continue
-
-        if attempts_left == 2:
-            https_url = 'https://' + url
-            print(next(connection_msg(https_url)))
-            response = get_url_status(https_url, headers)
-            if response != 0:
-                page = BeautifulSoup(response.text, 'html.parser')
-                return page, response
-
-            attempts_left -= 1
-            continue
-
-        if attempts_left == 1:
-            http_url = 'http://' + url
-            print(next(connection_msg(http_url)))
-            response = get_url_status(http_url, headers)
-            if response != 0:
-                page = BeautifulSoup(response.text, 'html.parser')
-                return page, response
-
-            attempts_left -= 1
-            continue
-
-        if not attempts_left:
-            msg = ''.join(("There has been an {err} while attempting to ",
-                           "connect to {url}.")).format(err=err, url=url)
-            sys.exit(msg)
-
-
-def get_ip():
+def display_ip():
     """Returns users tor ip address
 
     https://check.torproject.org/ tells you if you are using tor and it
     displays your IP address which we scape and return
     """
 
-    page = read_page('https://check.torproject.org/')[0]
+    page = read('https://check.torproject.org/')
+    page = BeautifulSoup(page, 'html.parser')
     ip_cont = page.find('strong')
     ip_addr = ip_cont.renderContents()
-    ip_string = ip_addr.decode("utf-8")
-    return COLOR.add(ip_string, 'yellow')
+    ip_string = color(ip_addr.decode("utf-8"), 'yellow')
+    print(f'Tor IP Address: {ip_string}')

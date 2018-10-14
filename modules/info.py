@@ -1,38 +1,28 @@
-import requests
-
 from urllib.parse import urlsplit
+from bs4 import BeautifulSoup
 from termcolor import cprint
 
+from requests.exceptions import HTTPError
+import requests
 
-def executeAll(target, soup, response):
-
-    try:
-        get_robots_txt(target)
-    except Exception:
-        cprint("No robots.txt file Found!", "blue")
-    try:
-        get_dot_git(target)
-    except Exception:
-        cprint("Error !", "red")
-    try:
-        get_dot_svn(target)
-    except Exception:
-        cprint("Error", "red")
-    try:
-        get_dot_htaccess(target)
-    except Exception:
-        cprint("Error", "red")
-    try:
-        get_webpage_description(soup)
-    except Exception:
-        cprint("Error", "red")
-    try:
-        get_headers(response)
-    except Exception:
-        cprint("Error", "red")
+from .pagereader import read
 
 
-def get_headers(response):
+def execute_all(link, *, display_status=False):
+    page, response = read(link, response=True, show_msg=display_status)
+    soup = BeautifulSoup(page, 'html.parser')
+    validation_functions = [get_robots_txt, get_dot_git, get_dot_svn, get_dot_git]
+    for validate_func in validation_functions:
+        try:
+            validate_func(link)
+        except (ConnectionError, HTTPError):
+            cprint('Error', 'red')
+
+    display_webpage_description(soup)
+    display_headers(response)
+
+
+def display_headers(response):
     print('''
           RESPONSE HEADERS
           __________________
@@ -54,8 +44,8 @@ def get_dot_git(target):
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
     req = requests.get(target+"/.git/")
-    r = req.status_code
-    if r == 200:
+    status = req.status_code
+    if status == 200:
         cprint("Alert!", 'red')
         cprint(".git folder exposed publicly", 'red')
     else:
@@ -67,8 +57,8 @@ def get_dot_svn(target):
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
     req = requests.get(target+"/.svn/entries")
-    r = req.status_code
-    if r == 200:
+    status = req.status_code
+    if status == 200:
         cprint("Alert!", 'red')
         cprint(".SVN folder exposed publicly", 'red')
     else:
@@ -91,7 +81,7 @@ def get_dot_htaccess(target):
         cprint(statcode)
 
 
-def get_webpage_description(soup):
+def display_webpage_description(soup):
     cprint("[*]Checking for description meta tag", 'yellow')
     metatags = soup.find_all('meta')
     for meta in metatags:

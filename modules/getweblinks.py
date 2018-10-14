@@ -3,15 +3,12 @@
 Module used to interact with a pages urls
 """
 import re
-
 from bs4 import BeautifulSoup
 
-import modules.utils
-import modules.pagereader
+from .color import color
+from .utils import multi_thread
+from .pagereader import read, display
 
-from modules.colors import Colors
-
-COLOR = Colors()
 
 def is_url(url):
     """
@@ -79,30 +76,7 @@ def get_urls_from_page(page_soup, email=False, extension=False):
     return urls
 
 
-def search_page(html, ext, stop_depth=None):
-    """
-        Takes in a pages HTML and searches the links on the page using
-        BFS.
-
-        Args:
-            html (str): HTML with links to search
-            add_exts (str): additional extension
-            stop_depth (int): The depth at which to stop
-        Returns:
-            links_found (list): links found on page and associated pages
-    """
-
-    soup = BeautifulSoup(html, 'html.parser')
-    links = get_urls_from_page(soup, extension=ext)
-    if stop_depth:
-        links_found = modules.utils.bfs_urls(links, ext, stop_depth=stop_depth)
-    else:
-        links_found = modules.utils.bfs_urls(links, ext)
-
-    return links_found
-
-
-def get_links(soup, ext=False, live=False):
+def get_links(link, ext=False, display_status=False, test_html=""):
     """
     Returns list of links listed on the webpage of the soup passed. If live
     is set to true then it will also print the status of each of the links
@@ -110,20 +84,26 @@ def get_links(soup, ext=False, live=False):
     extensions to be recognized as valid urls and not just '.tor'.
 
     Args:
-        soup (bs4.BeautifulSoup): webpage to be searched for links.
+        link (str): link to find children of
+        ext (bool): additional top-level-domains
 
     Returns:
         websites (list(str)): List of websites that were found
     """
+    if test_html:
+        soup = test_html
+    else:
+        page = read(link, show_msg=display_status)
+        soup = BeautifulSoup(page, 'html.parser')
     if isinstance(soup, BeautifulSoup):
-        websites = get_urls_from_page(soup, extension=ext)
+        links = get_urls_from_page(soup, extension=ext)
         # Pretty print output as below
-        success_string = 'Websites Found - ' + str(len(websites))
-        print(COLOR.add(success_string, 'green'))
+        success_string = color(f'Links Found - {str(len(links))}', 'green')
+        print(success_string)
         print('------------------------------------')
 
-        if live:
-            modules.utils.queue_tasks(websites, modules.pagereader.display_url)
-        return websites
+        if display_status:
+            multi_thread(links, display)
+        return links
 
     raise Exception('Method parameter is not of instance BeautifulSoup')
