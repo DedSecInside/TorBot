@@ -76,7 +76,7 @@ def get_urls_from_page(page_soup, email=False, extension=False):
     return urls
 
 
-def get_links(link, ext=False, display_status=False):
+def get_links(link, ext=False, display_status=False, test_html=""):
     """
     Returns list of links listed on the webpage of the soup passed. If live
     is set to true then it will also print the status of each of the links
@@ -90,8 +90,11 @@ def get_links(link, ext=False, display_status=False):
     Returns:
         websites (list(str)): List of websites that were found
     """
-    page = read(link, show_msg=display_status)
-    soup = BeautifulSoup(page, 'html.parser')
+    if test_html:
+        soup = test_html
+    else:
+        page = read(link, show_msg=display_status)
+        soup = BeautifulSoup(page, 'html.parser')
     if isinstance(soup, BeautifulSoup):
         links = get_urls_from_page(soup, extension=ext)
         # Pretty print output as below
