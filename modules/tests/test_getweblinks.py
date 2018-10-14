@@ -1,12 +1,23 @@
+"""
+Test module for getting web links
+"""
 import pytest
 import requests_mock
 
 from bs4 import BeautifulSoup
 from yattag import Doc
-from .. import getweblinks
+from ..getweblinks import get_links
 
 
 def setup_html(test_links):
+    """
+    Sets up test html containing links
+
+    Args:
+        test_links (list): list of links to be used for tests
+    Return:
+        test HTML value
+    """
     doc, tag, _, line = Doc().ttl()
     doc.asis('<!DOCTYPE html>')
     with tag('html'):
@@ -19,6 +30,9 @@ def setup_html(test_links):
 
 @pytest.fixture
 def test_get_links_fail():
+    """
+    Test links that have incorrect scheme
+    """
     test_data = ['ssh://aff.ironsocket.tor',
                  'ftp://aff.ironsocket.tor',
                  'lol://wsrs.tor',
@@ -30,12 +44,15 @@ def test_get_links_fail():
         for data in test_data:
             mock_connection.register_uri('GET', data, text='Received')
 
-        result = getweblinks.get_links(mock_soup, ext=['.tor'])
+        result = get_links(mock_soup)
         assert result == []
 
 
 @pytest.fixture
 def test_get_links_tor():
+    """
+    Test links that return sucessfully
+    """
     test_data = ['https://aff.ironsocket.tor',
                  'https://aff.ironsocket.tor',
                  'https://wsrs.tor',
@@ -47,12 +64,15 @@ def test_get_links_tor():
         for data in test_data:
             mock_connection.register_uri('GET', data, text='Received')
 
-        result = getweblinks.get_links(mock_soup, ext=['.tor'])
+        result = get_links(mock_soup, ext=['.tor'])
         assert result == test_data
 
 
 @pytest.fixture
-def test_get_links_ext():
+def test_get_links_tld():
+    """
+    Test links with additional top-level-domains
+    """
     test_data = ['https://aff.ironsocket.com/SH7L',
                  'https://aff.ironsocket.gov/SH7L',
                  'https://wsrs.net/',
@@ -72,14 +92,17 @@ def test_get_links_ext():
         for data in test_data:
             mock_connection.register_uri('GET', data, text='Received')
 
-        result = getweblinks.get_links(mock_soup, ext=['.com', '.gov', '.net'])
+        result = get_links(mock_soup, ext=['.com', '.gov', '.net'])
         assert result == test_data
 
 
 def test_run():
+    """
+    Executes tests
+    """
     test_get_links_fail()
     test_get_links_tor()
-    test_get_links_ext()
+    test_get_links_tld()
 
 
 if __name__ == '__main__':

@@ -3,8 +3,8 @@ This module is used for reading HTML pages using either bs4.BeautifulSoup object
 """
 
 from bs4 import BeautifulSoup
-from modules.utils import get_url_status
-from modules.color import color
+from .utils import get_url_status
+from .color import color
 
 
 def read(link, response=False, headers=None, schemes=None):
