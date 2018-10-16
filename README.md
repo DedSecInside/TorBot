@@ -61,7 +61,6 @@ To add a new feature fork the dev branch and give a pull request when your new f
 If its a new module, it should be put inside the modules directory.
 The branch name should be your new feature name in the format <Feature_featurename_version(optional)>. For example, <i>Feature_FasterCrawl_1.0</i>.
 Contributor name will be updated to the below list. 😀
-
 <br>
 <b> NOTE : The PR should be made only to `dev` branch of TorBot. </b>
 
