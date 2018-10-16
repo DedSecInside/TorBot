@@ -1,22 +1,21 @@
-import sys
-import os
+"""
+Test module for saving data to file
+"""
 import json
-PACKAGE_PARENT = '..'
-SCRIPT_DIR = os.path.dirname(os.path.realpath(
-             os.path.join(os.getcwd(), os.path.expanduser(__file__))))
-
-sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
-
-from modules import savefile
+import os
+from ..savefile import saveJson
 
 
-def test_save_links_successful():
+def test_save_json_successful():
+    """
+    Sucessfully create and dump JSON object of links
+    """
     mock_data = ['http://aff.ironsocket.com/SH7L',
                  'http://aff.ironsocket.com/SH7L',
                  'http://wsrs.net/',
                  'http://cmsgear.com/']
     try:
-        file_name = savefile.saveJson('Links', mock_data)
+        file_name = saveJson('Links', mock_data)
         mock_output = {'Links': mock_data}
 
         with open('test_file.json', 'w+') as test_file:
@@ -36,5 +35,6 @@ def test_save_links_successful():
 
     assert mock_data == test_data
 
+
 if __name__ == '__main__':
-    test_save_links_successful()
+    test_save_json_successful()

@@ -1,65 +1,80 @@
-import requests
+"""
+This module is used for reading HTML pages using either bs4.BeautifulSoup objects or url strings
+"""
 
 from bs4 import BeautifulSoup
-from modules.bcolors import Bcolors
-from requests.exceptions import ConnectionError, HTTPError
-from sys import exit
+from .utils import get_url_status
+from .color import color
 
 
-def connection_msg(site):
-    yield "Attempting to connect to {site}".format(site=site)
+def read(link, *, response=False, show_msg=False, headers=None, schemes=None):
+    """
+    Attempts to retrieve HTML from link
+
+    Args:
+        headers (dict)
+        schemes (list)
+    Returns:
+        resp.text (str): html from page
+    """
+    headers = {'User-Agent': 'XXXX-XXXXX-XXXX'} if not headers else headers
+    # Attempts to connect directly to site if no scheme is passed
+    if not schemes:
+        if show_msg: 
+            print(f"Attempting to connect to {link}")
+        resp = get_url_status(link, headers)
+        if resp != 0:
+            if response:
+                return resp.text, resp
+            return resp.text
+
+    schemes = ['https://', 'http://'] if not schemes else schemes
+
+    for scheme in schemes:
+        temp_url = scheme + link
+        if show_msg:
+            print(f"Attempting to connect to {link}")
+
+        resp = get_url_status(temp_url, headers)
+        if resp != 0:
+            if response:
+                return resp.text, resp
+
+            return resp.text
+
+    raise ConnectionError
 
 
-def readPage(site, extension=False):
-    headers = {'User-Agent':
-               'TorBot - Onion crawler | www.github.com/DedSecInside/TorBot'}
-    attempts_left = 3
-    err = " "
-    while attempts_left:
+def display(link):
+    """
+    Prints the status of a link
+    """
+    resp = get_url_status(link)
+    if resp != 0:
         try:
-            if not extension:
-                print(next(connection_msg(site)))
-                response = requests.get(site, headers=headers)
-                print("Connection successful.")
-                page = BeautifulSoup(response.text, 'html.parser')
-                return page
-            if extension and attempts_left == 3:
-                print(next(connection_msg('https://'+site)))
-                response = requests.get('https://'+site, headers=headers)
-                print("Connection successful.")
-                page = BeautifulSoup(response.text, 'html.parser')
-                return page
-            if extension and attempts_left == 2:
-                print(next(connection_msg('http://'+site)))
-                response = requests.get('http://'+site, headers=headers)
-                print("Connection successful.")
-                page = BeautifulSoup(response.text, 'html.parser')
-                return page
-            if extension and attempts_left == 1:
-                msg = ''.join(("There has been an {err} while attempting to ",
-                              "connect to {site}.")).format(err=err, site=site)
-                exit(msg)
+            title = BeautifulSoup(resp.text, 'html.parser').title.string
+            link_status = color(link, 'green')
+        except AttributeError:
+            title = "Not Found"
+            link_status = color(link, 'red')
+    else:
+        title = "Not Found"
+        link_status = color(link, 'red')
 
-        except (HTTPError, ConnectionError) as e:
-            attempts_left -= 1
-            err = e
-
-    if err == HTTPError:
-        raise("There has been an HTTP error after three attempts.")
-    if err == ConnectionError:
-        raise("There has been a connection error after three attempts.")
+    print("%-80s %-30s" % (link_status, title))
 
 
-def get_ip():
+
+def display_ip():
     """Returns users tor ip address
 
     https://check.torproject.org/ tells you if you are using tor and it
     displays your IP address which we scape and return
     """
 
-    b_colors = Bcolors()
-    page = readPage('https://check.torproject.org/')
-    pg = page.find('strong')
-    ip_addr = pg.renderContents()
-
-    return b_colors.WARNING+b_colors.BOLD+ip_addr.decode("utf-8")+b_colors.ENDC
+    page = read('https://check.torproject.org/')
+    page = BeautifulSoup(page, 'html.parser')
+    ip_cont = page.find('strong')
+    ip_addr = ip_cont.renderContents()
+    ip_string = color(ip_addr.decode("utf-8"), 'yellow')
+    print(f'Tor IP Address: {ip_string}')
