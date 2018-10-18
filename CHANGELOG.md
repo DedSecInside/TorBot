@@ -34,7 +34,7 @@ All notable changes to this project will be documented in this file.
 * Save to JSON
 * Testcase for Save to JSON
 
-## 1.0.1 - July 6, 2017 - Nov 16
+## 1.0.1 - July 6, 2017 - Nov 16, 2017
 
 ### Added
 
@@ -44,7 +44,7 @@ All notable changes to this project will be documented in this file.
 * Refactored code to meet Google Style Docstrings for documentation
 * Fixed error occuring while using -i flag
 
-## 1.0.0 - Jun 28, 2017 - July 5
+## 1.0.0 - Jun 28, 2017 - July 5, 2017
 
 ### Added
 * Argument parser support
@@ -56,7 +56,7 @@ All notable changes to this project will be documented in this file.
 
 * Default Live url checker
 
-## 0.0.3 - Jun 18, 2017 - Jun 27
+## 0.0.3 - Jun 18, 2017 - Jun 27, 2017
 
 ### Added
 
@@ -66,7 +66,7 @@ All notable changes to this project will be documented in this file.
 * CODE_OF_CONDUCT
 * Travis CI integration
 
-## 0.0.2 - Jun 13, 2017 - Jun 17
+## 0.0.2 - Jun 13, 2017 - Jun 17, 2017
 
 ### Added
 
@@ -79,7 +79,7 @@ All notable changes to this project will be documented in this file.
 * Testcase for get email
 
 
-## 0.0.1 - May 17, 2017 - Jun 3
+## 0.0.1 - May 17, 2017 - Jun 3, 2017
 
 ### Added
 

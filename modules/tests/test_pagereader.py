@@ -1,15 +1,18 @@
-import sys
-sys.path.append('../')
-
-import modules.pagereader as pagereader
+"""
+Test module for reading pages
+"""
 import pytest
 import requests_mock
 
 from yattag import Doc
+from ..pagereader import read
 
 
 @pytest.fixture
-def test_read_first_page():
+def test_read():
+    """
+    Tests if read is returning the expected html
+    """
     websites = []
     test_data = [
         ('https://www.test.com', 'This is a dot com site.'),
@@ -33,12 +36,15 @@ def test_read_first_page():
             mock_connection.register_uri('GET',
                                          test_data[i][0],
                                          text=test_data[i][1])
-            result = str(pagereader.read_page(test_data[i][0])[0])
+            result = read(test_data[i][0])
             assert result == test_data[i][1]
 
 
 def test_run():
-    test_read_first_page()
+    """
+    Execute tests
+    """
+    test_read()
 
 
 if __name__ == '__main__':

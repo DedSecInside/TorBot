@@ -57,10 +57,12 @@ the following steps:
 
 ## Contribute
 Contributions to this project are always welcome.
-To add a new feature fork the dev branch and give a pull request when your new feature is tested and complete.
-If its a new module, it should be put inside the modules directory and imported to the main file.
+To add a new feature fork the dev branch and give a pull request when your new feature is tandested and complete.
+If its a new module, it should be put inside the modules directory.
 The branch name should be your new feature name in the format <Feature_featurename_version(optional)>. For example, <i>Feature_FasterCrawl_1.0</i>.
-Contributor name will be updated to the below list. :D
+Contributor name will be updated to the below list. 😀
+<br>
+<b> NOTE : The PR should be made only to `dev` branch of TorBot. </b>
 
 ### OS Dependencies
 - Tor
@@ -139,7 +141,7 @@ OSINT and the Dark Web: The Dark Web has proven a very useful and reliable tool 
 
 Using TOR for Open Source Intelligence: Although the use of Tor for OSINT does not raise specific legal concerns, there are a few interesting arguments that have been raised about using OSINT in general. One of them touches on the Council of Europe’s Convention on Cybercrime. Article 32 (a) of the Convention regulates transborder access to stored computer data with respect to ‘publicly available (open source) stored computer data, regardless of where the data is located geographically’[2].
 
-OSINT in Social Networks: In summary, they examined and compared the needs of the Open Source Intelligence com- munity with what social media has to offer investigators. They observed that a friends list of a given individual is a useful starting point for launching an investigation but found that several technical limitations (privacy and platform restrictions and data availability and longevity) may prevent investigators from accessing friend list information of a target account. They address privacy restrictions for the particular case of friends by creating a private friend discovery algorithm with hunter-seeker behaviours[3]. 
+OSINT in Social Networks: In summary, they examined and compared the needs of the Open Source Intelligence community with what social media has to offer investigators. They observed that a friends list of a given individual is a useful starting point for launching an investigation but found that several technical limitations (privacy and platform restrictions and data availability and longevity) may prevent investigators from accessing friend list information of a target account. They address privacy restrictions for the particular case of friends by creating a private friend discovery algorithm with hunter-seeker behaviours[3]. 
 
 Data Mining in The Dark: This paper successfully explored an open-source intelligence automation toolset that scanned across the darknet. It described and shared the tools, process, and techniques to build a secure darknet connection, and then collected, processed, stored, and analysed data. This paper showed the viability of darknet open-source intelligence using the completed toolset. In the end, the toolset finds entities and links entities from the darknet thereby showing strong potential to aid the open source intelligence professional[4]. 
 
