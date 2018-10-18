@@ -1,6 +1,7 @@
 import re
 
 import requests
+import validators
 from requests.exceptions import HTTPError
 
 from bs4 import BeautifulSoup
@@ -9,12 +10,8 @@ from .color import color
 class LinkNode:
 
     def __init__(self, link, *, tld=False):
-
-        if tld:
-            if not self.valid_link(link):
-                raise ValueError("Invalid link format.")
-        elif not self.valid_tor_link(link):
-            raise ValueError("Invalid tor link format.")
+        if not self.valid_link(link):
+            raise ValueError("Invalid link format.")
 
         self.tld = tld
         self._children = []
@@ -26,8 +23,12 @@ class LinkNode:
             raise err
 
         self._node = BeautifulSoup(self.response.text, 'html.parser')
-        self.name = self._node.title.string
-        self.status = color(link, 'green')
+        if not self._node.title:
+            self.name = "TITLE NOT FOUND"
+            self.status = color(link, 'yellow')
+        else:
+            self.name = self._node.title.string
+            self.status = color(link, 'green')
 
     def get_emails(self):
         if self._emails:
@@ -53,9 +54,7 @@ class LinkNode:
         child_nodes = list()
         for child in children:
             link = child.get('href')
-            general_link = self.tld and link and self.valid_link(link)
-            tor_link = link and self.valid_tor_link(link)
-            if general_link or tor_link:
+            if link and self.valid_link(link):
                 child_nodes.append(link)
 
         self._children = child_nodes
@@ -64,16 +63,6 @@ class LinkNode:
 
     @staticmethod
     def valid_link(link):
-        pattern = r"^https?:\/\/(www\.)?([a-z,A-Z,0-9]*)\.([a-z, A-Z]+)(.*)"
-        regex = re.compile(pattern)
-        if regex.match(link):
-            return True
-        return False
-
-    @staticmethod
-    def valid_tor_link(link):
-        pattern = r"^https?:\/\/(www\.)?([a-z,A-Z,0-9]*)\.onion/(.*)"
-        regex = re.compile(pattern)
-        if regex.match(link):
+        if validators.url(link):
             return True
         return False

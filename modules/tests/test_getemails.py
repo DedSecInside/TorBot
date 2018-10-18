@@ -3,8 +3,9 @@ Test module for getemails
 """
 from bs4 import BeautifulSoup
 from yattag import Doc
-from ..getemails import get_mails
+from ..link import LinkNode
 
+import requests_mock
 
 def test_get_emails_fail():
     """
@@ -17,9 +18,12 @@ def test_get_emails_fail():
             line('a', 'test_anchor')
 
     mock_html = doc.getvalue()
+    mock_link = 'http://test.tor'
+    with requests_mock.Mocker() as mock_connection:
+        mock_connection.register_uri('GET', mock_link, text=mock_html)
 
-    mock_soup = BeautifulSoup(mock_html, 'html.parser')
-    emails = get_mails(mock_soup)
+    node = LinkNode(mock_link)
+    emails = node.get_emails()
     assert emails == []
 
 
@@ -39,11 +43,13 @@ def test_get_emails():
                 line('a', 'test_anchor', href=':'.join(('mailto', email)))
 
     mock_html = doc.getvalue()
+    mock_link = 'http://www.test.tor'
+    with requests_mock.Mocker() as mock_connection:
+        mock_connection.register_uri('GET', mock_link, text=mock_html)
 
-    mock_soup = BeautifulSoup(mock_html, 'html.parser')
-    emails = get_mails(mock_soup)
+    node = LinkNode(mock_link)
+    emails = node.get_emails()
     assert emails == test_emails
-
 
 def test_run():
     """

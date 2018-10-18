@@ -33,11 +33,11 @@ class LinkIO:
         if not schemes:
             if show_msg:
                 print(f'Attempting to connect to {link}')
-                if LinkNode.valid_link(link):
-                    node = LinkNode(link, tld=True)
-                    if response:
-                        return node.response.text, node.response
-                    return node.response.text
+            if LinkNode.valid_link(link):
+                node = LinkNode(link, tld=True)
+                if response:
+                    return node.response.text, node.response
+                return node.response.text
 
         schemes = ['https://', 'http://'] if not schemes else schemes
 
