@@ -34,24 +34,23 @@ class LinkNode:
         if self._emails:
             return self._emails
 
-        emails = []
-        children = self.get_children()
+        children = self._node.find_all('a')
+        email_nodes = []
         for child in children:
             link = child.get('href')
             if link and 'mailto' in link:
                 email_addr = link.split(':')
-                if len(email_addr) > 1:
-                    emails.append(email_addr[1])
-
-        self._emails = emails
-        return emails
+                if self.valid_email(email_addr[1]) and len(email_addr) > 1:
+                    email_nodes.append(email_addr[1])
+        self._emails = email_nodes
+        return email_nodes
 
     def get_children(self):
         if self._children:
             return self._children
 
         children = self._node.find_all('a')
-        child_nodes = list()
+        child_nodes = []
         for child in children:
             link = child.get('href')
             if link and self.valid_link(link):
@@ -60,6 +59,11 @@ class LinkNode:
         self._children = child_nodes
         return child_nodes
 
+    @staticmethod
+    def valid_email(email):
+            if validators.email(email):
+                return True
+            return False
 
     @staticmethod
     def valid_link(link):

@@ -59,11 +59,12 @@ def test_get_links_tor():
                  'https://cmsgear.onion']
 
     mock_html = setup_html(test_data)
+    mock_link = 'http://test.tor'
     with requests_mock.Mocker() as mock_connection:
         for data in test_data:
-            mock_connection.register_uri('GET', data, text=mock_html)
+            mock_connection.register_uri('GET', mock_link, text=mock_html)
 
-        node = LinkNode(data)
+        node = LinkNode(mock_link)
         result = node.get_children()
         assert result == test_data
 
@@ -91,7 +92,7 @@ def test_get_links_tld():
         for data in test_data:
             mock_connection.register_uri('GET', mock_url, text=mock_html)
 
-        node = LinkNode(data)
+        node = LinkNode(mock_url)
         links = node.get_children()
         assert links == test_data
 
