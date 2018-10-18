@@ -123,7 +123,7 @@ def build_tree(link, tld, stop=1, *, rec=0, to_visit=None, tree=None):
     if rec == 0:
         tree, to_visit = initialize_tree(link, tld)
 
-    sub_tree = Tree(name=tree.name)
+    sub_tree = CustomTree(name=tree.name, webPageName= tree.webPageName)
 
     if rec == stop:
         # If recursion is 0 then sub_tree will be root
