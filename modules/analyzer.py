@@ -9,6 +9,13 @@ from ete3 import Tree, TreeStyle, TextFace, add_face_to_node
 from .getweblinks import get_urls_from_page
 from .pagereader import read
 
+
+class Node:
+    """Represents each webpage, has two attributes- one which has the url of the webpage and the other has the title (if mentioned) of the webpage """
+    def __init__(self, title="", link):
+        self.title=title 
+        self.link=link
+        
 class LinkTree:
     """
     This is a class that represents a tree of links within TorBot. This can be used to build a tree,
