@@ -10,11 +10,11 @@ from .getweblinks import get_urls_from_page
 from .pagereader import read
 
 
-class Node:
-    """Represents each webpage, has two attributes- one which has the url of the webpage and the other has the title (if mentioned) of the webpage """
-    def __init__(self, title="", link):
-        self.title=title 
-        self.link=link
+class CustomTree(Tree): #override the Tree class to add an attribute which'll hold the page name
+    def __init__(self,**kwargs, webPageName=""):
+        super().__init__(**kwargs) 
+        self.webPageName= webPageName
+
         
 class LinkTree:
     """
@@ -47,7 +47,8 @@ class LinkTree:
         style = TreeStyle()
         style.show_leaf_name = False
         def my_layout(node):
-            node_style = TextFace(node.name, tight_text=True)
+            string_to_represent_node= "{} \n {}".format(node.name, node.webPageName)
+            node_style = TextFace(string_to_represent_node, tight_text=True)
             add_face_to_node(node_style, node, column=0, position='branch-bottom')
         style.layout_fn = my_layout
         self._tree.render(file_name, tree_style=style)
@@ -59,7 +60,8 @@ class LinkTree:
         style = TreeStyle()
         style.show_leaf_name = False
         def my_layout(node):
-            node_style = TextFace(node.name, tight_text=True)
+            string_to_represent_node= "{} \n {}".format(node.name, node.webPageName)
+            node_style = TextFace(string_to_represent_node, tight_text=True)
             add_face_to_node(node_style, node, column=0, position='branch-bottom')
         style.layout_fn = my_layout
         self._tree.show(tree_style=style)
@@ -92,9 +94,10 @@ def initialize_tree(link, tld):
         root (ete3.Tree): root node of tree
         to_visit (list): Children of root node
     """
-    root = Tree(name=link)
+    root = CustomTree(name=link)
     html_content = read(link)
     soup = BeautifulSoup(html_content, 'html.parser')
+    root.webPageName=soup.title
     to_visit = get_urls_from_page(soup, extension=tld)
     return root, to_visit
 
