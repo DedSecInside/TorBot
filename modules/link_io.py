@@ -59,7 +59,7 @@ class LinkIO:
         """
         if LinkNode.valid_link(link):
             try:
-                node = LinkNode(link)
+                node = LinkNode(link, tld=True)
                 title = node.name
                 link_status = node.status
             except (HTTPError, ConnectionError):

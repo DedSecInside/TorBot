@@ -22,14 +22,15 @@ class LinkNode:
 
         try:
             self.response = requests.get(link)
-            self._node = BeautifulSoup(self.response.text, 'html.parser')
-            self.name = self._node.title.string
-            self.status = color(link, 'green')
         except (HTTPError, ConnectionError) as err:
             raise err
 
+        self._node = BeautifulSoup(self.response.text, 'html.parser')
+        self.name = self._node.title.string
+        self.status = color(link, 'green')
+
     def get_emails(self):
-        if len(self._emails) > 0:
+        if self._emails:
             return self._emails
 
         emails = []
@@ -45,7 +46,7 @@ class LinkNode:
         return emails
 
     def get_children(self):
-        if len(self._children) > 0:
+        if self._children:
             return self._children
 
         children = self._node.find_all('a')

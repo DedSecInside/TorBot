@@ -17,8 +17,8 @@ class LinkTree:
         tld (bool): Decides whether or not to use additional top-level-domains besides .tor
         stop_depth (int): Depth of which to stop searching for links
     """
-    def __init__(self, root, *, tld=False, stop_depth=1):
-        self._tree = build_tree(root.name, tld=tld, stop=stop_depth)
+    def __init__(self, root_node, *, tld=False, stop_depth=1):
+        self._tree = build_tree(root_node, tld=tld, stop=stop_depth)
 
     def __len__(self):
         return len(self._tree)
@@ -55,7 +55,7 @@ class LinkTree:
         self._tree.show(tree_style=style)
 
 
-def initialize_tree(node):
+def initialize_tree(root_node):
     """
     Creates root of tree
     Args:
@@ -65,8 +65,8 @@ def initialize_tree(node):
         root (ete3.Tree): root node of tree
         to_visit (list): Children of root node
     """
-    root = Tree(name=node.name)
-    children = node.get_children()
+    root = Tree(name=root_node.name)
+    children = root_node.get_children()
     return root, children
 
 def build_tree(link, *, tld, stop=1, rec=0, to_visit=None, tree=None):
