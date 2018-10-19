@@ -10,7 +10,7 @@ install:
   - pip3 install -r requirements.txt
   - cd modules/tests
 before_script:
-  - pip install -r test_requirements.txt
+  - pip3 install python-coveralls
   - git clone https://github.com/z4r/python-coveralls-example.git
   - cd python-coveralls-example
   - git checkout -qf 3e82fd5159b84bebe9bc6c9fd3959f322e6f7098
