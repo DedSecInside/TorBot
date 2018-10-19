@@ -111,8 +111,6 @@ def get_args():
                         default=[],
                         help=' '.join(("Specifiy additional website",
                                        "extensions to the list(.com , .org, .etc)")))
-    parser.add_argument("-l", "--live", action="store_true",
-                        help="Check if websites are live or not (slow)")
     parser.add_argument("-i", "--info", action="store_true",
                         help=' '.join(("Info displays basic info of the",
                                        "scanned site, (very slow)")))
