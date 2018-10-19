@@ -19,6 +19,11 @@ All notable changes to this project will be documented in this file.
 * Installation shell script to create torBot binary
 * Test for getting links that uses a Mock Object to reproduce tests without touching actual servers.
 * BFS algorithm for crawling
+* Documentation for functions
+
+### Removed
+
+* -l Live argument Removed (Enabled by default)
 
 
 ## 1.2.0 | Nov 16, 2017 - Oct 19, 2018
