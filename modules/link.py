@@ -1,8 +1,8 @@
 import re
 
 import requests
+import requests.exceptions
 import validators
-from requests.exceptions import HTTPError
 
 from bs4 import BeautifulSoup
 from .color import color
@@ -19,7 +19,7 @@ class LinkNode:
 
         try:
             self.response = requests.get(link)
-        except (HTTPError, ConnectionError) as err:
+        except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError, ConnectionError) as err:
             raise err
 
         self._node = BeautifulSoup(self.response.text, 'html.parser')

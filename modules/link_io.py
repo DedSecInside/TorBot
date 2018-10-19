@@ -1,8 +1,8 @@
 """
 This module is used for reading HTML pages using either bs4.BeautifulSoup objects or url strings
 """
+import requests.exceptions
 from bs4 import BeautifulSoup
-from requests.exceptions import HTTPError
 
 from .link import LinkNode
 from .utils import multi_thread
@@ -62,7 +62,7 @@ class LinkIO:
                 node = LinkNode(link, tld=True)
                 title = node.name
                 link_status = node.status
-            except (HTTPError, ConnectionError):
+            except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError, ConnectionError):
                 title = 'Not Found'
                 link_status = color(link, 'red')
 
