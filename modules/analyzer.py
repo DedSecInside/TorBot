@@ -24,7 +24,7 @@ class LinkTree:
         return len(self._tree)
 
     def __contains__(self, link):
-        return link in self._tree
+        return self._tree.search_nodes(name=link)
 
     def save(self, file_name):
         """
