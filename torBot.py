@@ -113,7 +113,7 @@ def get_args():
                                        "extensions to the list(.com , .org, .etc)")))
     parser.add_argument("-i", "--info", action="store_true",
                         help=' '.join(("Info displays basic info of the",
-                                       "scanned site, (very slow)")))
+                                       "scanned site")))
     parser.add_argument("-v", "--visualize", action="store_true",
                         help="Visualizes tree of data gathered.")
     parser.add_argument("-d", "--download", action="store_true",
