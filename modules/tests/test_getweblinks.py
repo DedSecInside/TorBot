@@ -6,10 +6,10 @@ import requests_mock
 
 from bs4 import BeautifulSoup
 from yattag import Doc
-from ..getweblinks import get_links
+from ..link import LinkNode
 
 
-def setup_html(test_links):
+def setup_html(test_links, *, fail=False):
     """
     Sets up test html containing links
 
@@ -23,7 +23,8 @@ def setup_html(test_links):
     with tag('html'):
         with tag('body'):
             for data in test_links:
-                line('a', 'test_anchor', href=data)
+                if not fail:
+                        line('a', 'test_anchor', href=data)
 
     return doc.getvalue()
 
@@ -33,38 +34,38 @@ def test_get_links_fail():
     """
     Test links that have incorrect scheme
     """
-    test_data = ['ssh://aff.ironsocket.tor',
-                 'ftp://aff.ironsocket.tor',
-                 'lol://wsrs.tor',
-                 'dial://cmsgear.tor']
+    test_data = ['ssh://aff.ironsocket.onion',
+                 'ftp://aff.ironsocket.onion',
+                 'lol://wsrs.onion',
+                 'dial://cmsgear.onion']
 
-    mock_html = setup_html(test_data)
-    mock_soup = BeautifulSoup(mock_html, 'html.parser')
+    mock_html = setup_html(test_data, fail=True)
     with requests_mock.Mocker() as mock_connection:
         for data in test_data:
-            mock_connection.register_uri('GET', data, text='Received')
-
-        result = get_links('test', test_html=mock_soup)
-        assert result == []
-
+            mock_connection.register_uri('GET', data, text=mock_html)
+        with pytest.raises(ValueError):
+            node = LinkNode(data)
+            result = node.get_children()
+            assert result == []
 
 @pytest.fixture
 def test_get_links_tor():
     """
     Test links that return sucessfully
     """
-    test_data = ['https://aff.ironsocket.tor',
-                 'https://aff.ironsocket.tor',
-                 'https://wsrs.tor',
-                 'https://cmsgear.tor']
+    test_data = ['https://aff.ironsocket.onion',
+                 'https://aff.ironsocket.onion',
+                 'https://wsrs.onion',
+                 'https://cmsgear.onion']
 
     mock_html = setup_html(test_data)
-    mock_soup = BeautifulSoup(mock_html, 'html.parser')
+    mock_link = 'http://test.tor'
     with requests_mock.Mocker() as mock_connection:
         for data in test_data:
-            mock_connection.register_uri('GET', data, text='Received')
+            mock_connection.register_uri('GET', mock_link, text=mock_html)
 
-        result = get_links('test', test_html=mock_soup, ext=['.tor'])
+        node = LinkNode(mock_link)
+        result = node.get_children()
         assert result == test_data
 
 
@@ -86,14 +87,14 @@ def test_get_links_tld():
                 line('a', 'test_anchor', href=data)
 
     mock_html = doc.getvalue()
-
-    mock_soup = BeautifulSoup(mock_html, 'html.parser')
+    mock_url = 'http://test.tor'
     with requests_mock.Mocker() as mock_connection:
         for data in test_data:
-            mock_connection.register_uri('GET', data, text='Received')
+            mock_connection.register_uri('GET', mock_url, text=mock_html)
 
-        result = get_links(data, test_html=mock_soup, ext=['.com', '.gov', '.net'])
-        assert result == test_data
+        node = LinkNode(mock_url)
+        links = node.get_children()
+        assert links == test_data
 
 
 def test_run():

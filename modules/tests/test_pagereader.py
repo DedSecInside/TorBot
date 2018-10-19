@@ -5,7 +5,7 @@ import pytest
 import requests_mock
 
 from yattag import Doc
-from ..pagereader import read
+from ..link_io import LinkIO
 
 
 @pytest.fixture
@@ -36,7 +36,7 @@ def test_read():
             mock_connection.register_uri('GET',
                                          test_data[i][0],
                                          text=test_data[i][1])
-            result = read(test_data[i][0])
+            result = LinkIO.read(test_data[i][0])
             assert result == test_data[i][1]
 
 

@@ -1,13 +1,10 @@
 """
 Module is used for analyzing link relationships
 """
-import requests
 from requests.exceptions import HTTPError
 
-from bs4 import BeautifulSoup
 from ete3 import Tree, TreeStyle, TextFace, add_face_to_node
-from .getweblinks import get_urls_from_page
-from .pagereader import read
+from .link import LinkNode
 
 class LinkTree:
     """
@@ -20,14 +17,14 @@ class LinkTree:
         tld (bool): Decides whether or not to use additional top-level-domains besides .tor
         stop_depth (int): Depth of which to stop searching for links
     """
-    def __init__(self, root, tld=False, stop_depth=1):
-        self._tree = build_tree(root, tld=tld, stop=stop_depth)
+    def __init__(self, root_node, *, tld=False, stop_depth=1):
+        self._tree = build_tree(root_node, tld=tld, stop=stop_depth)
 
     def __len__(self):
         return len(self._tree)
 
     def __contains__(self, link):
-        return link in self._tree
+        return self._tree.search_nodes(name=link)
 
     def save(self, file_name):
         """
@@ -57,25 +54,8 @@ class LinkTree:
         style.layout_fn = my_layout
         self._tree.show(tree_style=style)
 
-def get_node_children(link, tld):
-    """
-    Returns children for link node
 
-    Args:
-        link (str): link node to get children for
-        tld (bool): Additional top-level-domains
-    Returns:
-        children (list): A list of children from linknode
-    """
-    try:
-        resp = requests.get(link)
-        soup = BeautifulSoup(resp.text, 'html.parser')
-        children = get_urls_from_page(soup, tld)
-    except (HTTPError, ConnectionError):
-        children = []
-    return children
-
-def initialize_tree(link, tld):
+def initialize_tree(root_node):
     """
     Creates root of tree
     Args:
@@ -85,13 +65,11 @@ def initialize_tree(link, tld):
         root (ete3.Tree): root node of tree
         to_visit (list): Children of root node
     """
-    root = Tree(name=link)
-    html_content = read(link)
-    soup = BeautifulSoup(html_content, 'html.parser')
-    to_visit = get_urls_from_page(soup, extension=tld)
-    return root, to_visit
+    root = Tree(name=root_node.name)
+    children = root_node.get_children()
+    return root, children
 
-def build_tree(link, tld, stop=1, *, rec=0, to_visit=None, tree=None):
+def build_tree(link, *, tld, stop=1, rec=0, to_visit=None, tree=None):
     """
     Builds tree using Breadth First Search. You can specify stop depth.
     Rec & tree arguments are used for recursion.
@@ -111,7 +89,7 @@ def build_tree(link, tld, stop=1, *, rec=0, to_visit=None, tree=None):
         tree (ete3.Tree): built tree
     """
     if rec == 0:
-        tree, to_visit = initialize_tree(link, tld)
+        tree, to_visit = initialize_tree(link)
 
     sub_tree = Tree(name=tree.name)
 
@@ -121,8 +99,13 @@ def build_tree(link, tld, stop=1, *, rec=0, to_visit=None, tree=None):
 
     children_to_visit = list()
     for link_name in to_visit:
-        link_node = sub_tree.add_child(name=link_name)
-        link_children = get_node_children(link_name, tld)
+        try:
+            node = LinkNode(link_name, tld=tld)
+        except (ValueError, ConnectionError, HTTPError):
+            continue
+
+        link_node = sub_tree.add_child(name=node.name)
+        link_children = node.get_children()
         # No need to find children if we aren't going to visit them
         if stop != rec + 1:
             for child in link_children:
@@ -135,4 +118,4 @@ def build_tree(link, tld, stop=1, *, rec=0, to_visit=None, tree=None):
         return sub_tree
 
     new_tree = tree.add_child(sub_tree)
-    return build_tree(to_visit, tld, stop, rec=rec, tree=new_tree)
+    return build_tree(to_visit, tld=tld, stop=stop, rec=rec, tree=new_tree)

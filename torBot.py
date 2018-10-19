@@ -5,11 +5,12 @@ import argparse
 import socket
 import socks
 
+from requests.exceptions import HTTPError
+
 from modules.analyzer import LinkTree
-from modules.getweblinks import get_links
 from modules.color import color
-from modules.pagereader import display_ip
-from modules.getemails import get_mails
+from modules.link_io import LinkIO
+from modules.link import LinkNode
 from modules.updater import updateTor
 from modules.savefile import saveJson
 from modules.info import execute_all
@@ -19,7 +20,7 @@ LOCALHOST = "127.0.0.1"
 DEFPORT = 9050
 
 # TorBot VERSION
-__VERSION = "1.2"
+__VERSION = "1.3"
 
 
 def connect(address, port):
@@ -94,7 +95,7 @@ def get_args():
     """
     parser = argparse.ArgumentParser(prog="TorBot",
                                      usage="Gather and analayze data from Tor sites.")
-    parser.add_argument("-v", "--version", action="store_true",
+    parser.add_argument("--version", action="store_true",
                         help="Show current version of TorBot.")
     parser.add_argument("--update", action="store_true",
                         help="Update TorBot to the latest stable version")
@@ -110,14 +111,12 @@ def get_args():
                         default=[],
                         help=' '.join(("Specifiy additional website",
                                        "extensions to the list(.com , .org, .etc)")))
-    parser.add_argument("-l", "--live", action="store_true",
-                        help="Check if websites are live or not (slow)")
     parser.add_argument("-i", "--info", action="store_true",
                         help=' '.join(("Info displays basic info of the",
-                                       "scanned site, (very slow)")))
-    parser.add_argument("--visualize", action="store_true",
+                                       "scanned site")))
+    parser.add_argument("-v", "--visualize", action="store_true",
                         help="Visualizes tree of data gathered.")
-    parser.add_argument("--download", action="store_true",
+    parser.add_argument("-d", "--download", action="store_true",
                         help="Downloads tree of data gathered.")
     return parser.parse_args()
 
@@ -128,7 +127,10 @@ def main():
     """
     args = get_args()
     connect(args.ip, args.port)
-    link = args.url
+    try:
+        node = LinkNode(args.url, tld=args.extension)
+    except (ValueError, HTTPError, ConnectionError) as err:
+        raise err
 
     # If flag is -v, --update, -q/--quiet then user only runs that operation
     # because these are single flags only
@@ -143,34 +145,31 @@ def main():
     # If url flag is set then check for accompanying flag set. Only one
     # additional flag can be set with -u/--url flag
     if args.url:
-        display_ip()
+        LinkIO.display_ip()
         # -m/--mail
         if args.mail:
-            emails = get_mails(link)
+            emails = node.get_emails()
             print(emails)
             if args.save:
                 saveJson('Emails', emails)
         # -i/--info
         elif args.info:
-            execute_all(link)
+            execute_all(node.name)
             if args.save:
                 print('Nothing to save.\n')
         elif args.visualize:
-            tree = LinkTree(link, args.extension)
+            tree = LinkTree(node, tld=node.tld)
             tree.show()
         elif args.download:
-            tree = LinkTree(link, args.extension)
+            tree = LinkTree(node, tld=node.tld)
             file_name = str(input("File Name (.pdf/.png/.svg): "))
             tree.save(file_name)
         else:
-            # Golang library isn't being used.
-            # links = go_linker.GetLinks(link, LOCALHOST, PORT, 15)
-            links = get_links(link, ext=args.extension, display_status=args.live)
+            LinkIO.display_children(node)
             if args.save:
-                saveJson("Links", links)
+                saveJson("Links", node.get_children())
     else:
-        print("usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m]",
-              "[-e EXTENSION] [-l] [-i]")
+        print("usage: See torBot.py -h for possible arguments.")
 
     print("\n\n")
 

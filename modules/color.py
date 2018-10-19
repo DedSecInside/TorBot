@@ -38,3 +38,9 @@ class color:
 
     def __str__(self):
         return self._color + self._msg + COLORS['end']
+
+    def __add__(self, other):
+        return str(self) + other
+
+    def __radd__(self, other):
+        return other + str(self)
