@@ -10,7 +10,7 @@ from requests.exceptions import HTTPError
 from modules.analyzer import LinkTree
 from modules.color import color
 from modules.link_io import LinkIO
-from modules.link_io import LinkNode
+from modules.link import LinkNode
 from modules.updater import updateTor
 from modules.savefile import saveJson
 from modules.info import execute_all
@@ -167,8 +167,6 @@ def main():
             file_name = str(input("File Name (.pdf/.png/.svg): "))
             tree.save(file_name)
         else:
-            # Golang library isn't being used.
-            # links = go_linker.GetLinks(link, LOCALHOST, PORT, 15)
             LinkIO.display_children(node)
             if args.save:
                 saveJson("Links", node.get_children())
