@@ -25,3 +25,4 @@ torBot
 .*.swp
 .ropeproject/
 .idea/
+.DS_Store
