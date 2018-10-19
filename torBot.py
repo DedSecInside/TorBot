@@ -114,9 +114,9 @@ def get_args():
     parser.add_argument("-i", "--info", action="store_true",
                         help=' '.join(("Info displays basic info of the",
                                        "scanned site, (very slow)")))
-    parser.add_argument("-v","--visualize", action="store_true",
+    parser.add_argument("-v", "--visualize", action="store_true",
                         help="Visualizes tree of data gathered.")
-    parser.add_argument("-d","--download", action="store_true",
+    parser.add_argument("-d", "--download", action="store_true",
                         help="Downloads tree of data gathered.")
     return parser.parse_args()
 

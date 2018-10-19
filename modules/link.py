@@ -19,7 +19,7 @@ class LinkNode:
 
         try:
             self.response = requests.get(link)
-        except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError, ConnectionError) as err:
+        except (requests.exceptions.ChunkedEncodingError, requests.exceptions.HTTPError, requests.exceptions.ConnectionError, ConnectionError) as err:
             raise err
 
         self._node = BeautifulSoup(self.response.text, 'html.parser')
