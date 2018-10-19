@@ -20,7 +20,7 @@ LOCALHOST = "127.0.0.1"
 DEFPORT = 9050
 
 # TorBot VERSION
-__VERSION = "1.2"
+__VERSION = "1.3"
 
 
 def connect(address, port):
@@ -95,7 +95,7 @@ def get_args():
     """
     parser = argparse.ArgumentParser(prog="TorBot",
                                      usage="Gather and analayze data from Tor sites.")
-    parser.add_argument("-v", "--version", action="store_true",
+    parser.add_argument("--version", action="store_true",
                         help="Show current version of TorBot.")
     parser.add_argument("--update", action="store_true",
                         help="Update TorBot to the latest stable version")
@@ -116,9 +116,9 @@ def get_args():
     parser.add_argument("-i", "--info", action="store_true",
                         help=' '.join(("Info displays basic info of the",
                                        "scanned site, (very slow)")))
-    parser.add_argument("--visualize", action="store_true",
+    parser.add_argument("-v","--visualize", action="store_true",
                         help="Visualizes tree of data gathered.")
-    parser.add_argument("--download", action="store_true",
+    parser.add_argument("-d","--download", action="store_true",
                         help="Downloads tree of data gathered.")
     return parser.parse_args()
 
@@ -171,8 +171,7 @@ def main():
             if args.save:
                 saveJson("Links", node.get_children())
     else:
-        print("usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m]",
-              "[-e EXTENSION] [-l] [-i]")
+        print("usage: See torBot.py -h for possible arguments.")
 
     print("\n\n")
 

@@ -2,34 +2,36 @@
 --------------------
 All notable changes to this project will be documented in this file.
 
-## 1.3.0 | Future
+## 1.3.0 | Present 
 
 ### Changed
-* Moderate code improvements
+
+* Major code improvements
 * Updated README.md
 * Updated dependencies
-* Modularize and documented Golang library
-* Using Golang library instead of Python library for getting links
+* Refactored TorBot
 
 ### Added
-* Unit tests for Golang Library
+
+* Visualizer Module
+* Download option to save Tree into different formats.
+* DB module
 * Installation shell script to create torBot binary
-* Testing documentation for Golang test suite.
 * Test for getting links that uses a Mock Object to reproduce tests without touching actual servers.
-* Script for getting Golang dependencies
-* Script for building Golang shared object 
-* Installs Golang dependencies when install.sh is executed
+* BFS algorithm for crawling
 
 
-## 1.2.0 | Present (Stable)
+## 1.2.0 | Nov 16, 2017 - Oct 19, 2018
 
 ### Changed
+
 * Major code improvements
 * Pep 8 Standard
 * Tests
 * Library changes
 
 ### Added
+
 * Documentation
 * Save to JSON
 * Testcase for Save to JSON
