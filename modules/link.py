@@ -27,6 +27,7 @@ def get_emails(node):
                 email_nodes.append(email_addr[1])
     return email_nodes
 
+
 def get_links(node):
     def retrieve_link(child):
         link = child.get('href')
@@ -67,7 +68,6 @@ class LinkNode:
         else:
             self.name = self._node.title.string
             self.status = color(link, 'green')
-
 
     @property
     def emails(self):
