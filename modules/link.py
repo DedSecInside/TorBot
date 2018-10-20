@@ -63,7 +63,7 @@ class LinkNode:
         self._emails = []
         self._links = []
 
-        # Attempts to connect to link, if throws an error if link is unreachable
+        # Attempts to connect to link, throws an error if link is unreachable
         try:
             self.response = requests.get(link)
         except (requests.exceptions.ChunkedEncodingError,
