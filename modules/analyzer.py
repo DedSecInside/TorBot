@@ -67,7 +67,7 @@ def initialize_tree(root_node):
         to_visit (list): Children of root node
     """
     root = Tree(name=root_node.name)
-    children = root_node.children
+    children = root_node.links
     return root, children
 
 
@@ -107,7 +107,7 @@ def build_tree(link=None, *, stop=1, rec=0, to_visit=None, tree=None):
             return None
 
         link_node = sub_tree.add_child(name=node.name)
-        link_children = node.children
+        link_children = node.links
         # No need to find children if we aren't going to visit them
         if stop != rec + 1:
             for child in link_children:

@@ -44,7 +44,7 @@ def test_get_links_fail():
             mock_connection.register_uri('GET', data, text=mock_html)
         with pytest.raises(ValueError):
             node = LinkNode(data)
-            result = node.children
+            result = node.links
             assert result == []
 
 @pytest.fixture
@@ -63,7 +63,7 @@ def test_get_links_tor():
         mock_connection.register_uri('GET', mock_link, text=mock_html)
 
         node = LinkNode(mock_link)
-        result = node.children
+        result = node.links
         assert result == test_data
 
 
@@ -91,7 +91,7 @@ def test_get_links_tld():
             mock_connection.register_uri('GET', mock_url, text=mock_html)
 
         node = LinkNode(mock_url)
-        links = node.children
+        links = node.links
         assert links == test_data
 
 

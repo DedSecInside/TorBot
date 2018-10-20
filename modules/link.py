@@ -13,9 +13,13 @@ from .utils import multi_thread
 from .color import color
 
 def get_emails(node):
-    children = node.find_all('a')
+    """Finds all emails associated with node
+
+    Args:
+        node (LinkNode)
+    """
     email_nodes = []
-    for child in children:
+    for child in node.children:
         link = child.get('href')
         if link and 'mailto' in link:
             email_addr = link.split(':')
@@ -23,17 +27,14 @@ def get_emails(node):
                 email_nodes.append(email_addr[1])
     return email_nodes
 
-
-def get_children(node):
-    children = node.find_all('a')
-
+def get_links(node):
     def retrieve_link(child):
         link = child.get('href')
-        if link and LinkNode.valid_link(link):
+        if LinkNode.valid_link(link) and link:
             return link
         return None
 
-    return multi_thread(children, retrieve_link)
+    return multi_thread(node.children, retrieve_link)
 
 
 class LinkNode:
@@ -49,6 +50,7 @@ class LinkNode:
 
         self._children = []
         self._emails = []
+        self._links = []
 
         try:
             self.response = requests.get(link)
@@ -66,16 +68,23 @@ class LinkNode:
             self.name = self._node.title.string
             self.status = color(link, 'green')
 
+
     @property
     def emails(self):
         if not self._emails:
-            self._emails = get_emails(self._node)
+            self._emails = get_emails(self)
         return self._emails
+
+    @property
+    def links(self):
+        if not self._links:
+            self._links = get_links(self)
+        return self._links
 
     @property
     def children(self):
         if not self._children:
-            self._children = get_children(self._node)
+            self._children = self._node.find_all('a')
         return self._children
 
     @staticmethod
