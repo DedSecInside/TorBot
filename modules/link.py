@@ -16,19 +16,28 @@ def get_emails(node):
     """Finds all emails associated with node
 
     Args:
-        node (LinkNode)
+        node (LinkNode): node used to get emails from
+    Returns:
+        emails (list): list of emails
     """
-    email_nodes = []
+    emails = []
     for child in node.children:
         link = child.get('href')
         if link and 'mailto' in link:
             email_addr = link.split(':')
             if LinkNode.valid_email(email_addr[1]) and len(email_addr) > 1:
-                email_nodes.append(email_addr[1])
-    return email_nodes
+                emails.append(email_addr[1])
+    return emails
 
 
 def get_links(node):
+    """Finds all links associated with node
+
+    Args:
+        node (LinkNode): node used to get links from
+    Returns:
+        links (list): list of links
+    """
     def retrieve_link(child):
         link = child.get('href')
         if LinkNode.valid_link(link) and link:
@@ -46,6 +55,7 @@ class LinkNode:
     """
 
     def __init__(self, link):
+        # If link has invalid form, throw an error
         if not self.valid_link(link):
             raise ValueError("Invalid link format.")
 
@@ -53,6 +63,7 @@ class LinkNode:
         self._emails = []
         self._links = []
 
+        # Attempts to connect to link, if throws an error if link is unreachable
         try:
             self.response = requests.get(link)
         except (requests.exceptions.ChunkedEncodingError,
@@ -71,30 +82,41 @@ class LinkNode:
 
     @property
     def emails(self):
+        """
+        Getter for node emails
+        """
         if not self._emails:
             self._emails = get_emails(self)
         return self._emails
 
     @property
     def links(self):
+        """
+        Getter for node links
+        """
         if not self._links:
             self._links = get_links(self)
         return self._links
 
     @property
     def children(self):
+        """
+        Getter for node children
+        """
         if not self._children:
             self._children = self._node.find_all('a')
         return self._children
 
     @staticmethod
     def valid_email(email):
+        """Static method used to validate emails"""
         if validators.email(email):
             return True
         return False
 
     @staticmethod
     def valid_link(link):
+        """Static method used to validate links"""
         if validators.url(link):
             return True
         return False
