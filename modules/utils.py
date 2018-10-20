@@ -48,7 +48,8 @@ def multi_thread(data, data_function, *args):
     data_queue = Queue(len(data)*2)
     ret_stack = list()
     for _ in data:
-        thd = Thread(target=process_data, args=(data_queue, ret_stack, data_function, *args))
+        data_args = (data_queue, ret_stack, data_function, *args)
+        thd = Thread(target=process_data, args=data_args)
         thd.daemon = True
         thd.start()
 

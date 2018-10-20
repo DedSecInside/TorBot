@@ -46,6 +46,7 @@ class LinkNode:
     def get_children(self):
         if not self._children:
             children = self._node.find_all('a')
+
             def retrieve_link(child):
                 link = child.get('href')
                 if link and self.valid_link(link):

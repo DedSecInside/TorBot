@@ -162,8 +162,7 @@ def main():
             tree.show()
         elif args.download:
             tree = LinkTree(node)
-            #file_name = str(input("File Name (.pdf/.png/.svg): "))
-            file_name = 'test.pdf'
+            file_name = str(input("File Name (.pdf/.png/.svg): "))
             tree.save(file_name)
         else:
             LinkIO.display_children(node)

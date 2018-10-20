@@ -70,6 +70,7 @@ def initialize_tree(root_node):
     children = root_node.get_children()
     return root, children
 
+
 def build_tree(link=None, *, stop=1, rec=0, to_visit=None, tree=None):
     """
     Builds tree using Breadth First Search. You can specify stop depth.
@@ -118,7 +119,7 @@ def build_tree(link=None, *, stop=1, rec=0, to_visit=None, tree=None):
 
         return to_visit
 
-    children_to_visit = multi_thread(to_visit, visit_nodes)
+    next_nodes = multi_thread(to_visit, visit_nodes)
     rec += 1
 
     # If we've reached stop depth then return tree
@@ -126,4 +127,4 @@ def build_tree(link=None, *, stop=1, rec=0, to_visit=None, tree=None):
         return sub_tree
 
     new_tree = tree.add_child(sub_tree)
-    return build_tree(to_visit=children_to_visit, stop=stop, rec=rec, tree=new_tree)
+    return build_tree(to_visit=next_nodes, stop=stop, rec=rec, tree=new_tree)
