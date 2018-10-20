@@ -15,7 +15,7 @@ class LinkIO:
         children = link_node.get_children()
         sucess_msg = color(f'Links Found - {len(children)}', 'green')
         print(sucess_msg + '\n' + '---------------------------------')
-        multi_thread(children, LinkIO.display)
+        print(multi_thread(children, LinkIO.display))
 
     @staticmethod
     def read(link, *, response=False, show_msg=False, headers=None, schemes=None):
@@ -34,7 +34,7 @@ class LinkIO:
             if show_msg:
                 print(f'Attempting to connect to {link}')
             if LinkNode.valid_link(link):
-                node = LinkNode(link, tld=True)
+                node = LinkNode(link)
                 if response:
                     return node.response.text, node.response
                 return node.response.text
@@ -46,7 +46,7 @@ class LinkIO:
             if show_msg:
                 print(f'Attempting to connect to {link}')
             if LinkNode.valid_link(temp_url):
-                node = LinkNode(temp_url, tld=True)
+                node = LinkNode(temp_url)
                 if response:
                     return node.response.text, node.response
                 return node.response.text
@@ -59,14 +59,16 @@ class LinkIO:
         """
         if LinkNode.valid_link(link):
             try:
-                node = LinkNode(link, tld=True)
+                node = LinkNode(link)
                 title = node.name
                 link_status = node.status
             except (requests.exceptions.HTTPError, requests.exceptions.ConnectionError, ConnectionError):
                 title = 'Not Found'
                 link_status = color(link, 'red')
 
-        print("%-80s %-30s" % (link_status, title))
+        status_msg = "%-80s %-30s" % (link_status, title)
+        print(status_msg)
+        return status_msg
 
 
     @staticmethod

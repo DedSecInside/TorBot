@@ -128,7 +128,7 @@ def main():
     args = get_args()
     connect(args.ip, args.port)
     try:
-        node = LinkNode(args.url, tld=args.extension)
+        node = LinkNode(args.url)
     except (ValueError, HTTPError, ConnectionError) as err:
         raise err
 
@@ -158,11 +158,12 @@ def main():
             if args.save:
                 print('Nothing to save.\n')
         elif args.visualize:
-            tree = LinkTree(node, tld=node.tld)
+            tree = LinkTree(node)
             tree.show()
         elif args.download:
-            tree = LinkTree(node, tld=node.tld)
-            file_name = str(input("File Name (.pdf/.png/.svg): "))
+            tree = LinkTree(node)
+            #file_name = str(input("File Name (.pdf/.png/.svg): "))
+            file_name = 'test.pdf'
             tree.save(file_name)
         else:
             LinkIO.display_children(node)

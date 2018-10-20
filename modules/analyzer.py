@@ -5,6 +5,7 @@ from requests.exceptions import HTTPError
 
 from ete3 import Tree, TreeStyle, TextFace, add_face_to_node
 from .link import LinkNode
+from .utils import multi_thread
 
 class LinkTree:
     """
@@ -17,8 +18,8 @@ class LinkTree:
         tld (bool): Decides whether or not to use additional top-level-domains besides .tor
         stop_depth (int): Depth of which to stop searching for links
     """
-    def __init__(self, root_node, *, tld=False, stop_depth=1):
-        self._tree = build_tree(root_node, tld=tld, stop=stop_depth)
+    def __init__(self, root_node, *, stop_depth=1):
+        self._tree = build_tree(root_node, stop=stop_depth)
 
     def __len__(self):
         return len(self._tree)
@@ -69,7 +70,7 @@ def initialize_tree(root_node):
     children = root_node.get_children()
     return root, children
 
-def build_tree(link, *, tld, stop=1, rec=0, to_visit=None, tree=None):
+def build_tree(link=None, *, stop=1, rec=0, to_visit=None, tree=None):
     """
     Builds tree using Breadth First Search. You can specify stop depth.
     Rec & tree arguments are used for recursion.
@@ -97,12 +98,12 @@ def build_tree(link, *, tld, stop=1, rec=0, to_visit=None, tree=None):
         # If recursion is 0 then sub_tree will be root
         return sub_tree if rec == 0 else tree
 
-    children_to_visit = list()
-    for link_name in to_visit:
+    def visit_nodes(link):
+        children_to_visit = list()
         try:
-            node = LinkNode(link_name, tld=tld)
+            node = LinkNode(link)
         except (ValueError, ConnectionError, HTTPError):
-            continue
+            return None
 
         link_node = sub_tree.add_child(name=node.name)
         link_children = node.get_children()
@@ -111,6 +112,13 @@ def build_tree(link, *, tld, stop=1, rec=0, to_visit=None, tree=None):
             for child in link_children:
                 link_node.add_child(name=child)
                 children_to_visit.append(child)
+
+        if stop != rec + 1:
+            return children_to_visit
+
+        return to_visit
+
+    children_to_visit = multi_thread(to_visit, visit_nodes)
     rec += 1
 
     # If we've reached stop depth then return tree
@@ -118,4 +126,4 @@ def build_tree(link, *, tld, stop=1, rec=0, to_visit=None, tree=None):
         return sub_tree
 
     new_tree = tree.add_child(sub_tree)
-    return build_tree(to_visit, tld=tld, stop=stop, rec=rec, tree=new_tree)
+    return build_tree(to_visit=children_to_visit, stop=stop, rec=rec, tree=new_tree)
