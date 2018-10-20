@@ -20,9 +20,9 @@ class LinkIO:
         Args:
             root (LinkNode): root of children to be displayed
         """
-        sucess_msg = color(f'Links Found - {len(root.children)}', 'green')
+        sucess_msg = color(f'Links Found - {len(root.links)}', 'green')
         print(sucess_msg + '\n' + '---------------------------------')
-        multi_thread(root.children, LinkIO.display)
+        multi_thread(root.links, LinkIO.display)
 
     @staticmethod
     def read(link, *, response=False, show_msg=False, headers=None, schemes=None):
