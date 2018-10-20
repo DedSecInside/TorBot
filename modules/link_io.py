@@ -15,7 +15,7 @@ class LinkIO:
         children = link_node.get_children()
         sucess_msg = color(f'Links Found - {len(children)}', 'green')
         print(sucess_msg + '\n' + '---------------------------------')
-        print(multi_thread(children, LinkIO.display))
+        multi_thread(children, LinkIO.display)
 
     @staticmethod
     def read(link, *, response=False, show_msg=False, headers=None, schemes=None):
