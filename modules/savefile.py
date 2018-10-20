@@ -4,11 +4,11 @@ import time
 
 def saveJson(datatype, data):
     """
-        Creates json file and stores json
+    Creates json file and stores json
 
-        Args:
-            datatype: the type of the object being passed
-            data = data that is being stored with object
+    Args:
+        datatype: the type of the object being passed
+        data = data that is being stored with object
     """
 
     timestr = time.strftime("%Y%m%d-%H%M%S")

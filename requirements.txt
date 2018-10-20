@@ -2,4 +2,9 @@ beautifulsoup4==4.6.0
 PySocks==1.6.7
 termcolor==1.1.0
 requests==2.18.4
-tldextract==2.2.0
+requests_mock==1.4.0
+yattag==1.10.0
+pyinstaller==3.4.0
+ete3==3.1.1
+PyQt5==5.11.3
+validators==0.12.2
