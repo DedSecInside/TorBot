@@ -40,7 +40,7 @@ def get_links(node):
     """
     def retrieve_link(child):
         link = child.get('href')
-        if LinkNode.valid_link(link) and link:
+        if link and LinkNode.valid_link(link):
             return link
         return None
 

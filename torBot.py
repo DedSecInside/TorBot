@@ -127,10 +127,6 @@ def main():
     """
     args = get_args()
     connect(args.ip, args.port)
-    try:
-        node = LinkNode(args.url)
-    except (ValueError, HTTPError, ConnectionError) as err:
-        raise err
 
     # If flag is -v, --update, -q/--quiet then user only runs that operation
     # because these are single flags only
@@ -145,13 +141,16 @@ def main():
     # If url flag is set then check for accompanying flag set. Only one
     # additional flag can be set with -u/--url flag
     if args.url:
+        try:
+            node = LinkNode(args.url)
+        except (ValueError, HTTPError, ConnectionError) as err:
+            raise err
         LinkIO.display_ip()
         # -m/--mail
         if args.mail:
-            emails = node.get_emails()
-            print(emails)
+            print(node.emails)
             if args.save:
-                saveJson('Emails', emails)
+                saveJson('Emails', node.emails)
         # -i/--info
         elif args.info:
             execute_all(node.name)
@@ -167,7 +166,7 @@ def main():
         else:
             LinkIO.display_children(node)
             if args.save:
-                saveJson("Links", node.get_children())
+                saveJson("Links", node.links)
     else:
         print("usage: See torBot.py -h for possible arguments.")
 
