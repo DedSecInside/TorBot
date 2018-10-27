@@ -10,7 +10,7 @@ import requests
 
 # ALGORITHM UTILITY FUNCTIONS
 
-def process_data(data_queue, process, args=tuple()):
+def process_data(data_queue, data_stack, process, *args):
     """
     Processes tasks using by grabbing threads from queue
 
@@ -24,13 +24,16 @@ def process_data(data_queue, process, args=tuple()):
     while True:
         data = data_queue.get()
         if args:
-            process(data, args)
+            result = process(data, args)
         else:
-            process(data)
+            result = process(data)
+
+        if result:
+            data_stack.append(result)
         data_queue.task_done()
 
 
-def multi_thread(data, data_function, args=tuple()):
+def multi_thread(data, data_function, *args):
     """
     Start threads with function to process data and arguments then process the data
     in FIFO order.
@@ -43,23 +46,19 @@ def multi_thread(data, data_function, args=tuple()):
         None
     """
     data_queue = Queue(len(data)*2)
+    ret_stack = list()
     for _ in data:
-        if args:
-            if isinstance(args, tuple):
-                thd = Thread(target=process_data, args=(data_queue, data_function, args))
-                thd.daemon = True
-                thd.start()
-            else:
-                raise Exception('Arguments must be in the form of a tuple.')
-        else:
-            thd = Thread(target=process_data, args=(data_queue, data_function))
-            thd.daemon = True
-            thd.start()
+        data_args = (data_queue, ret_stack, data_function, *args)
+        thd = Thread(target=process_data, args=data_args)
+        thd.daemon = True
+        thd.start()
 
-    for data_obj in data:
-        data_queue.put(data_obj)
+    for obj in data:
+        data_queue.put(obj)
 
     data_queue.join()
+    return ret_stack
+
 
 # Networking functions
 

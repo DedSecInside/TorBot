@@ -1,25 +1,75 @@
-import re
+"""
 
+This module is used to create a LinkNode that can be consumued by a LinkTree
+and contains useful Link methods
+
+"""
 import requests
 import requests.exceptions
 import validators
 
 from bs4 import BeautifulSoup
+from .utils import multi_thread
 from .color import color
 
-class LinkNode:
+def get_emails(node):
+    """Finds all emails associated with node
 
-    def __init__(self, link, *, tld=False):
+    Args:
+        node (LinkNode): node used to get emails from
+    Returns:
+        emails (list): list of emails
+    """
+    emails = []
+    for child in node.children:
+        link = child.get('href')
+        if link and 'mailto' in link:
+            email_addr = link.split(':')
+            if LinkNode.valid_email(email_addr[1]) and len(email_addr) > 1:
+                emails.append(email_addr[1])
+    return emails
+
+
+def get_links(node):
+    """Finds all links associated with node
+
+    Args:
+        node (LinkNode): node used to get links from
+    Returns:
+        links (list): list of links
+    """
+    def retrieve_link(child):
+        link = child.get('href')
+        if link and LinkNode.valid_link(link):
+            return link
+        return None
+
+    return multi_thread(node.children, retrieve_link)
+
+
+class LinkNode:
+    """Represents link node in a link tree
+
+    Attributes:
+        link (str): link to be used as node
+    """
+
+    def __init__(self, link):
+        # If link has invalid form, throw an error
         if not self.valid_link(link):
             raise ValueError("Invalid link format.")
 
-        self.tld = tld
         self._children = []
         self._emails = []
+        self._links = []
 
+        # Attempts to connect to link, throws an error if link is unreachable
         try:
             self.response = requests.get(link)
-        except (requests.exceptions.ChunkedEncodingError, requests.exceptions.HTTPError, requests.exceptions.ConnectionError, ConnectionError) as err:
+        except (requests.exceptions.ChunkedEncodingError,
+                requests.exceptions.HTTPError,
+                requests.exceptions.ConnectionError,
+                ConnectionError) as err:
             raise err
 
         self._node = BeautifulSoup(self.response.text, 'html.parser')
@@ -30,43 +80,43 @@ class LinkNode:
             self.name = self._node.title.string
             self.status = color(link, 'green')
 
-    def get_emails(self):
-        if self._emails:
-            return self._emails
+    @property
+    def emails(self):
+        """
+        Getter for node emails
+        """
+        if not self._emails:
+            self._emails = get_emails(self)
+        return self._emails
 
-        children = self._node.find_all('a')
-        email_nodes = []
-        for child in children:
-            link = child.get('href')
-            if link and 'mailto' in link:
-                email_addr = link.split(':')
-                if self.valid_email(email_addr[1]) and len(email_addr) > 1:
-                    email_nodes.append(email_addr[1])
-        self._emails = email_nodes
-        return email_nodes
+    @property
+    def links(self):
+        """
+        Getter for node links
+        """
+        if not self._links:
+            self._links = get_links(self)
+        return self._links
 
-    def get_children(self):
-        if self._children:
-            return self._children
-
-        children = self._node.find_all('a')
-        child_nodes = []
-        for child in children:
-            link = child.get('href')
-            if link and self.valid_link(link):
-                child_nodes.append(link)
-
-        self._children = child_nodes
-        return child_nodes
+    @property
+    def children(self):
+        """
+        Getter for node children
+        """
+        if not self._children:
+            self._children = self._node.find_all('a')
+        return self._children
 
     @staticmethod
     def valid_email(email):
-            if validators.email(email):
-                return True
-            return False
+        """Static method used to validate emails"""
+        if validators.email(email):
+            return True
+        return False
 
     @staticmethod
     def valid_link(link):
+        """Static method used to validate links"""
         if validators.url(link):
             return True
         return False
