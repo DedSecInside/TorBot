@@ -3,12 +3,12 @@ dist: trusty
 language: python
 cache: pip3
 python:
-  - "3.5"
+  - "3.6"
 # command to install dependencies
 install:
   - sudo apt-get -y install python3-pip
   - pip3 install -r requirements.txt
-  - cd tests
+  - cd modules/tests
 script: 
   - pytest
 notifications:

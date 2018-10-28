@@ -1,9 +1,28 @@
+# Module Ignores
+modules/*.pyc
+modules/__init__.py
 modules/__pycache__/
+modules/.pytest_cache
+modules/.ropeproject/
+modules/lib/*.so
+
+# Tests Ignores
+tests/.pytest_cache
+tests/*.pyc
+tests/__pycache__/
+tests/.ropeproject/
+
+# Cache
 .cache
+*.pyc
+.pytestc*
+.pytest_cache
+__pycache*
+__pycache__/
+
+# Misc
+torBot
 .*.swp
 .ropeproject/
-modules/.ropeproject/
-tests/__pycache__/
-modules/__init__.py
 .idea/
-tests/.ropeproject/
+.DS_Store
