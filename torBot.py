@@ -31,7 +31,7 @@ def connect(address, port):
 
     Args:
         address: address for port to bound to
-        port: Establishes connect to this port
+        port: Establishes connect to this port//hello
     """
 
     if address and port:
