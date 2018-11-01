@@ -2,7 +2,13 @@
 --------------------
 All notable changes to this project will be documented in this file.
 
-## 1.3.0 | Present 
+## 1.3.1 | Present 
+
+### Changed 
+
+* Changing requests version to 2.20.0
+
+## 1.3.0 | Oct 19, 2018 - Nov 1, 2018
 
 ### Changed
 
