@@ -20,7 +20,7 @@ LOCALHOST = "127.0.0.1"
 DEFPORT = 9050
 
 # TorBot VERSION
-__VERSION = "1.3"
+__VERSION = "1.3.1"
 
 
 def connect(address, port):
