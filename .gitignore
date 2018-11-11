@@ -8,6 +8,7 @@ modules/lib/*.so
 
 # JS Ignores
 node_modules
+build
 
 # Tests Ignores
 tests/.pytest_cache
