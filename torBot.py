@@ -153,7 +153,7 @@ def main():
                 saveJson('Emails', node.emails)
         # -i/--info
         elif args.info:
-            execute_all(node.name)
+            execute_all(node.uri)
             if args.save:
                 print('Nothing to save.\n')
         elif args.visualize:
