@@ -1,5 +1,5 @@
 flake8:
   enabled: true
-eslint: 
+eslint:
   enbaled: true
   config_file: ./ui/.eslintrc.json

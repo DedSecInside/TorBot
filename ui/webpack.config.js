@@ -1,4 +1,4 @@
-const MiniCssExtractTextPlugin = require('mini-css-extract-plugin')
+const MiniCssExtractTextPlugin = require('mini-css-extract-plugin');
 const createElectronReloadWebpackPlugin = require('electron-reload-webpack-plugin');
 const ElectronReloadWebpackPlugin = createElectronReloadWebpackPlugin({
     path: './',
@@ -63,4 +63,4 @@ module.exports = {
       extensions: ['.js', '.json', '.jsx']
     }
 
-}
+};
