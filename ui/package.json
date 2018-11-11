@@ -1,0 +1,44 @@
+{
+  "name": "torbot",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "electron-reload-webpack-plugin": "^2.0.4",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "react-scripts": "2.0.5"
+  },
+  "scripts": {
+    "start": "webpack --mode development --watch",
+    "build": "webpack --mode production",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "electron": "electron ."
+  },
+  "homepage": "./",
+  "main": "src/electron-main.js",
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "@babel/preset-env": "^7.1.0",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.4",
+    "css-loader": "^1.0.1",
+    "electron": "^3.0.8",
+    "electron-connect": "^0.6.3",
+    "electron-reload": "^1.2.5",
+    "eslint": "^5.9.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "eslint-plugin-react": "^7.11.1",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.4.4",
+    "prettier": "^1.15.2",
+    "webpack-cli": "^3.1.2"
+  }
+}

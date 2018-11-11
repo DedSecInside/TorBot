@@ -6,6 +6,9 @@ modules/.pytest_cache
 modules/.ropeproject/
 modules/lib/*.so
 
+# JS Ignores
+node_modules
+
 # Tests Ignores
 tests/.pytest_cache
 tests/*.pyc
