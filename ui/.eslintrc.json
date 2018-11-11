@@ -1,11 +1,11 @@
-module.exports = {
+{
     "env": {
         "node": true,
         "browser": true,
         "commonjs": true,
         "es6": true
     },
-    "extends": ["eslint:recommended", "plugin:react/recommended"],
+    "extends": ["plugin:react/recommended","eslint:recommended"],
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
@@ -30,4 +30,4 @@ module.exports = {
             "always"
         ]
     }
-};
+}
