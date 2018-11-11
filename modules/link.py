@@ -73,6 +73,7 @@ class LinkNode:
             raise err
 
         self._node = BeautifulSoup(self.response.text, 'html.parser')
+        self.uri = link
         if not self._node.title:
             self.name = "TITLE NOT FOUND"
             self.status = color(link, 'yellow')
