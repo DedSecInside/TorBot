@@ -10,7 +10,7 @@ from .proxy import proxyGET
 
 class LinkNode:
 
-    def __init__(self, link, *, tld=False):
+    def __init__(self, link, *, tor=True, tld=False):
         if not self.valid_link(link):
             raise ValueError("Invalid link format.")
 
@@ -19,7 +19,10 @@ class LinkNode:
         self._emails = []
 
         try:
-            self.response = proxyGET(link)
+            if tor:
+                self.response = proxyGET(link)
+            else:
+                self.response = requests.get(link)
         except (requests.exceptions.ChunkedEncodingError, requests.exceptions.HTTPError, requests.exceptions.ConnectionError, ConnectionError) as err:
             raise err
 

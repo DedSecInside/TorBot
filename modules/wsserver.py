@@ -1,12 +1,18 @@
 import asyncio
+import tldextract
 import websockets
 from .link import LinkNode
 
 async def handle_msg(websocket, path):
     msg = await websocket.recv()
-    node = LinkNode(msg)
-    for child in node.get_children():
-        await websocket.send(child)
+    ext = tldextract.extract(msg)
+    if ext.domain == 'onion' or ext.suffix == 'onion':
+        print('reached')
+        node = LinkNode(msg)
+    else:
+        node = LinkNode(msg, tor=False)
+    for i, child in enumerate(node.get_children()):
+        await websocket.send(str(i) + child)
 
 def startWSServer():
     print('Starting WSServer on address localhost:8080')

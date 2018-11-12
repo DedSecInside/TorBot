@@ -48,12 +48,6 @@ module.exports = {
         ]
     },
 
-    resolve: {
-        alias: {
-            images: path.resolve(__dirname, 'images')
-        }
-    },
-
     plugins: [
         new MiniCssExtractTextPlugin({
             filename: 'bundle.css',

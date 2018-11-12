@@ -78,8 +78,8 @@ def get_args():
                         help="Visualizes tree of data gathered.")
     parser.add_argument("-d", "--download", action="store_true",
                         help="Downloads tree of data gathered.")
-    parser.add_argument("-g", "--gui", action="store_true",
-                        help="Display GUI for TorBot.")
+    parser.add_argument("--server", action="store_true",
+                        help="Start TorBot WebSocket server.")
     return parser.parse_args()
 
 
@@ -88,12 +88,8 @@ def main():
     TorBot's Core
     """
     args = get_args()
-    if not args.gui:
-        connect(args.ip, args.port)
-    try:
-        node = LinkNode(args.url, tld=args.extension)
-    except (ValueError, HTTPError, ConnectionError) as err:
-        raise err
+    if args.server:
+        startWSServer()
 
     # If flag is -v, --update, -q/--quiet then user only runs that operation
     # because these are single flags only
@@ -105,6 +101,10 @@ def main():
         exit()
     if not args.quiet:
         header()
+    try:
+        node = LinkNode(args.url, tld=args.extension)
+    except (ValueError, HTTPError, ConnectionError) as err:
+        raise err
     # If url flag is set then check for accompanying flag set. Only one
     # additional flag can be set with -u/--url flag
     if args.url:
@@ -127,8 +127,6 @@ def main():
             tree = LinkTree(node, tld=node.tld)
             file_name = str(input("File Name (.pdf/.png/.svg): "))
             tree.save(file_name)
-        elif args.gui:
-            startWSServer()
         else:
             LinkIO.display_children(node)
             if args.save:
