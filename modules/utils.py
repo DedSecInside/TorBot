@@ -78,10 +78,10 @@ def get_url_status(url, headers=False):
     """
     try:
         if headers:
-            resp = proxyGET(url)
+            resp = proxyGET(url, headers)
         else:
             resp = proxyGET(url)
-            resp.raise_for_status()
+        resp.raise_for_status()
         return resp
     except (ConnectionError, HTTPError):
         return 0

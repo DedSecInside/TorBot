@@ -2,8 +2,6 @@
 MAIN MODULE
 """
 import argparse
-import socket
-import socks
 
 from requests.exceptions import HTTPError
 
@@ -22,45 +20,6 @@ DEFPORT = 9050
 
 # TorBot VERSION
 __VERSION = "1.3"
-'''
-def connect(address, port):
-    """ Establishes connection to port
-
-    Assumes port is bound to localhost, if host that port is bound to changes
-    then change the port
-
-    Args:
-        address: address for port to bound to
-        port: Establishes connect to this port
-    """
-
-    if address and port:
-        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, port)
-    elif address:
-        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, DEFPORT)
-    elif port:
-        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, LOCALHOST, port)
-    else:
-        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, LOCALHOST, DEFPORT)
-
-    socket.socket = socks.socksocket  # Monkey Patch our socket to tor socket
-
-    def getaddrinfo(*args):
-        """
-        Overloads socket function for std socket library
-        Check socket.getaddrinfo() documentation to understand parameters.
-        Simple description below:
-        argument - explanation (actual value)
-        socket.AF_INET - the type of address the socket can speak to (IPV4)
-        sock.SOCK_STREAM - creates a stream connecton rather than packets
-        6 - protocol being used is TCP
-        Last two arguments should be a tuple containing the address and port
-        """
-        return [(socket.AF_INET, socket.SOCK_STREAM, 6,
-                 '', (args[0], args[1]))]
-    socket.getaddrinfo = getaddrinfo
-'''
-
 
 def header():
     """

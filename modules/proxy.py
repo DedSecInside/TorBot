@@ -6,6 +6,9 @@ proxies = {
 }
 session = requests.session()
 session.proxies = proxies
-def proxyGET(url):
-    return session.get(url)
+def proxyGET(url, headers=None):
+    if headers:
+        return session.get(url, headers=headers)
+    else:
+        return session.get(url)
 
