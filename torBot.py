@@ -129,7 +129,8 @@ def main():
     TorBot's Core
     """
     args = get_args()
-    connect(args.ip, args.port)
+    if not args.gui:
+        connect(args.ip, args.port)
     try:
         node = LinkNode(args.url, tld=args.extension)
     except (ValueError, HTTPError, ConnectionError) as err:

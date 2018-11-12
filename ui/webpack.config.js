@@ -6,6 +6,7 @@ const ElectronReloadWebpackPlugin = createElectronReloadWebpackPlugin({
 });
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const path = require('path');
 module.exports = {
 
     watch: true,
@@ -45,6 +46,12 @@ module.exports = {
                 }
             }
         ]
+    },
+
+    resolve: {
+        alias: {
+            images: path.resolve(__dirname, 'images')
+        }
     },
 
     plugins: [
