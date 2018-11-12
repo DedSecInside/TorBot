@@ -7,7 +7,6 @@ async def handle_msg(websocket, path):
     msg = await websocket.recv()
     ext = tldextract.extract(msg)
     if ext.domain == 'onion' or ext.suffix == 'onion':
-        print('reached')
         node = LinkNode(msg)
     else:
         node = LinkNode(msg, tor=False)

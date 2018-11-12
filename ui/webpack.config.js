@@ -44,14 +44,7 @@ module.exports = {
                 query: {
                     name: '[name].[ext]?[hash]'
                 }
-            }, 
-            {
-                test: /\.(png|jpg|gif|svg)$/,
-                loader: 'url-loader',
-                options: {
-                    limit: 8192
-                }
-            }
+            } 
         ]
     },
 

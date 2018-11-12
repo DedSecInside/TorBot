@@ -1,14 +1,32 @@
 body {
   text-align: center;
+  color: lime;
+  background-color: black;
 }
 form {
   display: inline-block;
 }
 .search-bar {
   border-radius: 25px;
+  border-color: lime;
+  padding: 5px;
+  border-width: 5px;
+  margin-right: 5px;
+  background-color: black;
+  color: lime;
+}
+.search-bar:focus {
+  outline: none;
+}
+.submit-button:focus {
+  outline: none;
 }
 .submit-button {
-  background: white;
-  width: 50px;
-  height: 50px;
+  font-weight: 900;
+  border-radius: 25px;
+  border-color: lime;
+  width: 70px;
+  height: 30px;
+  background-color: black;
+  color: lime;
 }
