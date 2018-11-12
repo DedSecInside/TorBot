@@ -22,8 +22,7 @@ DEFPORT = 9050
 
 # TorBot VERSION
 __VERSION = "1.3"
-
-
+'''
 def connect(address, port):
     """ Establishes connection to port
 
@@ -60,6 +59,7 @@ def connect(address, port):
         return [(socket.AF_INET, socket.SOCK_STREAM, 6,
                  '', (args[0], args[1]))]
     socket.getaddrinfo = getaddrinfo
+'''
 
 
 def header():

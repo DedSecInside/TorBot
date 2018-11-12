@@ -1,6 +1,10 @@
 import React from 'react';
 
 
+function handleMessage(msg) {
+    console.info(msg.data);
+}
+
 class Home extends React.Component {
     
     constructor(props) {
@@ -16,11 +20,9 @@ class Home extends React.Component {
     }
 
     onSubmit(event) {
-        let scope = this;
         let ws = new WebSocket('ws://localhost:8080')
-        ws.onopen = function() {
-            ws.send(scope.state.url);
-        };
+        ws.onopen = () => ws.send(this.state.url);
+        ws.onmessage = handleMessage;
     }
 
     render() {

@@ -6,6 +6,7 @@ import validators
 
 from bs4 import BeautifulSoup
 from .color import color
+from .proxy import proxyGET
 
 class LinkNode:
 
@@ -18,7 +19,7 @@ class LinkNode:
         self._emails = []
 
         try:
-            self.response = requests.get(link)
+            self.response = proxyGET(link)
         except (requests.exceptions.ChunkedEncodingError, requests.exceptions.HTTPError, requests.exceptions.ConnectionError, ConnectionError) as err:
             raise err
 
