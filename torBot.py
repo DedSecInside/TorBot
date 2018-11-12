@@ -118,6 +118,8 @@ def get_args():
                         help="Visualizes tree of data gathered.")
     parser.add_argument("-d", "--download", action="store_true",
                         help="Downloads tree of data gathered.")
+    parser.add_argument("-g", "--gui", action="store_true",
+                        help="Display GUI for TorBot.")
     return parser.parse_args()
 
 
@@ -164,6 +166,8 @@ def main():
             tree = LinkTree(node, tld=node.tld)
             file_name = str(input("File Name (.pdf/.png/.svg): "))
             tree.save(file_name)
+        elif args.gui:
+            startWSServer()
         else:
             LinkIO.display_children(node)
             if args.save:
