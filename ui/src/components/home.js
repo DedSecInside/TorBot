@@ -1,9 +1,12 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import Links from './links';
 import './home.css';
 
-
+let links = [];
 function handleMessage(msg) {
-    console.info(msg.data);
+    links.push(msg.data);
+    ReactDOM.render(<Links links={links}/>, document.getElementById('root'));
 }
 
 class Home extends React.Component {
