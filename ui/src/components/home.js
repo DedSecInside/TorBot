@@ -1,4 +1,6 @@
 import React from 'react';
+import './home.css';
+import img from './images/tor-onion.jpg'
 
 
 function handleMessage(msg) {
@@ -28,9 +30,11 @@ class Home extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <h1 align='center'>TorBot</h1>
-                <input onKeyDown={this.onUrlChange} type='text'/>
-                <button onClick={this.onSubmit}></button>
+                <form>
+                    <h1 align='center'>TorBot</h1>
+                    <input onKeyDown={this.onUrlChange} className='search-bar' type='text'/>
+                    <img onClick={this.onSubmit} className='submit-button' src={img}/>
+                </form>
             </React.Fragment>
         );
     }
