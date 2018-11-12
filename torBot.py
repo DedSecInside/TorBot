@@ -14,6 +14,7 @@ from modules.link import LinkNode
 from modules.updater import updateTor
 from modules.savefile import saveJson
 from modules.info import execute_all
+from modules.wsserver import startWSServer
 
 # GLOBAL CONSTS
 LOCALHOST = "127.0.0.1"
