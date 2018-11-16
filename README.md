@@ -19,14 +19,14 @@ Open-source intelligence offers value in information security decision making th
  
 ### Motivation 
 
-  The idea of developing an open source intelligence tool like TorBot emerged from the deep web itself. Crawling a collection of web pages which has high anonymity and complex data encryption without an index is a tedious task. The crawler in TorBot has to be designed in such a way that the links are identified from a webpage (any webpage) and other links are identified and crawled recursively, then combining all these links to form an index. Each link is then crawled for more links and emails for intelligence information. Unlike surface web discovery tool, a deep web discovery tool is limited for both general and domain-specific search. 
+  The idea of developing an open source intelligence tool like TorBot emerged from the deep web itself. Crawling a collection of web pages which has high anonymity and complex data encryption without an index is a tedious (and sometimes dangerous) task. The crawler in TorBot has to be designed in such a way that the links are identified from a webpage (any webpage) and other links are identified and crawled recursively, then combining all these links to form an index. Each link is then crawled for more links and emails for intelligence information. Unlike surface web discovery tool, a deep web discovery tool is limited for both general and domain-specific search. 
   
   Extensive use of Dark web for communication of terrorism-related information makes it a challenge for Law Enforcement Agencies. TorBot should be able to monitor such illegal activities that are happening in this encrypted network. Therefore, this tool will be able to ease the task of finding such activities by an intelligence group or researchers, thus making this the main objective of TorBot. 
  
  
 ### Objective
 
-Though the main objective of TorBot is to identify illegal activities in the deep web and visualize the relations of data collected using a graph, there are several ways this tool can be useful. Like for example, TorBot will be able to crawl and create an index for the deep web. This index can be stored in a database or a JSON file for future use. Other features like live checker will be able to check whether a web address is alive or dead. This is important as the deep web links are constantly changed for privacy and security reasons. For researchers and security enthusiasts the TorBot can be used for checking basic vulnerabilities in a dark web page.
+Though the main objective of TorBot is to identify illegal activities in the deep web and visualize the relations of data collected using a graph, there are several ways this tool can be useful. For example, TorBot will be able to crawl and create an index for the deep web. This index can be stored in a database or a JSON file for future use. Other features like live checker will be able to check whether a web address is alive or dead. This is important as deep web links are constantly changed for privacy and security reasons. For researchers and security enthusiasts the TorBot can be used for checking basic vulnerabilities in a dark web page.
 
 
 ### Working Procedure/Basic Plan
@@ -57,7 +57,7 @@ the following steps:
 
 ## Contribute
 Contributions to this project are always welcome.
-To add a new feature fork the dev branch and give a pull request when your new feature is tandested and complete.
+To add a new feature fork the dev branch and give a pull request when your new feature is tested and complete.
 If its a new module, it should be put inside the modules directory.
 The branch name should be your new feature name in the format <Feature_featurename_version(optional)>. For example, <i>Feature_FasterCrawl_1.0</i>.
 Contributor name will be updated to the below list. 😀
@@ -134,7 +134,7 @@ Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob
 
 ### Have ideas?
 If you have new ideas which is worth implementing, mention those by starting a new issue with the title [FEATURE_REQUEST].
-If the idea is worth implementing, congratz you are now a contributor.
+If the idea is worth implementing, congratz, you are now a contributor.
 
 ## Related Works
 OSINT and the Dark Web: The Dark Web has proven a very useful and reliable tool in the hands of individuals wishing to be involved in illegal, criminal or terrorist activities, setting sight on getting great economic or political benefits without being identified from government authorities and security agencies world-wide. To this end, LEAs need to become more agile when dealing with criminality on the Dark Web, and in particular on its Hidden Service Markets, and need to invest in new training and technology, if not to get ahead of the criminals, then at least to keep pace[1]. 

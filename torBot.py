@@ -19,7 +19,7 @@ LOCALHOST = "127.0.0.1"
 DEFPORT = 9050
 
 # TorBot VERSION
-__VERSION = "1.3"
+__VERSION = "1.3.1"
 
 def header():
     """
@@ -108,29 +108,32 @@ def main():
     # If url flag is set then check for accompanying flag set. Only one
     # additional flag can be set with -u/--url flag
     if args.url:
+        try:
+            node = LinkNode(args.url)
+        except (ValueError, HTTPError, ConnectionError) as err:
+            raise err
         LinkIO.display_ip()
         # -m/--mail
         if args.mail:
-            emails = node.get_emails()
-            print(emails)
+            print(node.emails)
             if args.save:
-                saveJson('Emails', emails)
+                saveJson('Emails', node.emails)
         # -i/--info
         elif args.info:
-            execute_all(node.name)
+            execute_all(node.uri)
             if args.save:
                 print('Nothing to save.\n')
         elif args.visualize:
-            tree = LinkTree(node, tld=node.tld)
+            tree = LinkTree(node)
             tree.show()
         elif args.download:
-            tree = LinkTree(node, tld=node.tld)
+            tree = LinkTree(node)
             file_name = str(input("File Name (.pdf/.png/.svg): "))
             tree.save(file_name)
         else:
             LinkIO.display_children(node)
             if args.save:
-                saveJson("Links", node.get_children())
+                saveJson("Links", node.links)
     else:
         print("usage: See torBot.py -h for possible arguments.")
 
