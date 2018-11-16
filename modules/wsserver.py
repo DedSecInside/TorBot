@@ -10,8 +10,8 @@ async def handle_msg(websocket, path):
         node = LinkNode(msg)
     else:
         node = LinkNode(msg, tor=False)
-    for child in node.get_children():
-        await websocket.send(child)
+    for link in node.links:
+        await websocket.send(link)
 
 def startWSServer():
     print('Starting WSServer on address localhost:8080')
