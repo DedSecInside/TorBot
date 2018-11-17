@@ -3,9 +3,15 @@ import ReactDOM from 'react-dom';
 import Links from './links';
 import './home.css';
 
+/**
+ * Handles incoming WebSocket Messages
+ *
+ * @param msg {object} - contains message from WS server 
+ */
 let links = [];
 function handleMessage(msg) {
-    links.push(msg.data);
+    let response = JSON.parse(msg.data);
+    links.push(response.data);
     ReactDOM.render(<Links links={links}/>, document.getElementById('root'));
 }
 
@@ -25,8 +31,12 @@ class Home extends React.Component {
 
     onSubmit(event) {
         event.preventDefault();
-        let ws = new WebSocket('ws://localhost:8080')
-        ws.onopen = () => ws.send(this.state.url);
+        let ws = new WebSocket('ws://localhost:8080');
+        let msg = {
+            'url': this.state.url,
+            'action': 'get_links'
+        }
+        ws.onopen = () => ws.send(JSON.stringify(msg));
         ws.onmessage = handleMessage;
         ws.onerror = (error) => {
             console.error(error);

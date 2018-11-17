@@ -1,19 +1,63 @@
+"""
+Module contains WebSocket server
+"""
 import asyncio
+import json
 import tldextract
 import websockets
+import requests
+
+from bs4 import BeautifulSoup
 from .link import LinkNode
+from .proxy import proxyGET
 
-async def handle_msg(websocket, path):
+
+async def handle_msg(websocket):
+    """
+    Handles incoming WebSocket messages from front-end.
+    The appropriate action is taken based on the message.
+
+    Args:
+        websocket (websockets.protocol): websocket connection being used
+    """
     msg = await websocket.recv()
-    ext = tldextract.extract(msg)
-    if ext.domain == 'onion' or ext.suffix == 'onion':
-        node = LinkNode(msg)
-    else:
-        node = LinkNode(msg, tor=False)
-    for link in node.links:
-        await websocket.send(link)
+    data = json.loads(msg) # Load JSON response from front-end
+    url = data['url']
+    # action determines what we will do with the url
+    action = data['action']
+    if action == 'get_links':
+        links = get_links(url)
+        for link in links:
+            response = {'data': link}
+            await websocket.send(json.dumps(response))
 
-def startWSServer():
+def get_links(url):
+    """
+    Get links from url
+
+    Args:
+        url (string): url to get links from
+    Returns:
+        links (list): list containing links
+    """
+    ext = tldextract.extract(url)
+    if ext.domain == 'onion' or ext.suffix == 'onion':
+        response = proxyGET(url)
+    else:
+        response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    anchor_tags = soup.find_all('a')
+    links = list()
+    for anchor in anchor_tags:
+        link = anchor.get('href')
+        if link and LinkNode.valid_link(link):
+            links.append(link)
+    return links
+
+def start_wsserver():
+    """
+    Starts WebSocketServer
+    """
     print('Starting WSServer on address localhost:8080')
     start_server = websockets.serve(handle_msg, 'localhost', '8080')
     asyncio.get_event_loop().run_until_complete(start_server)
