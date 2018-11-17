@@ -13,6 +13,7 @@ function handleMessage(msg) {
     let response = JSON.parse(msg.data);
     if (response.error) {
         console.error(response.error);
+        return;
     }
     links.push(response.link);
     ReactDOM.render(<Links links={links}/>, document.getElementById('root'));
