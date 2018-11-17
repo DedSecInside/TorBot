@@ -15,11 +15,19 @@ class Links extends React.Component {
     }
 
     render() {
-        let items = this.links;
+        let links = this.links;
         return (
             <React.Fragment>
             <ol>
-                {items.map((item, i) => <li key={i}>{item}</li>)}
+                {
+                    links.map(function(link, i) {
+                        if (link.status) {
+                            return <li className="good-link" key={i}>{link.name}</li>;
+                        } else {
+                            return <li className="bad-link" key={i}>{link.name}</li>;
+                        }
+                    }
+                )}
             </ol>
             <input type='button' onClick={this.onHome} value='HOME' className='home-button'/>
             </React.Fragment>

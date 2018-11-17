@@ -10,12 +10,12 @@ import './home.css';
  */
 let links = [];
 function handleMessage(msg) {
-    let response = JSON.parse(msg.data);
-    if (response.error) {
-        console.error(response.error);
+    let link = JSON.parse(msg.data);
+    if (link.error) {
+        console.error(link.error);
         return;
     }
-    links.push(response.link);
+    links.push(link);
     ReactDOM.render(<Links links={links}/>, document.getElementById('root'));
 }
 

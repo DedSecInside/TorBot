@@ -37,19 +37,11 @@ async def handle_msg(websocket, path):
     # action determines what we will do with the url
     action = data['action']
     if action == 'get_links':
-        links = get_links(url)
-        # If get_links returns an exception then send an error as a response
-        if isinstance(links, Exception):
-            error_msg = str(links)
-            logging.error(error_msg)
-            error = json.dumps({'error': error_msg})
-            await websocket.send(error)
-        else:
-            for link in links:
-                response = json.dumps({'link': link})
-                await websocket.send(response)
+        async for link in get_links(websocket, url):
+            response = json.dumps({'name': link[0], 'status': link[1]})
+            await websocket.send(response)
 
-def get_links(url):
+async def get_links(websocket, url):
     """
     Get links from url
 
@@ -59,22 +51,27 @@ def get_links(url):
         links (list): list containing links
     """
     ext = tldextract.extract(url)
-    use_tor = ext.domain == 'onion' or ext.suffix == 'onion'
+    tor = ext.domain == 'onion' or ext.suffix == 'onion'
+
+    # If there's an error with the url then we return it to be logged and sent
     try:
-        if use_tor:
+        if tor:
             response = proxyGET(url)
         else:
             response = requests.get(url)
     except Exception as err: 
-        return err
+        yield (url, False)
+
+
     soup = BeautifulSoup(response.text, 'html.parser')
     anchor_tags = soup.find_all('a')
     links = list()
     for anchor in anchor_tags:
         link = anchor.get('href')
         if link and LinkNode.valid_link(link):
-            links.append(link)
-    return links
+            # Returns true if status_code is less than 400, false if not
+            status = requests.head(link).ok
+            yield (link, status) 
 
 def start_wsserver():
     """

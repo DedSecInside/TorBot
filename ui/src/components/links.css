@@ -10,3 +10,9 @@
 .home-button:focus {
   outline: none;
 }
+.good-link {
+  color: green;
+}
+.bad-link {
+  color: red;
+}
