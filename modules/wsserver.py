@@ -12,13 +12,14 @@ from .link import LinkNode
 from .proxy import proxyGET
 
 
-async def handle_msg(websocket):
+async def handle_msg(websocket, path):
     """
     Handles incoming WebSocket messages from front-end.
     The appropriate action is taken based on the message.
 
     Args:
         websocket (websockets.protocol): websocket connection being used
+        path (string): contains origin of websocket message
     """
     msg = await websocket.recv()
     data = json.loads(msg) # Load JSON response from front-end
@@ -27,9 +28,14 @@ async def handle_msg(websocket):
     action = data['action']
     if action == 'get_links':
         links = get_links(url)
-        for link in links:
-            response = {'data': link}
-            await websocket.send(json.dumps(response))
+        # If get_links returns an exception then send an error as a response
+        if isinstance(links, Exception):
+            error = json.dumps({'error': str(links)})
+            await websocket.send(error)
+        else:
+            for link in links:
+                response = json.dumps({'link': link})
+                await websocket.send(response)
 
 def get_links(url):
     """
@@ -41,10 +47,14 @@ def get_links(url):
         links (list): list containing links
     """
     ext = tldextract.extract(url)
-    if ext.domain == 'onion' or ext.suffix == 'onion':
-        response = proxyGET(url)
-    else:
-        response = requests.get(url)
+    use_tor = ext.domain == 'onion' or ext.suffix == 'onion'
+    try:
+        if use_tor:
+            response = proxyGET(url)
+        else:
+            response = requests.get(url)
+    except Exception as err: 
+        return err
     soup = BeautifulSoup(response.text, 'html.parser')
     anchor_tags = soup.find_all('a')
     links = list()

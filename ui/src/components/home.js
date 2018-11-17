@@ -11,12 +11,14 @@ import './home.css';
 let links = [];
 function handleMessage(msg) {
     let response = JSON.parse(msg.data);
-    links.push(response.data);
+    if (response.error) {
+        console.error(response.error);
+    }
+    links.push(response.link);
     ReactDOM.render(<Links links={links}/>, document.getElementById('root'));
 }
 
 class Home extends React.Component {
-    
     constructor(props) {
         super(props);
         this.state = {url: ''};
@@ -41,6 +43,7 @@ class Home extends React.Component {
         ws.onerror = (error) => {
             console.error(error);
         };
+        this.setState({url: ''});
     }
 
     render() {
