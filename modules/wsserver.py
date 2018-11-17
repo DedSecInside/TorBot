@@ -1,17 +1,27 @@
 """
 Module contains WebSocket server
 """
+
+# Built-in Imports
 import asyncio
 import json
+import logging
+
+# Third Party Imports
 import tldextract
 import websockets
 import requests
-
 from bs4 import BeautifulSoup
+
+# Local Imports
 from .link import LinkNode
 from .proxy import proxyGET
 
 
+logging.basicConfig(
+        format='%(asctime)s %(levelname)-8s %(message)s',
+        level=logging.INFO,
+        datefmt='%Y-%m-%d %H:%M:%S')
 async def handle_msg(websocket, path):
     """
     Handles incoming WebSocket messages from front-end.
@@ -30,7 +40,9 @@ async def handle_msg(websocket, path):
         links = get_links(url)
         # If get_links returns an exception then send an error as a response
         if isinstance(links, Exception):
-            error = json.dumps({'error': str(links)})
+            error_msg = str(links)
+            logging.error(error_msg)
+            error = json.dumps({'error': error_msg})
             await websocket.send(error)
         else:
             for link in links:
