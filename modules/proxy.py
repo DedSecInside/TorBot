@@ -11,6 +11,7 @@ proxies = {
 session = requests.session()
 session.proxies = proxies
 
+
 def set_proxy(host, port):
     """
     Sets host and port for tor proxies being used when performing
@@ -20,13 +21,14 @@ def set_proxy(host, port):
         host (string): host name or IP Address
         port (string): port number
     """
-    global proxies  #Allows us to modify global variable directly
+    global proxies  # Allows us to modify global variable directly
     global session
     proxies = {
         'http': 'socks5h://' + host + ':' + port,
         'https': 'socks5h://' + host + ':' + port
     }
     session.proxies = proxies
+
 
 def proxy_get(url, headers=None):
     """
