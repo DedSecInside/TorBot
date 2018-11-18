@@ -4,7 +4,10 @@ import ReactDOM from 'react-dom';
 import Links from './links';
 import './home.css';
 
-
+/**
+ * Home page of TorBot 
+ * @class Home
+ */
 class Home extends React.Component {
     constructor(props) {
         super(props);
@@ -13,6 +16,11 @@ class Home extends React.Component {
         this.onUrlChange = this.onUrlChange.bind(this);
     }
 
+    /**
+     * Sets state of url when user enters text
+     * @memberof Home 
+     * @param {object} event - event received from typing
+     */
     onUrlChange(event) {
         event.persist();
         this.setState({url: event.target.value}, function() {
@@ -20,11 +28,20 @@ class Home extends React.Component {
         });
     }
 
+    /**
+     * Asynchronously displays links from the state's url
+     * @memberof Home
+     * @param {object} event - event received from submitting form
+     */
     onSubmit(event) {
         event.preventDefault();
         ReactDOM.render(<Links host='localhost' port='8080' url={this.state.url}/>, document.getElementById('root')); 
     }
 
+    /**
+     * Renders Home 
+     * @memberof Home
+     */
     render() {
         return (
             <React.Fragment>
