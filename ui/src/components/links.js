@@ -45,7 +45,7 @@ class Links extends React.Component {
             return;
         }
         let stateLinks = this.state.links;
-        stateLinks.push(link)
+        stateLinks.push(link);
         this.setState({links: stateLinks});
     }
 

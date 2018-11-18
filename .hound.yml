@@ -2,4 +2,6 @@ flake8:
   enabled: true
 eslint:
   enbaled: true
-  config_file: ./ui/.eslintrc.json
+  config_file: ./ui/.eslintrc
+jshint:
+  enabled: false
