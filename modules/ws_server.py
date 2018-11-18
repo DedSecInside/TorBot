@@ -20,10 +20,10 @@ from .proxy import proxy_get, proxy_head
 
 # Setting up logging format
 # Logs include {time} {loglevel} {logmessage}
-logging.basicConfig(
-        format='%(asctime)s %(levelname)-8s %(message)s',
-        level=logging.INFO,
-        datefmt='%Y-%m-%d %H:%M:%S')
+logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s',
+                    level=logging.INFO,
+                    datefmt='%Y-%m-%d %H:%M:%S')
+
 
 async def handle_msg(websocket, path):
     """
@@ -40,11 +40,12 @@ async def handle_msg(websocket, path):
     # action determines what we will do with the url
     action = data['action']
     if action == 'get_links':
-        async for link in get_links(websocket, url):
+        async for link in get_links(url):
             response = json.dumps(link)
             await websocket.send(response)
 
-async def get_links(websocket, url):
+
+async def get_links(url):
     """
     Get links from url
 
@@ -67,27 +68,29 @@ async def get_links(websocket, url):
         return
 
     soup = BeautifulSoup(response.text, 'html.parser')
-    anchor_tags = soup.find_all('a')
-    links = list()
+    anchor_tags = soup.find_all('a') # Anchor tags contain links
     for anchor in anchor_tags:
         link = anchor.get('href')
         if link and LinkNode.valid_link(link):
-
             try:
                 # Returns true if status_code is less than 400, false if not
+                # A status of false indicates a bad link to the front end
+                # while a status of true indicates a good link
                 if tor:
                     status = proxy_head(link, timeout=5).ok
                 else:
                     status = requests.head(link, timeout=5).ok
                 yield {'name': link, 'status': status}
             except Exception as err:
-                yield {'name': link, 'status': False, 'error': str(err)} 
+                # If there's an exception then we assume the link is bad
+                yield {'name': link, 'status': False, 'error': str(err)}
 
 def start_wsserver():
     """
     Starts WebSocketServer
     """
-    print('Starting WSServer on address localhost:8080')
+    logging.info('Starting WSServer on address localhost:8080')
     start_server = websockets.serve(handle_msg, 'localhost', '8080')
+    # Asynchronously runs server forever
     asyncio.get_event_loop().run_until_complete(start_server)
     asyncio.get_event_loop().run_forever()
