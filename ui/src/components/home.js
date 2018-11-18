@@ -47,7 +47,7 @@ class Home extends React.Component {
             <React.Fragment>
                 <form>
                     <h1 align='center'>TorBot</h1>
-                    <input onKeyDown={this.onUrlChange} className='search-bar' type='text'/>
+                    <input onKeyDown={this.onUrlChange} onPaste={this.onUrlChange} className='search-bar' type='text'/>
                     <input type='button' onClick={this.onSubmit} value='SELECT' className='submit-button'/>
                 </form>
             </React.Fragment>

@@ -64,6 +64,8 @@ async def get_links(url):
         else:
             response = requests.get(url)
     except Exception as err: 
+        # We'd like to keep the error so the front-end knows why the intial
+        # request failed.
         yield {'name': url, 'status': False, 'error': str(err)}
         return
 
@@ -83,7 +85,7 @@ async def get_links(url):
                 yield {'name': link, 'status': status}
             except Exception as err:
                 # If there's an exception then we assume the link is bad
-                yield {'name': link, 'status': False, 'error': str(err)}
+                yield {'name': link, 'status': False}
 
 def start_wsserver():
     """
