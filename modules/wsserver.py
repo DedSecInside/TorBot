@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup
 
 # Local Imports
 from .link import LinkNode
-from .proxy import proxyGET, proxyHEAD
+from .proxy import proxy_get, proxy_head
 
 
 # Setting up logging format
@@ -59,7 +59,7 @@ async def get_links(websocket, url):
     # If there's an error with the url then we return it to be logged and sent
     try:
         if tor:
-            response = proxyGET(url)
+            response = proxy_get(url)
         else:
             response = requests.get(url)
     except Exception as err: 
@@ -76,7 +76,7 @@ async def get_links(websocket, url):
             try:
                 # Returns true if status_code is less than 400, false if not
                 if tor:
-                    status = proxyHEAD(link, timeout=5).ok
+                    status = proxy_head(link, timeout=5).ok
                 else:
                     status = requests.head(link, timeout=5).ok
                 yield {'name': link, 'status': status}

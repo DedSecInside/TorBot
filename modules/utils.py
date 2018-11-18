@@ -6,7 +6,7 @@ from queue import Queue
 from threading import Thread
 from requests.exceptions import HTTPError
 import requests
-from .proxy import proxyGET
+from .proxy import proxy_get
 
 # ALGORITHM UTILITY FUNCTIONS
 
@@ -77,9 +77,9 @@ def get_url_status(url, headers=False):
     """
     try:
         if headers:
-            resp = proxyGET(url, headers)
+            resp = proxy_get(url, headers)
         else:
-            resp = proxyGET(url)
+            resp = proxy_get(url)
         resp.raise_for_status()
         return resp
     except (ConnectionError, HTTPError):

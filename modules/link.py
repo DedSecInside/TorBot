@@ -11,7 +11,7 @@ import validators
 from bs4 import BeautifulSoup
 from .utils import multi_thread
 from .color import color
-from .proxy import proxyGET
+from .proxy import proxy_get
 
 def get_emails(node):
     """Finds all emails associated with node
@@ -66,7 +66,7 @@ class LinkNode:
         # Attempts to connect to link, throws an error if link is unreachable
         try:
             if tor:
-                self.response = proxyGET(link)
+                self.response = proxy_get(link)
             else:
                 self.response = requests.get(link)
         except (requests.exceptions.ChunkedEncodingError, requests.exceptions.HTTPError, requests.exceptions.ConnectionError, ConnectionError) as err:

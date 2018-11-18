@@ -11,16 +11,16 @@ proxies = {
 session = requests.session()
 session.proxies = proxies
 
-def setProxy(host, port):
+def set_proxy(host, port):
     """
-    Sets host and port for tor proxies being used when performing 
+    Sets host and port for tor proxies being used when performing
     irequests to onion domains.
 
     Args:
         host (string): host name or IP Address
         port (string): port number
     """
-    global proxies # Allows us to modify global variable directly
+    global proxies  #Allows us to modify global variable directly
     global session
     proxies = {
         'http': 'socks5h://' + host + ':' + port,
@@ -28,12 +28,12 @@ def setProxy(host, port):
     }
     session.proxies = proxies
 
-def proxyGET(url, headers=None):
+def proxy_get(url, headers=None):
     """
     Peforms GET request using socks5 proxy
-    
+
     Args:
-        url (string): url to retreive 
+        url (string): url to retreive
         headers (dict): mapping of headers for requests
     """
     if headers:
@@ -42,12 +42,12 @@ def proxyGET(url, headers=None):
     return session.get(url)
 
 
-def proxyHEAD(url, timeout=10, headers=None):
+def proxy_head(url, timeout=10, headers=None):
     """
     Peforms HEAD request using socks5 proxy
-    
+
     Args:
-        url (string): url to retreive 
+        url (string): url to retreive
         headers (dict): mapping of headers for requests
     """
     if headers:
