@@ -26,7 +26,7 @@ class Links extends React.Component {
      * @memberof Links
      */
     initWS() {
-        this.websocket = new WebSocket('ws://' + this.state.host + ':' + this.state.port)
+        this.websocket = new WebSocket('ws://' + this.state.host + ':' + this.state.port);
         let msg = {'url': this.state.url, 'action': 'get_links'};
         this.websocket.onopen = () => this.websocket.send(JSON.stringify(msg));
         this.websocket.onmessage = this.onMsg;

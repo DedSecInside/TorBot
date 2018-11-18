@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Links from './links';
+import Info from './info';
 import './home.css';
 
 /**
@@ -50,6 +51,9 @@ class Home extends React.Component {
             case 'get_links':
                 ReactDOM.render(<Links host='localhost' port='8080' url={this.state.url}/>, document.getElementById('root')); 
                 break;
+            case 'get_info':
+                ReactDOM.render(<Info host='localhost' port='8080' url={this.state.url}/>, document.getElementById('root'));
+                break;
         }
     }
 
@@ -69,8 +73,18 @@ class Home extends React.Component {
                     <input onKeyDown={this.onUrlChange} onPaste={this.onUrlChange} className='search-bar' type='text'/>
                     <input type='button' onClick={this.onSubmit} value='SELECT' className='submit-button'/>
                     <br/>
-                    <input onChange={this.onSelection} type="checkbox" value="get_links" checked={this.state.action === 'get_links'}/> Get Links<br/> 
-                    <input onChange={this.onSelection} type="checkbox" value="get_info" checked={this.state.action === 'get_info'}/> Get Info<br/>
+                    <input 
+                        onChange={this.onSelection} 
+                        type="checkbox" 
+                        value="get_links" 
+                        checked={this.state.action === 'get_links'}
+                    /> Get Links<br/> 
+                    <input 
+                        onChange={this.onSelection} 
+                        type="checkbox" 
+                        value="get_info" 
+                        checked={this.state.action === 'get_info'}
+                    /> Get Info<br/>
                 </form>
             </React.Fragment>
         );

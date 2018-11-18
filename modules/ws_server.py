@@ -43,7 +43,15 @@ async def handle_msg(websocket, path):
         async for link in get_links(url):
             response = json.dumps(link)
             await websocket.send(response)
+    elif action == 'get_info':
+        headers = get_response_headers(url)
+        response = json.dumps(headers)
+        await websocket.send(response)
 
+
+def get_response_headers(url):
+    response = requests.head(url)
+    return dict(response.headers)
 
 async def get_links(url):
     """
