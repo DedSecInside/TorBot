@@ -18,10 +18,13 @@ from .link import LinkNode
 from .proxy import proxyGET, proxyHEAD
 
 
+# Setting up logging format
+# Logs include {time} {loglevel} {logmessage}
 logging.basicConfig(
         format='%(asctime)s %(levelname)-8s %(message)s',
         level=logging.INFO,
         datefmt='%Y-%m-%d %H:%M:%S')
+
 async def handle_msg(websocket, path):
     """
     Handles incoming WebSocket messages from front-end.
@@ -38,7 +41,7 @@ async def handle_msg(websocket, path):
     action = data['action']
     if action == 'get_links':
         async for link in get_links(websocket, url):
-            response = json.dumps({'name': link[0], 'status': link[1]})
+            response = json.dumps(link)
             await websocket.send(response)
 
 async def get_links(websocket, url):
@@ -60,9 +63,8 @@ async def get_links(websocket, url):
         else:
             response = requests.get(url)
     except Exception as err: 
-        yield (url, False)
+        yield {'name': url, 'status': False, 'error': str(err)}
         return
-
 
     soup = BeautifulSoup(response.text, 'html.parser')
     anchor_tags = soup.find_all('a')
@@ -70,15 +72,16 @@ async def get_links(websocket, url):
     for anchor in anchor_tags:
         link = anchor.get('href')
         if link and LinkNode.valid_link(link):
+
             try:
                 # Returns true if status_code is less than 400, false if not
                 if tor:
                     status = proxyHEAD(link, timeout=5).ok
                 else:
                     status = requests.head(link, timeout=5).ok
-            except:
-                status = False
-            yield (link, status) 
+                yield {'name': link, 'status': status}
+            except Exception as err:
+                yield {'name': link, 'status': False, 'error': str(err)} 
 
 def start_wsserver():
     """
