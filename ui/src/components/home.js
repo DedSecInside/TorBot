@@ -11,9 +11,20 @@ import './home.css';
 class Home extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {url: ''};
+        this.state = {url: '', action: 'get_links'};
         this.onSubmit = this.onSubmit.bind(this);
         this.onUrlChange = this.onUrlChange.bind(this);
+        this.onActionChange = this.onActionChange.bind(this);
+        this.onSelection = this.onSelection.bind(this);
+    }
+
+    /**
+     * Sets state of action when user makes selection from dropdown 
+     * @memberof Home 
+     * @param {object} event - event received from typing
+     */
+    onActionChange(event) {
+        this.setState({action: event.target.value});
     }
 
     /**
@@ -35,7 +46,15 @@ class Home extends React.Component {
      */
     onSubmit(event) {
         event.preventDefault();
-        ReactDOM.render(<Links host='localhost' port='8080' url={this.state.url}/>, document.getElementById('root')); 
+        switch (this.state.action) {
+            case 'get_links':
+                ReactDOM.render(<Links host='localhost' port='8080' url={this.state.url}/>, document.getElementById('root')); 
+                break;
+        }
+    }
+
+    onSelection(event) {
+        this.setState({action: event.target.value});
     }
 
     /**
@@ -49,6 +68,9 @@ class Home extends React.Component {
                     <h1 align='center'>TorBot</h1>
                     <input onKeyDown={this.onUrlChange} onPaste={this.onUrlChange} className='search-bar' type='text'/>
                     <input type='button' onClick={this.onSubmit} value='SELECT' className='submit-button'/>
+                    <br/>
+                    <input onChange={this.onSelection} type="checkbox" value="get_links" checked={this.state.action === 'get_links'}/> Get Links<br/> 
+                    <input onChange={this.onSelection} type="checkbox" value="get_info" checked={this.state.action === 'get_info'}/> Get Info<br/>
                 </form>
             </React.Fragment>
         );
