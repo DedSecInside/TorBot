@@ -4,23 +4,6 @@ import ReactDOM from 'react-dom';
 import Links from './links';
 import './home.css';
 
-var websocket;
-var links = [];
-
-/**
- * Handles incoming WebSocket Messages
- *
- * @param msg {object} - contains message from WS server 
- */
-function handleMessage(msg) {
-    let link = JSON.parse(msg.data);
-    if (link.error) {
-        console.error(link.error);
-        return;
-    }
-    links.push(link);
-    ReactDOM.render(<Links websocket={websocket} links={links}/>, document.getElementById('root'));
-}
 
 class Home extends React.Component {
     constructor(props) {
@@ -39,20 +22,7 @@ class Home extends React.Component {
 
     onSubmit(event) {
         event.preventDefault();
-        let ws = new WebSocket('ws://localhost:8080');
-        websocket = ws;
-        let msg = {
-            'url': this.state.url,
-            'action': 'get_links'
-        }
-        ws.onopen = () => ws.send(JSON.stringify(msg));
-        ws.onmessage = handleMessage;
-        ws.onerror = (error) => {
-            console.error(error);
-        };
-        ws.onclose = () => {
-            links = [];
-        };
+        ReactDOM.render(<Links host='localhost' port='8080' url={this.state.url}/>, document.getElementById('root')); 
     }
 
     render() {
