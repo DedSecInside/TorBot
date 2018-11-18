@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup
 
 # Local Imports
 from .link import LinkNode
-from .proxy import proxyGET
+from .proxy import proxyGET, proxyHEAD
 
 
 logging.basicConfig(
@@ -61,6 +61,7 @@ async def get_links(websocket, url):
             response = requests.get(url)
     except Exception as err: 
         yield (url, False)
+        return
 
 
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -69,8 +70,14 @@ async def get_links(websocket, url):
     for anchor in anchor_tags:
         link = anchor.get('href')
         if link and LinkNode.valid_link(link):
-            # Returns true if status_code is less than 400, false if not
-            status = requests.head(link).ok
+            try:
+                # Returns true if status_code is less than 400, false if not
+                if tor:
+                    status = proxyHEAD(link, timeout=5).ok
+                else:
+                    status = requests.head(link, timeout=5).ok
+            except:
+                status = False
             yield (link, status) 
 
 def start_wsserver():

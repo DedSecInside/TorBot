@@ -1,14 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import Links from './links';
 import './home.css';
+
+var websocket;
+var links = [];
 
 /**
  * Handles incoming WebSocket Messages
  *
  * @param msg {object} - contains message from WS server 
  */
-let links = [];
 function handleMessage(msg) {
     let link = JSON.parse(msg.data);
     if (link.error) {
@@ -16,7 +19,7 @@ function handleMessage(msg) {
         return;
     }
     links.push(link);
-    ReactDOM.render(<Links links={links}/>, document.getElementById('root'));
+    ReactDOM.render(<Links websocket={websocket} links={links}/>, document.getElementById('root'));
 }
 
 class Home extends React.Component {
@@ -26,15 +29,18 @@ class Home extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.onUrlChange = this.onUrlChange.bind(this);
     }
-    
+
     onUrlChange(event) {
-        if (event.key === 'Enter') this.onSubmit(event);
-        this.setState({url: event.target.value});
+        event.persist();
+        this.setState({url: event.target.value}, function() {
+            if (event.key === 'Enter') this.onSubmit(event);
+        });
     }
 
     onSubmit(event) {
         event.preventDefault();
         let ws = new WebSocket('ws://localhost:8080');
+        websocket = ws;
         let msg = {
             'url': this.state.url,
             'action': 'get_links'
@@ -44,7 +50,9 @@ class Home extends React.Component {
         ws.onerror = (error) => {
             console.error(error);
         };
-        this.setState({url: ''});
+        ws.onclose = () => {
+            links = [];
+        };
     }
 
     render() {

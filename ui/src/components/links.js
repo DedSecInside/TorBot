@@ -7,10 +7,12 @@ class Links extends React.Component {
     constructor(props) {
         super(props);
         this.links = props.links;
+        this.websocket = props.websocket;
         this.onHome = this.onHome.bind(this);
     }
 
     onHome(event) {
+        this.websocket.close(1000); // Send normal closure code
         ReactDOM.render(<Home/>, document.getElementById('root'));
     }
 
