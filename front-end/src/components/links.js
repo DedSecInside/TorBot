@@ -66,10 +66,11 @@ class Links extends React.Component {
     render() {
         let links = this.state.links;
         if (!links.length) {
-            return <h1>Links Incoming</h1>;
+            return <h1>Links Incoming <i className="fas fa-spinner fa-pulse"></i></h1>;
         }
         return (
             <React.Fragment>
+            <h1>Links</h1>
             <ol>
                 {
                     links.map(function(link, i) {

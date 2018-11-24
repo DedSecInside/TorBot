@@ -26,6 +26,10 @@
   ],
   "devDependencies": {
     "@babel/preset-env": "^7.1.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.8",
+    "@fortawesome/free-brands-svg-icons": "^5.5.0",
+    "@fortawesome/free-regular-svg-icons": "^5.5.0",
+    "@fortawesome/free-solid-svg-icons": "^5.5.0",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.4",
     "css-loader": "^1.0.1",
