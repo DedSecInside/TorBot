@@ -1,25 +1,46 @@
 from urllib.parse import urlsplit
 from bs4 import BeautifulSoup
 from termcolor import cprint
-
+from re import search, findall
 from requests.exceptions import HTTPError
 import requests
+from requests import get
 
 from .link_io import LinkIO
 
 
 def execute_all(link, *, display_status=False):
-    page, response = LinkIO.read(link, response=True, show_msg=display_status)
+
+
+    keys = set() # high entropy strings, prolly secret keys
+    files = set() # pdf, css, png etc.
+    intel = set() # emails, website accounts, aws buckets etc.
+    robots = set() # entries of robots.txt
+    custom = set() # string extracted by custom regex pattern
+    failed = set() # urls that photon failed to crawl
+    scripts = set() # javascript files
+    external = set() # urls that don't belong to the target i.e. out-of-scope
+    fuzzable = set() # urls that have get params in them e.g. example.com/page.php?id=2
+    endpoints = set() # urls found from javascript files
+    processed = set() # urls that have been crawled
+
+    everything = []
+    bad_intel = set() # unclean intel urls
+    bad_scripts = set() # unclean javascript file urls
+    datasets = [files, intel, robots, custom, failed, scripts, external, fuzzable, endpoints, keys]
+    dataset_names = ['files', 'intel', 'robots', 'custom', 'failed', 'scripts', 'external', 'fuzzable', 'endpoints', 'keys']
+    page,response = LinkIO.read(link, response=True, show_msg=display_status)
+    response = get(link, verify=False).text
     soup = BeautifulSoup(page, 'html.parser')
-    validation_functions = [get_robots_txt, get_dot_git, get_dot_svn, get_dot_git]
+    validation_functions = [get_robots_txt, get_dot_git, get_dot_svn, get_dot_git, get_intel]
     for validate_func in validation_functions:
         try:
-            validate_func(link)
+            validate_func(link,response)
         except (ConnectionError, HTTPError):
             cprint('Error', 'red')
 
     display_webpage_description(soup)
-    display_headers(response)
+    #display_headers(response)
 
 
 def display_headers(response):
@@ -31,15 +52,33 @@ def display_headers(response):
         print('*', key, ':', val)
 
 
-def get_robots_txt(target):
+def get_robots_txt(target,response):
     cprint("[*]Checking for Robots.txt", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
-    requests.get(target+"/robots.txt")
-    cprint(r'blue')
+    requests.get(target+"robots.txt")
+    print(target+"robots.txt")
+    matches = findall(r'Allow: (.*)|Disallow: (.*)', response)
+    if matches:
+        for match in matches:
+            match = ''.join(match) 
+            if '*' not in match:
+                    url = main_url + match
+                    robots.add(url) 
+        cprint("Robots.txt found",'blue')
+        print(robots)            
 
+def get_intel(link,response):
+    intel=set()
+    matches = findall(r'''([\w\.-]+s[\w\.-]+\.amazonaws\.com)|([\w\.-]+@[\w\.-]+\.[\.\w]+)''', response)
+    if matches:
+        for match in matches: 
+            verb('Intel', match)
+            intel.add(match) 
+    print("Intel\n--------\n\n %s")
+    print(intel)        
 
-def get_dot_git(target):
+def get_dot_git(target,response):
     cprint("[*]Checking for .git folder", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
@@ -52,7 +91,7 @@ def get_dot_git(target):
         cprint("NO .git folder found", 'blue')
 
 
-def get_dot_svn(target):
+def get_dot_svn(target,response):
     cprint("[*]Checking for .svn folder", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
@@ -65,7 +104,7 @@ def get_dot_svn(target):
         cprint("NO .SVN folder found", 'blue')
 
 
-def get_dot_htaccess(target):
+def get_dot_htaccess(target,response):
     cprint("[*]Checking for .htaccess", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
@@ -89,3 +128,18 @@ def display_webpage_description(soup):
             attributes = meta.attrs
             if attributes['name'] == 'description':
                 cprint("Page description: " + attributes['content'])
+
+
+def writer(datasets, dataset_names, output_dir):
+    for dataset, dataset_name in zip(datasets, dataset_names):
+        if dataset:
+            filepath = output_dir + '/' + dataset_name + '.txt'
+            if python3:
+                with open(filepath, 'w+', encoding='utf8') as f:
+                    f.write(str('\n'.join(dataset)))
+                    f.write('\n')
+            else:
+                with open(filepath, 'w+') as f:
+                    joined = '\n'.join(dataset)
+                    f.write(str(joined.encode('utf-8')))
+                    f.write('\n')                
