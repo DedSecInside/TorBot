@@ -32,15 +32,22 @@ Though the main objective of TorBot is to identify illegal activities in the dee
 ### Working Procedure/Basic Plan
 The basic procedure executed by the web crawling algorithm takes a list of seed URLs as its input and repeatedly executes
 the following steps:
-
-1. Remove a URL from the URL list.
-2. Check existence of the page.
-3. Download the corresponding page.
-4. Check the Relevancy of the page.
-5. Extract any links contained in it.
-6. Check the cache if the links are already in it.
-7. Add the unique links back to the URL list.
-8. After all URLs are processed, return the most relevant page.
+<code>
+ <pre>
+URLs = input(url)
+	while (URLs is not empty)
+	{
+		dequeue url
+		request page
+		parse page for links
+		if(link is live && link is not visited)
+		{
+			add link to URLs
+		}
+		store page content for later analysis
+	}
+ </pre>
+ </code>
 
 ### Features
 1. Onion Crawler (.onion).(Completed)
