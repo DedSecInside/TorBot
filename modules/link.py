@@ -39,11 +39,9 @@ def get_links(node):
         links (list): list of links
     """
     links = []
-    print(node.children)
     for child in node.children:
         link = child.get('href')
         if link and LinkNode.valid_link(link):
-            print(link)
             links.append(link);
     return links
 
