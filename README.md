@@ -1,11 +1,13 @@
  <pre>
 
-                            ████████╗ ██████╗ ██████╗     ██████╗  ██████╗ ████████╗
-                            ╚══██╔══╝██╔═══██╗██╔══██╗    ██╔══██╗██╔═████╗╚══██╔══╝
-                               ██║   ██║   ██║██████╔╝    ██████╔╝██║██╔██║   ██║
-                               ██║   ██║   ██║██╔══██╗    ██╔══██╗████╔╝██║   ██║
-                               ██║   ╚██████╔╝██║  ██║    ██████╔╝╚██████╔╝   ██║
-                               ╚═╝    ╚═════╝ ╚═╝  ╚═╝    ╚═════╝  ╚═════╝    ╚═╝
+                           ████████╗ ██████╗ ██████╗     ██████╗  ██████╗ ████████╗
+                           ╚══██╔══╝██╔═══██╗██╔══██╗    ██╔══██╗██╔═████╗╚══██╔══╝
+                              ██║   ██║   ██║██████╔╝    ██████╔╝██║██╔██║   ██║
+                              ██║   ██║   ██║██╔══██╗    ██╔══██╗████╔╝██║   ██║
+                              ██║   ╚██████╔╝██║  ██║    ██████╔╝╚██████╔╝   ██║
+                              ╚═╝    ╚═════╝ ╚═╝  ╚═╝    ╚═════╝  ╚═════╝    ╚═╝
+		       
+	           	        Open Source Intelligence Tool for the Dark Web
                                                      
 </pre>
 [![Build Status](https://travis-ci.org/DedSecInside/TorBot.svg?branch=dev)](https://travis-ci.org/DedSecInside/TorBoT)
@@ -13,39 +15,20 @@
 [![](https://img.shields.io/badge/Built%20with-❤-orange.svg?style=flat)]()
 [![](https://img.shields.io/badge/Made%20with-Python-red.svg?style=flat)]()
 
-## OSINT tool for Deep and Dark Web.
-
-Open-source intelligence offers value in information security decision making through knowledge of threats and malicious activities that potentially impact business. Open-source intelligence using the internet is common, however, using the darknet is less common for the typical cybersecurity analyst. The challenges to using the darknet for open-source intelligence includes using specialized collection, processing, and analysis tools. TorBot is an open source intelligence tool developed in python. The main objective of this project is to collect open data from the deep web (aka dark web) and with the help of data mining algorithms, collect as much information as possible and produce an interactive tree graph. The interactive tree graph module will be able to display the relations of the collected intelligence data. 
- 
-### Motivation 
-
-  The idea of developing an open source intelligence tool like TorBot emerged from the deep web itself. Crawling a collection of web pages which has high anonymity and complex data encryption without an index is a tedious (and sometimes dangerous) task. The crawler in TorBot has to be designed in such a way that the links are identified from a webpage (any webpage) and other links are identified and crawled recursively, then combining all these links to form an index. Each link is then crawled for more links and emails for intelligence information. Unlike surface web discovery tool, a deep web discovery tool is limited for both general and domain-specific search. 
-  
-  Extensive use of Dark web for communication of terrorism-related information makes it a challenge for Law Enforcement Agencies. TorBot should be able to monitor such illegal activities that are happening in this encrypted network. Therefore, this tool will be able to ease the task of finding such activities by an intelligence group or researchers, thus making this the main objective of TorBot. 
- 
- 
-### Objective
-
-Though the main objective of TorBot is to identify illegal activities in the deep web and visualize the relations of data collected using a graph, there are several ways this tool can be useful. For example, TorBot will be able to crawl and create an index for the deep web. This index can be stored in a database or a JSON file for future use. Other features like live checker will be able to check whether a web address is alive or dead. This is important as deep web links are constantly changed for privacy and security reasons. For researchers and security enthusiasts the TorBot can be used for checking basic vulnerabilities in a dark web page.
-
-
-### Working Procedure/Basic Plan
+## Working Procedure/Basic Plan
 The basic procedure executed by the web crawling algorithm takes a list of seed URLs as its input and repeatedly executes
 the following steps:
 <code>
  <pre>
 URLs = input(url)
-	while (URLs is not empty)
-	{
-		dequeue url
-		request page
-		parse page for links
-		if(link is live && link is not visited)
-		{
+while(URLs is not empty) do
+	dequeue url
+	request page
+	parse for Links
+	for(link in Links) do 
+		if (link islive && link is not visited) then 
 			add link to URLs
-		}
-		store page content for later analysis
-	}
+	store page content
  </pre>
  </code>
 
