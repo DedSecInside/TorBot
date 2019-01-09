@@ -15,10 +15,6 @@ from modules.updater import updateTor
 from modules.savefile import saveJson
 from modules.info import execute_all
 
-import sys
-from socketserver import BaseServer
-from wsgiref import handlers
-
 # GLOBAL CONSTS
 LOCALHOST = "127.0.0.1"
 DEFPORT = 9050
@@ -163,9 +159,7 @@ def main():
                 print('Nothing to save.\n')
         if args.visualize:
             if args.depth:
-                print(args.depth)
                 tree = LinkTree(node,stop_depth=args.depth)
-
             else:    
                 tree = LinkTree(node)
             tree.show()
