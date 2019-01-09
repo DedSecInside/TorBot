@@ -35,7 +35,7 @@ def execute_all(link, *, display_status=False):
     validation_functions = [get_robots_txt, get_dot_git, get_dot_svn, get_dot_git, get_intel,get_bitcoin_address]
     for validate_func in validation_functions:
         try:
-            validate_func(link,response)
+            validate_func(link,  response)
         except (ConnectionError, HTTPError):
             cprint('Error', 'red')
 
@@ -89,10 +89,10 @@ def get_dot_git(target,response):
         cprint("NO .git folder found", 'blue')
 
 def get_bitcoin_address(target,response):
-    bitcoins = re.findall(r'^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$',response)
+    bitcoins = re.findall(r'^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$', response)
     print("BTC FOUND: ",len(bitcoins))
     for bitcoin in bitcoins:
-        print("BTC: ",bitcoin)
+        print("BTC: ", bitcoin)
 
 
 def get_dot_svn(target,response):

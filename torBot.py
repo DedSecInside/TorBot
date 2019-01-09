@@ -159,7 +159,7 @@ def main():
                 print('Nothing to save.\n')
         if args.visualize:
             if args.depth:
-                tree = LinkTree(node,stop_depth=args.depth)
+                tree = LinkTree(node, stop_depth=args.depth)
             else:    
                 tree = LinkTree(node)
             tree.show()
