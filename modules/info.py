@@ -5,7 +5,7 @@ from re import search, findall
 from requests.exceptions import HTTPError
 import requests
 from requests import get
-import re 
+import re
 from .link_io import LinkIO
 
 
@@ -32,7 +32,7 @@ def execute_all(link, *, display_status=False):
     page,response = LinkIO.read(link, response=True, show_msg=display_status)
     response = get(link, verify=False).text
     soup = BeautifulSoup(page, 'html.parser')
-    validation_functions = [get_robots_txt, get_dot_git, get_dot_svn, get_dot_git, get_intel,get_bitcoin_address]
+    validation_functions = [get_robots_txt, get_dot_git, get_dot_svn, get_dot_git, get_intel, get_bitcoin_address]
     for validate_func in validation_functions:
         try:
             validate_func(link,  response)
@@ -88,7 +88,7 @@ def get_dot_git(target,response):
     else:
         cprint("NO .git folder found", 'blue')
 
-def get_bitcoin_address(target,response):
+def get_bitcoin_address(target, response):
     bitcoins = re.findall(r'^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$', response)
     print("BTC FOUND: ", len(bitcoins))
     for bitcoin in bitcoins:
