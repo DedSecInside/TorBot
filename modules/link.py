@@ -42,7 +42,7 @@ def get_links(node):
     for child in node.children:
         link = child.get('href')
         if link and LinkNode.valid_link(link):
-            links.append(link);
+            links.append(link)
     return links
 
 class LinkNode:
