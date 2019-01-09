@@ -68,6 +68,7 @@ def get_robots_txt(target,response):
         cprint("Robots.txt found",'blue')
         print(robots)            
 
+
 def get_intel(link,response):
     intel=set()
     matches = findall(r'''([\w\.-]+s[\w\.-]+\.amazonaws\.com)|([\w\.-]+@[\w\.-]+\.[\.\w]+)''', response)
@@ -75,6 +76,7 @@ def get_intel(link,response):
     if matches:
         for match in matches: 
             intel.add(match) 
+
 
 def get_dot_git(target,response):
     cprint("[*]Checking for .git folder", 'yellow')
@@ -87,6 +89,7 @@ def get_dot_git(target,response):
         cprint(".git folder exposed publicly", 'red')
     else:
         cprint("NO .git folder found", 'blue')
+
 
 def get_bitcoin_address(target, response):
     bitcoins = re.findall(r'^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$', response)
