@@ -90,7 +90,7 @@ def get_dot_git(target,response):
 
 def get_bitcoin_address(target,response):
     bitcoins = re.findall(r'^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$', response)
-    print("BTC FOUND: ",len(bitcoins))
+    print("BTC FOUND: ", len(bitcoins))
     for bitcoin in bitcoins:
         print("BTC: ", bitcoin)
 
