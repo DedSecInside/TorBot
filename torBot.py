@@ -157,7 +157,7 @@ def main():
             if args.save:
                 print('Nothing to save.\n')
         elif args.visualize:
-            tree = LinkTree(node)
+            tree = LinkTree(node, stop_depth=1)
             tree.show()
         elif args.download:
             tree = LinkTree(node)

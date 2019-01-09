@@ -99,27 +99,18 @@ def build_tree(link=None, *, stop=1, rec=0, to_visit=None, tree=None):
         # If recursion is 0 then sub_tree will be root
         return sub_tree if rec == 0 else tree
 
-    def visit_nodes(link):
-        children_to_visit = list()
+    children_to_visit = list()
+    for link in to_visit:
         try:
             node = LinkNode(link)
         except (ValueError, ConnectionError, HTTPError):
             return None
-
         link_node = sub_tree.add_child(name=node.name)
         link_children = node.links
-        # No need to find children if we aren't going to visit them
-        if stop != rec + 1:
-            for child in link_children:
-                link_node.add_child(name=child)
-                children_to_visit.append(child)
-
-        if stop != rec + 1:
-            return children_to_visit
-
-        return to_visit
-
-    next_nodes = multi_thread(to_visit, visit_nodes)
+        for child in link_children:
+            link_node.add_child(name=child)
+            children_to_visit.append(child)
+     
     rec += 1
 
     # If we've reached stop depth then return tree
@@ -127,4 +118,4 @@ def build_tree(link=None, *, stop=1, rec=0, to_visit=None, tree=None):
         return sub_tree
 
     new_tree = tree.add_child(sub_tree)
-    return build_tree(to_visit=next_nodes, stop=stop, rec=rec, tree=new_tree)
+    return build_tree(to_visit=children_to_visit, stop=stop, rec=rec, tree=new_tree)

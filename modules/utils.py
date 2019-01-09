@@ -23,7 +23,13 @@ def process_data(data_queue, data_stack, process, *args):
     """
     while True:
         data = data_queue.get()
-        if args:
+        if isinstance(data, list):
+            for single_inst in data:
+                if args:
+                    result = process(single_inst, args)
+                else:
+                    result = process(single_inst)
+        elif args:
             result = process(data, args)
         else:
             result = process(data)

@@ -38,14 +38,12 @@ def get_links(node):
     Returns:
         links (list): list of links
     """
-    def retrieve_link(child):
+    links = []
+    for child in node.children:
         link = child.get('href')
         if link and LinkNode.valid_link(link):
-            return link
-        return None
-
-    return multi_thread(node.children, retrieve_link)
-
+            links.append(link)
+    return links
 
 class LinkNode:
     """Represents link node in a link tree
