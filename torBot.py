@@ -15,12 +15,16 @@ from modules.updater import updateTor
 from modules.savefile import saveJson
 from modules.info import execute_all
 
+import sys
+from socketserver import BaseServer
+from wsgiref import handlers
+
 # GLOBAL CONSTS
 LOCALHOST = "127.0.0.1"
 DEFPORT = 9050
 
 # TorBot VERSION
-__VERSION = "1.3.1"
+__VERSION = "1.3.3"
 
 
 def connect(address, port):
@@ -78,7 +82,7 @@ def header():
     title = r"""
                                     {banner}
                     #######################################################
-                    #  TorBot - An OSINT Tool for Deep Web                #
+                    #  TorBot - An OSINT Tool for Dark Web                #
                     #  GitHub : https://github.com/DedsecInside/TorBot    #
                     #  Help : use -h for help text                        #
                     #######################################################
@@ -114,6 +118,7 @@ def get_args():
     parser.add_argument("-i", "--info", action="store_true",
                         help=' '.join(("Info displays basic info of the",
                                        "scanned site")))
+    parser.add_argument("--depth", help="Specifiy max depth of crawler (default 1)")
     parser.add_argument("-v", "--visualize", action="store_true",
                         help="Visualizes tree of data gathered.")
     parser.add_argument("-d", "--download", action="store_true",
@@ -152,14 +157,19 @@ def main():
             if args.save:
                 saveJson('Emails', node.emails)
         # -i/--info
-        elif args.info:
+        if args.info:
             execute_all(node.uri)
             if args.save:
                 print('Nothing to save.\n')
-        elif args.visualize:
-            tree = LinkTree(node, stop_depth=1)
+        if args.visualize:
+            if args.depth:
+                print(args.depth)
+                tree = LinkTree(node,stop_depth=args.depth)
+
+            else:    
+                tree = LinkTree(node)
             tree.show()
-        elif args.download:
+        if args.download:
             tree = LinkTree(node)
             file_name = str(input("File Name (.pdf/.png/.svg): "))
             tree.save(file_name)
