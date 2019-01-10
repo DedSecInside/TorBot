@@ -7,7 +7,7 @@ and contains useful Link methods
 import requests
 import requests.exceptions
 import validators
-
+import re
 from bs4 import BeautifulSoup
 from .utils import multi_thread
 from .color import color
