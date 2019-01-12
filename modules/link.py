@@ -7,7 +7,7 @@ and contains useful Link methods
 import requests
 import requests.exceptions
 import validators
-
+import re
 from bs4 import BeautifulSoup
 from .utils import multi_thread
 from .color import color
@@ -21,12 +21,11 @@ def get_emails(node):
         emails (list): list of emails
     """
     emails = []
-    for child in node.children:
-        link = child.get('href')
-        if link and 'mailto' in link:
-            email_addr = link.split(':')
-            if LinkNode.valid_email(email_addr[1]) and len(email_addr) > 1:
-                emails.append(email_addr[1])
+    response = node.response.text
+    mails = re.findall(r'[\w\.-]+@[\w\.-]+', response)
+    for email in mails:
+        if LinkNode.valid_email(email):
+            emails.append(email)
     return emails
 
 
