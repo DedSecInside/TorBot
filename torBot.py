@@ -2,6 +2,7 @@
 MAIN MODULE
 """
 import argparse
+import asyncio
 import socket
 import socks
 
@@ -14,6 +15,7 @@ from modules.link import LinkNode
 from modules.updater import updateTor
 from modules.savefile import saveJson
 from modules.info import execute_all
+from modules.collect_data import collect_data
 
 # GLOBAL CONSTS
 LOCALHOST = "127.0.0.1"
@@ -119,14 +121,19 @@ def get_args():
                         help="Visualizes tree of data gathered.")
     parser.add_argument("-d", "--download", action="store_true",
                         help="Downloads tree of data gathered.")
+    parser.add_argument("--gather", action="store_true", help="Gather data for analysis")
     return parser.parse_args()
 
 
-def main():
+async def main():
     """
     TorBot's Core
     """
     args = get_args()
+    if args.gather:
+        await collect_data()
+        return
+
     connect(args.ip, args.port)
 
     # If flag is -v, --update, -q/--quiet then user only runs that operation
@@ -178,9 +185,9 @@ def main():
 
 
 if __name__ == '__main__':
-
     try:
-        main()
-
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(main())
+        loop.close()
     except KeyboardInterrupt:
         print("Interrupt received! Exiting cleanly...")
