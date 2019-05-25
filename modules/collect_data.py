@@ -8,6 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 from .link import LinkNode
 from .utils import multi_thread
+from threading import Lock
 
 
 def parse_links(html):
@@ -28,6 +29,7 @@ def collect_data():
                                             'Content'])
         writer.writeheader()
 
+        mutex = Lock()
         def handle_link(link):
             response = requests.get(link)
             body = response.content
@@ -36,10 +38,13 @@ def collect_data():
             meta_tags = soup.find_all('meta')
             entry = {
                 "ID": uuid.uuid4(),
-                "Title": title,
+                "Title": title.strip(),
                 "Meta Tags": meta_tags,
                 "Content": body
             }
             print(entry)
+            mutex.acquire()
             writer.writerow(entry)
+            mutex.release()
+
         multi_thread(links, handle_link)
