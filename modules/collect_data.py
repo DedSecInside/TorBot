@@ -28,6 +28,19 @@ def parse_links(html):
     return [tag['href'] for tag in tags if LinkNode.valid_link(tag['href'])]
 
 
+class ThreadSafeCSVWriter:
+    def __init__(self, csv_stream, fieldnames):
+        self._csv = csv_stream
+        self._writer = csv.DictWriter(self._csv, fieldnames=fieldnames)
+        if fieldnames:
+            self._writer.writeheader()
+        self._mutex = Lock()
+
+    def writerow(self, value):
+        with self._mutex:
+            self._writer.writerow(value)
+
+
 def collect_data():
     resp = requests.get('https://thehiddenwiki.org')
     links = parse_links(resp.content)
@@ -35,14 +48,10 @@ def collect_data():
     data_path = os.getenv('TORBOT_DATA_DIR')
     file_path = f'{data_path}/torbot_{time_stamp}.csv'
     with open(file_path, 'w', newline='') as outcsv:
-        writer = csv.DictWriter(outcsv,
-                                fieldnames=['ID',
-                                            'Title',
-                                            'Meta Tags',
-                                            'Content'])
-        writer.writeheader()
-
-        mutex = Lock()
+        writer = ThreadSafeCSVWriter(outcsv, fieldnames=['ID',
+                                                         'Title',
+                                                         'Meta Tags',
+                                                         'Content'])
         def handle_link(link):
             response = requests.get(link)
             body = response.content
@@ -56,8 +65,6 @@ def collect_data():
                 "Content": body
             }
             print(entry)
-            mutex.acquire()
             writer.writerow(entry)
-            mutex.release()
 
         multi_thread(links, handle_link)
