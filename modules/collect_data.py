@@ -2,13 +2,23 @@
 This module is used to gather data for analysis using thehiddenwiki.org.
 """
 import csv
+import datetime
 import uuid
 import requests
+import os
 
 from bs4 import BeautifulSoup
+from dotenv import load_dotenv
 from .link import LinkNode
 from .utils import multi_thread
+from .utils import find_file
 from threading import Lock
+
+
+dev_file = find_file("torbot_dev.env", "/")
+if not dev_file:
+    raise FileNotFoundError
+load_dotenv(dotenv_path=dev_file)
 
 
 def parse_links(html):
@@ -21,7 +31,10 @@ def parse_links(html):
 def collect_data():
     resp = requests.get('https://thehiddenwiki.org')
     links = parse_links(resp.content)
-    with open('tor_data.csv', 'w', newline='') as outcsv:
+    time_stamp = datetime.datetime.now().isoformat()
+    data_path = os.getenv('TORBOT_DATA_DIR')
+    file_path = f'{data_path}/torbot_{time_stamp}.csv'
+    with open(file_path, 'w', newline='') as outcsv:
         writer = csv.DictWriter(outcsv,
                                 fieldnames=['ID',
                                             'Title',
