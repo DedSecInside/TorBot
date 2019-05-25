@@ -1,11 +1,13 @@
-import asyncio
-import aiohttp
-from aiohttp_socks import SocksConnector
+"""
+This module is used to gather data for analysis using thehiddenwiki onion directory.
+"""
+import csv
+import uuid
 import requests
 
 from bs4 import BeautifulSoup
 from .link import LinkNode
-
+from .utils import multi_thread
 
 def parse_links(html):
     soup = BeautifulSoup(html, 'html.parser')
@@ -13,16 +15,24 @@ def parse_links(html):
     tags = entries.find_all('a')
     return [tag['href'] for tag in tags if LinkNode.valid_link(tag['href'])]
 
-async def fetch(session, url):
-    async with session.get(url) as resp:
-        body = await resp.text()
-        return body
-
-async def collect_data():
+def collect_data():
     resp = requests.get('https://thehiddenwiki.org')
     links = parse_links(resp.content)
-    conn = SocksConnector.from_url('socks5://127.0.0.1:9050')
-    async with aiohttp.ClientSession(connector=conn) as session:
-        for link in links:
-            body = await fetch(session, link)
-            print(body)
+    with open('tor_data.csv', 'w', newline='') as outcsv:
+        writer = csv.DictWriter(outcsv, fieldnames=['ID', 'Title', 'Meta Tags', 'Content'])
+        writer.writeheader()
+        def handle_link(link):
+            response = requests.get(link)
+            body = response.content
+            soup = BeautifulSoup(body, 'html.parser')
+            title = soup.title.getText() if soup.title else 'No Title'
+            meta_tags = soup.find_all('meta')
+            entry = {
+                "ID": uuid.uuid4(),
+                "Title": title,
+                "Meta Tags": meta_tags,
+                "Content": body
+            }
+            print(entry)
+            writer.writerow(entry)
+        multi_thread(links, handle_link)

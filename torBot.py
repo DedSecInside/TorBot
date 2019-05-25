@@ -2,7 +2,6 @@
 MAIN MODULE
 """
 import argparse
-import asyncio
 import socket
 import socks
 
@@ -125,17 +124,16 @@ def get_args():
     return parser.parse_args()
 
 
-async def main():
+def main():
     """
     TorBot's Core
     """
     args = get_args()
-    if args.gather:
-        await collect_data()
-        return
-
     connect(args.ip, args.port)
 
+    if args.gather:
+        collect_data()
+        return
     # If flag is -v, --update, -q/--quiet then user only runs that operation
     # because these are single flags only
     if args.version:
@@ -186,8 +184,6 @@ async def main():
 
 if __name__ == '__main__':
     try:
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(main())
-        loop.close()
+        main()
     except KeyboardInterrupt:
         print("Interrupt received! Exiting cleanly...")
