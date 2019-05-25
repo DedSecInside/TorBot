@@ -120,7 +120,9 @@ def get_args():
                         help="Visualizes tree of data gathered.")
     parser.add_argument("-d", "--download", action="store_true",
                         help="Downloads tree of data gathered.")
-    parser.add_argument("--gather", action="store_true", help="Gather data for analysis")
+    parser.add_argument("--gather",
+                        action="store_true",
+                        help="Gather data for analysis")
     return parser.parse_args()
 
 
