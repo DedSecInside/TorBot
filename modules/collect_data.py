@@ -15,7 +15,7 @@ from .utils import find_file
 from threading import Lock
 
 
-dev_file = find_file("torbot_dev.env", "/home")
+dev_file = find_file("torbot_dev.env", "../")
 if not dev_file:
     raise FileNotFoundError
 load_dotenv(dotenv_path=dev_file)
