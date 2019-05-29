@@ -39,6 +39,7 @@ def parse_links(html):
     tags = entries.find_all('a')
     return [tag['href'] for tag in tags if LinkNode.valid_link(tag['href'])]
 
+
 def parse_meta_tags(html_soup):
     meta_tags = html_soup.find_all('meta')
     meta_content = list()
@@ -72,7 +73,7 @@ def collect_data():
                 "ID": uuid.uuid4(),
                 "Title": title.strip(),
                 "Meta Tags": meta_tags,
-                "Content": metadata  
+                "Content": metadata
             }
             print(entry)
             writer.writerow(entry)
