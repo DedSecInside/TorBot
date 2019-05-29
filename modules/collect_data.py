@@ -21,13 +21,6 @@ if not dev_file:
 load_dotenv(dotenv_path=dev_file)
 
 
-def parse_links(html):
-    soup = BeautifulSoup(html, 'html.parser')
-    entries = soup.find('div', attrs={'class': 'entry'})
-    tags = entries.find_all('a')
-    return [tag['href'] for tag in tags if LinkNode.valid_link(tag['href'])]
-
-
 class ThreadSafeCSVWriter:
     def __init__(self, csv_stream, fieldnames):
         self._csv = csv_stream
@@ -40,6 +33,19 @@ class ThreadSafeCSVWriter:
         with self._mutex:
             self._writer.writerow(value)
 
+def parse_links(html):
+    soup = BeautifulSoup(html, 'html.parser')
+    entries = soup.find('div', attrs={'class': 'entry'})
+    tags = entries.find_all('a')
+    return [tag['href'] for tag in tags if LinkNode.valid_link(tag['href'])]
+
+def parse_meta_tags(html_soup):
+    meta_tags = html_soup.find_all('meta')
+    meta_content = list()
+    for meta in meta_tags:
+        content = meta.attrs['content']
+        meta_content.append(content)
+    return meta_content
 
 def collect_data():
     resp = requests.get('https://thehiddenwiki.org')
@@ -54,15 +60,19 @@ def collect_data():
                                                          'Content'])
         def handle_link(link):
             response = requests.get(link)
-            body = response.content
-            soup = BeautifulSoup(body, 'html.parser')
+            soup = BeautifulSoup(response.content, 'html.parser')
+            print(soup)
+            body = soup.find('body')
             title = soup.title.getText() if soup.title else 'No Title'
             meta_tags = soup.find_all('meta')
+            metadata = parse_meta_tags(soup)
+            if len(metadata) < 1:
+                metadata = [body]
             entry = {
                 "ID": uuid.uuid4(),
                 "Title": title.strip(),
                 "Meta Tags": meta_tags,
-                "Content": body
+                "Content": metadata  
             }
             print(entry)
             writer.writerow(entry)
