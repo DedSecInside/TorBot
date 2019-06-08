@@ -1,7 +1,6 @@
 """
 This module is used to gather data for analysis using thehiddenwiki.org.
 """
-import csv
 import datetime
 import uuid
 import requests
@@ -13,25 +12,13 @@ from .link import LinkNode
 from .utils import multi_thread
 from .utils import find_file
 from threading import Lock
+from threadsafe.safe_csv import SafeDictWriter
 
 
 dev_file = find_file("torbot_dev.env", "../")
 if not dev_file:
     raise FileNotFoundError
 load_dotenv(dotenv_path=dev_file)
-
-
-class ThreadSafeCSVWriter:
-    def __init__(self, csv_stream, fieldnames):
-        self._csv = csv_stream
-        self._writer = csv.DictWriter(self._csv, fieldnames=fieldnames)
-        if fieldnames:
-            self._writer.writeheader()
-        self._mutex = Lock()
-
-    def writerow(self, value):
-        with self._mutex:
-            self._writer.writerow(value)
 
 def parse_links(html):
     soup = BeautifulSoup(html, 'html.parser')
@@ -54,8 +41,8 @@ def collect_data():
     time_stamp = datetime.datetime.now().isoformat()
     data_path = os.getenv('TORBOT_DATA_DIR')
     file_path = f'{data_path}/torbot_{time_stamp}.csv'
-    with open(file_path, 'w', newline='') as outcsv:
-        writer = ThreadSafeCSVWriter(outcsv, fieldnames=['ID',
+    with open(file_path, 'w+', newline='') as outcsv:
+        writer = SafeDictWriter(outcsv, fieldnames=['ID',
                                                          'Title',
                                                          'Meta Tags',
                                                          'Content'])
