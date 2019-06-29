@@ -45,23 +45,23 @@ def collect_data():
                                                     'Title',
                                                     'Meta Tags',
                                                     'Content'])
-def handle_link(link):
-            response = requests.get(link)
-            soup = BeautifulSoup(response.content, 'html.parser')
-            print(soup)
-            body = soup.find('body')
-            title = soup.title.getText() if soup.title else 'No Title'
-            meta_tags = soup.find_all('meta')
-            metadata = parse_meta_tags(soup)
-            if len(metadata) < 1:
-                metadata = [body]
-            entry = {
-                "ID": uuid.uuid4(),
-                "Title": title.strip(),
-                "Meta Tags": meta_tags,
-                "Content": metadata
-            }
-            print(entry)
-            writer.writerow(entry)
 
-        multi_thread(links, handle_link)
+    def handle_link(link):
+        response = requests.get(link)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        print(soup)
+        body = soup.find('body')
+        title = soup.title.getText() if soup.title else 'No Title'
+        meta_tags = soup.find_all('meta')
+        metadata = parse_meta_tags(soup)
+        if len(metadata) < 1:
+            metadata = [body]
+        entry = {
+            "ID": uuid.uuid4(),
+            "Title": title.strip(),
+            "Meta Tags": meta_tags,
+            "Content": metadata
+        }
+        print(entry)
+        writer.writerow(entry)
+    multi_thread(links, handle_link)
