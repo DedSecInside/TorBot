@@ -11,7 +11,6 @@ from dotenv import load_dotenv
 from .link import LinkNode
 from .utils import multi_thread
 from .utils import find_file
-from threading import Lock
 from threadsafe.safe_csv import SafeDictWriter
 
 
@@ -43,10 +42,10 @@ def collect_data():
     file_path = f'{data_path}/torbot_{time_stamp}.csv'
     with open(file_path, 'w+', newline='') as outcsv:
         writer = SafeDictWriter(outcsv, fieldnames=['ID',
-                                                         'Title',
-                                                         'Meta Tags',
-                                                         'Content'])
-        def handle_link(link):
+                                                    'Title',
+                                                    'Meta Tags',
+                                                    'Content'])
+def handle_link(link):
             response = requests.get(link)
             soup = BeautifulSoup(response.content, 'html.parser')
             print(soup)
