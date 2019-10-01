@@ -115,7 +115,7 @@ class LinkNode:
         return self._links
 
     @property
-    def links(self):
+    def images(self):
         """
         Getter for node images
         """
