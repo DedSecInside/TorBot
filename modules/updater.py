@@ -2,10 +2,15 @@ import subprocess
 
 
 def updateTor():
+    """Currently updates Tor by calling terminal commands using subprocess.
 
-    """
-    Currently updates Tor by calling terminal commands using subprocess
     Not a great method and will be replaced in the future.
+
+    Args:
+        None
+
+    Returns:
+        None: The return value.
     """
 
     print("Checking for latest stable release")
