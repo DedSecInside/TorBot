@@ -3,7 +3,9 @@ LABEL maintainer="v1shwa"
 
 # Install PyQt5
 RUN apt-get update \
-    && apt-get install -y python3-pyqt5
+    && apt-get install -y --no-install-recommends python3-pyqt5 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
