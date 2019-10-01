@@ -44,6 +44,23 @@ def get_links(node):
             links.append(link)
     return links
 
+
+def get_images(node):
+    """Finds all images associated with node
+
+    Args:
+        node (LinkNode): node used to get links from
+    Returns:
+        links (list): list of links
+    """
+    links = []
+    for child in node.children:
+        link = child.get('src')
+        if link and LinkNode.valid_link(link):
+            links.append(link)
+    return links
+
+
 class LinkNode:
     """Represents link node in a link tree
 
@@ -59,6 +76,7 @@ class LinkNode:
         self._children = []
         self._emails = []
         self._links = []
+        self._images = []
 
         # Attempts to connect to link, throws an error if link is unreachable
         try:
@@ -95,6 +113,15 @@ class LinkNode:
         if not self._links:
             self._links = get_links(self)
         return self._links
+
+    @property
+    def links(self):
+        """
+        Getter for node images
+        """
+        if not self._images:
+            self._images = get_images(self)
+        return self._images
 
     @property
     def children(self):
