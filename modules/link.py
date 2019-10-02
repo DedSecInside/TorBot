@@ -66,7 +66,7 @@ def get_metadata(node):
     """Collect response headers.
 
         Args:
-            node (LinkNode): node used to get emails from
+            node (LinkNode): node used to get metadata from
         Returns:
             metadata (dict): dictionary with metadata
         """
