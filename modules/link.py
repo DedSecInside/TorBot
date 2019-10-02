@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup
 from .utils import multi_thread
 from .color import color
 
+
 def get_emails(node):
     """Finds all emails associated with node
 
@@ -61,6 +62,17 @@ def get_images(node):
     return links
 
 
+def get_metadata(node):
+    """Collect response headers.
+
+        Args:
+            node (LinkNode): node used to get metadata from
+        Returns:
+            metadata (dict): dictionary with metadata
+        """
+    return node.response.headers
+
+
 class LinkNode:
     """Represents link node in a link tree
 
@@ -77,6 +89,7 @@ class LinkNode:
         self._emails = []
         self._links = []
         self._images = []
+        self._metadata = {}
 
         # Attempts to connect to link, throws an error if link is unreachable
         try:
@@ -131,6 +144,15 @@ class LinkNode:
         if not self._children:
             self._children = self._node.find_all('a')
         return self._children
+
+    @property
+    def metadata(self):
+        """
+        Getter for node metadata
+        """
+        if not self._metadata:
+            self._metadata = get_metadata(self)
+        return self._metadata
 
     @staticmethod
     def valid_email(email):
