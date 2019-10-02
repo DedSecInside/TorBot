@@ -15,10 +15,8 @@ class LinkTree:
     will be expanded in the future to meet further needs.
 
     Attributes:
-        root (str): Represents root link.
-        tld (bool): Decides whether or not to use additional
-            top-level-domains besides .tor.
-        stop_depth (int): Depth of which to stop searching for links.
+        root (LinkNode): root node
+        stop_depth (int): Depth of which to stop searching for links
     """
     def __init__(self, root_node, *, stop_depth=1):
         """
@@ -69,68 +67,28 @@ class LinkTree:
         self._tree.show(tree_style=style)
 
 
-def initialize_tree(root_node):
+def build_tree(link=None, depth=0, rec=0):
     """
-    Creates root of tree
-    Args:
-        link (str): Link node to be used as root.
-        tld (bool): Additional top-level-domains.
-
-    Returns:
-        root (ete3.Tree): Root node of tree.
-        to_visit (list): Children of root node.
-    """
-    root = Tree(name=root_node.name)
-    children = root_node.links
-    return root, children
-
-
-def build_tree(link=None, *, stop=1, rec=0, to_visit=None, tree=None):
-    """
-    Builds tree using Breadth First Search. You can specify stop depth.
-    Rec & tree arguments are used for recursion.
-
-    *NOTE: This function uses a GET request for each url found, this can
-    be very expensive so avoid if possible try to acquire the urls to
-    be traversed and use bfs function.
-
-    Args:
-        link (str): Root node.
-        tld (boolean): Specifies if all top-level-domains will be
-            allowed or not.
-        stop (int): Stops traversing at this depth if specified.
-        rec (int): Used for recursion.
-        tree (ete3.Tree): Tree node used for recursion.
+    Builds link tree by traversing through children nodes.
 
     Returns:
         tree (ete3.Tree): Built tree.
     """
-    if rec == 0:
-        tree, to_visit = initialize_tree(link)
 
-    sub_tree = Tree(name=tree.name)
+    tree = Tree(name=link.name)
 
-    if rec == stop:
-        # If recursion is 0 then sub_tree will be root
-        return sub_tree if rec == 0 else tree
+    if rec_depth == stop_depth:
+        return tree
+    else:
+        rec_depth += 1
 
-    children_to_visit = list()
-    for link in to_visit:
+    for link in link.links:
         try:
             node = LinkNode(link)
         except (ValueError, ConnectionError, HTTPError):
             return None
-        link_node = sub_tree.add_child(name=node.name)
-        link_children = node.links
-        for child in link_children:
-            link_node.add_child(name=child)
-            children_to_visit.append(child)
 
-    rec += 1
+        if node.links:
+            tree = tree.add_child(build_tree(node, stop_depth, rec_depth))
 
-    # If we've reached stop depth then return tree
-    if stop == rec:
-        return sub_tree
-
-    new_tree = tree.add_child(sub_tree)
-    return build_tree(to_visit=children_to_visit, stop=stop, rec=rec, tree=new_tree)
+    return tree
