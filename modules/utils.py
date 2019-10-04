@@ -48,7 +48,8 @@ def multi_thread(data, data_function, *args):
 
     Args:
         data (list): Lists of values that you'd like to operate on.
-        data_function (function): Function that you would like to use for processsing.
+        data_function (function): Function that you would like to use
+            for processsing.
         args (tuple): Arguments for function.
 
     Returns:
@@ -81,7 +82,8 @@ def get_url_status(url, headers=False):
         url (str): URL to be tested.
 
     Return:
-        (response object): Return response object from connection if successful.
+        (response object): Return response object from connection
+            if successful.
         (int): Return 0 if connection not successful.
     """
     try:

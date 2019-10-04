@@ -9,13 +9,15 @@ from .utils import multi_thread
 
 class LinkTree:
     """
-    This is a class that represents a tree of links within TorBot. This can be used to build a tree,
-    examine the number of nodes, check if a node exists within a tree, displaying the tree, and
-    downloading the tree. It will be expanded in the future to meet further needs.
+    This is a class that represents a tree of links within TorBot. This can
+    be used to build a tree, examine the number of nodes, check if a node
+    exists within a tree, displaying the tree, and downloading the tree. It
+    will be expanded in the future to meet further needs.
 
     Attributes:
         root (str): Represents root link.
-        tld (bool): Decides whether or not to use additional top-level-domains besides .tor.
+        tld (bool): Decides whether or not to use additional
+            top-level-domains besides .tor.
         stop_depth (int): Depth of which to stop searching for links.
     """
     def __init__(self, root_node, *, stop_depth=1):
@@ -94,7 +96,8 @@ def build_tree(link=None, *, stop=1, rec=0, to_visit=None, tree=None):
 
     Args:
         link (str): Root node.
-        tld (boolean): Specifies if all top-level-domains will be allowed or not.
+        tld (boolean): Specifies if all top-level-domains will be
+            allowed or not.
         stop (int): Stops traversing at this depth if specified.
         rec (int): Used for recursion.
         tree (ete3.Tree): Tree node used for recursion.

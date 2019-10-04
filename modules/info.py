@@ -1,5 +1,6 @@
 """
-Module that contains methods for collecting all relevant data from links, and saving data to file.
+Module that contains methods for collecting all relevant data from links,
+and saving data to file.
 """
 
 from urllib.parse import urlsplit
@@ -14,11 +15,13 @@ from .link_io import LinkIO
 
 
 def execute_all(link, *, display_status=False):
-    """Initialise datasets and functions to retrieve data, and execute each for a given link.
+    """Initialise datasets and functions to retrieve data, and execute
+    each for a given link.
 
     Args:
         link (str): Link to be interogated.
-        display_status (bool, optional): Whether to print connection attempts to terminal.
+        display_status (bool, optional): Whether to print connection
+            attempts to terminal.
     """
     keys = set() # high entropy strings, prolly secret keys
     files = set() # pdf, css, png etc.

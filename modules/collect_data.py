@@ -51,7 +51,9 @@ def parse_meta_tags(html_soup):
     return meta_content
 
 def collect_data():
-    """Collect all relevant data from https://thehiddenwiki.org and save to file."""
+    """Collect all relevant data from https://thehiddenwiki.org
+    and save to file.
+    """
 
     resp = requests.get('https://thehiddenwiki.org')
     links = parse_links(resp.content)
