@@ -28,11 +28,11 @@ def connect(address, port):
     """ Establishes connection to port
 
     Assumes port is bound to localhost, if host that port is bound to changes
-    then change the port
+    then change the port.
 
     Args:
-        address: address for port to bound to
-        port: Establishes connect to this port
+        address (str): Address for port to bind to.
+        port (str): Establishes connect to this port.
     """
 
     if address and port:
@@ -48,7 +48,7 @@ def connect(address, port):
 
     def getaddrinfo(*args):
         """
-        Overloads socket function for std socket library
+        Overloads socket function for std socket library.
         Check socket.getaddrinfo() documentation to understand parameters.
         Simple description below:
         argument - explanation (actual value)
@@ -83,7 +83,7 @@ def header():
                     #  GitHub : https://github.com/DedsecInside/TorBot    #
                     #  Help : use -h for help text                        #
                     #######################################################
-                                  {license_msg} 
+                                  {license_msg}
               """
 
     title = title.format(license_msg=license_msg, banner=banner)
@@ -167,7 +167,7 @@ def main():
         if args.visualize:
             if args.depth:
                 tree = LinkTree(node, stop_depth=args.depth)
-            else:    
+            else:
                 tree = LinkTree(node)
             tree.show()
         if args.download:

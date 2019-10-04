@@ -1,16 +1,21 @@
+"""
+Module that facilitates the saving of data to JSON file.
+"""
 import json
 import time
 
 
 def saveJson(datatype, data):
     """
-    Creates json file and stores json
+    Creates json file and stores data as JSON.
 
     Args:
-        datatype: the type of the object being passed
-        data = data that is being stored with object
-    """
+        datatype (str): Type of the object being passed.
+        data (list): List of data elements of type 'datatype' to be saved.
 
+    Returns:
+        (str): Name of file data was saved to.
+    """
     timestr = time.strftime("%Y%m%d-%H%M%S")
     file_name = "TorBot-Export-"+datatype+timestr+".json"
     # Json File Creation

@@ -1,8 +1,7 @@
 
 """
-Provides essential utilites for the rest of TorBot app
+Provides essential utilites for the rest of TorBot app.
 """
-
 import os
 
 from queue import Queue
@@ -20,11 +19,9 @@ def process_data(data_queue, data_stack, process, *args):
     Processes tasks using by grabbing threads from queue
 
     Args:
-       data_queue (queue.Queue): contains tasks in FIFO data structure
-       data_processor (function): function to be executed on task and args
-       data_args (tuple): contains arguments for tasks
-    Returns:
-        None
+       data_queue (queue.Queue): Contains tasks in FIFO data structure.
+       data_processor (function): Function to be executed on task and args.
+       data_args (tuple): Contains arguments for tasks.
     """
     while True:
         data = data_queue.get()
@@ -50,11 +47,12 @@ def multi_thread(data, data_function, *args):
     in FIFO order.
 
     Args:
-        data (list): lists of values that you'd like to operate on
-        data_function (function): function that you would like to use for processsing
-        args (tuple): arguments for function
+        data (list): Lists of values that you'd like to operate on.
+        data_function (function): Function that you would like to use for processsing.
+        args (tuple): Arguments for function.
+
     Returns:
-        None
+        (list): List of processed data elements.
     """
     data_queue = Queue(len(data)*2)
     ret_stack = list()
@@ -75,16 +73,16 @@ def multi_thread(data, data_function, *args):
 
 def get_url_status(url, headers=False):
     """
-    Uses GET request to check if website exists
+    Uses GET request to check if website exists.
 
     *NOTE: May look into changing this to HEAD requests to improve perf
 
     Args:
-        url (str): url to be tested
+        url (str): URL to be tested.
 
     Return:
-        something? (int/Response object): return value of the connection
-        object's GET request if successful & zero upon failure
+        (response object): Return response object from connection if successful.
+        (int): Return 0 if connection not successful.
     """
     try:
         if headers:
@@ -98,6 +96,16 @@ def get_url_status(url, headers=False):
 
 
 def find_file(name, path):
+    """Search for file within specific dir and any child dirs.
+
+    Args:
+        name (str): Filename to be searched for.
+        path (str): Dir path to search for file.
+
+    Returns:
+        str: Full path of found file (if found).
+        bool: If file not found, returns false.
+    """
     for root, _, files in os.walk(path):
         if name in files:
             return os.path.join(root, name)
