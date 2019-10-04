@@ -2,10 +2,15 @@
 """
 Provides essential utilites for the rest of TorBot app
 """
+
+import os
+
 from queue import Queue
 from threading import Thread
-from requests.exceptions import HTTPError
+
 import requests
+from requests.exceptions import HTTPError
+
 
 
 # ALGORITHM UTILITY FUNCTIONS
@@ -90,3 +95,10 @@ def get_url_status(url, headers=False):
         return resp
     except (ConnectionError, HTTPError):
         return 0
+
+
+def find_file(name, path):
+    for root, _, files in os.walk(path):
+        if name in files:
+            return os.path.join(root, name)
+    return False

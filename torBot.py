@@ -14,6 +14,7 @@ from modules.link import LinkNode
 from modules.updater import updateTor
 from modules.savefile import saveJson
 from modules.info import execute_all
+from modules.collect_data import collect_data
 
 # GLOBAL CONSTS
 LOCALHOST = "127.0.0.1"
@@ -119,6 +120,9 @@ def get_args():
                         help="Visualizes tree of data gathered.")
     parser.add_argument("-d", "--download", action="store_true",
                         help="Downloads tree of data gathered.")
+    parser.add_argument("--gather",
+                        action="store_true",
+                        help="Gather data for analysis")
     return parser.parse_args()
 
 
@@ -129,6 +133,9 @@ def main():
     args = get_args()
     connect(args.ip, args.port)
 
+    if args.gather:
+        collect_data()
+        return
     # If flag is -v, --update, -q/--quiet then user only runs that operation
     # because these are single flags only
     if args.version:
@@ -178,9 +185,7 @@ def main():
 
 
 if __name__ == '__main__':
-
     try:
         main()
-
     except KeyboardInterrupt:
         print("Interrupt received! Exiting cleanly...")
