@@ -7,6 +7,13 @@ from ete3 import Tree, TreeStyle, TextFace, add_face_to_node
 from .link import LinkNode
 from .utils import multi_thread
 
+default_style = TreeStyle()
+default_style.show_leaf_name = False
+def default_layout(node):
+    node_style = TextFace(node.name, tight_text=True)
+    add_face_to_node(node_style, node, column=0, position='branch-bottom')
+default_style.layout_fn = default_layout
+
 class LinkTree:
     """
     This is a class that represents a tree of links within TorBot. This can
@@ -18,10 +25,7 @@ class LinkTree:
         root (LinkNode): root node
         stop_depth (int): Depth of which to stop searching for links
     """
-    def __init__(self, root_node, *, stop_depth=1):
-        """
-        Initialise LinkTree object with root node and depth to search.
-        """
+    def __init__(self, root_node, stop_depth=1):
         self._tree = build_tree(root_node, stop=stop_depth)
 
     def __len__(self):
@@ -30,41 +34,33 @@ class LinkTree:
     def __contains__(self, link):
         return self._tree.search_nodes(name=link)
 
-    def save(self, file_name):
+    def save(self, file_name, tree_style=default_style):
         """
         Saves LinkTree to file with given file_name
         Current file types supported are .png, .pdf, .svg
 
         Args:
-            file_name (str): Name of file being saved to.
+            file_name (str): Name of file being saved to
+            tree_style (TreeStyle): Styling of downloaded tree
         """
-        style = TreeStyle()
-        style.show_leaf_name = False
-        def my_layout(node):
-            """ Style node for display.
+        self._tree.render(file_name, tree_style)
 
-            Args:
-                node (object): Node object to be styled.
-            """
-            node_style = TextFace(node.name, tight_text=True)
-            add_face_to_node(node_style, node, column=0, position='branch-bottom')
-        style.layout_fn = my_layout
-        self._tree.render(file_name, tree_style=style)
+    def show(self, tree_style=default_style):
+        """
+        Allows user to quickly view LinkTree
 
-    def show(self):
-        """Allows user to quickly view LinkTree."""
-        style = TreeStyle()
-        style.show_leaf_name = False
-        def my_layout(node):
-            """ Style node for display.
+        Args:
+            tree_style (TreeStyle): Styling of downloaded tree
+        """
+        self._tree.show(tree_style)
 
-            Args:
-                node (object): Node object to be styled.
-            """
-            node_style = TextFace(node.name, tight_text=True)
-            add_face_to_node(node_style, node, column=0, position='branch-bottom')
-        style.layout_fn = my_layout
-        self._tree.show(tree_style=style)
+class LinkTreeStyle:
+    def __init__(self, style=default_style):
+        self._style = style
+
+    @property
+    def style(self):
+        return self._style
 
 
 def build_tree(link=None, depth=0, rec=0):
@@ -80,13 +76,14 @@ def build_tree(link=None, depth=0, rec=0):
     if rec_depth == stop_depth:
         return tree
     else:
-        rec_depth += 1
+        rec_depth +=1
 
     for link in link.links:
         try:
             node = LinkNode(link)
-        except (ValueError, ConnectionError, HTTPError):
-            return None
+        except:
+            print(f"Failed to create LinkNode for link: {link}")
+            continue
 
         if node.links:
             tree = tree.add_child(build_tree(node, stop_depth, rec_depth))
