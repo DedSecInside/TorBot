@@ -12,6 +12,7 @@ def default_layout(node):
     node_style = TextFace(node.name, tight_text=True)
     add_face_to_node(node_style, node, column=0, position='branch-bottom')
 
+
 default_style = TreeStyle()
 default_style.show_leaf_name = False
 default_style.layout_fn = default_layout
@@ -57,7 +58,7 @@ class LinkTree:
         self._tree.show(tree_style)
 
 
-def build_tree(link=None, stop=0, rec=0):
+def build_tree(link, stop=1, rec=0):
     """
     Builds link tree by traversing through children nodes.
 
@@ -81,7 +82,8 @@ def build_tree(link=None, stop=0, rec=0):
         try:
             node = LinkNode(child)
         except Exception as error:
-            print(f"Failed to create LinkNode for link: {child}. Error: {error}")
+            print(f"Failed to create LinkNode for link: {child}.")
+            print(f"Error: {error}")
             continue
 
         if node.links:
