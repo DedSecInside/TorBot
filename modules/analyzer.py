@@ -7,11 +7,13 @@ from ete3 import Tree, TreeStyle, TextFace, add_face_to_node
 from .link import LinkNode
 from .utils import multi_thread
 
-default_style = TreeStyle()
-default_style.show_leaf_name = False
+
 def default_layout(node):
     node_style = TextFace(node.name, tight_text=True)
     add_face_to_node(node_style, node, column=0, position='branch-bottom')
+
+default_style = TreeStyle()
+default_style.show_leaf_name = False
 default_style.layout_fn = default_layout
 
 class LinkTree:
@@ -54,13 +56,14 @@ class LinkTree:
         """
         self._tree.show(tree_style)
 
-def build_tree(link=None, depth=0, rec=0):
+
+def build_tree(link=None, stop=0, rec=0):
     """
     Builds link tree by traversing through children nodes.
 
     Args:
         link (LinkNode): root node of tree
-        depth (int): depth of tree
+        stop (int): depth of tree
         rec (int): level of recursion
 
     Returns:
@@ -69,19 +72,19 @@ def build_tree(link=None, depth=0, rec=0):
 
     tree = Tree(name=link.name)
 
-    if rec_depth == stop_depth:
+    if rec == stop:
         return tree
     else:
-        rec_depth +=1
+        rec += 1
 
     for child in link.links:
         try:
             node = LinkNode(child)
-        except:
-            print(f"Failed to create LinkNode for link: {child}")
+        except Exception as error:
+            print(f"Failed to create LinkNode for link: {child}. Error: {error}")
             continue
 
         if node.links:
-            tree = tree.add_child(build_tree(node, stop_depth, rec_depth))
+            tree = tree.add_child(build_tree(node, stop, rec))
 
     return tree
