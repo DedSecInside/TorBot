@@ -47,25 +47,21 @@ class LinkTree:
 
     def show(self, tree_style=default_style):
         """
-        Allows user to quickly view LinkTree
+        Displays image of LinkTree
 
         Args:
             tree_style (TreeStyle): Styling of downloaded tree
         """
         self._tree.show(tree_style)
 
-class LinkTreeStyle:
-    def __init__(self, style=default_style):
-        self._style = style
-
-    @property
-    def style(self):
-        return self._style
-
-
 def build_tree(link=None, depth=0, rec=0):
     """
     Builds link tree by traversing through children nodes.
+
+    Args:
+        link (LinkNode): root node of tree
+        depth (int): depth of tree
+        rec (int): level of recursion
 
     Returns:
         tree (ete3.Tree): Built tree.
@@ -78,11 +74,11 @@ def build_tree(link=None, depth=0, rec=0):
     else:
         rec_depth +=1
 
-    for link in link.links:
+    for child in link.links:
         try:
-            node = LinkNode(link)
+            node = LinkNode(child)
         except:
-            print(f"Failed to create LinkNode for link: {link}")
+            print(f"Failed to create LinkNode for link: {child}")
             continue
 
         if node.links:
