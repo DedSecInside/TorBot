@@ -1,3 +1,8 @@
+"""
+Module that contains methods for collecting all relevant data from links,
+and saving data to file.
+"""
+
 from urllib.parse import urlsplit
 from bs4 import BeautifulSoup
 from termcolor import cprint
@@ -10,8 +15,14 @@ from .link_io import LinkIO
 
 
 def execute_all(link, *, display_status=False):
+    """Initialise datasets and functions to retrieve data, and execute
+    each for a given link.
 
-
+    Args:
+        link (str): Link to be interogated.
+        display_status (bool, optional): Whether to print connection
+            attempts to terminal.
+    """
     keys = set() # high entropy strings, prolly secret keys
     files = set() # pdf, css, png etc.
     intel = set() # emails, website accounts, aws buckets etc.
@@ -44,6 +55,11 @@ def execute_all(link, *, display_status=False):
 
 
 def display_headers(response):
+    """ Print all headers in response object.
+
+    Args:
+        response (object): Response object.
+    """
     print('''
           RESPONSE HEADERS
           __________________
@@ -53,6 +69,12 @@ def display_headers(response):
 
 
 def get_robots_txt(target,response):
+    """ Check link for Robot.txt, and if found, add link to robots dataset.
+
+    Args:
+        target (str): URL to be checked.
+        response (object): Response object containing data to check.
+    """
     cprint("[*]Checking for Robots.txt", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
@@ -61,24 +83,37 @@ def get_robots_txt(target,response):
     matches = findall(r'Allow: (.*)|Disallow: (.*)', response)
     if matches:
         for match in matches:
-            match = ''.join(match) 
+            match = ''.join(match)
             if '*' not in match:
                     url = main_url + match
-                    robots.add(url) 
+                    robots.add(url)
         cprint("Robots.txt found",'blue')
-        print(robots)            
+        print(robots)
 
 
 def get_intel(link,response):
+    """ Check link for intel, and if found, add link to intel dataset,
+    including but not limited to website accounts and AWS buckets.
+
+    Args:
+        target (str): URL to be checked.
+        response (object): Response object containing data to check.
+    """
     intel=set()
     matches = findall(r'''([\w\.-]+s[\w\.-]+\.amazonaws\.com)|([\w\.-]+@[\w\.-]+\.[\.\w]+)''', response)
     print("Intel\n--------\n\n")
     if matches:
-        for match in matches: 
-            intel.add(match) 
+        for match in matches:
+            intel.add(match)
 
 
 def get_dot_git(target,response):
+    """ Check link for .git folders exposed on public domain.
+
+    Args:
+        target (str): URL to be checked.
+        response (object): Response object containing data to check.
+    """
     cprint("[*]Checking for .git folder", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
@@ -92,6 +127,12 @@ def get_dot_git(target,response):
 
 
 def get_bitcoin_address(target, response):
+    """ Check link for Bitcoin addresses, and if found, print.
+
+    Args:
+        target (str): URL to be checked.
+        response (object): Response object containing data to check.
+    """
     bitcoins = re.findall(r'^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$', response)
     print("BTC FOUND: ", len(bitcoins))
     for bitcoin in bitcoins:
@@ -99,6 +140,12 @@ def get_bitcoin_address(target, response):
 
 
 def get_dot_svn(target,response):
+    """ Check link for .svn folders exposed on public domain=.
+
+    Args:
+        target (str): URL to be checked.
+        response (object): Response object containing data to check.
+    """
     cprint("[*]Checking for .svn folder", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
@@ -112,6 +159,12 @@ def get_dot_svn(target,response):
 
 
 def get_dot_htaccess(target,response):
+    """ Check link for .htaccess files on public domain.
+
+    Args:
+        target (str): URL to be checked.
+        response (object): Response object containing data to check.
+    """
     cprint("[*]Checking for .htaccess", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
@@ -128,6 +181,11 @@ def get_dot_htaccess(target,response):
 
 
 def display_webpage_description(soup):
+    """Print all meta tags found in page.
+
+    Args:
+        soup (object): Processed HTML object.
+    """
     cprint("[*]Checking for meta tag", 'yellow')
     metatags = soup.find_all('meta')
     for meta in metatags:
@@ -135,6 +193,13 @@ def display_webpage_description(soup):
 
 
 def writer(datasets, dataset_names, output_dir):
+    """Write content of all datasets to file.
+
+    Args:
+        datasets (list): List of datasets containing relevant content.
+        dataset_names (list): Identifiers for each dataset.
+        output_dir (str): Path where data file should be saved.
+    """
     for dataset, dataset_name in zip(datasets, dataset_names):
         if dataset:
             filepath = output_dir + '/' + dataset_name + '.txt'
@@ -146,4 +211,4 @@ def writer(datasets, dataset_names, output_dir):
                 with open(filepath, 'w+') as f:
                     joined = '\n'.join(dataset)
                     f.write(str(joined.encode('utf-8')))
-                    f.write('\n')                
+                    f.write('\n')

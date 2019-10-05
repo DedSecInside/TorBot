@@ -9,16 +9,21 @@ from .utils import multi_thread
 
 class LinkTree:
     """
-    This is a class that represents a tree of links within TorBot. This can be used to build a tree,
-    examine the number of nodes, if a node exists within a tree, displaying the tree and
-    downloading the tree, and will be expanded in the future to meet further needs.
+    This is a class that represents a tree of links within TorBot. This can
+    be used to build a tree, examine the number of nodes, check if a node
+    exists within a tree, displaying the tree, and downloading the tree. It
+    will be expanded in the future to meet further needs.
 
     Attributes:
-        root (str): Represents root link
-        tld (bool): Decides whether or not to use additional top-level-domains besides .tor
-        stop_depth (int): Depth of which to stop searching for links
+        root (str): Represents root link.
+        tld (bool): Decides whether or not to use additional
+            top-level-domains besides .tor.
+        stop_depth (int): Depth of which to stop searching for links.
     """
     def __init__(self, root_node, *, stop_depth=1):
+        """
+        Initialise LinkTree object with root node and depth to search.
+        """
         self._tree = build_tree(root_node, stop=stop_depth)
 
     def __len__(self):
@@ -33,23 +38,31 @@ class LinkTree:
         Current file types supported are .png, .pdf, .svg
 
         Args:
-            file_name (str): Name of file being saved to
+            file_name (str): Name of file being saved to.
         """
         style = TreeStyle()
         style.show_leaf_name = False
         def my_layout(node):
+            """ Style node for display.
+
+            Args:
+                node (object): Node object to be styled.
+            """
             node_style = TextFace(node.name, tight_text=True)
             add_face_to_node(node_style, node, column=0, position='branch-bottom')
         style.layout_fn = my_layout
         self._tree.render(file_name, tree_style=style)
 
     def show(self):
-        """
-        Allows user to quickly view LinkTree
-        """
+        """Allows user to quickly view LinkTree."""
         style = TreeStyle()
         style.show_leaf_name = False
         def my_layout(node):
+            """ Style node for display.
+
+            Args:
+                node (object): Node object to be styled.
+            """
             node_style = TextFace(node.name, tight_text=True)
             add_face_to_node(node_style, node, column=0, position='branch-bottom')
         style.layout_fn = my_layout
@@ -60,11 +73,12 @@ def initialize_tree(root_node):
     """
     Creates root of tree
     Args:
-        link (str): link node to be used as root
-        tld (bool): Additional top-level-domains
+        link (str): Link node to be used as root.
+        tld (bool): Additional top-level-domains.
+
     Returns:
-        root (ete3.Tree): root node of tree
-        to_visit (list): Children of root node
+        root (ete3.Tree): Root node of tree.
+        to_visit (list): Children of root node.
     """
     root = Tree(name=root_node.name)
     children = root_node.links
@@ -81,14 +95,15 @@ def build_tree(link=None, *, stop=1, rec=0, to_visit=None, tree=None):
     be traversed and use bfs function.
 
     Args:
-        link (str): root node
-        tld (boolean): specifies if all top-level-domains will be allowed or not
-        stop (int): stops traversing at this depth if specified
-        rec (int): used for recursion
-        tree (ete3.Tree): a tree node used for recursion
+        link (str): Root node.
+        tld (boolean): Specifies if all top-level-domains will be
+            allowed or not.
+        stop (int): Stops traversing at this depth if specified.
+        rec (int): Used for recursion.
+        tree (ete3.Tree): Tree node used for recursion.
 
     Returns:
-        tree (ete3.Tree): built tree
+        tree (ete3.Tree): Built tree.
     """
     if rec == 0:
         tree, to_visit = initialize_tree(link)
@@ -110,7 +125,7 @@ def build_tree(link=None, *, stop=1, rec=0, to_visit=None, tree=None):
         for child in link_children:
             link_node.add_child(name=child)
             children_to_visit.append(child)
-     
+
     rec += 1
 
     # If we've reached stop depth then return tree

@@ -1,8 +1,6 @@
 """
-
 This module is used to create a LinkNode that can be consumued by a LinkTree
-and contains useful Link methods
-
+and contains useful Link methods.
 """
 import requests
 import requests.exceptions
@@ -17,9 +15,10 @@ def get_emails(node):
     """Finds all emails associated with node
 
     Args:
-        node (LinkNode): node used to get emails from
+        node (LinkNode): Node used to get emails from.
+
     Returns:
-        emails (list): list of emails
+        emails (list): List of emails.
     """
     emails = []
     response = node.response.text
@@ -34,9 +33,10 @@ def get_links(node):
     """Finds all links associated with node
 
     Args:
-        node (LinkNode): node used to get links from
+        node (LinkNode): Node used to get links from.
+
     Returns:
-        links (list): list of links
+        links (list): List of links.
     """
     links = []
     for child in node.children:
@@ -47,12 +47,13 @@ def get_links(node):
 
 
 def get_images(node):
-    """Finds all images associated with node
+    """Finds all images associated with node.
 
     Args:
-        node (LinkNode): node used to get links from
+        node (LinkNode): Node used to get links from.
+
     Returns:
-        links (list): list of links
+        links (list): List of links.
     """
     links = []
     for child in node.children:
@@ -66,21 +67,23 @@ def get_metadata(node):
     """Collect response headers.
 
         Args:
-            node (LinkNode): node used to get metadata from
+            node (LinkNode): Node used to get metadata from.
+
         Returns:
-            metadata (dict): dictionary with metadata
+            metadata (dict): Dictionary with metadata.
         """
     return node.response.headers
 
 
 class LinkNode:
-    """Represents link node in a link tree
-
-    Attributes:
-        link (str): link to be used as node
-    """
+    """Represents link node in a link tree."""
 
     def __init__(self, link):
+        """Initialises LinkNode object.
+
+        Args:
+            link (str): URL used to initialise node.
+        """
         # If link has invalid form, throw an error
         if not self.valid_link(link):
             raise ValueError("Invalid link format.")
@@ -156,14 +159,28 @@ class LinkNode:
 
     @staticmethod
     def valid_email(email):
-        """Static method used to validate emails"""
+        """Static method used to validate emails.
+
+        Args:
+            email (str): Email string to be validated.
+
+        Returns:
+            (bool): True if email string is valid, else false.
+        """
         if validators.email(email):
             return True
         return False
 
     @staticmethod
     def valid_link(link):
-        """Static method used to validate links"""
+        """Static method used to validate links
+
+        Args:
+            link (str): URL string to be validated.
+
+        Returns:
+            (bool): True if URL string is valid, else false.
+        """
         if validators.url(link):
             return True
         return False

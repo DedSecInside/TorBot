@@ -20,6 +20,14 @@ if not dev_file:
 load_dotenv(dotenv_path=dev_file)
 
 def parse_links(html):
+    """Parses HTML page to extract links.
+
+    Args:
+        html (str): HTML block code to be parsed.
+
+    Returns:
+        (list): List of all valid links found.
+    """
     soup = BeautifulSoup(html, 'html.parser')
     entries = soup.find('div', attrs={'class': 'entry'})
     tags = entries.find_all('a')
@@ -27,6 +35,14 @@ def parse_links(html):
 
 
 def parse_meta_tags(html_soup):
+    """Retrieve all meta elements from HTML object.
+
+    Args:
+        html_soup (object): Parsed HTML object.
+
+    Returns:
+        list: List of the content from all meta elements.
+    """
     meta_tags = html_soup.find_all('meta')
     meta_content = list()
     for meta in meta_tags:
@@ -35,6 +51,10 @@ def parse_meta_tags(html_soup):
     return meta_content
 
 def collect_data():
+    """Collect all relevant data from https://thehiddenwiki.org
+    and save to file.
+    """
+
     resp = requests.get('https://thehiddenwiki.org')
     links = parse_links(resp.content)
     time_stamp = datetime.datetime.now().isoformat()
@@ -47,6 +67,11 @@ def collect_data():
                                                     'Content'])
 
     def handle_link(link):
+        """ Collects meta data for single link, and prints to file.
+
+        Args:
+            link (str): Link to collect data from.
+        """
         response = requests.get(link)
         soup = BeautifulSoup(response.content, 'html.parser')
         print(soup)
