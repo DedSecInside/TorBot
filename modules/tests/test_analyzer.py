@@ -47,7 +47,7 @@ def create_root_page_with_links(root, links):
     return doc.getvalue()
 
 @pytest.fixture
-def test_links_in_tree():
+def link_tree():
     """
     Create HTML root and link pages and construct tree with the pages, then
     confirm that links are present in the tree.
@@ -63,14 +63,10 @@ def test_links_in_tree():
         node = LinkNode('http://root.onion')
         tree = LinkTree(node)
 
-        for link in links:
-            assert link in tree
+        return links, tree
 
-def test_run():
-    """
-    Run LinkTree tests.
-    """
-    test_links_in_tree()
-
-if __name__ == '__main__':
-    test_run()
+def test_analyze(link_tree):
+    links, tree = link_tree
+    for link in links:
+        print(tree.children)
+        assert link in tree

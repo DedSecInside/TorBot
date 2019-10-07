@@ -9,7 +9,7 @@ from ..link_io import LinkIO
 
 
 @pytest.fixture
-def test_read():
+def read_func():
     """
     Tests if read is returning the expected html
     """
@@ -37,15 +37,9 @@ def test_read():
                                          test_data[i][0],
                                          text=test_data[i][1])
             result = LinkIO.read(test_data[i][0])
-            assert result == test_data[i][1]
+            return result, test_data[i][1]
 
+def test_read(read_func):
+    result, test_data = read_func
+    assert result == test_data
 
-def test_run():
-    """
-    Execute tests
-    """
-    test_read()
-
-
-if __name__ == '__main__':
-    test_run()

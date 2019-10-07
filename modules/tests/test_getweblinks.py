@@ -8,7 +8,7 @@ from yattag import Doc
 from ..link import LinkNode
 
 
-def setup_html(test_links, *, fail=False):
+def setup_html(test_links, fail=False):
     """
     Sets up test html containing links
 
@@ -29,7 +29,7 @@ def setup_html(test_links, *, fail=False):
 
 
 @pytest.fixture
-def test_get_links_fail():
+def links_fail():
     """
     Test links that have incorrect scheme
     """
@@ -44,11 +44,15 @@ def test_get_links_fail():
             mock_connection.register_uri('GET', data, text=mock_html)
         with pytest.raises(ValueError):
             node = LinkNode(data)
-            result = node.links
-            assert result == []
+            return node.links, []
+
+def test_get_links_fail(links_fail):
+    if links_fail:
+        links, test_data = links_fail
+        assert links == test_data
 
 @pytest.fixture
-def test_get_links_tor():
+def links_tor():
     """
     Test links that return sucessfully
     """
@@ -63,12 +67,15 @@ def test_get_links_tor():
         mock_connection.register_uri('GET', mock_link, text=mock_html)
 
         node = LinkNode(mock_link)
-        result = node.links
-        assert result == test_data
+        return node.links, test_data
+
+def test_get_links_tor(links_tor):
+    links, test_data = links_tor
+    assert links == test_data
 
 
 @pytest.fixture
-def test_get_links_tld():
+def links_tld():
     """
     Test links with additional top-level-domains
     """
@@ -92,17 +99,9 @@ def test_get_links_tld():
 
         node = LinkNode(mock_url)
         links = node.links
-        assert links == test_data
+        return links, test_data
 
 
-def test_run():
-    """
-    Executes tests
-    """
-    test_get_links_fail()
-    test_get_links_tor()
-    test_get_links_tld()
-
-
-if __name__ == '__main__':
-    test_run()
+def test_get_links_tld(links_tld):
+    links, test_data = links_tld
+    assert links == test_data

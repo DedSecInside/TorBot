@@ -37,6 +37,10 @@ class LinkTree:
     def __contains__(self, link):
         return self._tree.search_nodes(name=link)
 
+    @property
+    def children(self):
+        return self._tree.get_children()
+
     def save(self, file_name, tree_style=default_style):
         """
         Saves LinkTree to file with given file_name
@@ -85,8 +89,9 @@ def build_tree(link, stop=1, rec=0):
             print(f"Failed to create LinkNode for link: {child}.")
             print(f"Error: {error}")
             continue
-
         if node.links:
-            tree = tree.add_child(build_tree(node, stop, rec))
+            tree.add_child(build_tree(node, stop, rec))
+        else:
+            tree.add_child(Tree(name=node.name))
 
     return tree
