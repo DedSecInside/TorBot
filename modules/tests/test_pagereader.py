@@ -43,4 +43,3 @@ def read_func():
 def test_read(read_func):
     result, test_data = read_func
     assert result == test_data
-

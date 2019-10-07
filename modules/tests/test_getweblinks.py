@@ -40,11 +40,11 @@ def links_fail():
 
     mock_html = setup_html(test_data, fail=True)
     with requests_mock.Mocker() as mock_connection:
-        for data in test_data:
-            mock_connection.register_uri('GET', data, text=mock_html)
         with pytest.raises(ValueError):
-            node = LinkNode(data)
-            return node.links, []
+            for data in test_data:
+                mock_connection.register_uri('GET', data, text=mock_html)
+                node = LinkNode(data)
+                return node.links, []
 
 
 def test_get_links_fail(links_fail):
