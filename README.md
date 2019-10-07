@@ -41,7 +41,7 @@ while(URLs is not empty) do
 6. Crawl custom domains.(Completed)
 7. Check if the link is live.(Completed)
 8. Built-in Updater.(Completed)
-9. Visualizer module.(Not started)
+9. TorBot GUI(see branch [front_end](https://github.com/DedSecInside/TorBot/tree/front_end))
 10. Social Media integration.(not Started)
 ...(will be updated)
 
