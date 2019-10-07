@@ -7,7 +7,7 @@
                               ██║   ╚██████╔╝██║  ██║    ██████╔╝╚██████╔╝   ██║
                               ╚═╝    ╚═════╝ ╚═╝  ╚═╝    ╚═════╝  ╚═════╝    ╚═╝
                
-                        Open Source Intelligence Tool for the Dark Web
+                               Open Source Intelligence Tool for the Dark Web
                                                      
 </pre>
 [![Build Status](https://travis-ci.org/DedSecInside/TorBot.svg?branch=dev)](https://travis-ci.org/DedSecInside/TorBoT)
