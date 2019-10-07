@@ -65,6 +65,7 @@ def link_tree():
 
         return links, tree
 
+
 def test_analyze(link_tree):
     links, tree = link_tree
     for link in links:

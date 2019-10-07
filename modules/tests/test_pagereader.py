@@ -39,6 +39,7 @@ def read_func():
             result = LinkIO.read(test_data[i][0])
             return result, test_data[i][1]
 
+
 def test_read(read_func):
     result, test_data = read_func
     assert result == test_data

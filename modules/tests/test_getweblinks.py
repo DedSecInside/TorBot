@@ -46,6 +46,7 @@ def links_fail():
             node = LinkNode(data)
             return node.links, []
 
+
 def test_get_links_fail(links_fail):
     if links_fail:
         links, test_data = links_fail
@@ -68,6 +69,7 @@ def links_tor():
 
         node = LinkNode(mock_link)
         return node.links, test_data
+
 
 def test_get_links_tor(links_tor):
     links, test_data = links_tor
