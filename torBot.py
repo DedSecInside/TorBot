@@ -1,7 +1,9 @@
 """
 MAIN MODULE
 """
+import aiohttp
 import argparse
+import asyncio
 import socket
 import socks
 
@@ -126,7 +128,7 @@ def get_args():
     return parser.parse_args()
 
 
-def main():
+async def main():
     """
     TorBot's Core
     """
@@ -146,46 +148,48 @@ def main():
         exit()
     if not args.quiet:
         header()
-    # If url flag is set then check for accompanying flag set. Only one
-    # additional flag can be set with -u/--url flag
-    if args.url:
-        try:
-            node = LinkNode(args.url)
-        except (ValueError, HTTPError, ConnectionError) as err:
-            raise err
-        LinkIO.display_ip()
-        # -m/--mail
-        if args.mail:
-            print(node.emails)
-            if args.save:
-                saveJson('Emails', node.emails)
-        # -i/--info
-        if args.info:
-            execute_all(node.uri)
-            if args.save:
-                print('Nothing to save.\n')
-        if args.visualize:
-            if args.depth:
-                tree = LinkTree(node, stop_depth=args.depth)
-            else:
+    async with aiohttp.ClientSession() as session:
+        # If url flag is set then check for accompanying flag set. Only one
+        # additional flag can be set with -u/--url flag
+        if args.url:
+            try:
+                node = LinkNode(args.url, session)
+            except (ValueError, HTTPError, ConnectionError) as err:
+                raise err
+            await LinkIO.display_ip(session)
+            # -m/--mail
+            if args.mail:
+                print(node.emails)
+                if args.save:
+                    saveJson('Emails', node.emails)
+            # -i/--info
+            if args.info:
+                execute_all(node.uri)
+                if args.save:
+                    print('Nothing to save.\n')
+            if args.visualize:
+                if args.depth:
+                    tree = LinkTree(node, stop_depth=args.depth)
+                else:
+                    tree = LinkTree(node)
+                await tree.show()
+            if args.download:
                 tree = LinkTree(node)
-            tree.show()
-        if args.download:
-            tree = LinkTree(node)
-            file_name = str(input("File Name (.pdf/.png/.svg): "))
-            tree.save(file_name)
+                file_name = str(input("File Name (.pdf/.png/.svg): "))
+                await tree.save(file_name)
+            else:
+                await LinkIO.display_children(node)
+                if args.save:
+                    saveJson("Links", node.links)
         else:
-            LinkIO.display_children(node)
-            if args.save:
-                saveJson("Links", node.links)
-    else:
-        print("usage: See torBot.py -h for possible arguments.")
+            print("usage: See torBot.py -h for possible arguments.")
 
     print("\n\n")
 
 
 if __name__ == '__main__':
+    loop = asyncio.get_event_loop()
     try:
-        main()
+        loop.run_until_complete(main())
     except KeyboardInterrupt:
         print("Interrupt received! Exiting cleanly...")

@@ -2,12 +2,14 @@
 This module is used to create a LinkNode that can be consumued by a LinkTree
 and contains useful Link methods.
 """
+import re
 import requests
 import requests.exceptions
 import validators
-import re
+
 from bs4 import BeautifulSoup
-from .utils import multi_thread
+from enum import Enum
+
 from .color import color
 
 
@@ -29,7 +31,7 @@ def get_emails(node):
     return emails
 
 
-def get_links(node):
+async def get_links(node):
     """Finds all links associated with node
 
     Args:
@@ -39,7 +41,8 @@ def get_links(node):
         links (list): List of links.
     """
     links = []
-    for child in node.children:
+    children = await node.children
+    for child in children:
         link = child.get('href')
         if link and LinkNode.valid_link(link):
             links.append(link)
@@ -77,13 +80,16 @@ def get_metadata(node):
 
 class LinkNode:
     """Represents link node in a link tree."""
+    DEFAULT_NAME = 'TITLE NOT FOUND'
+    DEFAULT_STATUS = lambda uri: color(uri, 'yellow')
 
-    def __init__(self, link):
+    def __init__(self, link, session):
         """Initialises LinkNode object.
 
         Args:
             link (str): URL used to initialise node.
         """
+        self._session = session
         # If link has invalid form, throw an error
         if not self.valid_link(link):
             raise ValueError("Invalid link format.")
@@ -93,24 +99,54 @@ class LinkNode:
         self._links = []
         self._images = []
         self._metadata = {}
+        self._name = None
+        self._text = None
+        self._node = None
+        self._uri = link
 
-        # Attempts to connect to link, throws an error if link is unreachable
-        try:
-            self.response = requests.get(link)
-        except (requests.exceptions.ChunkedEncodingError,
-                requests.exceptions.HTTPError,
-                requests.exceptions.ConnectionError,
-                ConnectionError) as err:
-            raise err
+    @property
+    async def status(self):
+        n = await self.node
+        if not n.title and not self._status:
+            self._status = self.DEFAULT_STATUS(self.uri)
+        elif not self._status:
+            self._status = color(self.uri, 'green')
+        return self._status
 
-        self._node = BeautifulSoup(self.response.text, 'html.parser')
-        self.uri = link
-        if not self._node.title:
-            self.name = "TITLE NOT FOUND"
-            self.status = color(link, 'yellow')
+    @property
+    def uri(self):
+        return self._uri
+
+    @property
+    async def text(self):
+        if not self._text:
+            n = await self.node
+            self._text = n.getText()
+        return self._text
+
+
+    @property
+    async def node(self):
+       if not self._node:
+           try:
+                async with self._session.get(self.uri) as response:
+                    self._node = BeautifulSoup(await response.text('ISO-8859-1'), 'html.parser')
+                    return self._node
+           except Exception as err:
+               return None
+
+    @property
+    def name(self):
+        if not self._name:
+            self._name = self.DEFAULT_NAME
         else:
-            self.name = self._node.title.string
-            self.status = color(link, 'green')
+            self._name = self.node.title.string
+
+        return self._name
+
+    @property
+    def session(self):
+        return self._session
 
     @property
     def emails(self):
@@ -122,12 +158,12 @@ class LinkNode:
         return self._emails
 
     @property
-    def links(self):
+    async def links(self):
         """
         Getter for node links
         """
         if not self._links:
-            self._links = get_links(self)
+            self._links = await get_links(self)
         return self._links
 
     @property
@@ -140,12 +176,13 @@ class LinkNode:
         return self._images
 
     @property
-    def children(self):
+    async def children(self):
         """
         Getter for node children
         """
         if not self._children:
-            self._children = self._node.find_all('a')
+            n = await self.node
+            self._children = n.find_all('a')
         return self._children
 
     @property

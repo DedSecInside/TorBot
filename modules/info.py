@@ -40,9 +40,8 @@ def execute_all(link, *, display_status=False):
     bad_scripts = set()  # unclean javascript file urls
     datasets = [files, intel, robots, custom, failed, scripts, external, fuzzable, endpoints, keys]
     dataset_names = ['files', 'intel', 'robots', 'custom', 'failed', 'scripts', 'external', 'fuzzable', 'endpoints', 'keys']
-    page, response = LinkIO.read(link, response=True, show_msg=display_status)
+    link_node = LinkIO.read(link, response=True, show_msg=display_status)
     response = get(link, verify=False).text
-    soup = BeautifulSoup(page, 'html.parser')
     validation_functions = [get_robots_txt, get_dot_git, get_dot_svn, get_dot_git, get_intel, get_bitcoin_address]
     for validate_func in validation_functions:
         try:
@@ -50,7 +49,7 @@ def execute_all(link, *, display_status=False):
         except (ConnectionError, HTTPError):
             cprint('Error', 'red')
 
-    display_webpage_description(soup)
+    display_webpage_description(link_node.node)
     # display_headers(response)
 
 

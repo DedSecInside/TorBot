@@ -2,6 +2,8 @@
 This module is used for reading HTML pages using either bs4.BeautifulSoup
 objects or url strings
 """
+
+import aiohttp
 import requests.exceptions
 from bs4 import BeautifulSoup
 
@@ -15,19 +17,27 @@ class LinkIO:
     Class to interact with and interrogate links.
     """
     @staticmethod
-    def display_children(root):
+    async def display_children(root):
         """
         Static method to display status of child nodes.
 
         Args:
             root (LinkNode): root of children to be displayed.
         """
-        sucess_msg = color(f'Links Found - {len(root.links)}', 'green')
+        root_children = await root.links
+        sucess_msg = color(f'Links Found - {root_children}', 'green')
         print(sucess_msg + '\n' + '---------------------------------')
-        multi_thread(root.links, LinkIO.display)
+
+        for link in root_children:
+            await LinkIO.display(link, root.session)
 
     @staticmethod
-    def read(link, *, response=False, show_msg=False, headers=None, schemes=None):
+    async def read(link, *,
+        response=False,
+        show_msg=False,
+        headers=None,
+        schemes=None,
+        session=None):
         """
         Attempts to retrieve HTML from link.
 
@@ -48,10 +58,7 @@ class LinkIO:
             if show_msg:
                 print(f'Attempting to connect to {link}')
             if LinkNode.valid_link(link):
-                node = LinkNode(link)
-                if response:
-                    return node.response.text, node.response
-                return node.response.text
+                return LinkNode(link, session)
 
         schemes = ['https://', 'http://'] if not schemes else schemes
         # Attempt to use different schemes until one is successful
@@ -60,14 +67,12 @@ class LinkIO:
             if show_msg:
                 print(f'Attempting to connect to {link}')
             if LinkNode.valid_link(temp_url):
-                node = LinkNode(temp_url)
-                if response:
-                    return node.response.text, node.response
-                return node.response.text
+                return  LinkNode(temp_url, session)
+
         raise ConnectionError
 
     @staticmethod
-    def display(link):
+    async def display(link, session):
         """
         Prints the status of a link based on it's connection status.
 
@@ -76,7 +81,7 @@ class LinkIO:
         """
         if LinkNode.valid_link(link):
             try:
-                node = LinkNode(link)
+                node = LinkNode(link, session)
                 title = node.name
                 link_status = node.status
             except (requests.exceptions.HTTPError,
@@ -89,14 +94,13 @@ class LinkIO:
         print(status_msg)
 
     @staticmethod
-    def display_ip():
+    async def display_ip(session):
         """
         Uses https://check.torproject.org/ to determine if you
         are using Tor which is then scraped and displayed.
         """
-        page = LinkIO.read('https://check.torproject.org/', show_msg=True)
-        page = BeautifulSoup(page, 'html.parser')
-        ip_cont = page.find('strong')
-        ip_addr = ip_cont.renderContents()
+        link = await LinkIO.read('https://check.torproject.org/', show_msg=True, session=session)
+        node = await link.node
+        ip_addr = node.renderContents()
         ip_string = color(ip_addr.decode("utf-8"), 'yellow')
         print(f'Tor IP Address: {ip_string}')
