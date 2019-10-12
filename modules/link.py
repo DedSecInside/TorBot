@@ -21,7 +21,7 @@ async def get_emails(node):
         emails (list): List of emails.
     """
     emails = []
-    document = await node.document
+    document = await node.getDocument()
     mails = re.findall(r'[\w\.-]+@[\w\.-]+', document.getText())
     for email in mails:
         if LinkNode.valid_email(email):
@@ -63,14 +63,14 @@ async def get_images(node):
     return links
 
 async def get_name(node):
-    doc = await node.document
+    doc = await node.getDocument()
     if doc.title:
         return doc.title.string
     else:
         return LinkNode.DEFAULT_NAME
 
 async def get_status(node):
-    doc = await node.document
+    doc = await node.getDocument()
     if not doc.title and not node.status:
         return LinkNode.DEFAULT_STATUS(node.uri)
     elif not node.status:
@@ -129,18 +129,18 @@ class LinkNode:
        return self._document
 
     @property
-    def emails(self):
+    async def emails(self):
         """
         Getter for node emails
         """
         if not self._emails:
-            self._emails = get_emails(self)
+            self._emails = await get_emails(self)
         return self._emails
 
     @property
-    def name(self):
+    async def name(self):
         if not self._name:
-            return get_name(self)
+            return await get_name(self)
         return self._name
 
     @property
@@ -153,7 +153,7 @@ class LinkNode:
 
     @property
     async def status(self):
-        doc = await self.document
+        doc = await self.getDocument()
         if not self._status:
             self._status = await get_status(self)
         return self._status
