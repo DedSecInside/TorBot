@@ -11,8 +11,8 @@ import requests
 from requests.exceptions import HTTPError
 
 
-
 # ALGORITHM UTILITY FUNCTIONS
+
 
 def process_data(data_queue, data_stack, process, *args):
     """
@@ -43,8 +43,8 @@ def process_data(data_queue, data_stack, process, *args):
 
 def multi_thread(data, data_function, *args):
     """
-    Start threads with function to process data and arguments then process the data
-    in FIFO order.
+    Start threads with function to process data and arguments then
+    process the data in FIFO order.
 
     Args:
         data (list): Lists of values that you'd like to operate on.

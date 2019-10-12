@@ -1,5 +1,6 @@
 """
-This module is used for reading HTML pages using either bs4.BeautifulSoup objects or url strings
+This module is used for reading HTML pages using either bs4.BeautifulSoup
+objects or url strings
 """
 import requests.exceptions
 from bs4 import BeautifulSoup
@@ -7,6 +8,7 @@ from bs4 import BeautifulSoup
 from .link import LinkNode
 from .utils import multi_thread
 from .color import color
+
 
 class LinkIO:
     """
@@ -85,7 +87,6 @@ class LinkIO:
 
         status_msg = "%-80s %-30s" % (link_status, title)
         print(status_msg)
-
 
     @staticmethod
     def display_ip():

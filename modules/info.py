@@ -23,24 +23,24 @@ def execute_all(link, *, display_status=False):
         display_status (bool, optional): Whether to print connection
             attempts to terminal.
     """
-    keys = set() # high entropy strings, prolly secret keys
-    files = set() # pdf, css, png etc.
-    intel = set() # emails, website accounts, aws buckets etc.
-    robots = set() # entries of robots.txt
-    custom = set() # string extracted by custom regex pattern
-    failed = set() # urls that photon failed to crawl
-    scripts = set() # javascript files
-    external = set() # urls that don't belong to the target i.e. out-of-scope
-    fuzzable = set() # urls that have get params in them e.g. example.com/page.php?id=2
-    endpoints = set() # urls found from javascript files
-    processed = set() # urls that have been crawled
+    keys = set()  # high entropy strings, prolly secret keys
+    files = set()  # pdf, css, png etc.
+    intel = set()  # emails, website accounts, aws buckets etc.
+    robots = set()  # entries of robots.txt
+    custom = set()  # string extracted by custom regex pattern
+    failed = set()  # urls that photon failed to crawl
+    scripts = set()  # javascript files
+    external = set()  # urls that don't belong to the target i.e. out-of-scope
+    fuzzable = set()  # urls that have get params in them e.g. example.com/page.php?id=2
+    endpoints = set()  # urls found from javascript files
+    processed = set()  # urls that have been crawled
 
     everything = []
-    bad_intel = set() # unclean intel urls
-    bad_scripts = set() # unclean javascript file urls
+    bad_intel = set()  # unclean intel urls
+    bad_scripts = set()  # unclean javascript file urls
     datasets = [files, intel, robots, custom, failed, scripts, external, fuzzable, endpoints, keys]
     dataset_names = ['files', 'intel', 'robots', 'custom', 'failed', 'scripts', 'external', 'fuzzable', 'endpoints', 'keys']
-    page,response = LinkIO.read(link, response=True, show_msg=display_status)
+    page, response = LinkIO.read(link, response=True, show_msg=display_status)
     response = get(link, verify=False).text
     soup = BeautifulSoup(page, 'html.parser')
     validation_functions = [get_robots_txt, get_dot_git, get_dot_svn, get_dot_git, get_intel, get_bitcoin_address]
@@ -51,7 +51,7 @@ def execute_all(link, *, display_status=False):
             cprint('Error', 'red')
 
     display_webpage_description(soup)
-    #display_headers(response)
+    # display_headers(response)
 
 
 def display_headers(response):
@@ -68,7 +68,7 @@ def display_headers(response):
         print('*', key, ':', val)
 
 
-def get_robots_txt(target,response):
+def get_robots_txt(target, response):
     """ Check link for Robot.txt, and if found, add link to robots dataset.
 
     Args:
@@ -87,11 +87,11 @@ def get_robots_txt(target,response):
             if '*' not in match:
                     url = main_url + match
                     robots.add(url)
-        cprint("Robots.txt found",'blue')
+        cprint("Robots.txt found", 'blue')
         print(robots)
 
 
-def get_intel(link,response):
+def get_intel(link, response):
     """ Check link for intel, and if found, add link to intel dataset,
     including but not limited to website accounts and AWS buckets.
 
@@ -99,7 +99,7 @@ def get_intel(link,response):
         target (str): URL to be checked.
         response (object): Response object containing data to check.
     """
-    intel=set()
+    intel = set()
     matches = findall(r'''([\w\.-]+s[\w\.-]+\.amazonaws\.com)|([\w\.-]+@[\w\.-]+\.[\.\w]+)''', response)
     print("Intel\n--------\n\n")
     if matches:
@@ -107,7 +107,7 @@ def get_intel(link,response):
             intel.add(match)
 
 
-def get_dot_git(target,response):
+def get_dot_git(target, response):
     """ Check link for .git folders exposed on public domain.
 
     Args:
@@ -139,7 +139,7 @@ def get_bitcoin_address(target, response):
         print("BTC: ", bitcoin)
 
 
-def get_dot_svn(target,response):
+def get_dot_svn(target, response):
     """ Check link for .svn folders exposed on public domain=.
 
     Args:
@@ -158,7 +158,7 @@ def get_dot_svn(target,response):
         cprint("NO .SVN folder found", 'blue')
 
 
-def get_dot_htaccess(target,response):
+def get_dot_htaccess(target, response):
     """ Check link for .htaccess files on public domain.
 
     Args:
@@ -189,7 +189,7 @@ def display_webpage_description(soup):
     cprint("[*]Checking for meta tag", 'yellow')
     metatags = soup.find_all('meta')
     for meta in metatags:
-        print("Meta : ",meta)
+        print("Meta : ", meta)
 
 
 def writer(datasets, dataset_names, output_dir):
