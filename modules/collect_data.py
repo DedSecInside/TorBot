@@ -19,6 +19,7 @@ if not dev_file:
     raise FileNotFoundError
 load_dotenv(dotenv_path=dev_file)
 
+
 def parse_links(html):
     """Parses HTML page to extract links.
 
@@ -49,6 +50,7 @@ def parse_meta_tags(html_soup):
         content = meta.attrs['content']
         meta_content.append(content)
     return meta_content
+
 
 def collect_data():
     """Collect all relevant data from https://thehiddenwiki.org
