@@ -100,8 +100,8 @@ class LinkIO:
         are using Tor which is then scraped and displayed.
         """
         link = await LinkIO.read('https://check.torproject.org/', show_msg=True, session=session)
-        node = await link.node
-        ip_cont = node.find('strong')
+        document = await link.getDocument()
+        ip_cont = document.find('strong')
         ip_addr = ip_cont.renderContents()
         ip_string = color(ip_addr.decode("utf-8"), 'yellow')
         print(f'Tor IP Address: {ip_string}')

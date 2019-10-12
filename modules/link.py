@@ -8,12 +8,10 @@ import requests.exceptions
 import validators
 
 from bs4 import BeautifulSoup
-from enum import Enum
 
 from .color import color
 
-
-def get_emails(node):
+async def get_emails(node):
     """Finds all emails associated with node
 
     Args:
@@ -23,8 +21,8 @@ def get_emails(node):
         emails (list): List of emails.
     """
     emails = []
-    response = node.response.text
-    mails = re.findall(r'[\w\.-]+@[\w\.-]+', response)
+    document = await node.document
+    mails = re.findall(r'[\w\.-]+@[\w\.-]+', document.getText())
     for email in mails:
         if LinkNode.valid_email(email):
             emails.append(email)
@@ -41,15 +39,14 @@ async def get_links(node):
         links (list): List of links.
     """
     links = []
-    children = await node.children
-    for child in children:
+    for child in await node.children:
         link = child.get('href')
         if link and LinkNode.valid_link(link):
             links.append(link)
     return links
 
 
-def get_images(node):
+async def get_images(node):
     """Finds all images associated with node.
 
     Args:
@@ -59,24 +56,43 @@ def get_images(node):
         links (list): List of links.
     """
     links = []
-    for child in node.children:
+    for child in await node.children:
         link = child.get('src')
         if link and LinkNode.valid_link(link):
             links.append(link)
     return links
 
+async def get_name(node):
+    doc = await node.document
+    if doc.title:
+        return doc.title.string
+    else:
+        return LinkNode.DEFAULT_NAME
 
-def get_metadata(node):
+async def get_status(node):
+    doc = await node.document
+    if not doc.title and not node.status:
+        return LinkNode.DEFAULT_STATUS(node.uri)
+    elif not node.status:
+        return color(node.uri, 'green')
+
+
+async def get_metadata(node):
     """Collect response headers.
 
         Args:
             node (LinkNode): Node used to get metadata from.
 
         Returns:
-            metadata (dict): Dictionary with metadata.
+            headers (CIMultiDictProxy): Dictionary with metadata.
         """
-    return node.response.headers
 
+    doc, response = await node.getDocument(True)
+    return response.headers
+
+async def get_children(node):
+    doc = await node.getDocument()
+    return doc.find_all('a')
 
 class LinkNode:
     """Represents link node in a link tree."""
@@ -101,50 +117,16 @@ class LinkNode:
         self._metadata = {}
         self._name = None
         self._text = None
-        self._node = None
+        self._document = None
         self._uri = link
 
-    @property
-    async def status(self):
-        n = await self.node
-        if not n.title and not self._status:
-            self._status = self.DEFAULT_STATUS(self.uri)
-        elif not self._status:
-            self._status = color(self.uri, 'green')
-        return self._status
-
-    @property
-    def uri(self):
-        return self._uri
-
-    @property
-    async def text(self):
-        if not self._text:
-            n = await self.node
-            self._text = n.getText()
-        return self._text
-
-
-    @property
-    async def node(self):
-       if not self._node:
+    async def getDocument(self, get_response=False):
+       if not self._document:
            response = await self._session.get(self.uri)
-           self._node = BeautifulSoup(await response.text('ISO-8859-1'), 'html.parser')
-
-       return self._node
-
-    @property
-    def name(self):
-        if not self._name:
-            self._name = self.DEFAULT_NAME
-        else:
-            self._name = self.node.title.string
-
-        return self._name
-
-    @property
-    def session(self):
-        return self._session
+           self._document = BeautifulSoup(await response.text('ISO-8859-1'), 'html.parser')
+       if get_response:
+           return self._document, response
+       return self._document
 
     @property
     def emails(self):
@@ -156,6 +138,27 @@ class LinkNode:
         return self._emails
 
     @property
+    def name(self):
+        if not self._name:
+            return get_name(self)
+        return self._name
+
+    @property
+    def uri(self):
+        return self._uri
+
+    @property
+    def session(self):
+        return self._session
+
+    @property
+    async def status(self):
+        doc = await self.document
+        if not self._status:
+            self._status = await get_status(self)
+        return self._status
+
+    @property
     async def links(self):
         """
         Getter for node links
@@ -165,12 +168,12 @@ class LinkNode:
         return self._links
 
     @property
-    def images(self):
+    async def images(self):
         """
         Getter for node images
         """
         if not self._images:
-            self._images = get_images(self)
+            self._images = await get_images(self)
         return self._images
 
     @property
@@ -179,17 +182,16 @@ class LinkNode:
         Getter for node children
         """
         if not self._children:
-            n = await self.node
-            self._children = n.find_all('a')
+            self._children = await get_children(self)
         return self._children
 
     @property
-    def metadata(self):
+    async def metadata(self):
         """
         Getter for node metadata
         """
         if not self._metadata:
-            self._metadata = get_metadata(self)
+            self._metadata = await get_metadata(self)
         return self._metadata
 
     @staticmethod
