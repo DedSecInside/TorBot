@@ -128,12 +128,10 @@ class LinkNode:
     @property
     async def node(self):
        if not self._node:
-           try:
-                async with self._session.get(self.uri) as response:
-                    self._node = BeautifulSoup(await response.text('ISO-8859-1'), 'html.parser')
-                    return self._node
-           except Exception as err:
-               return None
+           response = await self._session.get(self.uri)
+           self._node = BeautifulSoup(await response.text('ISO-8859-1'), 'html.parser')
+
+       return self._node
 
     @property
     def name(self):

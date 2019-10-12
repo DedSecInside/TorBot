@@ -133,30 +133,31 @@ async def main():
     TorBot's Core
     """
     args = get_args()
-    connect(args.ip, args.port)
+    if not args.quiet:
+        header()
 
+    connect(args.ip, args.port)
     if args.gather:
         collect_data()
         return
     # If flag is -v, --update, -q/--quiet then user only runs that operation
     # because these are single flags only
     if args.version:
-        print("TorBot Version:" + __VERSION)
+        print(f'TorBot Version: {__VERSION}')
         exit()
     if args.update:
         updateTor()
         exit()
-    if not args.quiet:
-        header()
+
     async with aiohttp.ClientSession() as session:
         # If url flag is set then check for accompanying flag set. Only one
         # additional flag can be set with -u/--url flag
         if args.url:
             try:
                 node = LinkNode(args.url, session)
-            except (ValueError, HTTPError, ConnectionError) as err:
+                await LinkIO.display_ip(session)
+            except Exception as err:
                 raise err
-            await LinkIO.display_ip(session)
             # -m/--mail
             if args.mail:
                 print(node.emails)

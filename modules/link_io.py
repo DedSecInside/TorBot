@@ -25,7 +25,7 @@ class LinkIO:
             root (LinkNode): root of children to be displayed.
         """
         root_children = await root.links
-        sucess_msg = color(f'Links Found - {root_children}', 'green')
+        sucess_msg = color(f'Links Found - {len(root_children)}', 'green')
         print(sucess_msg + '\n' + '---------------------------------')
 
         for link in root_children:
@@ -101,6 +101,7 @@ class LinkIO:
         """
         link = await LinkIO.read('https://check.torproject.org/', show_msg=True, session=session)
         node = await link.node
-        ip_addr = node.renderContents()
+        ip_cont = node.find('strong')
+        ip_addr = ip_cont.renderContents()
         ip_string = color(ip_addr.decode("utf-8"), 'yellow')
         print(f'Tor IP Address: {ip_string}')
