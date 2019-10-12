@@ -17,6 +17,7 @@ default_style = TreeStyle()
 default_style.show_leaf_name = False
 default_style.layout_fn = default_layout
 
+
 class LinkTree:
     """
     This is a class that represents a tree of links within TorBot. This can
