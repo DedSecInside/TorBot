@@ -4,11 +4,9 @@ objects or url strings
 """
 
 import aiohttp
-import requests.exceptions
 from bs4 import BeautifulSoup
 
 from .link import LinkNode
-from .utils import multi_thread
 from .color import color
 
 
@@ -63,11 +61,11 @@ class LinkIO:
         schemes = ['https://', 'http://'] if not schemes else schemes
         # Attempt to use different schemes until one is successful
         for scheme in schemes:
-            temp_url = scheme + link
+            uri = scheme + link
             if show_msg:
                 print(f'Attempting to connect to {link}')
-            if LinkNode.valid_link(temp_url):
-                return  LinkNode(temp_url, session)
+            if LinkNode.valid_link(uri):
+                return LinkNode(uri, session)
 
         raise ConnectionError
 
@@ -82,11 +80,9 @@ class LinkIO:
         if LinkNode.valid_link(link):
             try:
                 node = LinkNode(link, session)
-                title = node.name
-                link_status = node.status
-            except (requests.exceptions.HTTPError,
-                    requests.exceptions.ConnectionError,
-                    ConnectionError):
+                title = await node.name
+                link_status = await node.status
+            except Exception as err:
                 title = 'Not Found'
                 link_status = color(link, 'red')
 

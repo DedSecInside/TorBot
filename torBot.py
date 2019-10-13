@@ -63,7 +63,6 @@ def connect(address, port):
                  '', (args[0], args[1]))]
     socket.getaddrinfo = getaddrinfo
 
-
 def header():
     """
     Prints out header ASCII art

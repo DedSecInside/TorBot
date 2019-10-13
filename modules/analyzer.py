@@ -29,13 +29,17 @@ class LinkTree:
         root (LinkNode): root node
         stop_depth (int): Depth of which to stop searching for links
     """
-    def __init__(self, root_node):
+    def __init__(self, root_node, stop_depth):
         self._root = root_node
         self._loaded = False
+        self.load(stop_depth)
 
     async def load(self, stop_depth=1):
+        if self._loaded:
+            return
         self._tree = await build_tree(self._root, stop=stop_depth)
         self._loaded = True
+
     def __len__(self):
         return len(self._tree)
 
@@ -55,8 +59,6 @@ class LinkTree:
             file_name (str): Name of file being saved to
             tree_style (TreeStyle): Styling of downloaded tree
         """
-        if not self._loaded:
-           await  self.load()
         self._tree.render(file_name, tree_style)
 
     async def show(self, tree_style=default_style):
@@ -66,8 +68,6 @@ class LinkTree:
         Args:
             tree_style (TreeStyle): Styling of downloaded tree
         """
-        if not self._loaded:
-            await self.load()
         self._tree.show(tree_style)
 
 

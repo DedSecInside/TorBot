@@ -3,8 +3,6 @@ This module is used to create a LinkNode that can be consumued by a LinkTree
 and contains useful Link methods.
 """
 import re
-import requests
-import requests.exceptions
 import validators
 
 from bs4 import BeautifulSoup
@@ -71,9 +69,9 @@ async def get_name(node):
 
 async def get_status(node):
     doc = await node.getDocument()
-    if not doc.title and not node.status:
+    if not doc.title and not node._status:
         return LinkNode.DEFAULT_STATUS(node.uri)
-    elif not node.status:
+    elif not node._status:
         return color(node.uri, 'green')
 
 
@@ -118,12 +116,13 @@ class LinkNode:
         self._name = None
         self._text = None
         self._document = None
+        self._status = None
         self._uri = link
 
     async def getDocument(self, get_response=False):
        if not self._document:
-           response = await self._session.get(self.uri)
-           self._document = BeautifulSoup(await response.text('ISO-8859-1'), 'html.parser')
+            response = await self._session.get(self.uri)
+            self._document = BeautifulSoup(await response.text('ISO-8859-1'), 'html.parser')
        if get_response:
            return self._document, response
        return self._document
