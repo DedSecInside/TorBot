@@ -121,7 +121,7 @@ class LinkNode:
 
     async def getDocument(self, get_response=False):
        if not self._document:
-            response = await self._session.get(self.uri)
+            response = await self._session.get(self.uri, compress=True)
             self._document = BeautifulSoup(await response.text('ISO-8859-1'), 'html.parser')
        if get_response:
            return self._document, response

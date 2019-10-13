@@ -4,10 +4,11 @@ MAIN MODULE
 import aiohttp
 import argparse
 import asyncio
+import logging
 import socket
 import socks
 
-from requests.exceptions import HTTPError
+from sys import getsizeof
 
 from modules.analyzer import LinkTree
 from modules.color import color
@@ -148,7 +149,13 @@ async def main():
         updateTor()
         exit()
 
-    async with aiohttp.ClientSession() as session:
+    logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+    async def on_response_chunk_received(session, trace_config_ctx, params):
+        logging.debug(f'TorBot has received {getsizeof(params.chunk)} bytes.')
+
+    trace_config = aiohttp.TraceConfig()
+    trace_config.on_response_chunk_received.append(on_response_chunk_received)
+    async with aiohttp.ClientSession(trace_configs=[trace_config]) as session:
         # If url flag is set then check for accompanying flag set. Only one
         # additional flag can be set with -u/--url flag
         if args.url:
@@ -164,7 +171,7 @@ async def main():
                     saveJson('Emails', node.emails)
             # -i/--info
             if args.info:
-                execute_all(node.uri)
+                await execute_all(node.uri)
                 if args.save:
                     print('Nothing to save.\n')
             if args.visualize:

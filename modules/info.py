@@ -14,7 +14,7 @@ import re
 from .link_io import LinkIO
 
 
-def execute_all(link, *, display_status=False):
+async def execute_all(link, *, display_status=False):
     """Initialise datasets and functions to retrieve data, and execute
     each for a given link.
 
@@ -40,16 +40,16 @@ def execute_all(link, *, display_status=False):
     bad_scripts = set()  # unclean javascript file urls
     datasets = [files, intel, robots, custom, failed, scripts, external, fuzzable, endpoints, keys]
     dataset_names = ['files', 'intel', 'robots', 'custom', 'failed', 'scripts', 'external', 'fuzzable', 'endpoints', 'keys']
-    link_node = LinkIO.read(link, response=True, show_msg=display_status)
-    response = get(link, verify=False).text
+    node = LinkIO.read(link, response=True, show_msg=display_status)
+    response = get(node, verify=False).text
     validation_functions = [get_robots_txt, get_dot_git, get_dot_svn, get_dot_git, get_intel, get_bitcoin_address]
     for validate_func in validation_functions:
         try:
-            validate_func(link,  response)
+            validate_func(node,  response)
         except (ConnectionError, HTTPError):
             cprint('Error', 'red')
 
-    display_webpage_description(link_node.node)
+    display_webpage_description(await node.getDocument())
     # display_headers(response)
 
 
