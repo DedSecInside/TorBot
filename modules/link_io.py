@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 
 from .link import LinkNode
 from .color import color
+from .display_status import display_status
 
 
 class LinkIO:
@@ -26,8 +27,7 @@ class LinkIO:
         sucess_msg = color(f'Links Found - {len(root_children)}', 'green')
         print(sucess_msg + '\n' + '---------------------------------')
 
-        for link in root_children:
-            await LinkIO.display(link, root.session)
+        display_status(*root_children);
 
     @staticmethod
     async def read(link, *,
