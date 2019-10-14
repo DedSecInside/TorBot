@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 
 from .link import LinkNode
 from .color import color
-from .display_status import display_status
+from display_status import display_status
 
 
 class LinkIO:

@@ -1,6 +1,7 @@
 """
 Module containing class with colors
 """
+
 COLORS = {
     'white':    "\033[1;37m",
     'yellow':   "\033[1;33m",
