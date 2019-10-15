@@ -125,7 +125,8 @@ def get_args():
                         help="Gather data for analysis")
     parser.add_argument("--no-socks",
                         action="store_true",
-                        help="Don't use local SOCKS. Useful when TorBot is launched behind a Whonix Gateway")
+                        help="Don't use local SOCKS. Useful when TorBot is"
+                             " launched behind a Whonix Gateway")
     return parser.parse_args()
 
 
