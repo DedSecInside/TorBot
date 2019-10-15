@@ -123,6 +123,9 @@ def get_args():
     parser.add_argument("--gather",
                         action="store_true",
                         help="Gather data for analysis")
+    parser.add_argument("--no-socks",
+                        action="store_true",
+                        help="Don't use local SOCKS. Useful when TorBot is launched behind a Whonix Gateway")
     return parser.parse_args()
 
 
@@ -131,7 +134,8 @@ def main():
     TorBot's Core
     """
     args = get_args()
-    connect(args.ip, args.port)
+    if not args.no_socks:
+        connect(args.ip, args.port)
 
     if args.gather:
         collect_data()
