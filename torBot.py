@@ -24,7 +24,7 @@ DEFPORT = 9050
 __VERSION = "1.3.3"
 
 
-def connect(address, port):
+def connect(address, port, no_socks):
     """ Establishes connection to port
 
     Assumes port is bound to localhost, if host that port is bound to changes
@@ -34,7 +34,8 @@ def connect(address, port):
         address (str): Address for port to bind to.
         port (str): Establishes connect to this port.
     """
-
+    if no_socks:
+        return
     if address and port:
         socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, port)
     elif address:
@@ -135,8 +136,7 @@ def main():
     TorBot's Core
     """
     args = get_args()
-    if not args.no_socks:
-        connect(args.ip, args.port)
+    connect(args.ip, args.port, args.no_socks)
 
     if args.gather:
         collect_data()
