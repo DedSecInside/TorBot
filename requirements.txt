@@ -10,3 +10,6 @@ PyQt5==5.11.3
 validators==0.12.2
 python-dotenv==0.10.2
 threadsafe==1.0.0
+aiohttp==3.6.2
+cchardet==2.1.4
+aiodns==2.0.0
