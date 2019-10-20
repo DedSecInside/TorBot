@@ -4,11 +4,12 @@ objects or url strings
 """
 
 import aiohttp
+from display_status import display_status
+
 from bs4 import BeautifulSoup
 
 from .link import LinkNode
 from .color import color
-from display_status import display_status
 
 
 class LinkIO:
@@ -27,7 +28,7 @@ class LinkIO:
         sucess_msg = color(f'Links Found - {len(root_children)}', 'green')
         print(sucess_msg + '\n' + '---------------------------------')
 
-        display_status(*root_children);
+        display_status.display(*root_children);
 
     @staticmethod
     async def read(link, *,
