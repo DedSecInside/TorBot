@@ -28,7 +28,7 @@ class LinkIO:
         sucess_msg = color(f'Links Found - {len(root_children)}', 'green')
         print(sucess_msg + '\n' + '---------------------------------')
 
-        display_status.display(*root_children);
+        display_status.display(*root_children)
 
     @staticmethod
     async def read(link, *,
