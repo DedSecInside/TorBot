@@ -136,7 +136,7 @@ Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob
 If you have new ideas which is worth implementing, mention those by starting a new issue with the title [FEATURE_REQUEST].
 If the idea is worth implementing, congratz, you are now a contributor.
 
-### Cite this paper
+### Cite this [paper](https://link.springer.com/chapter/10.1007/978-981-15-0146-3_19)
 
     @InProceedings{10.1007/978-981-15-0146-3_19,
     author="Narayanan, P. S.
