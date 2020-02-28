@@ -136,6 +136,26 @@ Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob
 If you have new ideas which is worth implementing, mention those by starting a new issue with the title [FEATURE_REQUEST].
 If the idea is worth implementing, congratz, you are now a contributor.
 
+### Cite this paper
+
+    @InProceedings{10.1007/978-981-15-0146-3_19,
+    author="Narayanan, P. S.
+    and Ani, R.
+    and King, Akeem T. L.",
+    editor="Ranganathan, G.
+    and Chen, Joy
+    and Rocha, {\'A}lvaro",
+    title="TorBot: Open Source Intelligence Tool for Dark Web",
+    booktitle="Inventive Communication and Computational Technologies",
+    year="2020",
+    publisher="Springer Singapore",
+    address="Singapore",
+    pages="187--195",
+    abstract="The dark web has turned into a dominant source of illegal activities. With several volunteered networks, it is      becoming more difficult to track down these services. Open source intelligence (OSINT) is a technique used to gather intelligence on targets by harvesting publicly available data. Performing OSINT on the Tor network makes it a challenge for both researchers and developers because of the complexity and anonymity of the network. This paper presents a tool which shows OSINT in the dark web. With the use of this tool, researchers and Law Enforcement Agencies can automate their task of crawling and identifying different services in the Tor network. This tool has several features which can help extract different intelligence.",
+    isbn="978-981-15-0146-3"
+    }
+
+
 ### References
 
     1.  M. Glassman and M. J. Kang, “Intelligence in the internet age: The emergence and evolution of Open Source Intelligence (OSINT),” Comput. Human Behav., vol. 28, no. 2, pp. 673–682, 2012.
