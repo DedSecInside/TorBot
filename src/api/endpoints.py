@@ -1,7 +1,11 @@
+import sys
+sys.path.append('..')
+
 import flask
 import argparse
 from flask import request,jsonify
-from ..torBot import test
+from torBot import test
+
 app=flask.Flask(__name__)
 
 app.config["DEBUG"]=True
