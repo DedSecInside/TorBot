@@ -13,6 +13,7 @@ app.config["DEBUG"]=True
 def callTor():
     content = request.get_json(force = True)
     url=content['url']
+    port=content['port']
     args={'ip':'127.0.0.1','port':9050,'no_socks':False,'url':url,'gather':'False','version':'False','update':'False',
           'quiet':'False','mail':'False','info':'False','save':'False','visualize':'False','depth':'False','download':'False'
     
