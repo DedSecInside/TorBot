@@ -122,11 +122,11 @@ Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob
     `docker run --link tor:tor --rm -ti dedsecinside/torbot`
 
 ## TO-DO
-- [ ] Visualization Module
+- [X] Visualization Module
 - [x] Implement BFS Search for webcrawler
 - [X] Multithreading for Get Links
 - [ ] Improve stability (Handle errors gracefully, expand test coverage and etc.)
-- [ ] Create a user-friendly GUI 
+- [X] Create a user-friendly GUI 
 - [ ] Randomize Tor Connection (Random Header and Identity)
 - [ ] Keyword/Phrase search
 - [ ] Social Media Integration
@@ -189,6 +189,8 @@ GNU Public License
 
 - [X] [P5N4PPZ](https://github.com/PSNAppz) - Owner
 - [X] [KingAkeem](https://github.com/KingAkeem) - Experienced Contributor,Reviewer,Core Member
+- [X] [masterugwee](https://github.com/masterugwee) - Contributor,Core Member
+- [X] [soorajsomans](https://github.com/soorajsomans) - Contributor,Core Member
 - [X] [agrepravin](https://github.com/agrepravin) - Contributor,Reviewer
 - [X] [shivankar-madaan](https://github.com/shivankar-madaan) - Experienced Contributor
 - [X] [y-mehta](https://github.com/y-mehta) - Contributor
