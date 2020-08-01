@@ -26,3 +26,5 @@ torBot
 .ropeproject/
 .idea/
 .DS_Store
+
+venv/
