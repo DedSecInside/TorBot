@@ -1,4 +1,4 @@
-beautifulsoup4==4.6.0
+beautifulsoup4=4.9.1
 PySocks==1.6.7
 termcolor==1.1.0
 requests==2.20.0
