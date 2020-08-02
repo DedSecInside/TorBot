@@ -249,8 +249,9 @@ def test(args):
                 saveJson("Links", node.links)
     else:
         print("usage: See torBot.py -h for possible arguments.")
-
+    
     print("\n\n")
+    return node.links
 
     
 if __name__ == '__main__':
