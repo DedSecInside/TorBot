@@ -234,8 +234,8 @@ def test(args):
             if args['save']:
                 print('Nothing to save.\n')
         if args['visualize']==True:
-            if args['depth']==True:
-                tree = LinkTree(node, stop_depth=args.depth)
+            if "depth" in args:
+                tree = LinkTree(node, stop_depth=args['depth'])
             else:
                 tree = LinkTree(node)
             tree.show()

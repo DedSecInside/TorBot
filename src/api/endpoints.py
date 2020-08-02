@@ -12,10 +12,24 @@ app.config["DEBUG"]=True
 @app.route('/postApi',methods=['POST'])
 def callTor():
     content = request.get_json(force = True)
-    url=content['url']
+    ip=content['ip']
     port=content['port']
-    args={'ip':'127.0.0.1','port':9050,'no_socks':False,'url':url,'gather':'False','version':'False','update':'False',
-          'quiet':'False','mail':'False','info':'False','save':'False','visualize':'False','depth':'False','download':'False'
+    no_socks=content['no_socks']
+    url=content['url']
+    gather=content['gather']
+    version=content['version']
+    update=content['update']
+    quiet=content['quiet']
+    mail=content['mail']
+    info=content['info']
+    save=content['save']
+    visualize=content['visualize']
+    depth=content['depth']
+    download=['download']
+    
+    
+    args={'ip':ip,'port':port,'no_socks':no_socks,'url':url,'gather':gather,'version':version,'update':update,
+          'quiet':quiet,'mail':mail,'info':info,'save':save,'visualize':visualize,'depth':depth,'download':download
     
     }
     data1=test(args)
