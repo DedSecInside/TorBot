@@ -1,0 +1,28 @@
+<div class="container">
+    <form (ngSubmit)="!searchForm.invalid && getCrawledData()" #searchForm="ngForm">
+    <div class="input-group mb-3">
+      <input type="text" name="inputURL"  placeholder="Enter url here" [(ngModel)]="inputURL" class="form-control" required="required"   aria-describedby="basic-addon2" >
+      <div class="input-group-append">
+        <button class="btn  btn-success" type="submit">Search</button>
+      </div>
+    </div>
+  </form>
+  </div>
+<div class="container" style="text-align:center">
+    <h6 (click)="enableAdvanceSearch()">Advacnce Search </h6>
+</div>
+
+  <div class="container" *ngIf="advanceSearch">
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+        <label class="form-check-label" for="defaultCheck1">
+          Version
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" >
+        <label class="form-check-label" for="defaultCheck2">
+          Mail
+        </label>
+      </div>
+  </div>
