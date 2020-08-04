@@ -18,17 +18,57 @@
 
   <div class="container" *ngIf="advanceSearch">
     <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-        <label class="form-check-label" for="defaultCheck1">
+        <input class="form-check-input" type="checkbox" value="" id="version">
+        <label class="form-check-label" for="version">
           Version
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" >
-        <label class="form-check-label" for="defaultCheck2">
+        <input class="form-check-input" type="checkbox" value="" id="mail" >
+        <label class="form-check-label" for="mail">
           Mail
         </label>
       </div>
+
+
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="save" >
+        <label class="form-check-label" for="save">
+          Save
+        </label>
+      </div>
+
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="download" >
+        <label class="form-check-label" for="download">
+          Download
+        </label>
+      </div>
+
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="nosocks" >
+        <label class="form-check-label" for="nosocks">
+          Enable socks
+        </label>
+      </div>
+
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="info" >
+        <label class="form-check-label" for="info">
+          Info
+        </label>
+      </div>
+<form>
+  <div class="form-group">
+    <label for="ip">IP address </label>
+    <input type="text" class="form-control" id="ip" placeholder="Alternate IP">
+  </div>
+  <div class="form-group">
+    <label for="port">Port</label>
+    <input type="text" class="form-control" id="port" placeholder="Alternate port">
+  </div>
+</form>
+
       <div class="slidecontainer">
   <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
   <p>Depth: <span id="depth"></span></p>
