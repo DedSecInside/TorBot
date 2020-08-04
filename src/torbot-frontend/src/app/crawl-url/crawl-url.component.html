@@ -1,3 +1,7 @@
+<head> 
+	<link rel = "stylesheet" href ="crawl-url.component.css">
+	<script src = "crawl-url.component.js"></script> 
+</head>
 <div class="container">
     <form (ngSubmit)="!searchForm.invalid && getCrawledData()" #searchForm="ngForm">
     <div class="input-group mb-3">
@@ -9,7 +13,7 @@
   </form>
   </div>
 <div class="container" style="text-align:center">
-    <h6 (click)="enableAdvanceSearch()">Advacnce Search </h6>
+    <h6 (click)="enableAdvanceSearch()">Advance Search </h6>
 </div>
 
   <div class="container" *ngIf="advanceSearch">
@@ -25,4 +29,9 @@
           Mail
         </label>
       </div>
+      <div class="slidecontainer">
+  <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+  <p>Depth: <span id="depth"></span></p>
+      </div>
+
   </div>
