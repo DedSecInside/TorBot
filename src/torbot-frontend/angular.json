@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "torbot-frontend"
+    }
+  },
+  "defaultProject": "torbot-frontend",
+  "cli": {
+    "analytics": false
+  }
 }

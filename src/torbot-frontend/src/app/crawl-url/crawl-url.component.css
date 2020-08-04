@@ -35,3 +35,13 @@
   background: #4CAF50;
   cursor: pointer;
 }
+
+
+.png
+{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  padding-bottom: 50px;
+}
