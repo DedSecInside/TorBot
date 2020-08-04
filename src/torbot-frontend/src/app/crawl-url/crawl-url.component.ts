@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Options } from 'ng5-slider';
+
 
 @Component({
   selector: 'app-crawl-url',
@@ -14,6 +16,13 @@ export class CrawlUrlComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  value: number = 100;
+      options: Options = {
+      floor: 0,
+      ceil: 100
+      };
+
   getCrawledData(){
     console.log(this.inputURL);
     
@@ -22,3 +31,5 @@ export class CrawlUrlComponent implements OnInit {
     this.advanceSearch = true;
   }
 }
+
+
