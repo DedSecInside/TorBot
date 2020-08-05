@@ -1,13 +1,13 @@
  <pre>
 
-                           ████████╗ ██████╗ ██████╗     ██████╗  ██████╗ ████████╗
-                           ╚══██╔══╝██╔═══██╗██╔══██╗    ██╔══██╗██╔═████╗╚══██╔══╝
-                              ██║   ██║   ██║██████╔╝    ██████╔╝██║██╔██║   ██║
-                              ██║   ██║   ██║██╔══██╗    ██╔══██╗████╔╝██║   ██║
-                              ██║   ╚██████╔╝██║  ██║    ██████╔╝╚██████╔╝   ██║
-                              ╚═╝    ╚═════╝ ╚═╝  ╚═╝    ╚═════╝  ╚═════╝    ╚═╝
-               
-                               Open Source Intelligence Tool for the Dark Web
+                     ████████╗ ██████╗ ██████╗     ██████╗  ██████╗ ████████╗
+                     ╚══██╔══╝██╔═══██╗██╔══██╗    ██╔══██╗██╔═████╗╚══██╔══╝
+                        ██║   ██║   ██║██████╔╝    ██████╔╝██║██╔██║   ██║
+                        ██║   ██║   ██║██╔══██╗    ██╔══██╗████╔╝██║   ██║
+                        ██║   ╚██████╔╝██║  ██║    ██████╔╝╚██████╔╝   ██║
+                        ╚═╝    ╚═════╝ ╚═╝  ╚═╝    ╚═════╝  ╚═════╝    ╚═╝
+        
+                        Open Source Intelligence Tool for the Dark Web
                                                      
 </pre>
 [![Build Status](https://travis-ci.org/DedSecInside/TorBot.svg?branch=dev)](https://travis-ci.org/DedSecInside/TorBoT)
@@ -41,7 +41,7 @@ while(URLs is not empty) do
 6. Crawl custom domains.(Completed)
 7. Check if the link is live.(Completed)
 8. Built-in Updater.(Completed)
-9. TorBot GUI(see branch [front_end](https://github.com/DedSecInside/TorBot/tree/front_end))
+9. TorBot GUI (In progress)
 10. Social Media integration.(not Started)
 ...(will be updated)
 
@@ -110,6 +110,10 @@ optional arguments:
 * NOTE: All flags under -u URL, --url URL must also be passed a -u flag.
 
 Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
+
+
+#### Using the GUI 
+
 
 #### Using Docker
 
