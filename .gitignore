@@ -31,3 +31,4 @@ venv/
 *.csv
 .DS_Store
 .env
+data/*.csv

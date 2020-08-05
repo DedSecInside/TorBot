@@ -67,7 +67,7 @@ def header():
     """
     Prints out header ASCII art
     """
-    license_msg = color("LICENSE: GNU Public License", "red")
+    license_msg = color("LICENSE: GNU Public License v3", "red")
     banner = r"""
                            __  ____  ____  __        ______
                           / /_/ __ \/ __ \/ /_  ____/_  __/

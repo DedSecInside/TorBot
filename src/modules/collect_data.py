@@ -47,8 +47,11 @@ def parse_meta_tags(html_soup):
     meta_tags = html_soup.find_all('meta')
     meta_content = list()
     for meta in meta_tags:
-        content = meta.attrs['content']
-        meta_content.append(content)
+        try:
+            content = meta.attrs['content']
+            meta_content.append(content)
+        except Exception as e:
+            pass    
     return meta_content
 
 
@@ -63,10 +66,8 @@ def collect_data():
     data_path = os.getenv('TORBOT_DATA_DIR')
     file_path = f'{data_path}/torbot_{time_stamp}.csv'
     with open(file_path, 'w+', newline='') as outcsv:
-        writer = SafeDictWriter(outcsv, fieldnames=['ID',
-                                                    'Title',
-                                                    'Meta Tags',
-                                                    'Content'])
+        writer = SafeDictWriter(outcsv, fieldnames=['ID', 'Title', 'Meta Tags', 'Content'])
+
 
     def handle_link(link):
         """ Collects meta data for single link, and prints to file.
@@ -76,7 +77,6 @@ def collect_data():
         """
         response = requests.get(link)
         soup = BeautifulSoup(response.content, 'html.parser')
-        print(soup)
         body = soup.find('body')
         title = soup.title.getText() if soup.title else 'No Title'
         meta_tags = soup.find_all('meta')
@@ -89,6 +89,5 @@ def collect_data():
             "Meta Tags": meta_tags,
             "Content": metadata
         }
-        print(entry)
         writer.writerow(entry)
     multi_thread(links, handle_link)
