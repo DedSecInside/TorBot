@@ -21,7 +21,7 @@ LOCALHOST = "127.0.0.1"
 DEFPORT = 9050
 
 # TorBot VERSION
-__VERSION = "1.3.4"
+__VERSION = "1.4.0"
 
 
 def connect(address, port, no_socks):
@@ -182,7 +182,8 @@ def main():
         else:
             LinkIO.display_children(node)
             if args.save:
-                saveJson("Links", node.links)
+                print(node.json_data)
+                #saveJson("Links", node.links)
     else:
         print("usage: See torBot.py -h for possible arguments.")
 

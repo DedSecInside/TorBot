@@ -11,9 +11,9 @@
                                                      
 </pre>
 [![Build Status](https://travis-ci.org/DedSecInside/TorBot.svg?branch=dev)](https://travis-ci.org/DedSecInside/TorBoT)
-[![](https://img.shields.io/badge/Donate-Bitcoin-blue.svg?style=flat)](https://blockchain.info/address/14st7SzDbQZuu8fpQ74x477WoRJ7gpHFaj)
-[![](https://img.shields.io/badge/Built%20with-❤-orange.svg?style=flat)]()
-[![](https://img.shields.io/badge/Made%20with-Python-red.svg?style=flat)]()
+![](https://img.shields.io/badge/Join-Slack-informational?style=flat-square&logo=slack)
+[![](https://img.shields.io/badge/Built%20with-❤-orange.svg?style=flat-square)]()
+[![](https://img.shields.io/badge/Made%20with-Python-red.svg?style=flat-square)]()
 
 ## Working Procedure/Basic Plan
 The basic procedure executed by the web crawling algorithm takes a list of seed URLs as its input and repeatedly executes

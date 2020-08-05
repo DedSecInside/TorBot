@@ -9,7 +9,7 @@ import re
 from bs4 import BeautifulSoup
 from .utils import multi_thread
 from .color import color
-
+import sys
 
 def get_emails(node):
     """Finds all emails associated with node
@@ -62,7 +62,7 @@ def get_json_data(node):
         if link and LinkNode.valid_link(link):
             node = LinkNode(link)
             title = node.name
-        json.append({"link":link,"title":title})
+            json.append({"link":link,"title":title})
     return json    
 
 
@@ -122,7 +122,8 @@ class LinkNode:
                 requests.exceptions.HTTPError,
                 requests.exceptions.ConnectionError,
                 ConnectionError) as err:
-            raise err
+            print("Error connecting to Tor:", err)
+            sys.exit(1)
 
         self._node = BeautifulSoup(self.response.text, 'html.parser')
         self.uri = link
