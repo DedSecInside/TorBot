@@ -43,6 +43,7 @@ export class CrawlUrlComponent implements OnInit {
   };
 
   crawlData:Crawl
+  data1:any
 
 
   constructor(
@@ -70,7 +71,9 @@ export class CrawlUrlComponent implements OnInit {
     //console.log(this.isVersion,this.isMail,this.isDownload,this.isInfo,this.isNosocks,this.isSave,this.value);
     this.crawlDataService.getCrawlData(this.crawlData).subscribe(
       data=>{
-        console.log(data)
+        console.log(data);
+        this.data1=data
+        
       }
     )
     
