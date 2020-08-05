@@ -29,3 +29,5 @@ torBot
 
 venv/
 *.csv
+.DS_Store
+.env

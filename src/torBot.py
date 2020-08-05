@@ -182,7 +182,8 @@ def main():
         else:
             LinkIO.display_children(node)
             if args.save:
-                saveJson("Links", node.links)
+                print(node.titles)
+                #saveJson("Links", node.links)
     else:
         print("usage: See torBot.py -h for possible arguments.")
 
