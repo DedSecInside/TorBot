@@ -7,6 +7,7 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CrawlUrlComponent } from './crawl-url/crawl-url.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { CrawlUrlComponent } from './crawl-url/crawl-url.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    Ng5SliderModule
+    Ng5SliderModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

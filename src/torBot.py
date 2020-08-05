@@ -208,8 +208,8 @@ def test(args):
     if args['update']==True:
         updateTor()
         exit()
-    if not args['quiet']==True:
-        header()
+   # if not args['quiet']==True:
+     #   header()
     # If url flag is set then check for accompanying flag set. Only one
     # additional flag can be set with -u/--url flag
     if "url" in args:

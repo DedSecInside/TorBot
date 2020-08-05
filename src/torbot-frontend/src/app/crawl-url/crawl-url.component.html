@@ -1,34 +1,26 @@
-<head> 
-	<link rel = "stylesheet" href ="crawl-url.component.css">
-	<script src = "crawl-url.component.js"></script> 
-</head>
 <div class="container">
-	<div class = "image">
-		<img src = "assets/torbot.png" witdth = 690 height ="291" class ="png">
-
-	</div>
-    <form (ngSubmit)="!searchForm.invalid && getCrawledData()" #searchForm="ngForm">
+  <form (ngSubmit)="!searchForm.invalid && getCrawledData()" #searchForm="ngForm">
     <div class="input-group mb-3">
-      <input type="text" name="inputURL"  placeholder="Enter url here" [(ngModel)]="inputURL" class="form-control" required="required"   aria-describedby="basic-addon2" >
+      <input type="text" name="inputURL" placeholder="Enter url here" [(ngModel)]="inputURL" class="form-control"
+        required="required" aria-describedby="basic-addon2">
       <div class="input-group-append">
         <button class="btn  btn-success" type="submit">Search</button>
       </div>
     </div>
-  </form>
-  </div>
-<div class="container" style="text-align:center">
-    <h6 (click)="enableAdvanceSearch()">Advance Search </h6>
-</div>
 
-  <div class="container" *ngIf="advanceSearch">
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="version">
+    <div class="container" style="text-align:center">
+      <h6 (click)="enableAdvanceSearch()">Advance Search </h6>
+    </div>
+
+    <div class="container" *ngIf="advanceSearch">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" [(ngModel)]="isVersion" name="version" >
         <label class="form-check-label" for="version">
           Version
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="mail" >
+        <input class="form-check-input" type="checkbox"  [(ngModel)]="isMail" name="mail" >
         <label class="form-check-label" for="mail">
           Mail
         </label>
@@ -36,42 +28,43 @@
 
 
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="save" >
+        <input class="form-check-input" type="checkbox" [(ngModel)]="isSave" name="save" >
         <label class="form-check-label" for="save">
           Save
         </label>
       </div>
 
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="download" >
+        <input class="form-check-input" type="checkbox" [(ngModel)]="isDownload" name="download" >
         <label class="form-check-label" for="download">
           Download
         </label>
       </div>
 
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="nosocks" >
+        <input class="form-check-input" type="checkbox" [(ngModel)]="isNosocks" name="nosocks" >
         <label class="form-check-label" for="nosocks">
           Enable socks
         </label>
       </div>
 
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="info" >
+        <input class="form-check-input" type="checkbox" value="" name="info" [(ngModel)]="isInfo">
         <label class="form-check-label" for="info">
           Info
         </label>
       </div>
-<form>
-  <div class="form-group">
-    <label for="ip">IP address </label>
-    <input type="text" class="form-control" id="ip" placeholder="Alternate IP">
-  </div>
-  <div class="form-group">
-    <label for="port">Port</label>
-    <input type="text" class="form-control" id="port" placeholder="Alternate port">
-  </div>
-</form>
-	<label for ="depth"> Depth </label>
-<ng5-slider [(value)]="value" [options]="options"></ng5-slider>
-  </div>
+
+      <div class="form-group">
+        <label for="ip">IP address </label>
+        <input type="text" class="form-control" name="ip" placeholder="Alternate IP" [(ngModel)]="alterIP">
+      </div>
+      <div class="form-group">
+        <label for="port">Port</label>
+        <input type="text" class="form-control" name="port" placeholder="Alternate port" [(ngModel)]="alterPort">
+      </div>
+      <label for="depth"> Depth </label>
+      <ng5-slider [(value)]="value" [options]="options" name="depth"></ng5-slider>
+    </div>
+  </form>
+</div>

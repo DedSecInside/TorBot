@@ -19,7 +19,6 @@ def callTor():
     gather=content['gather']
     version=content['version']
     update=content['update']
-    quiet=content['quiet']
     mail=content['mail']
     info=content['info']
     save=content['save']
@@ -29,10 +28,10 @@ def callTor():
     
     
     args={'ip':ip,'port':port,'no_socks':no_socks,'url':url,'gather':gather,'version':version,'update':update,
-          'quiet':quiet,'mail':mail,'info':info,'save':save,'visualize':visualize,'depth':depth,'download':download
+          'mail':mail,'info':info,'save':save,'visualize':visualize,'depth':depth,'download':download
     
     }
     data1=test(args)
-    return jsonify(data =str(data1)),200,{'Access-Control-Allow-Origin':'*'}
+    return jsonify(data=str(data1)), 200, {'Access-Control-Allow-Origin': '*'} 
     
 app.run()
