@@ -1,6 +1,5 @@
 import sys
 sys.path.append('..')
-
 import flask
 import argparse
 from flask import request,jsonify
@@ -10,14 +9,30 @@ app=flask.Flask(__name__)
 
 app.config["DEBUG"]=True
 
-@app.route('/<string:name>')
-def callTor(name: str):
-    url="http://danielas3rtn54uwmofdo3x2bsdifr47huasnmbgqzfrec5ubupvtpid.onion/"
-    args={'ip':'127.0.0.1','port':9050,'no_socks':False,'url':'http://danielas3rtn54uwmofdo3x2bsdifr47huasnmbgqzfrec5ubupvtpid.onion/','gather':'False','version':'False','update':'False',
-          'quiet':'False','mail':'False','info':'False','save':'False','visualize':'False','depth':'False','download':'False'
+@app.route('/postApi',methods=['POST'])
+def callTor():
+    content = request.get_json(force = True)
+    ip=content['ip']
+    port=content['port']
+    no_socks=content['no_socks']
+    url=content['url']
+    gather=content['gather']
+    version=content['version']
+    update=content['update']
+    quiet=content['quiet']
+    mail=content['mail']
+    info=content['info']
+    save=content['save']
+    visualize=content['visualize']
+    depth=content['depth']
+    download=['download']
+    
+    
+    args={'ip':ip,'port':port,'no_socks':no_socks,'url':url,'gather':gather,'version':version,'update':update,
+          'quiet':quiet,'mail':mail,'info':info,'save':save,'visualize':visualize,'depth':depth,'download':download
     
     }
-    data1=tor.test(args)
+    data1=test(args)
     return jsonify(data =str(data1)),200,{'Access-Control-Allow-Origin':'*'}
     
 app.run()

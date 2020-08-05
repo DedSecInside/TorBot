@@ -235,8 +235,8 @@ def test(args):
             if args['save']:
                 print('Nothing to save.\n')
         if args['visualize']==True:
-            if args['depth']==True:
-                tree = LinkTree(node, stop_depth=args.depth)
+            if "depth" in args:
+                tree = LinkTree(node, stop_depth=args['depth'])
             else:
                 tree = LinkTree(node)
             tree.show()
@@ -250,8 +250,9 @@ def test(args):
                 saveJson("Links", node.links)
     else:
         print("usage: See torBot.py -h for possible arguments.")
-
+    
     print("\n\n")
+    return node.links
 
     
 if __name__ == '__main__':
