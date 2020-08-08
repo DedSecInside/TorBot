@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Options } from 'ng5-slider';
 import { CrawlDataService } from '../service/crawl-data.service';
+import { NgxSpinnerService } from "ngx-spinner";
 export class Crawl{
   constructor(
     public ip: String,
@@ -43,11 +44,12 @@ export class CrawlUrlComponent implements OnInit {
   };
 
   crawlData:Crawl
-  data1:any
+  outData:any
 
 
   constructor(
-    private crawlDataService:CrawlDataService
+    private crawlDataService:CrawlDataService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -69,11 +71,13 @@ export class CrawlUrlComponent implements OnInit {
     //console.log(this.crawlData)
     //console.log(this.inputURL);
     //console.log(this.isVersion,this.isMail,this.isDownload,this.isInfo,this.isNosocks,this.isSave,this.value);
+    this.spinner.show();
     this.crawlDataService.getCrawlData(this.crawlData).subscribe(
       data=>{
         console.log(data);
-        this.data1=data
-        
+        this.outData=data
+        this.spinner.hide();
+        this.advanceSearch = false;
       }
     )
     

@@ -252,8 +252,8 @@ def test(args):
         print("usage: See torBot.py -h for possible arguments.")
     
     print("\n\n")
-    jsonvalues = [node.json_data , node.links]   
-    return jsonvalues
+    #jsonvalues = [node.json_data, node.links]   
+    return node.links
 
     
 if __name__ == '__main__':

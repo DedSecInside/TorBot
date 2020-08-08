@@ -30,7 +30,7 @@ def callTor():
     
     }
     data1=test(args)
-    return jsonify(data=str(data1)), 200, {'Access-Control-Allow-Origin': '*'} 
+    return jsonify(data1), 200, {'Access-Control-Allow-Origin': '*'} 
     
 
 app.run()

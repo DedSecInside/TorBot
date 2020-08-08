@@ -12,7 +12,7 @@
       <h6 (click)="enableAdvanceSearch()">Advance Search </h6>
     </div>
 
-    <div class="container" *ngIf="advanceSearch">
+    <div class="container" *ngIf="advanceSearch && !outData">
       <div class="form-check">
         <input class="form-check-input" type="checkbox" [(ngModel)]="isVersion" name="version" >
         <label class="form-check-label" for="version">
@@ -67,4 +67,23 @@
       <ng5-slider [(value)]="value" [options]="options" name="depth"></ng5-slider>
     </div>
   </form>
+</div>
+
+<div *ngIf="outData" class="container table-responsive" style="overflow-x:auto;">
+  <table class="table table-hover table-striped">
+    <thead  class="thead-dark">
+      <tr>
+      <!--<th>Title</th>
+      <th>Summary</th>-->
+      <th>Links</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let column of outData; let in = index">
+      <!--<td>{{outData[in]}}</td>
+      <td>{{crawledData[in][1]}}</td>-->
+      <td><a href="{{outData[in]}}" target="_blank">{{outData[in]}}</a></td>
+    </tr>
+    </tbody>
+  </table>
 </div>
