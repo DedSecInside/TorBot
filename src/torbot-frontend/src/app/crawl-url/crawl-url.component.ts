@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Options } from 'ng5-slider';
 import { CrawlDataService } from '../service/crawl-data.service';
 import { NgxSpinnerService } from "ngx-spinner";
+import { Router } from '@angular/router';
 export class Crawl{
   constructor(
     public ip: String,
@@ -49,7 +50,8 @@ export class CrawlUrlComponent implements OnInit {
 
   constructor(
     private crawlDataService:CrawlDataService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private router:Router
   ) { }
 
   ngOnInit(): void {
@@ -78,6 +80,10 @@ export class CrawlUrlComponent implements OnInit {
         this.outData=data
         this.spinner.hide();
         this.advanceSearch = false;
+      },
+      error=>{
+        this.spinner.hide();
+        this.router.navigate(['**'])
       }
     )
     

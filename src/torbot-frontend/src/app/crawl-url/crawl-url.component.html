@@ -1,4 +1,10 @@
 <div class="container">
+	<div class = "image">
+		<img src = "assets/torbot.png" witdth = 690 height ="291" class ="png">
+    </div>
+<div>
+
+<div class="container">
   <form (ngSubmit)="!searchForm.invalid && getCrawledData()" #searchForm="ngForm">
     <div class="input-group mb-3">
       <input type="text" name="inputURL" placeholder="Enter url here" [(ngModel)]="inputURL" class="form-control"

@@ -9,11 +9,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CrawlUrlComponent } from './crawl-url/crawl-url.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CrawlUrlComponent
+    CrawlUrlComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
