@@ -24,21 +24,24 @@ def process_data(data_queue, data_stack, process, *args):
        data_args (tuple): Contains arguments for tasks.
     """
     while True:
-        data = data_queue.get()
-        if isinstance(data, list):
-            for single_inst in data:
-                if args:
-                    result = process(single_inst, args)
-                else:
-                    result = process(single_inst)
-        elif args:
-            result = process(data, args)
-        else:
-            result = process(data)
+        try:
+            data = data_queue.get()
+            if isinstance(data, list):
+                for single_inst in data:
+                    if args:
+                        result = process(single_inst, args)
+                    else:
+                        result = process(single_inst)
+            elif args:
+                result = process(data, args)
+            else:
+                result = process(data)
 
-        if result:
-            data_stack.append(result)
-        data_queue.task_done()
+            if result:
+                data_stack.append(result)
+            data_queue.task_done()
+        except Exception as e:
+            pass
 
 
 def multi_thread(data, data_function, *args):

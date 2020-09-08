@@ -1,5 +1,5 @@
 FROM python:3.6-stretch
-LABEL maintainer="v1shwa"
+LABEL maintainer="dedsec_inside"
 
 # Install PyQt5
 RUN apt-get update \

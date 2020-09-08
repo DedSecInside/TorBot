@@ -9,7 +9,7 @@ import re
 from bs4 import BeautifulSoup
 from .utils import multi_thread
 from .color import color
-
+import sys
 
 def get_emails(node):
     """Finds all emails associated with node
@@ -44,6 +44,26 @@ def get_links(node):
         if link and LinkNode.valid_link(link):
             links.append(link)
     return links
+
+
+def get_json_data(node):
+    """Finds all link title associated with node
+
+    Args:
+        node (LinkNode): Node used to get links from.
+
+    Returns:
+        titles (list): List of Titles.
+    """
+    json = []
+    for child in node.children:
+        link = child.get('href')
+        title = "Not Available"
+        if link and LinkNode.valid_link(link):
+            node = LinkNode(link)
+            title = node.name
+            json.append({"link":link,"title":title})
+    return json    
 
 
 def get_images(node):
@@ -92,6 +112,7 @@ class LinkNode:
         self._emails = []
         self._links = []
         self._images = []
+        self._json_data = []
         self._metadata = {}
 
         # Attempts to connect to link, throws an error if link is unreachable
@@ -101,7 +122,8 @@ class LinkNode:
                 requests.exceptions.HTTPError,
                 requests.exceptions.ConnectionError,
                 ConnectionError) as err:
-            raise err
+            print("Error connecting to Tor:", err)
+            sys.exit(1)
 
         self._node = BeautifulSoup(self.response.text, 'html.parser')
         self.uri = link
@@ -120,6 +142,15 @@ class LinkNode:
         if not self._emails:
             self._emails = get_emails(self)
         return self._emails
+
+    @property
+    def json_data(self):
+        """
+        Getter for node titles
+        """
+        if not self._json_data:
+            self._json_data = get_json_data(self)
+        return self._json_data    
 
     @property
     def links(self):

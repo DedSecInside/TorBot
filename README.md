@@ -1,19 +1,19 @@
  <pre>
 
-                           ████████╗ ██████╗ ██████╗     ██████╗  ██████╗ ████████╗
-                           ╚══██╔══╝██╔═══██╗██╔══██╗    ██╔══██╗██╔═████╗╚══██╔══╝
-                              ██║   ██║   ██║██████╔╝    ██████╔╝██║██╔██║   ██║
-                              ██║   ██║   ██║██╔══██╗    ██╔══██╗████╔╝██║   ██║
-                              ██║   ╚██████╔╝██║  ██║    ██████╔╝╚██████╔╝   ██║
-                              ╚═╝    ╚═════╝ ╚═╝  ╚═╝    ╚═════╝  ╚═════╝    ╚═╝
-               
-                               Open Source Intelligence Tool for the Dark Web
+                     ████████╗ ██████╗ ██████╗     ██████╗  ██████╗ ████████╗
+                     ╚══██╔══╝██╔═══██╗██╔══██╗    ██╔══██╗██╔═████╗╚══██╔══╝
+                        ██║   ██║   ██║██████╔╝    ██████╔╝██║██╔██║   ██║
+                        ██║   ██║   ██║██╔══██╗    ██╔══██╗████╔╝██║   ██║
+                        ██║   ╚██████╔╝██║  ██║    ██████╔╝╚██████╔╝   ██║
+                        ╚═╝    ╚═════╝ ╚═╝  ╚═╝    ╚═════╝  ╚═════╝    ╚═╝
+        
+                        Open Source Intelligence Tool for the Dark Web
                                                      
 </pre>
 [![Build Status](https://travis-ci.org/DedSecInside/TorBot.svg?branch=dev)](https://travis-ci.org/DedSecInside/TorBoT)
-[![](https://img.shields.io/badge/Donate-Bitcoin-blue.svg?style=flat)](https://blockchain.info/address/14st7SzDbQZuu8fpQ74x477WoRJ7gpHFaj)
-[![](https://img.shields.io/badge/Built%20with-❤-orange.svg?style=flat)]()
-[![](https://img.shields.io/badge/Made%20with-Python-red.svg?style=flat)]()
+![](https://img.shields.io/badge/Join-Slack-informational?style=flat-square&logo=slack)
+[![](https://img.shields.io/badge/Built%20with-❤-orange.svg?style=flat-square)]()
+[![](https://img.shields.io/badge/Made%20with-Python-red.svg?style=flat-square)]()
 
 ## Working Procedure/Basic Plan
 The basic procedure executed by the web crawling algorithm takes a list of seed URLs as its input and repeatedly executes
@@ -41,7 +41,7 @@ while(URLs is not empty) do
 6. Crawl custom domains.(Completed)
 7. Check if the link is live.(Completed)
 8. Built-in Updater.(Completed)
-9. TorBot GUI(see branch [front_end](https://github.com/DedSecInside/TorBot/tree/front_end))
+9. TorBot GUI (In progress)
 10. Social Media integration.(not Started)
 ...(will be updated)
 
@@ -111,6 +111,10 @@ optional arguments:
 
 Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
 
+
+#### Using the GUI 
+
+
 #### Using Docker
 
 - Ensure than you have a tor container running on port 9050.
@@ -122,11 +126,11 @@ Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob
     `docker run --link tor:tor --rm -ti dedsecinside/torbot`
 
 ## TO-DO
-- [ ] Visualization Module
+- [X] Visualization Module
 - [x] Implement BFS Search for webcrawler
 - [X] Multithreading for Get Links
 - [ ] Improve stability (Handle errors gracefully, expand test coverage and etc.)
-- [ ] Create a user-friendly GUI 
+- [X] Create a user-friendly GUI 
 - [ ] Randomize Tor Connection (Random Header and Identity)
 - [ ] Keyword/Phrase search
 - [ ] Social Media Integration
@@ -189,6 +193,8 @@ GNU Public License
 
 - [X] [P5N4PPZ](https://github.com/PSNAppz) - Owner
 - [X] [KingAkeem](https://github.com/KingAkeem) - Experienced Contributor,Reviewer,Core Member
+- [X] [masterugwee](https://github.com/masterugwee) - Contributor,Core Member
+- [X] [soorajsomans](https://github.com/soorajsomans) - Contributor,Core Member
 - [X] [agrepravin](https://github.com/agrepravin) - Contributor,Reviewer
 - [X] [shivankar-madaan](https://github.com/shivankar-madaan) - Experienced Contributor
 - [X] [y-mehta](https://github.com/y-mehta) - Contributor

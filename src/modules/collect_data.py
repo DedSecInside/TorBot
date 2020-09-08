@@ -75,7 +75,7 @@ def collect_data():
             link (str): Link to collect data from.
         """
         response = requests.get(link)
-        soup = BeautifulSoup(response.content, 'html.parser')
+        soup = BeautifulSoup(response.content, 'html.parser',from_encoding="iso-8859-1")
         print(soup)
         body = soup.find('body')
         title = soup.title.getText() if soup.title else 'No Title'
@@ -91,4 +91,5 @@ def collect_data():
         }
         print(entry)
         writer.writerow(entry)
+        
     multi_thread(links, handle_link)

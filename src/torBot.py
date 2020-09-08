@@ -21,7 +21,7 @@ LOCALHOST = "127.0.0.1"
 DEFPORT = 9050
 
 # TorBot VERSION
-__VERSION = "1.3.3"
+__VERSION = "1.4.0"
 
 
 def connect(address, port, no_socks):
@@ -67,7 +67,7 @@ def header():
     """
     Prints out header ASCII art
     """
-    license_msg = color("LICENSE: GNU Public License", "red")
+    license_msg = color("LICENSE: GNU Public License v3", "red")
     banner = r"""
                            __  ____  ____  __        ______
                           / /_/ __ \/ __ \/ /_  ____/_  __/
@@ -137,7 +137,7 @@ def main():
     """
     args = get_args()
     connect(args.ip, args.port, args.no_socks)
-
+    
     if args.gather:
         collect_data()
         return
@@ -182,13 +182,80 @@ def main():
         else:
             LinkIO.display_children(node)
             if args.save:
-                saveJson("Links", node.links)
+                print(node.json_data)
+                #saveJson("Links", node.links)
     else:
         print("usage: See torBot.py -h for possible arguments.")
 
     print("\n\n")
 
+def test(args):
+ 
+    """
+    TorBot's Core
+    """
+    #args = get_args()
+    #connect("127.0.0.1",9050,False)
+    connect(args['ip'], args['port'], args['no_socks'])
+    print(type(args['ip']), type(args['port']), type(args['no_socks']))
+    #if args['gather']==True:
+     #   collect_data()
+     #   return
+    # If flag is -v, --update, -q/--quiet then user only runs that operation
+    # because these are single flags only
+    if args['version']==True:
+        print("TorBot Version:" + __VERSION)
+        exit()
+    #if args['update']==True:
+      #  updateTor()
+      # exit()
+   # if not args['quiet']==True:
+     #   header()
+    # If url flag is set then check for accompanying flag set. Only one
+    # additional flag can be set with -u/--url flag
+    if "url" in args:
+        print("url",args['url'])
+        url = args['url']
+        try:
+            node = LinkNode(url)
+            print("Node",node)
+            print("Link Node",LinkNode(url))
+        except (ValueError, HTTPError, ConnectionError) as err:
+            raise err
+        LinkIO.display_ip()
+        print("display_ip()",LinkIO.display_ip())
+        # -m/--mail
+        if args['mail']==True:
+            print(node.emails)
+            if args['save']==True:
+                saveJson('Emails', node.emails)
+        # -i/--info
+        if args['info']==True:
+            execute_all(node.uri)
+            if args['save']:
+                print('Nothing to save.\n')
+        #if args['visualize']==True:
+        #    if "depth" in args:
+        #        tree = LinkTree(node, stop_depth=args['depth'])
+        #    else:
+        #        tree = LinkTree(node)
+        #    tree.show()
+        if args['download']==True:
+            tree = LinkTree(node)
+            file_name = str(input("File Name (.pdf/.png/.svg): "))
+            tree.save(file_name)
+        else:
+            LinkIO.display_children(node)
+            if args['save']==True:
+                saveJson("Links", node.links)
+    else:
+        print("usage: See torBot.py -h for possible arguments.")
+    
+    print("\n\n")
+    #jsonvalues = [node.json_data, node.links]   
+    return node.links
 
+    
 if __name__ == '__main__':
     try:
         main()
