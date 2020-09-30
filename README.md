@@ -10,11 +10,20 @@
                         Open Source Intelligence Tool for the Dark Web
                                                      
 </pre>
+
+<p align="center">
+   <img src="https://user-images.githubusercontent.com/4481429/94646151-43167180-030b-11eb-823d-dc0d79889b14.png" width="160" title="Hacktoberfest 2020">
+    <img src="https://user-images.githubusercontent.com/4481429/94646312-9dafcd80-030b-11eb-9824-73aa2414cf58.png" width="100" title="OpenSource">
+  <img src="https://user-images.githubusercontent.com/4481429/94645022-65f35680-0308-11eb-8dce-a4ceba8db660.png" width="270" title="OWASP Foundation">
+
+</p>
+
+
+
 [![Build Status](https://travis-ci.org/DedSecInside/TorBot.svg?branch=dev)](https://travis-ci.org/DedSecInside/TorBoT)
 ![](https://img.shields.io/badge/Join-Slack-informational?style=flat-square&logo=slack)
 [![](https://img.shields.io/badge/Built%20with-❤-orange.svg?style=flat-square)]()
 [![](https://img.shields.io/badge/Made%20with-Python-red.svg?style=flat-square)]()
-
 ## Working Procedure/Basic Plan
 The basic procedure executed by the web crawling algorithm takes a list of seed URLs as its input and repeatedly executes
 the following steps:
@@ -205,10 +214,4 @@ GNU Public License
 - [X] [SubaruSama](https://github.com/SubaruSama) - New Contributor
 - [X] [robly78746](https://github.com/robly78746) - New Contributor
 
-
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/4481429/94646312-9dafcd80-030b-11eb-9824-73aa2414cf58.png" width="100" title="OpenSource">
-  <img src="https://user-images.githubusercontent.com/4481429/94645022-65f35680-0308-11eb-8dce-a4ceba8db660.png" width="250" title="OWASP Foundation">
-  <img src="https://user-images.githubusercontent.com/4481429/94646151-43167180-030b-11eb-823d-dc0d79889b14.png" width="150" title="Hacktoberfest 2020">
-</p>
 
