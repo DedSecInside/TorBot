@@ -19,9 +19,9 @@
 </p>
 
 
-
+### Status/Social links
 [![Build Status](https://travis-ci.org/DedSecInside/TorBot.svg?branch=dev)](https://travis-ci.org/DedSecInside/TorBoT)
-![](https://img.shields.io/badge/Join-Slack-informational?style=flat-square&logo=slack)
+[![Slack Invite](https://img.shields.io/badge/Join-Slack-informational?style=flat-square&logo=slack)](https://join.slack.com/t/dedsec-inside/shared_invite/zt-i4jcgj8w-1ecHiSdRubwuppAzz8~yfg)
 [![](https://img.shields.io/badge/Built%20with-❤-orange.svg?style=flat-square)]()
 [![](https://img.shields.io/badge/Made%20with-Python-red.svg?style=flat-square)]()
 ## Working Procedure/Basic Plan
