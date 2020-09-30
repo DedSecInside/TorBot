@@ -205,4 +205,10 @@ GNU Public License
 - [X] [SubaruSama](https://github.com/SubaruSama) - New Contributor
 - [X] [robly78746](https://github.com/robly78746) - New Contributor
 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Opensource.svg/200px-Opensource.svg.png)
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/4481429/94646312-9dafcd80-030b-11eb-9824-73aa2414cf58.png" width="100" title="OpenSource">
+  <img src="https://user-images.githubusercontent.com/4481429/94645022-65f35680-0308-11eb-8dce-a4ceba8db660.png" width="250" title="OWASP Foundation">
+  <img src="https://user-images.githubusercontent.com/4481429/94646151-43167180-030b-11eb-823d-dc0d79889b14.png" width="150" title="Hacktoberfest 2020">
+</p>
+
