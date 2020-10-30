@@ -10,3 +10,4 @@ PyQt5==5.11.3
 validators==0.12.6
 python-dotenv==0.10.2
 threadsafe==1.0.0
+progress==1.5.0
