@@ -137,9 +137,9 @@ def main():
     """
     args = get_args()
     connect(args.ip, args.port, args.no_socks)
-    
+
     if args.gather:
-        collect_data()
+        collect_data(args.url)
         return
     # If flag is -v, --update, -q/--quiet then user only runs that operation
     # because these are single flags only
@@ -190,7 +190,7 @@ def main():
     print("\n\n")
 
 def test(args):
- 
+
     """
     TorBot's Core
     """
@@ -250,12 +250,12 @@ def test(args):
                 saveJson("Links", node.links)
     else:
         print("usage: See torBot.py -h for possible arguments.")
-    
+
     print("\n\n")
-    #jsonvalues = [node.json_data, node.links]   
+    #jsonvalues = [node.json_data, node.links]
     return node.links
 
-    
+
 if __name__ == '__main__':
     try:
         main()
