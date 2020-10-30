@@ -30,8 +30,9 @@ def parse_links(html):
         (list): List of all valid links found.
     """
     soup = BeautifulSoup(html, 'html.parser')
-    anchor_tags = soup.find_all('a')
-    return [tag['href'] for tag in anchor_tags if LinkNode.valid_link(tag['href'])]
+    tags = soup.find_all('a')
+    return [tag['href'] for tag in tags if LinkNode.valid_link(tag['href'])]
+
 
 def parse_meta_tags(soup):
     """Retrieve all meta elements from HTML object.
@@ -48,10 +49,12 @@ def parse_meta_tags(soup):
         content_list.append(tag.attrs)
     return content_list
 
+
 def get_links(url):
     resp = requests.get(url)
     links = parse_links(resp.text)
     return links
+
 
 def collect_data(url):
     print(f"Gathering data for {url}")
@@ -65,7 +68,7 @@ def collect_data(url):
     file_name = f'torbot_{current_time}.csv'
     file_path = os.path.join(data_directory, file_name)
     with open(file_path, 'w+', newline='') as outcsv:
-        fieldnames = ['ID', 'Title','Metadata','Content']
+        fieldnames = ['ID', 'Title', 'Metadata', 'Content']
         writer = SafeDictWriter(outcsv, fieldnames=fieldnames)
         bar = Bar(f'Processing...', max=len(links))
         for link in links:
