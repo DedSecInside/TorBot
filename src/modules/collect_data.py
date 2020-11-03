@@ -57,6 +57,8 @@ def get_links(url):
 
 
 default_url = 'https://thehiddenwiki.org'
+
+
 def collect_data(user_url):
     url = user_url if user_url is not None else default_url
     print(f"Gathering data for {url}")
