@@ -37,11 +37,11 @@ def connect(address, port, no_socks):
     if no_socks:
         return
     if address and port:
-        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, port)
+        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, int(port))
     elif address:
         socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, DEFPORT)
     elif port:
-        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, LOCALHOST, port)
+        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, LOCALHOST, int(port))
     else:
         socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, LOCALHOST, DEFPORT)
 
