@@ -8,7 +8,7 @@ ete3==3.1.1
 Flask==1.1.2
 idna==2.7
 itsdangerous==1.1.0
-Jinja2==2.11.2
+Jinja2==2.11.3
 macholib==1.14
 MarkupSafe==1.1.1
 PyInstaller==3.6
