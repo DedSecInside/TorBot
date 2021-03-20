@@ -14,6 +14,8 @@ def default_layout(node):
 
 
 default_style = TreeStyle()
+default_style.mode = 'c'
+default_style.scale = 20
 default_style.show_leaf_name = False
 default_style.layout_fn = default_layout
 
@@ -51,7 +53,7 @@ class LinkTree:
             file_name (str): Name of file being saved to
             tree_style (TreeStyle): Styling of downloaded tree
         """
-        self._tree.render(file_name, tree_style)
+        self._tree.render(file_name, w=183, units='mm', tree_style=tree_style)
 
     def show(self, tree_style=default_style):
         """
