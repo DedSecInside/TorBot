@@ -1,5 +1,6 @@
 """
-This module is used for reading HTML pages using either bs4.BeautifulSoup objects or url strings
+This module is used for reading HTML pages using either bs4.BeautifulSoup
+objects or url strings
 """
 import requests
 from bs4 import BeautifulSoup

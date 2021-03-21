@@ -2,7 +2,15 @@
 --------------------
 All notable changes to this project will be documented in this file.
 
-## 1.3.1 | Present 
+## 1.4.0 | Present 
+
+### Added 
+
+* New Web UI
+* API
+* Error handling
+
+## 1.3.1 | Nov 1, 2018 - Aug 1, 2020
 
 ### Changed 
 

@@ -7,7 +7,7 @@ mkdir -p tmp_dist
 pip install pyinstaller 
 
 # Creates executable file and sends dependences to the recently created directories
-pyinstaller --onefile --workpath ./tmp_build --distpath ./tmp_dist torBot.py
+pyinstaller --onefile --workpath ./tmp_build --distpath ./tmp_dist src/torBot.py
 
 # Puts the executable in the current directory
 mv tmp_dist/torBot . 

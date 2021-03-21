@@ -26,3 +26,9 @@ torBot
 .ropeproject/
 .idea/
 .DS_Store
+
+venv/
+*.csv
+.DS_Store
+.env
+data/*.csv

@@ -1,46 +1,45 @@
  <pre>
 
-                            ████████╗ ██████╗ ██████╗     ██████╗  ██████╗ ████████╗
-                            ╚══██╔══╝██╔═══██╗██╔══██╗    ██╔══██╗██╔═████╗╚══██╔══╝
-                               ██║   ██║   ██║██████╔╝    ██████╔╝██║██╔██║   ██║
-                               ██║   ██║   ██║██╔══██╗    ██╔══██╗████╔╝██║   ██║
-                               ██║   ╚██████╔╝██║  ██║    ██████╔╝╚██████╔╝   ██║
-                               ╚═╝    ╚═════╝ ╚═╝  ╚═╝    ╚═════╝  ╚═════╝    ╚═╝
+                         ████████╗ ██████╗ ██████╗     ██████╗  ██████╗ ████████╗
+                         ╚══██╔══╝██╔═══██╗██╔══██╗    ██╔══██╗██╔═████╗╚══██╔══╝
+                            ██║   ██║   ██║██████╔╝    ██████╔╝██║██╔██║   ██║
+                            ██║   ██║   ██║██╔══██╗    ██╔══██╗████╔╝██║   ██║
+                            ██║   ╚██████╔╝██║  ██║    ██████╔╝╚██████╔╝   ██║
+                            ╚═╝    ╚═════╝ ╚═╝  ╚═╝    ╚═════╝  ╚═════╝    ╚═╝
+
+                            Open Source Intelligence Tool for the Dark Web
                                                      
 </pre>
+
+<p align="center">
+   <img src="https://user-images.githubusercontent.com/4481429/94646151-43167180-030b-11eb-823d-dc0d79889b14.png" width="160" title="Hacktoberfest 2020">
+    <img src="https://user-images.githubusercontent.com/4481429/94646312-9dafcd80-030b-11eb-9824-73aa2414cf58.png" width="100" title="OpenSource">
+  <img src="https://user-images.githubusercontent.com/4481429/94645022-65f35680-0308-11eb-8dce-a4ceba8db660.png" width="270" title="OWASP Foundation">
+
+</p>
+
+
+### Status/Social links
 [![Build Status](https://travis-ci.org/DedSecInside/TorBot.svg?branch=dev)](https://travis-ci.org/DedSecInside/TorBoT)
-[![](https://img.shields.io/badge/Donate-Bitcoin-blue.svg?style=flat)](https://blockchain.info/address/14st7SzDbQZuu8fpQ74x477WoRJ7gpHFaj)
-[![](https://img.shields.io/badge/Built%20with-❤-orange.svg?style=flat)]()
-[![](https://img.shields.io/badge/Made%20with-Python-red.svg?style=flat)]()
-
-## OSINT tool for Deep and Dark Web.
-
-Open-source intelligence offers value in information security decision making through knowledge of threats and malicious activities that potentially impact business. Open-source intelligence using the internet is common, however, using the darknet is less common for the typical cybersecurity analyst. The challenges to using the darknet for open-source intelligence includes using specialized collection, processing, and analysis tools. TorBot is an open source intelligence tool developed in python. The main objective of this project is to collect open data from the deep web (aka dark web) and with the help of data mining algorithms, collect as much information as possible and produce an interactive tree graph. The interactive tree graph module will be able to display the relations of the collected intelligence data. 
- 
-### Motivation 
-
-  The idea of developing an open source intelligence tool like TorBot emerged from the deep web itself. Crawling a collection of web pages which has high anonymity and complex data encryption without an index is a tedious (and sometimes dangerous) task. The crawler in TorBot has to be designed in such a way that the links are identified from a webpage (any webpage) and other links are identified and crawled recursively, then combining all these links to form an index. Each link is then crawled for more links and emails for intelligence information. Unlike surface web discovery tool, a deep web discovery tool is limited for both general and domain-specific search. 
-  
-  Extensive use of Dark web for communication of terrorism-related information makes it a challenge for Law Enforcement Agencies. TorBot should be able to monitor such illegal activities that are happening in this encrypted network. Therefore, this tool will be able to ease the task of finding such activities by an intelligence group or researchers, thus making this the main objective of TorBot. 
- 
- 
-### Objective
-
-Though the main objective of TorBot is to identify illegal activities in the deep web and visualize the relations of data collected using a graph, there are several ways this tool can be useful. For example, TorBot will be able to crawl and create an index for the deep web. This index can be stored in a database or a JSON file for future use. Other features like live checker will be able to check whether a web address is alive or dead. This is important as deep web links are constantly changed for privacy and security reasons. For researchers and security enthusiasts the TorBot can be used for checking basic vulnerabilities in a dark web page.
-
-
-### Working Procedure/Basic Plan
+[![Slack Invite](https://img.shields.io/badge/Join-Slack-informational?style=flat-square&logo=slack)](https://join.slack.com/t/dedsec-inside/shared_invite/zt-i4jcgj8w-1ecHiSdRubwuppAzz8~yfg)
+[![](https://img.shields.io/badge/Built%20with-❤-orange.svg?style=flat-square)]()
+[![](https://img.shields.io/badge/Made%20with-Python-red.svg?style=flat-square)]()
+## Working Procedure/Basic Plan
 The basic procedure executed by the web crawling algorithm takes a list of seed URLs as its input and repeatedly executes
 the following steps:
-
-1. Remove a URL from the URL list.
-2. Check existence of the page.
-3. Download the corresponding page.
-4. Check the Relevancy of the page.
-5. Extract any links contained in it.
-6. Check the cache if the links are already in it.
-7. Add the unique links back to the URL list.
-8. After all URLs are processed, return the most relevant page.
+<code>
+ <pre>
+URLs = input(url)
+while(URLs is not empty) do
+    dequeue url
+    request page
+    parse for Links
+    for(link in Links) do 
+        if (link islive && link is not visited) then 
+            add link to URLs
+    store page content
+ </pre>
+ </code>
 
 ### Features
 1. Onion Crawler (.onion).(Completed)
@@ -51,7 +50,7 @@ the following steps:
 6. Crawl custom domains.(Completed)
 7. Check if the link is live.(Completed)
 8. Built-in Updater.(Completed)
-9. Visualizer module.(Not started)
+9. TorBot GUI (In progress)
 10. Social Media integration.(not Started)
 ...(will be updated)
 
@@ -121,12 +120,26 @@ optional arguments:
 
 Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
 
+
+#### Using the GUI 
+
+
+#### Using Docker
+
+- Ensure than you have a tor container running on port 9050.
+- Build the image using following command:
+    
+    `docker build -t dedsecinside/torbot .`
+- Run the container (make sure to link the tor container as `tor`):
+    
+    `docker run --link tor:tor --rm -ti dedsecinside/torbot`
+
 ## TO-DO
-- [ ] Visualization Module
+- [X] Visualization Module
 - [x] Implement BFS Search for webcrawler
 - [X] Multithreading for Get Links
 - [ ] Improve stability (Handle errors gracefully, expand test coverage and etc.)
-- [ ] Create a user-friendly GUI 
+- [X] Create a user-friendly GUI 
 - [ ] Randomize Tor Connection (Random Header and Identity)
 - [ ] Keyword/Phrase search
 - [ ] Social Media Integration
@@ -136,23 +149,50 @@ Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob
 If you have new ideas which is worth implementing, mention those by starting a new issue with the title [FEATURE_REQUEST].
 If the idea is worth implementing, congratz, you are now a contributor.
 
-## Related Works
-OSINT and the Dark Web: The Dark Web has proven a very useful and reliable tool in the hands of individuals wishing to be involved in illegal, criminal or terrorist activities, setting sight on getting great economic or political benefits without being identified from government authorities and security agencies world-wide. To this end, LEAs need to become more agile when dealing with criminality on the Dark Web, and in particular on its Hidden Service Markets, and need to invest in new training and technology, if not to get ahead of the criminals, then at least to keep pace[1]. 
+### Cite this [paper](https://link.springer.com/chapter/10.1007/978-981-15-0146-3_19)
 
-Using TOR for Open Source Intelligence: Although the use of Tor for OSINT does not raise specific legal concerns, there are a few interesting arguments that have been raised about using OSINT in general. One of them touches on the Council of Europe’s Convention on Cybercrime. Article 32 (a) of the Convention regulates transborder access to stored computer data with respect to ‘publicly available (open source) stored computer data, regardless of where the data is located geographically’[2].
+    @InProceedings{10.1007/978-981-15-0146-3_19,
+    author="Narayanan, P. S.
+    and Ani, R.
+    and King, Akeem T. L.",
+    editor="Ranganathan, G.
+    and Chen, Joy
+    and Rocha, {\'A}lvaro",
+    title="TorBot: Open Source Intelligence Tool for Dark Web",
+    booktitle="Inventive Communication and Computational Technologies",
+    year="2020",
+    publisher="Springer Singapore",
+    address="Singapore",
+    pages="187--195",
+    abstract="The dark web has turned into a dominant source of illegal activities. With several volunteered networks, it is      becoming more difficult to track down these services. Open source intelligence (OSINT) is a technique used to gather intelligence on targets by harvesting publicly available data. Performing OSINT on the Tor network makes it a challenge for both researchers and developers because of the complexity and anonymity of the network. This paper presents a tool which shows OSINT in the dark web. With the use of this tool, researchers and Law Enforcement Agencies can automate their task of crawling and identifying different services in the Tor network. This tool has several features which can help extract different intelligence.",
+    isbn="978-981-15-0146-3"
+    }
 
-OSINT in Social Networks: In summary, they examined and compared the needs of the Open Source Intelligence community with what social media has to offer investigators. They observed that a friends list of a given individual is a useful starting point for launching an investigation but found that several technical limitations (privacy and platform restrictions and data availability and longevity) may prevent investigators from accessing friend list information of a target account. They address privacy restrictions for the particular case of friends by creating a private friend discovery algorithm with hunter-seeker behaviours[3]. 
-
-Data Mining in The Dark: This paper successfully explored an open-source intelligence automation toolset that scanned across the darknet. It described and shared the tools, process, and techniques to build a secure darknet connection, and then collected, processed, stored, and analysed data. This paper showed the viability of darknet open-source intelligence using the completed toolset. In the end, the toolset finds entities and links entities from the darknet thereby showing strong potential to aid the open source intelligence professional[4]. 
 
 ### References
 
-    [1]	B. Akhgar, P. S. Bayerl, and F. Sampson, Open Source Intelligence Investigation. From strategy to implementation.     2016.
-    [2]	T. Minárik and A.-M. Osula, “Tor does not stink: Use and abuse of the Tor anonymity network from the perspective of law,” Comput. Law Secur. Rev., vol. 32, no. 1, pp. 111–127, Feb. 2016.
-    [3]	Benjamin Robert Holland, “Enabling Open Source Intelligence (OSINT) in private social networks,” 2012.
-    [4]	Brian Nafziger, “Data Mining in the Dark: Darknet Intelligence Automation,” Secur. Home IoT Netw., no. Security 401, pp. 1–32, 2017.
-    [5]	A. R. Behjat, A. Mustapha, H. Nezamabadi-Pour, M. N. Sulaiman, and N. Mustapha, “A New Binary Particle Swarm   Optimization for Feature Subset Selection with Support Vector Machine,” in Recent Advances on Soft Computing and Data   Mining, 2014, pp. 47–57.
-    [6]	H. Parmar, S. Bhanderi, and G. Shah, “Sentiment Mining of Movie Reviews using Random Forest with Tuned Hyperparameters.” 2014.
+    1.  M. Glassman and M. J. Kang, “Intelligence in the internet age: The emergence and evolution of Open Source Intelligence (OSINT),” Comput. Human Behav., vol. 28, no. 2, pp. 673–682, 2012.
+    2.  D. Bradbury, “In plain view: open source intelligence,” Comput. Fraud Secur., vol. 2011, no. 4, pp. 5–9, 2011.
+    3.  B. Butler, B. Wardman, and N. Pratt, “REAPER: an automated, scalable solution for mass credential harvesting and OSINT,” 2016 APWG Symp. Electron. Crime Res., pp. 1–10, 2016.
+    4.  B. Zantout and R. A. Haraty, “I2P Data Communication System I2P Data Communication System,” no. April 2002, 2014.
+    5.  J. Qin, Y. Zhou, G. Lai, E. Reid, M. Sageman, and H. Chen, “The dark web portal project: collecting and analyzing the presence of terrorist groups on the web,” in Proceedings of the 2005 IEEE international conference on Intelligence and Security Informatics, 2005, pp. 623–624.
+    6.  D. Moore, T. Rid, D. Moore, and T. Rid, “Cryptopolitik and the Darknet Cryptopolitik and the Darknet,” vol. 6338, 2016.
+    7.  G. Weimann, “Going dark: Terrorism on the dark Web,” Stud. Confl. Terror., vol. 39, no. 3, pp. 195–206, 2016.
+    8.  A. T. Zulkarnine, R. Frank, B. Monk, J. Mitchell, and G. Davies, “Surfacing collaborated networks in dark web to find illicit and criminal content,” in Intelligence and Security Informatics (ISI), 2016 IEEE Conference on, 2016, pp. 109–114.
+    9.  T. Minárik and A.-M. Osula, “Tor does not stink: Use and abuse of the Tor anonymity network from the perspective of law,” Comput. Law Secur. Rev., vol. 32, no. 1, pp. 111–127, 2016.
+    10. K. Loesing, S. J. Murdoch, and R. Dingledine, “A Case Study on Measuring Statistical Data in the {T}or Anonymity Network,” in Proceedings of the Workshop on Ethics in Computer Security Research (WECSR 2010), 2010.
+    11. B. Nafziger, “Data Mining in the Dark : Darknet Intelligence Automation,” 2017.
+    12. I. Sanchez-Rola, D. Balzarotti, and I. Santos, “The onions have eyes: A comprehensive structure and privacy analysis of tor hidden services,” in Proceedings of the 26th International Conference on World Wide Web, 2017, pp. 1251–1260.
+    13. Mouli VR, Jevitha KP. “Web Services Attacks and Security-A Systematic Literature Review.”, Procedia Computer Science. 2016 Jan 1;93:870-7.
+    14. Cova M, Felmetsger V, Vigna G. "Vulnerability analysis of web-based applications. InTest and Analysis of Web Services" 2007 (pp. 363-394). Springer, Berlin, Heidelberg.
+    15. B. R. Holland, “Enabling Open Source Intelligence (OSINT) in private social networks,” 2012.
+    16. S. Nakamoto, “Bitcoin: A Peer-to-Peer Electronic Cash System,” Cryptogr. Mail. List https//metzdowd.com, 2009.
+    17. M. Wesam, A. Nabki, E. Fidalgo, E. Alegre, and I. De Paz, “Classifying Illegal Activities on Tor Network Based on Web Textual Contents”, vol. 1, pp. 35–43, 2017.
+    18. Sathyadevan S, Gangadharan S.“Crime analysis and prediction using data mining”. In Networks & Soft Computing (ICNSC), 2014 First International Conference on 2014 Aug 19 (pp. 406-412). IEEE.
+    19. Chau M, Chen H. "A machine learning approach to web page filtering using content and structure analysis. Decision Support Systems." 2008 Jan 1;44(2):482-94.
+    20. Ani R, Jose J, Wilson M, Deepa OS. “Modified Rotation Forest Ensemble Classifier for Medical Diagnosis in Decision Support Systems”, In Progress in Advanced Computing and Intelligent Engineering 2018 (pp. 137-146). Springer, Singapore.
+    21. Ani R, Augustine A, Akhil N.C. and Deepa O.S., 2016. “Random Forest Ensemble Classifier to Predict the Coronary Heart Disease Using Risk Factors”, In Proceedings of the International Conference on Soft Computing Systems (pp. 701-710). Springer, New Delhi.
+
 
 
 ## License
@@ -162,6 +202,8 @@ GNU Public License
 
 - [X] [P5N4PPZ](https://github.com/PSNAppz) - Owner
 - [X] [KingAkeem](https://github.com/KingAkeem) - Experienced Contributor,Reviewer,Core Member
+- [X] [masterugwee](https://github.com/masterugwee) - Contributor,Core Member
+- [X] [soorajsomans](https://github.com/soorajsomans) - Contributor,Core Member
 - [X] [agrepravin](https://github.com/agrepravin) - Contributor,Reviewer
 - [X] [shivankar-madaan](https://github.com/shivankar-madaan) - Experienced Contributor
 - [X] [y-mehta](https://github.com/y-mehta) - Contributor
@@ -172,4 +214,4 @@ GNU Public License
 - [X] [SubaruSama](https://github.com/SubaruSama) - New Contributor
 - [X] [robly78746](https://github.com/robly78746) - New Contributor
 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Opensource.svg/200px-Opensource.svg.png)
+

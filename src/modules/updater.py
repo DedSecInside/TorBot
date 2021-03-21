@@ -1,13 +1,14 @@
+"""
+Module that facilitates the updating of the installed version of TorBot.
+"""
 import subprocess
 
 
 def updateTor():
+    """Currently updates Tor by calling terminal commands using subprocess.
 
-    """
-    Currently updates Tor by calling terminal commands using subprocess
     Not a great method and will be replaced in the future.
     """
-
     print("Checking for latest stable release")
     isGit = subprocess.Popen(
             ["git", "branch"],

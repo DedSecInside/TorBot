@@ -1,8 +1,6 @@
-
 """
 Module containing class with colors
 """
-
 COLORS = {
     'white':    "\033[1;37m",
     'yellow':   "\033[1;33m",
@@ -11,28 +9,30 @@ COLORS = {
     'cyan':     "\033[1;36m",
     'red':      "\033[1;31m",
     'magenta':  "\033[1;35m",
-    'black':      "\033[1;30m",
-    'darkwhite':  "\033[0;37m",
-    'darkyellow': "\033[0;33m",
-    'darkgreen':  "\033[0;32m",
-    'darkblue':   "\033[0;34m",
-    'darkcyan':   "\033[0;36m",
-    'darkred':    "\033[0;31m",
-    'darkmagenta':"\033[0;35m",
-    'darkblack':  "\033[0;30m",
-    'end':        "\033[0;0m"
+    'black':        "\033[1;30m",
+    'darkwhite':    "\033[0;37m",
+    'darkyellow':   "\033[0;33m",
+    'darkgreen':    "\033[0;32m",
+    'darkblue':     "\033[0;34m",
+    'darkcyan':     "\033[0;36m",
+    'darkred':      "\033[0;31m",
+    'darkmagenta':  "\033[0;35m",
+    'darkblack':    "\033[0;30m",
+    'end':          "\033[0;0m"
 }
+
 
 class color:
     """
     Class that contains colors used for TorBot in terminal and a method
-    that adds color to a string
+    that adds color to a string.
 
     Attributes:
-        message (string): message to be wrapped in color
-        selected (string): color to be displayed
+        message (string): Message to be wrapped in color.
+        selected (string): Color to be displayed.
     """
     def __init__(self, message, selected):
+        """Initialise color object with specified text and selected color."""
         self._msg = message
         self._color = COLORS[selected]
 
