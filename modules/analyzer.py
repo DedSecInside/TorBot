@@ -103,11 +103,12 @@ def build_tree(link=None, *, stop=1, rec=0, to_visit=None, tree=None):
         children_to_visit = list()
         try:
             node = LinkNode(link)
+            node.load_data()
         except (ValueError, ConnectionError, HTTPError):
             return None
 
-        link_node = sub_tree.add_child(name=node.name)
-        link_children = node.links
+        link_node = sub_tree.add_child(name=node.get_name())
+        link_children = node.get_children()
         # No need to find children if we aren't going to visit them
         if stop != rec + 1:
             for child in link_children:

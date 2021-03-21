@@ -5,12 +5,10 @@ from termcolor import cprint
 from requests.exceptions import HTTPError
 import requests
 
-from .link_io import LinkIO
-
 
 def execute_all(link, *, display_status=False):
-    page, response = LinkIO.read(link, response=True, show_msg=display_status)
-    soup = BeautifulSoup(page, 'html.parser')
+    response = requests.get(link)
+    soup = BeautifulSoup(response.text, 'html.parser')
     validation_functions = [get_robots_txt, get_dot_git, get_dot_svn, get_dot_git]
     for validate_func in validation_functions:
         try:

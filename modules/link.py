@@ -5,12 +5,19 @@ and contains useful Link methods
 
 """
 import requests
-import requests.exceptions
-import validators
 
 from bs4 import BeautifulSoup
-from .utils import multi_thread
 from .color import color
+from .validators import validate_email, validate_link
+
+def get_children(node):
+    children = []
+    for anchor_tag in node._node.find_all('a'):
+        link = anchor_tag.get('href')
+        if validate_link(link):
+            child_node = LinkNode(link)
+            children.append(child_node)
+    return children
 
 def get_emails(node):
     """Finds all emails associated with node
@@ -21,31 +28,13 @@ def get_emails(node):
         emails (list): list of emails
     """
     emails = []
-    for child in node.children:
-        link = child.get('href')
+    for anchor_tag in node._node.find_all('a'):
+        link = anchor_tag.get('href')
         if link and 'mailto' in link:
             email_addr = link.split(':')
-            if LinkNode.valid_email(email_addr[1]) and len(email_addr) > 1:
+            if validate_email(email_addr[1]) and len(email_addr) > 1:
                 emails.append(email_addr[1])
     return emails
-
-
-def get_links(node):
-    """Finds all links associated with node
-
-    Args:
-        node (LinkNode): node used to get links from
-    Returns:
-        links (list): list of links
-    """
-    def retrieve_link(child):
-        link = child.get('href')
-        if link and LinkNode.valid_link(link):
-            return link
-        return None
-
-    return multi_thread(node.children, retrieve_link)
-
 
 class LinkNode:
     """Represents link node in a link tree
@@ -53,70 +42,50 @@ class LinkNode:
     Attributes:
         link (str): link to be used as node
     """
-
     def __init__(self, link):
         # If link has invalid form, throw an error
-        if not self.valid_link(link):
+        if not validate_link(link):
             raise ValueError("Invalid link format.")
-
-        self._children = []
+        self._loaded = False
+        self._link = link
         self._emails = []
         self._links = []
 
-        # Attempts to connect to link, throws an error if link is unreachable
+    def load_data(self):
+        if self._loaded:
+            return
+
+        response = requests.get(self._link)
+        status = str(response.status_code)
         try:
-            self.response = requests.get(link)
-        except (requests.exceptions.ChunkedEncodingError,
-                requests.exceptions.HTTPError,
-                requests.exceptions.ConnectionError,
-                ConnectionError) as err:
-            raise err
+            response.raise_for_status()
+            self._node = BeautifulSoup(response.text, 'html.parser')
+            self.status = color(status, 'green')
+            self._name = self._node.title.string
+        except:
+            self._node = None
+            self.status = color(status, 'yellow')
+            self._name = 'TITLE NOT FOUND'
 
-        self._node = BeautifulSoup(self.response.text, 'html.parser')
-        if not self._node.title:
-            self.name = "TITLE NOT FOUND"
-            self.status = color(link, 'yellow')
-        else:
-            self.name = self._node.title.string
-            self.status = color(link, 'green')
 
-    @property
-    def emails(self):
-        """
-        Getter for node emails
-        """
-        if not self._emails:
-            self._emails = get_emails(self)
-        return self._emails
+        self._emails = get_emails(self)
+        self._children = get_children(self)
+        self._loaded = True
 
-    @property
-    def links(self):
-        """
-        Getter for node links
-        """
-        if not self._links:
-            self._links = get_links(self)
-        return self._links
+    def get_link(self):
+        return self._link
 
-    @property
-    def children(self):
-        """
-        Getter for node children
-        """
-        if not self._children:
-            self._children = self._node.find_all('a')
+    def get_name(self):
+        if not self._loaded:
+            raise Exception("node is not loaded")
+        return self._name
+    
+    def get_children(self):
+        if not self._loaded:
+            raise Exception("node is not loaded")
         return self._children
 
-    @staticmethod
-    def valid_email(email):
-        """Static method used to validate emails"""
-        if validators.email(email):
-            return True
-        return False
-
-    @staticmethod
-    def valid_link(link):
-        """Static method used to validate links"""
-        if validators.url(link):
-            return True
-        return False
+    def get_emails(self):
+        if not self._loaded:
+            raise Exception("node is not loaded")
+        return self._emails

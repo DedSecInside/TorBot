@@ -9,8 +9,8 @@ from requests.exceptions import HTTPError
 
 from modules.analyzer import LinkTree
 from modules.color import color
-from modules.link_io import LinkIO
-from modules.link import LinkNode
+from modules.link_io import display_children, print_tor_ip_address
+from modules.link import LinkNode 
 from modules.updater import updateTor
 from modules.savefile import saveJson
 from modules.info import execute_all
@@ -22,8 +22,7 @@ DEFPORT = 9050
 # TorBot VERSION
 __VERSION = "1.3.1"
 
-
-def connect(address, port):
+def connect(address = LOCALHOST, port = DEFPORT):
     """ Establishes connection to port
 
     Assumes port is bound to localhost, if host that port is bound to changes
@@ -34,15 +33,7 @@ def connect(address, port):
         port: Establishes connect to this port
     """
 
-    if address and port:
-        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, port)
-    elif address:
-        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, DEFPORT)
-    elif port:
-        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, LOCALHOST, port)
-    else:
-        socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, LOCALHOST, DEFPORT)
-
+    socks.set_default_proxy(socks.PROXY_TYPE_SOCKS5, address, port)
     socket.socket = socks.socksocket  # Monkey Patch our socket to tor socket
 
     def getaddrinfo(*args):
@@ -101,8 +92,8 @@ def get_args():
                         help="Update TorBot to the latest stable version")
     parser.add_argument("-q", "--quiet", action="store_true")
     parser.add_argument("-u", "--url", help="Specifiy a website link to crawl")
-    parser.add_argument("--ip", help="Change default ip of tor")
-    parser.add_argument("-p", "--port", help="Change default port of tor")
+    parser.add_argument("--ip", help="Change default ip of tor", default=LOCALHOST)
+    parser.add_argument("-p", "--port", help="Change default port of tor", default=DEFPORT)
     parser.add_argument("-s", "--save", action="store_true",
                         help="Save results in a file")
     parser.add_argument("-m", "--mail", action="store_true",
@@ -141,19 +132,18 @@ def main():
     # If url flag is set then check for accompanying flag set. Only one
     # additional flag can be set with -u/--url flag
     if args.url:
-        try:
-            node = LinkNode(args.url)
-        except (ValueError, HTTPError, ConnectionError) as err:
-            raise err
-        LinkIO.display_ip()
+        node = LinkNode(args.url)
+        print_tor_ip_address()
         # -m/--mail
         if args.mail:
-            print(node.emails)
+            node.load_data()
+            print(node.get_emails())
             if args.save:
-                saveJson('Emails', node.emails)
+                saveJson('Emails', node.get_emails())
         # -i/--info
         elif args.info:
-            execute_all(node.name)
+            node.load_data()
+            execute_all(node.get_name())
             if args.save:
                 print('Nothing to save.\n')
         elif args.visualize:
@@ -164,9 +154,10 @@ def main():
             file_name = str(input("File Name (.pdf/.png/.svg): "))
             tree.save(file_name)
         else:
-            LinkIO.display_children(node)
+            node.load_data()
+            display_children(node)
             if args.save:
-                saveJson("Links", node.links)
+                saveJson("Links", node.get_children())
     else:
         print("usage: See torBot.py -h for possible arguments.")
 
