@@ -6,8 +6,6 @@ from bs4 import BeautifulSoup
 
 from .color import color
 
-from .validators import validate_link
-from .link import LinkNode
 
 def print_tor_ip_address():
     """
@@ -22,6 +20,7 @@ def print_tor_ip_address():
     ip_string = color(ip_addr.decode("utf-8"), 'yellow')
     print(f'Tor IP Address: {ip_string}')
 
+
 def display_children(node):
     """
     Static method to display status of child nodes
@@ -35,6 +34,7 @@ def display_children(node):
     for child in children:
         display(child)
 
+
 def display(node):
     """
     Prints the status of a link based on it's connection status
@@ -45,9 +45,9 @@ def display(node):
     try:
         node.load_data()
         title = node.get_name()
-        status = node.status 
-    except:
-        title = "NOT FOUND" 
+        status = node.status
+    except Exception:
+        title = "NOT FOUND"
         status = color('Unable to reach destination.', 'red')
-    status_msg = "%-30s %-20s %-70s" % (title, status, node.get_link()) 
+    status_msg = "%-30s %-20s %-70s" % (title, status, node.get_link())
     print(status_msg)

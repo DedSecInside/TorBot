@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 from .color import color
 from .validators import validate_email, validate_link
 
+
 def get_children(node):
     children = []
     for anchor_tag in node._node.find_all('a'):
@@ -62,11 +63,10 @@ class LinkNode:
             self._node = BeautifulSoup(response.text, 'html.parser')
             self.status = color(status, 'green')
             self._name = self._node.title.string
-        except:
+        except Exception:
             self._node = None
             self.status = color(status, 'yellow')
             self._name = 'TITLE NOT FOUND'
-
 
         self._emails = get_emails(self)
         self._children = get_children(self)
@@ -79,7 +79,7 @@ class LinkNode:
         if not self._loaded:
             raise Exception("node is not loaded")
         return self._name
-    
+
     def get_children(self):
         if not self._loaded:
             raise Exception("node is not loaded")
