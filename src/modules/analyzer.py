@@ -86,7 +86,7 @@ def build_tree(node, stop=1, rec=0):
     node.load_data()
     for child in node.get_children():
         child.load_data()
-        if len(child.get_children()) > 0:
+        if child.get_children():
             tree.add_child(build_tree(child, stop, rec))
         else:
             tree.add_child(Tree(name=child.get_name()))

@@ -213,7 +213,6 @@ def test(args):
             print("Link Node",LinkNode(url))
         except (ValueError, HTTPError, ConnectionError) as err:
             raise err
-        print_tor_ip_address
         print("display_ip()",print_tor_ip_address())
         # -m/--mail
         if args['mail']==True:

@@ -98,6 +98,7 @@ class LinkNode:
         status = str(response.status_code)
         try:
             response.raise_for_status()
+            self._metadata = response.headers 
             self._node = BeautifulSoup(response.text, 'html.parser')
             self.status = color(status, 'green')
             self._name = self._node.title.string
@@ -109,7 +110,6 @@ class LinkNode:
         self._emails = get_emails(self)
         self._children = get_children(self)
         self._emails = get_emails(self)
-        self._metadata = response.headers 
         self._images = get_images(self)
         self._json_data = get_json_data(self)
         self._loaded = True
