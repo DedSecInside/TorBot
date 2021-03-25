@@ -63,12 +63,12 @@ class LinkTree:
         self._tree.show(tree_style)
 
 
-def build_tree(link, stop=1, rec=0):
+def build_tree(node, stop=1, rec=0):
     """
     Builds link tree by traversing through children nodes.
 
     Args:
-        link (LinkNode): root node of tree
+        node (LinkNode): root node of tree
         stop (int): depth of tree
         rec (int): level of recursion
 
@@ -76,23 +76,19 @@ def build_tree(link, stop=1, rec=0):
         tree (ete3.Tree): Built tree.
     """
 
-    tree = Tree(name=link.name)
+    tree = Tree(name=node.get_name())
 
     if rec == stop:
         return tree
     else:
         rec += 1
 
-    for child in link.links:
-        try:
-            node = LinkNode(child)
-        except Exception as error:
-            print(f"Failed to create LinkNode for link: {child}.")
-            print(f"Error: {error}")
-            continue
-        if node.links:
-            tree.add_child(build_tree(node, stop, rec))
+    node.load_data()
+    for child in node.get_children():
+        child.load_data()
+        if len(child.get_children()) > 0:
+            tree.add_child(build_tree(child, stop, rec))
         else:
-            tree.add_child(Tree(name=node.name))
+            tree.add_child(Tree(name=child.get_name()))
 
     return tree

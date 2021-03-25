@@ -9,9 +9,7 @@ from termcolor import cprint
 from re import search, findall
 from requests.exceptions import HTTPError
 import requests
-from requests import get
 import re
-from .link_io import LinkIO
 
 
 def execute_all(link, *, display_status=False):
@@ -40,9 +38,8 @@ def execute_all(link, *, display_status=False):
     bad_scripts = set()  # unclean javascript file urls
     datasets = [files, intel, robots, custom, failed, scripts, external, fuzzable, endpoints, keys]
     dataset_names = ['files', 'intel', 'robots', 'custom', 'failed', 'scripts', 'external', 'fuzzable', 'endpoints', 'keys']
-    page, response = LinkIO.read(link, response=True, show_msg=display_status)
-    response = get(link, verify=False).text
-    soup = BeautifulSoup(page, 'html.parser')
+    response = requests.get(link)
+    soup = BeautifulSoup(response.text, 'html.parser')
     validation_functions = [get_robots_txt, get_dot_git, get_dot_svn, get_dot_git, get_intel, get_bitcoin_address]
     for validate_func in validation_functions:
         try:

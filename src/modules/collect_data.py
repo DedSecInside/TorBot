@@ -8,11 +8,12 @@ import os
 
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
-from .link import LinkNode
 from .utils import multi_thread
 from .utils import find_file
 from threadsafe.safe_csv import SafeDictWriter
 from progress.bar import Bar
+
+from .validators import validate_link
 
 
 dev_file = find_file("torbot_dev.env", "../")
@@ -31,7 +32,7 @@ def parse_links(html):
     """
     soup = BeautifulSoup(html, 'html.parser')
     tags = soup.find_all('a')
-    return [tag['href'] for tag in tags if LinkNode.valid_link(tag['href'])]
+    return [tag['href'] for tag in tags if validate_link(tag['href'])]
 
 
 def parse_meta_tags(soup):
