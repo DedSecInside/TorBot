@@ -3,14 +3,12 @@ Module is used for analyzing link relationships
 """
 from requests.exceptions import HTTPError
 
-from ete3 import Tree, TreeStyle, TextFace, add_face_to_node
-from .link import LinkNode
-from .utils import multi_thread
+from ete3 import faces, Tree, TreeStyle, TextFace, add_face_to_node
 
 
 def default_layout(node):
     node_style = TextFace(node.name, tight_text=True)
-    add_face_to_node(node_style, node, column=0, position='branch-bottom')
+    faces.add_face_to_node(node_style, node, column=0, position='branch-bottom')
 
 
 default_style = TreeStyle()
@@ -51,6 +49,7 @@ class LinkTree:
             file_name (str): Name of file being saved to
             tree_style (TreeStyle): Styling of downloaded tree
         """
+        self._tree.layout_fn = default_layout
         self._tree.render(file_name, tree_style)
 
     def show(self, tree_style=default_style):
@@ -60,15 +59,16 @@ class LinkTree:
         Args:
             tree_style (TreeStyle): Styling of downloaded tree
         """
-        self._tree.show(tree_style)
+        self._tree.layout_fn = default_layout
+        self._tree.show(tree_style=tree_style)
 
 
-def build_tree(link, stop=1, rec=0):
+def build_tree(node, stop=1, rec=0):
     """
     Builds link tree by traversing through children nodes.
 
     Args:
-        link (LinkNode): root node of tree
+        node (LinkNode): root node of tree
         stop (int): depth of tree
         rec (int): level of recursion
 
@@ -76,23 +76,18 @@ def build_tree(link, stop=1, rec=0):
         tree (ete3.Tree): Built tree.
     """
 
-    tree = Tree(name=link.name)
+    print('Adding node for: ', node.get_name())
+    tree = Tree(name=node.get_name())
 
     if rec == stop:
         return tree
     else:
         rec += 1
 
-    for child in link.links:
-        try:
-            node = LinkNode(child)
-        except Exception as error:
-            print(f"Failed to create LinkNode for link: {child}.")
-            print(f"Error: {error}")
-            continue
-        if node.links:
-            tree.add_child(build_tree(node, stop, rec))
+    for child in node.get_children():
+        if child.get_children():
+            tree.add_child(build_tree(child, stop, rec))
         else:
-            tree.add_child(Tree(name=node.name))
+            tree.add_child(Tree(name=child.get_name()))
 
     return tree

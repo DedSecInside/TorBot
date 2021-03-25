@@ -2,14 +2,12 @@
 This module is used to create a LinkNode that can be consumued by a LinkTree
 and contains useful Link methods.
 """
-import requests
-import requests.exceptions
-import validators
 import re
+import requests
 from bs4 import BeautifulSoup
-from .utils import multi_thread
+
 from .color import color
-import sys
+from .validators import validate_email, validate_link
 
 def get_emails(node):
     """Finds all emails associated with node
@@ -21,29 +19,21 @@ def get_emails(node):
         emails (list): List of emails.
     """
     emails = []
-    response = node.response.text
-    mails = re.findall(r'[\w\.-]+@[\w\.-]+', response)
+    mails = re.findall(r'[\w\.-]+@[\w\.-]+', node._node.get_text())
     for email in mails:
-        if LinkNode.valid_email(email):
+        if validate_email(email):
             emails.append(email)
     return emails
 
 
-def get_links(node):
-    """Finds all links associated with node
-
-    Args:
-        node (LinkNode): Node used to get links from.
-
-    Returns:
-        links (list): List of links.
-    """
-    links = []
-    for child in node.children:
-        link = child.get('href')
-        if link and LinkNode.valid_link(link):
-            links.append(link)
-    return links
+def get_children(node):
+    children  = []
+    for anchor_tag in node._node.find_all('a'):
+        link = anchor_tag.get('href')
+        if validate_link(link):
+            chlid_node = LinkNode(link)
+            children.append(chlid_node)
+    return children
 
 
 def get_json_data(node):
@@ -56,13 +46,9 @@ def get_json_data(node):
         titles (list): List of Titles.
     """
     json = []
-    for child in node.children:
-        link = child.get('href')
-        title = "Not Available"
-        if link and LinkNode.valid_link(link):
-            node = LinkNode(link)
-            title = node.name
-            json.append({"link":link,"title":title})
+    for anchor_tag in node._node.find_all('a'):
+        link = anchor_tag.get('href')
+        json.append({"link":link,"tag":anchor_tag})
     return json    
 
 
@@ -73,26 +59,14 @@ def get_images(node):
         node (LinkNode): Node used to get links from.
 
     Returns:
-        links (list): List of links.
+        imageEls (list): A collection of img HTML elements 
     """
-    links = []
-    for child in node.children:
-        link = child.get('src')
-        if link and LinkNode.valid_link(link):
-            links.append(link)
-    return links
-
-
-def get_metadata(node):
-    """Collect response headers.
-
-        Args:
-            node (LinkNode): Node used to get metadata from.
-
-        Returns:
-            metadata (dict): Dictionary with metadata.
-        """
-    return node.response.headers
+    imageEls = []
+    for anchor_tag in node._node.find_all('a'):
+        image = anchor_tag.get('src')
+        if validate_link(image):
+            imageEls.append(image)
+    return imageEls 
 
 
 class LinkNode:
@@ -105,113 +79,59 @@ class LinkNode:
             link (str): URL used to initialise node.
         """
         # If link has invalid form, throw an error
-        if not self.valid_link(link):
+        if not validate_link(link):
             raise ValueError("Invalid link format.")
 
-        self._children = []
-        self._emails = []
-        self._links = []
-        self._images = []
-        self._json_data = []
-        self._metadata = {}
+        self._loaded = False
+        self._name = link
+        self._link = link
 
-        # Attempts to connect to link, throws an error if link is unreachable
+    def load_data(self):
+        response = requests.get(self._link)
+        status = str(response.status_code)
         try:
-            self.response = requests.get(link)
-        except (requests.exceptions.ChunkedEncodingError,
-                requests.exceptions.HTTPError,
-                requests.exceptions.ConnectionError,
-                ConnectionError) as err:
-            print("Error connecting to Tor:", err)
-            sys.exit(1)
-
-        self._node = BeautifulSoup(self.response.text, 'html.parser')
-        self.uri = link
-        if not self._node.title:
-            self.name = "TITLE NOT FOUND"
-            self.status = color(link, 'yellow')
-        else:
-            self.name = self._node.title.string
-            self.status = color(link, 'green')
-
-    @property
-    def emails(self):
-        """
-        Getter for node emails
-        """
-        if not self._emails:
+            response.raise_for_status()
+            self._metadata = response.headers 
+            self._node = BeautifulSoup(response.text, 'html.parser')
+            self.status = color(status, 'green')
+            self._name = self._node.title.string
             self._emails = get_emails(self)
-        return self._emails
-
-    @property
-    def json_data(self):
-        """
-        Getter for node titles
-        """
-        if not self._json_data:
-            self._json_data = get_json_data(self)
-        return self._json_data    
-
-    @property
-    def links(self):
-        """
-        Getter for node links
-        """
-        if not self._links:
-            self._links = get_links(self)
-        return self._links
-
-    @property
-    def images(self):
-        """
-        Getter for node images
-        """
-        if not self._images:
+            self._children = get_children(self)
+            self._emails = get_emails(self)
             self._images = get_images(self)
-        return self._images
+            self._json_data = get_json_data(self)
+        except Exception:
+            self._node = None
+            self.status = color(status, 'yellow')
+            self._name = 'TITLE NOT FOUND'
+        finally:
+            self._loaded = True
 
-    @property
-    def children(self):
-        """
-        Getter for node children
-        """
-        if not self._children:
-            self._children = self._node.find_all('a')
+
+    def get_link(self):
+        return self._link
+
+    def get_name(self):
+        if not self._loaded:
+            self.load_data()
+        return self._name
+
+    def get_children(self):
+        if not self._loaded:
+            self.load_data()
         return self._children
 
-    @property
-    def metadata(self):
-        """
-        Getter for node metadata
-        """
-        if not self._metadata:
-            self._metadata = get_metadata(self)
+    def get_emails(self):
+        if not self._loaded:
+            self.load_data()
+        return self._emails 
+    
+    def get_json(self):
+        if not self._loaded:
+            self.load_data()
+        return self._json_data
+    
+    def get_meatadta(self):
+        if not self._loaded:
+            self.load_data()
         return self._metadata
-
-    @staticmethod
-    def valid_email(email):
-        """Static method used to validate emails.
-
-        Args:
-            email (str): Email string to be validated.
-
-        Returns:
-            (bool): True if email string is valid, else false.
-        """
-        if validators.email(email):
-            return True
-        return False
-
-    @staticmethod
-    def valid_link(link):
-        """Static method used to validate links
-
-        Args:
-            link (str): URL string to be validated.
-
-        Returns:
-            (bool): True if URL string is valid, else false.
-        """
-        if validators.url(link):
-            return True
-        return False
