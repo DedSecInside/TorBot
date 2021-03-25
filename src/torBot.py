@@ -150,7 +150,6 @@ def main():
         print_tor_ip_address()
         # -m/--mail
         if args.mail:
-            node.load_data()
             emails = node.get_emails()
             print(emails)
             if args.save:

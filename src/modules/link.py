@@ -48,11 +48,7 @@ def get_json_data(node):
     json = []
     for anchor_tag in node._node.find_all('a'):
         link = anchor_tag.get('href')
-        title = "Not Available"
-        if validate_link(link):
-            node = LinkNode(link)
-            title = node.get_name() 
-            json.append({"link":link,"title":title})
+        json.append({"link":link,"tag":anchor_tag})
     return json    
 
 
@@ -91,9 +87,6 @@ class LinkNode:
         self._link = link
 
     def load_data(self):
-        if self._loaded:
-            return
-
         response = requests.get(self._link)
         status = str(response.status_code)
         try:
@@ -102,40 +95,43 @@ class LinkNode:
             self._node = BeautifulSoup(response.text, 'html.parser')
             self.status = color(status, 'green')
             self._name = self._node.title.string
+            self._emails = get_emails(self)
+            self._children = get_children(self)
+            self._emails = get_emails(self)
+            self._images = get_images(self)
+            self._json_data = get_json_data(self)
         except Exception:
             self._node = None
             self.status = color(status, 'yellow')
             self._name = 'TITLE NOT FOUND'
+        finally:
+            self._loaded = True
 
-        self._emails = get_emails(self)
-        self._children = get_children(self)
-        self._emails = get_emails(self)
-        self._images = get_images(self)
-        self._json_data = get_json_data(self)
-        self._loaded = True
 
     def get_link(self):
         return self._link
 
     def get_name(self):
+        if not self._loaded:
+            self.load_data()
         return self._name
 
     def get_children(self):
         if not self._loaded:
-            raise Exception("node is not loaded")
+            self.load_data()
         return self._children
 
     def get_emails(self):
         if not self._loaded:
-            raise Exception("node is not loaded")
+            self.load_data()
         return self._emails 
     
     def get_json(self):
         if not self._loaded:
-            raise Exception("node is not loaded")
+            self.load_data()
         return self._json_data
     
     def get_meatadta(self):
         if not self._loaded:
-            raise Exception("node is not loaded")
+            self.load_data()
         return self._metadata

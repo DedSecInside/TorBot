@@ -3,14 +3,12 @@ Module is used for analyzing link relationships
 """
 from requests.exceptions import HTTPError
 
-from ete3 import Tree, TreeStyle, TextFace, add_face_to_node
-from .link import LinkNode
-from .utils import multi_thread
+from ete3 import faces, Tree, TreeStyle, TextFace, add_face_to_node
 
 
 def default_layout(node):
     node_style = TextFace(node.name, tight_text=True)
-    add_face_to_node(node_style, node, column=0, position='branch-bottom')
+    faces.add_face_to_node(node_style, node, column=0, position='branch-bottom')
 
 
 default_style = TreeStyle()
@@ -51,6 +49,7 @@ class LinkTree:
             file_name (str): Name of file being saved to
             tree_style (TreeStyle): Styling of downloaded tree
         """
+        self._tree.layout_fn = default_layout
         self._tree.render(file_name, tree_style)
 
     def show(self, tree_style=default_style):
@@ -60,7 +59,8 @@ class LinkTree:
         Args:
             tree_style (TreeStyle): Styling of downloaded tree
         """
-        self._tree.show(tree_style)
+        self._tree.layout_fn = default_layout
+        self._tree.show(tree_style=tree_style)
 
 
 def build_tree(node, stop=1, rec=0):
@@ -76,6 +76,7 @@ def build_tree(node, stop=1, rec=0):
         tree (ete3.Tree): Built tree.
     """
 
+    print('Adding node for: ', node.get_name())
     tree = Tree(name=node.get_name())
 
     if rec == stop:
@@ -83,9 +84,7 @@ def build_tree(node, stop=1, rec=0):
     else:
         rec += 1
 
-    node.load_data()
     for child in node.get_children():
-        child.load_data()
         if child.get_children():
             tree.add_child(build_tree(child, stop, rec))
         else:

@@ -8,7 +8,6 @@ import os
 
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
-from .utils import multi_thread
 from .utils import find_file
 from threadsafe.safe_csv import SafeDictWriter
 from progress.bar import Bar

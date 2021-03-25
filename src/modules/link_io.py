@@ -28,7 +28,6 @@ def display_children(node):
     Args:
         node (LinkNode): root of children to be displayed
     """
-    node.load_data()
     children = node.get_children()
     sucess_msg = color(f'Links Found - {len(children)}', 'green')
     print(sucess_msg + '\n' + '---------------------------------')
@@ -43,7 +42,6 @@ def display(node):
         link (str): link to get status of
     """
     try:
-        node.load_data()
         title = node.get_name()
         status = node.status
     except Exception:
