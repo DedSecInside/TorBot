@@ -99,7 +99,7 @@ An alternative way of running torBot is shown below, along with help instruction
 `python3 torBot.py or use the -h/--help argument`
 <pre>
 usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m] [-e EXTENSION]
-                 [-l] [-i]
+                 [-i]
 
 optional arguments:
   -h, --help            Show this help message and exit
@@ -112,7 +112,6 @@ optional arguments:
   -e EXTENSION, --extension EXTENSION
                         Specifiy additional website extensions to the
                         list(.com or .org etc)
-  -l, --live            Check if websites are live or not (slow)
   -i, --info            Info displays basic info of the scanned site (very
                         slow)` </pre>
 
