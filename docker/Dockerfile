@@ -1,4 +1,4 @@
-FROM python:3.6-stretch
+FROM python:3
 LABEL maintainer="dedsec_inside"
 
 # Install PyQt5
@@ -11,7 +11,9 @@ WORKDIR /app
 
 COPY . .
 
-RUN pip install -r requirements.txt
+RUN pip install poetry
+RUN poetry config virtualenvs.create false
+RUN python -m poetry install --no-dev
 
 RUN chmod +x install.sh
 RUN bash install.sh
