@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "torBot"
+version = "1.3.0"
+description = "Dark Web OSINT Tool"
+authors = ["DedSecInside"]
+license = "GNU"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+beautifulsoup4 = "^4.9.1"
+PySocks = "^1.7.1"
+termcolor = "^1.1.0"
+requests = "^2.20.0"
+requests_mock = "^1.4.0"
+yattag = "^1.10.0"
+pyinstaller = "^3.6.0"
+ete3 = "^3.1.1"
+PyQt5 = "^5.11.3"
+validators = "^0.12.6"
+python-dotenv = "^0.10.2"
+threadsafe = "^1.0.0"
+progress = "^1.5.0"
+numpy = "^1.20.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
