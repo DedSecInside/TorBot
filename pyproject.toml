@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "torBot"
+name = "TorBot"
 version = "1.3.0"
-description = "Dark Web OSINT Tool"
+description = "Dark Web OSINT Tool."
 authors = ["DedSecInside"]
 license = "GNU"
 
