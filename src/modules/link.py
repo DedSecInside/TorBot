@@ -86,6 +86,13 @@ class LinkNode:
         self._name = link
         self._link = link
 
+        self._metadata = {}
+        self._json_data = {}
+
+        self._images = []
+        self._emails = []
+        self._children = []
+
     def load_data(self):
         response = requests.get(self._link)
         status = str(response.status_code)
@@ -119,6 +126,10 @@ class LinkNode:
     def get_children(self):
         if not self._loaded:
             self.load_data()
+
+        if self._children is None:
+            return []
+
         return self._children
 
     def get_emails(self):
