@@ -50,7 +50,7 @@ class LinkTree:
             tree_style (TreeStyle): Styling of downloaded tree
         """
         self._tree.layout_fn = default_layout
-        self._tree.render(file_name, tree_style)
+        self._tree.render(file_name, tree_style=tree_style)
 
     def show(self, tree_style=default_style):
         """
