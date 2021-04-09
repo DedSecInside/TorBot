@@ -25,9 +25,11 @@ torBot
 .*.swp
 .ropeproject/
 .idea/
+.vscode/
 .DS_Store
 
 venv/
+.venv/
 *.csv
 .DS_Store
 .env

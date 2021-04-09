@@ -65,10 +65,12 @@ Contributor name will be updated to the below list. 😀
 
 ### OS Dependencies
 - Tor
-- Python 3.x
+- Python ^3.7
 - Golang 1.x (Not Currently Used)
 
 ### Python Dependencies
+
+(see pyproject.toml for more detail)
 - beautifulsoup4
 - pyinstaller
 - PySocks
@@ -76,6 +78,7 @@ Contributor name will be updated to the below list. 😀
 - requests
 - requests_mock
 - yattag
+- numpy
 
 
 ## Basic setup
@@ -86,8 +89,13 @@ Before you run the torBot make sure the following things are done properly:
 
 * Make sure that your torrc is configured to SOCKS_PORT localhost:9050
 
+* Install [Poetry](https://python-poetry.org/docs/)
+
+* Disable Poetry virtualenvs (not required)
+`poetry config settings.virtualenvs.create false`
+
 * Install TorBot Python requirements
-`pip3 install -r requirements.txt`
+`poetry install`
 
 On Linux platforms, you can make an executable for TorBot by using the install.sh script.
 You will need to give the script the correct permissions using `chmod +x install.sh`
@@ -126,9 +134,9 @@ Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob
 #### Using Docker
 
 - Ensure than you have a tor container running on port 9050.
-- Build the image using following command:
+- Build the image using following command (in the root directory):
     
-    `docker build -t dedsecinside/torbot .`
+    `docker build -f docker/Dockerfile -t dedsecinside/torbot .`
 - Run the container (make sure to link the tor container as `tor`):
     
     `docker run --link tor:tor --rm -ti dedsecinside/torbot`

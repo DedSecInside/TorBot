@@ -131,7 +131,7 @@ class LinkNode:
             self.load_data()
         return self._json_data
     
-    def get_meatadta(self):
+    def get_metadata(self):
         if not self._loaded:
             self.load_data()
         return self._metadata
