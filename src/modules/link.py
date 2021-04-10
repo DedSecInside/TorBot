@@ -157,6 +157,7 @@ class LinkNode:
             self.load_data()
         return self._meta_tags
 
+
     def get_metadata(self):
         if not self._loaded:
             self.load_data()

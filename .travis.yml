@@ -1,13 +1,14 @@
 sudo: required
-dist: trusty
+dist: xenial
 language: python
 cache: pip3
 python:
-  - "3.6"
+  - "3.9"
 # command to install dependencies
 install:
-  - sudo apt-get -y install python3-pip
-  - pip3 install -r requirements.txt
+  - pip install poetry
+  - poetry config virtualenvs.create false
+  - poetry install
   - cd src/modules/tests
 script: 
   - pytest
