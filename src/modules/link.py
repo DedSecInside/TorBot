@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 from .color import color
 from .validators import validate_email, validate_link
 
+
 def get_meta_tags(node):
     """Retrieve all meta elements from HTML object.
 
@@ -64,7 +65,7 @@ def get_json_data(node):
     json = []
     for anchor_tag in node._node.find_all('a'):
         link = anchor_tag.get('href')
-        json.append({"link":link,"tag":anchor_tag.get_text()})
+        json.append({"link": link, "tag": anchor_tag.get_text()})
     return json    
 
 
