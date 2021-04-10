@@ -9,6 +9,22 @@ from bs4 import BeautifulSoup
 from .color import color
 from .validators import validate_email, validate_link
 
+
+def get_meta_tags(node):
+    """Retrieve all meta elements from HTML object.
+
+    Args:
+        soup (BeautifulSoup)
+
+    Returns:
+        list: List containing content from meta tags
+    """
+    content_list = list()
+    for tag in node._node.find_all('meta'):
+        content_list.append(tag.attrs)
+    return content_list
+
+
 def get_emails(node):
     """Finds all emails associated with node
 
@@ -48,7 +64,7 @@ def get_json_data(node):
     json = []
     for anchor_tag in node._node.find_all('a'):
         link = anchor_tag.get('href')
-        json.append({"link":link,"tag":anchor_tag})
+        json.append({"link": link, "tag": anchor_tag.get_text()})
     return json    
 
 
@@ -85,6 +101,8 @@ class LinkNode:
         self._loaded = False
         self._name = link
         self._link = link
+        self._meta_tags = []
+        self._body = ""
 
     def load_data(self):
         response = requests.get(self._link)
@@ -100,6 +118,7 @@ class LinkNode:
             self._emails = get_emails(self)
             self._images = get_images(self)
             self._json_data = get_json_data(self)
+            self._body = self._node.find('body')
         except Exception:
             self._node = None
             self.status = color(status, 'yellow')
@@ -107,6 +126,8 @@ class LinkNode:
         finally:
             self._loaded = True
 
+    def get_body(self):
+        return self._body
 
     def get_link(self):
         return self._link
@@ -131,6 +152,12 @@ class LinkNode:
             self.load_data()
         return self._json_data
     
+    def get_meta_tags(self):
+        if not self._loaded:
+            self.load_data()
+        return self._meta_tags
+
+
     def get_metadata(self):
         if not self._loaded:
             self.load_data()
