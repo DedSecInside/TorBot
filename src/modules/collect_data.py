@@ -24,7 +24,7 @@ load_dotenv(dotenv_path=dev_file)
 default_url = 'https://thehiddenwiki.org'
 
 
-def collect_data(url = default_url):
+def collect_data(url=default_url):
     print(f"Gathering data for {url}")
 
     # Create data directory if it doesn't exist

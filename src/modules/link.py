@@ -19,9 +19,8 @@ def get_meta_tags(node):
     Returns:
         list: List containing content from meta tags
     """
-    meta_tags = node._node.find_all('meta')
     content_list = list()
-    for tag in meta_tags:
+    for tag in node._node.find_all('meta'):
         content_list.append(tag.attrs)
     return content_list
 
