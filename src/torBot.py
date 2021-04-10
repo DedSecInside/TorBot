@@ -172,8 +172,7 @@ def main():
         else:
             display_children(node)
             if args.save:
-                print(node.get_json())
-                #saveJson("Links", node.links)
+                saveJson("Links", node.get_json())
     else:
         print("usage: See torBot.py -h for possible arguments.")
 

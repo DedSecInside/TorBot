@@ -48,7 +48,7 @@ def get_json_data(node):
     json = []
     for anchor_tag in node._node.find_all('a'):
         link = anchor_tag.get('href')
-        json.append({"link":link,"tag":anchor_tag})
+        json.append({"link":link,"tag":anchor_tag.get_text()})
     return json    
 
 
