@@ -45,10 +45,10 @@ def get_json_data(node):
     Returns:
         titles (list): List of Titles.
     """
-    json = []
+    json = [] 
     for anchor_tag in node._node.find_all('a'):
         link = anchor_tag.get('href')
-        json.append({"link":link,"tag":anchor_tag})
+        json.append({"link":link,"tag":anchor_tag.string})
     return json    
 
 

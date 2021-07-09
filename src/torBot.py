@@ -169,11 +169,11 @@ def main():
             tree = LinkTree(node)
             file_name = str(input("File Name (.pdf/.png/.svg): "))
             tree.save(file_name)
+        if args.save:
+            print(node.get_json())
+            saveJson("Links", node.get_json())
         else:
             display_children(node)
-            if args.save:
-                print(node.get_json())
-                #saveJson("Links", node.links)
     else:
         print("usage: See torBot.py -h for possible arguments.")
 
