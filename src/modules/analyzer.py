@@ -1,6 +1,7 @@
 """
 Module is used for analyzing link relationships
 """
+from .utils import join_local_path
 from requests.exceptions import HTTPError
 
 from ete3 import faces, Tree, TreeStyle, TextFace, add_face_to_node
@@ -50,7 +51,8 @@ class LinkTree:
             tree_style (TreeStyle): Styling of downloaded tree
         """
         self._tree.layout_fn = default_layout
-        self._tree.render(file_name, tree_style=tree_style)
+        file_path = join_local_path(file_name)
+        self._tree.render(file_path, tree_style=tree_style)
 
     def show(self, tree_style=default_style):
         """

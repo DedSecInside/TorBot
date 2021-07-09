@@ -4,6 +4,7 @@ Module that facilitates the saving of data to JSON file.
 import json
 import time
 
+from .utils import join_local_path 
 
 def saveJson(datatype, data):
     """
@@ -18,8 +19,9 @@ def saveJson(datatype, data):
     """
     timestr = time.strftime("%Y%m%d-%H%M%S")
     file_name = "TorBot-Export-"+datatype+timestr+".json"
+    file_path = join_local_path(file_name)
     # Json File Creation
-    with open(file_name, "w+") as f:
+    with open(file_path, 'w+') as f:
         # Store data in Json format
         output = {datatype: data}
         # Dump output to file

@@ -10,6 +10,8 @@ from threading import Thread
 import requests
 from requests.exceptions import HTTPError
 
+from dotenv import load_dotenv
+
 
 # ALGORITHM UTILITY FUNCTIONS
 
@@ -100,6 +102,8 @@ def get_url_status(url, headers=False):
         return 0
 
 
+# File Functions 
+
 def find_file(name, path):
     """Search for file within specific dir and any child dirs.
 
@@ -115,3 +119,18 @@ def find_file(name, path):
         if name in files:
             return os.path.join(root, name)
     return False
+
+def join_local_path(file_name=""):
+    if file_name == "":
+        return
+
+    dev_file = find_file("torbot_dev.env", "../")
+    if not dev_file:
+        raise FileNotFoundError
+    load_dotenv(dotenv_path=dev_file)
+    # Create data directory if it doesn't exist
+    data_directory = os.getenv('TORBOT_DATA_DIR')
+    if not os.path.exists(data_directory):
+        os.makedirs(data_directory)
+    local_path = os.path.join(data_directory, file_name)
+    return local_path
