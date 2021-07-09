@@ -7,18 +7,11 @@ import requests
 import os
 
 from bs4 import BeautifulSoup
-from dotenv import load_dotenv
-from .utils import find_file
 from threadsafe.safe_csv import SafeDictWriter
 from progress.bar import Bar
 
+from .utils import join_local_path
 from .validators import validate_link
-
-
-dev_file = find_file("torbot_dev.env", "../")
-if not dev_file:
-    raise FileNotFoundError
-load_dotenv(dotenv_path=dev_file)
 
 def parse_links(html):
     """Parses HTML page to extract links.
@@ -63,15 +56,10 @@ def collect_data(user_url):
     url = user_url if user_url is not None else default_url
     print(f"Gathering data for {url}")
     links = get_links(url)
-    # Create data directory if it doesn't exist
-    data_directory = os.getenv('TORBOT_DATA_DIR')
-    if not os.path.exists(data_directory):
-        os.makedirs(data_directory)
-
     current_time = datetime.datetime.now().isoformat()
     file_name = f'torbot_{current_time}.csv'
-    file_path = os.path.join(data_directory, file_name)
-    with open(file_path, 'w+', newline='') as outcsv:
+    file_path = join_local_path(file_name)
+    with open(file_path, 'w+') as outcsv:
         fieldnames = ['ID', 'Title', 'Metadata', 'Content']
         writer = SafeDictWriter(outcsv, fieldnames=fieldnames)
         bar = Bar(f'Processing...', max=len(links))
