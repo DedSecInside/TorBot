@@ -85,6 +85,10 @@ class LinkNode:
         self._loaded = False
         self._name = link
         self._link = link
+        self._emails = []
+        self._images = [] 
+        self._children = []
+        self._json_data = {} 
 
     def load_data(self):
         response = requests.get(self._link)
