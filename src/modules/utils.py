@@ -120,7 +120,7 @@ def find_file(name, path):
             return os.path.join(root, name)
     return False
 
-def join_local_path(file_name="",): 
+def join_local_path(file_name=""):
     if file_name == "":
         return
 
