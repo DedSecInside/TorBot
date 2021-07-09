@@ -15,13 +15,13 @@
    <img src="https://user-images.githubusercontent.com/4481429/94646151-43167180-030b-11eb-823d-dc0d79889b14.png" width="160" title="Hacktoberfest 2020">
     <img src="https://user-images.githubusercontent.com/4481429/94646312-9dafcd80-030b-11eb-9824-73aa2414cf58.png" width="100" title="OpenSource">
   <img src="https://user-images.githubusercontent.com/4481429/94645022-65f35680-0308-11eb-8dce-a4ceba8db660.png" width="270" title="OWASP Foundation">
-
 </p>
 
 
 ### Status/Social links
 [![Build Status](https://travis-ci.org/DedSecInside/TorBot.svg?branch=dev)](https://travis-ci.org/DedSecInside/TorBoT)
 [![Slack Invite](https://img.shields.io/badge/Join-Slack-informational?style=flat-square&logo=slack)](https://join.slack.com/t/dedsec-inside/shared_invite/zt-i4jcgj8w-1ecHiSdRubwuppAzz8~yfg)
+[![Code Triage](https://www.codetriage.com/dedsecinside/torbot/badges/users.svg)](https://www.codetriage.com/dedsecinside/torbot)
 [![](https://img.shields.io/badge/Built%20with-❤-orange.svg?style=flat-square)]()
 [![](https://img.shields.io/badge/Made%20with-Python-red.svg?style=flat-square)]()
 ## Working Procedure/Basic Plan
