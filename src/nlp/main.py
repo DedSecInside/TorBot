@@ -36,7 +36,6 @@ if soup.title:
 print(f'The category of {website} is {dataset.target_names[predicted[0]]}');
 
 if args.accuracy:
-	accuracy = np.mean(predicted == y_test)
-	print(f'Accuracy: {accuracy}%')
-
+    accuracy = np.mean(predicted == y_test)
+    print(f'Accuracy: {accuracy}%')
 
