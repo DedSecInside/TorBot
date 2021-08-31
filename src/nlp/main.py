@@ -21,7 +21,7 @@ clf.fit(x_train, y_train)
 predicted = clf.predict(x_test)
 
 # get html for site
-parser = argparse.ArgumentParser(description='Classify Site')
+parser = argparse.ArgumentParser(description='Classify Website')
 parser.add_argument('-website', type=str, help='Website to categorize')
 parser.add_argument('-accuracy', type=bool, help='Print accuracy')
 args = parser.parse_args()
@@ -30,7 +30,7 @@ html = soup.get_text()
 
 # returns an array of target_name indices
 predicted = clf.predict([html])
-print(f'{soup.title.text} is {dataset.target_names[predicted[0]]}');
+print(f'The category of {soup.title.text} is {dataset.target_names[predicted[0]]}');
 
 if args.accuracy:
 	accuracy = np.mean(predicted == y_test)
