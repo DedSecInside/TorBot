@@ -24,18 +24,21 @@ clf = Pipeline([
     ('clf', SGDClassifier())
 ])
 dataset = load_files('training_data')
-x_train, x_test, y_train, y_test = train_test_split(dataset.data, dataset.target)
+x_train, x_test, y_train, y_test = train_test_split(
+						dataset.data,
+						dataset.target
+					)
 clf.fit(x_train, y_train)
 
-# returns an array of target_name indices
-predicted = clf.predict([html])
 
 website = 'Unknown'
 if soup.title:
     website = soup.title.text
-print(f'The category of {website} is {dataset.target_names[predicted[0]]}');
+
+# returns an array of target_name values
+predicted = clf.predict([html])
+print(f'The category of {website} is {dataset.target_names[predicted[0]]}')
 
 if args.accuracy:
     accuracy = np.mean(predicted == y_test)
     print(f'Accuracy: {accuracy}%')
-
