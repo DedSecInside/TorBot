@@ -77,7 +77,7 @@ def get_robots_txt(target, response):
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
     requests.get(target+"robots.txt")
     print(target+"robots.txt")
-    matches = findall(r'Allow: (.*)|Disallow: (.*)', response)
+    matches = findall(r'Allow: (.*)|Disallow: (.*)', response.text)
     if matches:
         for match in matches:
             match = ''.join(match)
@@ -97,7 +97,7 @@ def get_intel(link, response):
         response (object): Response object containing data to check.
     """
     intel = set()
-    matches = findall(r'''([\w\.-]+s[\w\.-]+\.amazonaws\.com)|([\w\.-]+@[\w\.-]+\.[\.\w]+)''', response)
+    matches = findall(r'''([\w\.-]+s[\w\.-]+\.amazonaws\.com)|([\w\.-]+@[\w\.-]+\.[\.\w]+)''', response.text)
     print("Intel\n--------\n\n")
     if matches:
         for match in matches:
@@ -130,7 +130,7 @@ def get_bitcoin_address(target, response):
         target (str): URL to be checked.
         response (object): Response object containing data to check.
     """
-    bitcoins = re.findall(r'^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$', response)
+    bitcoins = re.findall(r'^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$', response.text)
     print("BTC FOUND: ", len(bitcoins))
     for bitcoin in bitcoins:
         print("BTC: ", bitcoin)
