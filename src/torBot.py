@@ -8,7 +8,7 @@ from requests.exceptions import HTTPError
 
 from modules.analyzer import LinkTree
 from modules.color import color
-from modules.link_io import print_tor_ip_address, print_tree, print_json, print_emails
+from modules.link_io import print_tor_ip_address, print_tree, print_json
 from modules.link import LinkNode
 from modules.updater import updateTor
 from modules.savefile import saveJson
@@ -68,7 +68,8 @@ def get_args():
                         help="Gather data for analysis")
 
     parser.add_argument("-u", "--url", help="Specifiy a website link to crawl")
-    parser.add_argument("--depth", default=1, help="Specifiy max depth of crawler (default 1)")
+    parser.add_argument("--depth", default=1,
+                        help="Specifiy max depth of crawler (default 1)")
 
     add_tree_args(parser)
     add_json_args(parser)
@@ -134,6 +135,7 @@ def handle_json_args(args):
             saveJson('Emails', email_json)
     """
 
+
 def add_json_args(parser):
     """
     Outputs JSON file for data
@@ -145,19 +147,21 @@ def add_json_args(parser):
                         help="Get e-mail addresses from the crawled sites")
     """
 
+
 def handle_tree_args(args):
     """
     Outputs tree visual for data
     """
     tree = LinkTree(args.url, args.depth)
-    #-v/--visualize
+    # -v/--visualize
     if args.visualize:
         tree.show()
 
-    #-d/--download
+    # -d/--download
     if args.download:
         file_name = str(input("File Name (.pdf/.png/.svg): "))
         tree.save(file_name)
+
 
 def add_tree_args(parser):
     """
@@ -167,6 +171,7 @@ def add_tree_args(parser):
                         help="Visualizes tree of data gathered.")
     parser.add_argument("-d", "--download", action="store_true",
                         help="Downloads tree of data gathered.")
+
 
 def test(args):
 

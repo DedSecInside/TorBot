@@ -1,5 +1,6 @@
 import requests
 
+
 class GoTor:
     @staticmethod
     def get_node(link, depth, address='localhost', port='8081'):

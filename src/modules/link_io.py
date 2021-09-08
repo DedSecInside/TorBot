@@ -19,6 +19,7 @@ def print_tor_ip_address():
     ip_string = color(GoTor.get_ip(), 'yellow')
     print(f'Tor IP Address: {ip_string}')
 
+
 def print_node(node):
     """
     Prints the status of a link based on it's connection status
@@ -41,20 +42,20 @@ def print_node(node):
     status_msg = "%-60s %-20s" % (title, status)
     print(status_msg)
 
+
 def cascade(node, work):
     work(node)
     if node['children']:
         for child in node['children']:
             cascade(child, work)
 
+
 def print_tree(url, depth=1):
     root = GoTor.get_node(url, depth)
     cascade(root, print_node)
+
 
 def print_json(url, depth=1):
     root = GoTor.get_node(url, depth)
     pprint(root)
     return root
-
-def print_emails(url, depth=1):
-    print(url, depth)

@@ -64,6 +64,7 @@ class LinkTree:
         self._tree.layout_fn = default_layout
         self._tree.show(tree_style=tree_style)
 
+
 def append_node(parent_tree, node):
     """
     Appends the node and it's children to the parent tree
@@ -73,6 +74,7 @@ def append_node(parent_tree, node):
     if node['children']:
         for child in node['children']:
             append_node(child_tree, child)
+
 
 def build_tree(url, depth=1):
     """

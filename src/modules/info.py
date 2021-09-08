@@ -97,7 +97,8 @@ def get_intel(link, response):
         response (object): Response object containing data to check.
     """
     intel = set()
-    matches = findall(r'''([\w\.-]+s[\w\.-]+\.amazonaws\.com)|([\w\.-]+@[\w\.-]+\.[\.\w]+)''', response.text)
+    regex = r'''([\w\.-]+s[\w\.-]+\.amazonaws\.com)|([\w\.-]+@[\w\.-]+\.[\.\w]+)'''
+    matches = findall(regex, response.text)
     print("Intel\n--------\n\n")
     if matches:
         for match in matches:
