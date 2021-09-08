@@ -108,7 +108,7 @@ def get_args():
     parser.add_argument("-i", "--info", action="store_true",
                         help=' '.join(("Info displays basic info of the",
                                        "scanned site")))
-    parser.add_argument("--depth", help="Specifiy max depth of crawler (default 1)")
+    parser.add_argument("--depth", default=1, help="Specifiy max depth of crawler (default 1)")
     parser.add_argument("-v", "--visualize", action="store_true",
                         help="Visualizes tree of data gathered.")
     parser.add_argument("-d", "--download", action="store_true",
@@ -128,7 +128,7 @@ def main():
     TorBot's Core
     """
     args = get_args()
-    connect(args.ip, args.port, args.no_socks)
+    #connect(args.ip, args.port, args.no_socks)
 
     if args.gather:
         collect_data(args.url)
@@ -148,6 +148,10 @@ def main():
     if args.url:
         node = LinkNode(args.url)
         print_tor_ip_address()
+
+        if args.visualize or args.download:
+            return handle_tree_args(args)
+
         # -m/--mail
         if args.mail:
             emails = node.get_emails()
@@ -159,16 +163,6 @@ def main():
             execute_all(node.get_link())
             if args.save:
                 print('Nothing to save.\n')
-        if args.visualize:
-            if args.depth:
-                tree = LinkTree(node, stop_depth=args.depth)
-            else:
-                tree = LinkTree(node)
-            tree.show()
-        if args.download:
-            tree = LinkTree(node)
-            file_name = str(input("File Name (.pdf/.png/.svg): "))
-            tree.save(file_name)
         if args.save:
             print(node.get_json())
             saveJson("Links", node.get_json())
@@ -178,6 +172,14 @@ def main():
         print("usage: See torBot.py -h for possible arguments.")
 
     print("\n\n")
+
+def handle_tree_args(args):
+    tree = LinkTree(args.url, args.depth)
+    if args.visualize:
+        return tree.show()
+    if args.download:
+        file_name = str(input("File Name (.pdf/.png/.svg): "))
+        return tree.save(file_name)
 
 def test(args):
 
