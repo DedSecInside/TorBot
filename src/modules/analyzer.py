@@ -1,9 +1,9 @@
 """
 Module is used for analyzing link relationships
 """
-import requests
 from ete3 import faces, Tree, TreeStyle, TextFace
 from .utils import join_local_path
+from .api import GoTor
 
 def default_layout(node):
     """
@@ -64,14 +64,17 @@ class LinkTree:
         self._tree.layout_fn = default_layout
         self._tree.show(tree_style=tree_style)
 
-def construct_tree(parent_tree, node):
+def append_node(parent_tree, node):
+    """
+    Appends the node and it's children to the parent tree
+    """
     child_tree = Tree(name=node['url'])
     parent_tree.add_child(child_tree)
     if node['children']:
         for child in node['children']:
-            construct_tree(child_tree, child)
+            append_node(child_tree, child)
 
-def build_tree(url, depth):
+def build_tree(url, depth=1):
     """
     Builds link tree by traversing through children nodes.
 
@@ -82,12 +85,9 @@ def build_tree(url, depth):
     Returns:
         tree (ete3.Tree): Built tree.
     """
-
-    url = "http://127.0.0.1:8081/children?link={link}&depth={depth}".format(link=url, depth=depth)
-    resp = requests.get(url)
-    root = resp.json()
+    root = GoTor.get_node(url, depth)
     root_tree = Tree(name=root['url'])
     if root['children']:
         for child in root['children']:
-            construct_tree(root_tree, child)
+            append_node(root_tree, child)
     return root_tree
