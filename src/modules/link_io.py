@@ -5,6 +5,7 @@ objects or url strings
 import requests
 from bs4 import BeautifulSoup
 
+from .api import GoTor
 from .color import color
 from pprint import pprint
 
@@ -15,8 +16,7 @@ def print_tor_ip_address():
     displays your IP address which we scape and display
     """
     print('Attempting to connect to https://check.torproject.org/')
-    resp = requests.get(f'http://localhost:8081/ip')
-    ip_string = color(resp.text, 'yellow')
+    ip_string = color(GoTor.get_ip(), 'yellow')
     print(f'Tor IP Address: {ip_string}')
 
 def print_node(node):
@@ -27,12 +27,13 @@ def print_node(node):
     """
     try:
         title = node['url']
+        status_text = f"{node['status_code']} {node['status']}"
         if node['status_code'] >= 200 and node['status_code'] < 300:
-            status = color(f"{node['status_code']} {node['status']}", 'green')
+            status = color(status_text, 'green')
         elif node['status_code'] >= 300 and node['status_code'] < 400:
-            status = color(f"{node['status_code']} {node['status']}", 'yellow')
+            status = color(status_text, 'yellow')
         else:
-            status = color(f"{node['status_code']} {node['status']}", 'red')
+            status = color(status_text, 'red')
     except Exception:
         title = "NOT FOUND"
         status = color('Unable to reach destination.', 'red')
@@ -47,13 +48,11 @@ def cascade(node, work):
             cascade(child, work)
 
 def print_tree(url, depth=1):
-    resp = requests.get(f'http://localhost:8081/children?link={url}&depth={depth}')
-    root = resp.json()
+    root = GoTor.get_node(url, depth)
     cascade(root, print_node)
 
 def print_json(url, depth=1):
-    resp = requests.get(f'http://localhost:8081/children?link={url}&depth={depth}')
-    root = resp.json()
+    root = GoTor.get_node(url, depth)
     pprint(root)
     return root
 
