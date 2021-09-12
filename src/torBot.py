@@ -189,7 +189,7 @@ def test(args):
     if "url" in args:
         print("url",args['url'])
         url = args['url']
-        print("display_ip()",link_io.print_tor_ip_address())
+        print("display_ip()", link_io.print_tor_ip_address())
         # -m/--mail
         if args['mail']==True:
             print(node.emails)

@@ -31,7 +31,6 @@ class LinkTree:
     def __init__(self, root, depth):
         self._tree = self.__build_tree(root, depth)
 
-
     def __append_node(self, parent_tree, node):
         """
         Appends the node and it's children to the parent tree
