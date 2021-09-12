@@ -56,6 +56,30 @@ def print_tree(url, depth=1):
 
 
 def print_json(url, depth=1):
+    """
+    Prints the JSON representation of a Link node.
+
+    Args:
+        url (string): the url of the root node
+        depth (int): the depth to build the tree
+
+    Returns:
+        root (dict): Dictionary containing the root node and it's children
+    """
     root = GoTor.get_node(url, depth)
     pprint(root)
     return root
+
+def print_emails(url):
+    """
+    Prints any emails found within the HTML content of this url.
+
+    Args:
+        url (string): target location
+
+    Returns:
+        emails (list): list of emails
+    """
+    email_list = GoTor.get_emails(url)
+    pprint(email_list)
+    return email_list

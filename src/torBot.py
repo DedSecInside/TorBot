@@ -8,7 +8,7 @@ from requests.exceptions import HTTPError
 
 from modules.analyzer import LinkTree
 from modules.color import color
-from modules.link_io import print_tor_ip_address, print_tree, print_json
+from modules.link_io import print_tor_ip_address, print_tree, print_json, print_emails
 from modules.link import LinkNode
 from modules.updater import updateTor
 from modules.savefile import saveJson
@@ -98,23 +98,19 @@ def main():
 
     # If url flag is set then check for accompanying flag set. Only one
     # additional flag can be set with -u/--url flag
-    if args.url:
-        print_tor_ip_address()
-        if args.visualize or args.download:
-            handle_tree_args(args)
-
-        if args.save:
-            handle_json_args(args)
-
-        # -i/--info
-        if args.info:
-            execute_all(args.url)
-
-        else:
-            print_tree(args.url, args.depth)
-    else:
+    if not args.url:
         print("usage: See torBot.py -h for possible arguments.")
 
+    print_tor_ip_address()
+    if args.visualize or args.download:
+        handle_tree_args(args)
+    elif args.save or args.mail:
+        handle_json_args(args)
+    # -i/--info
+    elif args.info:
+        execute_all(args.url)
+    else:
+        print_tree(args.url, args.depth)
     print("\n\n")
 
 
@@ -127,13 +123,11 @@ def handle_json_args(args):
         node_json = print_json(args.url, args.depth)
         saveJson("Links", node_json)
 
-    """
     # -m/--mail
     if args.mail:
-        email_json = print_emails(args.url, args.depth)
+        email_json = print_emails(args.url)
         if args.save:
             saveJson('Emails', email_json)
-    """
 
 
 def add_json_args(parser):
@@ -142,10 +136,9 @@ def add_json_args(parser):
     """
     parser.add_argument("-s", "--save", action="store_true",
                         help="Save results in a file")
-    """
+
     parser.add_argument("-m", "--mail", action="store_true",
                         help="Get e-mail addresses from the crawled sites")
-    """
 
 
 def handle_tree_args(args):
