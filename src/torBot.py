@@ -7,9 +7,8 @@ import sys
 from requests.exceptions import HTTPError
 
 from modules import link_io
-from modules.analyzer import LinkTree
+from modules.linktree import LinkTree
 from modules.color import color
-from modules.link import LinkNode
 from modules.updater import updateTor
 from modules.savefile import saveJson
 from modules.info import execute_all
@@ -190,12 +189,6 @@ def test(args):
     if "url" in args:
         print("url",args['url'])
         url = args['url']
-        try:
-            node = LinkNode(url)
-            print("Node",node)
-            print("Link Node",LinkNode(url))
-        except (ValueError, HTTPError, ConnectionError) as err:
-            raise err
         print("display_ip()",link_io.print_tor_ip_address())
         # -m/--mail
         if args['mail']==True:

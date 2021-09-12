@@ -29,7 +29,36 @@ class LinkTree:
         depth (int): depth of tree
     """
     def __init__(self, root, depth):
-        self._tree = build_tree(root, depth)
+        self._tree = self.__build_tree(root, depth)
+
+
+    def __append_node(self, parent_tree, node):
+        """
+        Appends the node and it's children to the parent tree
+        """
+        child_tree = Tree(name=node['url'])
+        parent_tree.add_child(child_tree)
+        if node['children']:
+            for child in node['children']:
+                self.__append_node(child_tree, child)
+
+    def __build_tree(self, url, depth=1):
+        """
+        Builds link tree by traversing through children nodes.
+
+        Args:
+            url (str): root node of tree
+            depth(int): depth of tree
+
+        Returns:
+            tree (ete3.Tree): Built tree.
+        """
+        root = GoTor.get_node(url, depth)
+        root_tree = Tree(name=root['url'])
+        if root['children']:
+            for child in root['children']:
+                self.__append_node(root_tree, child)
+        return root_tree
 
     def __len__(self):
         return len(self._tree)
@@ -39,6 +68,9 @@ class LinkTree:
 
     @property
     def children(self):
+        """
+        Returns the number of children within the LinkTree
+        """
         return self._tree.get_children()
 
     def save(self, file_name, tree_style=default_style):
@@ -64,32 +96,3 @@ class LinkTree:
         self._tree.layout_fn = default_layout
         self._tree.show(tree_style=tree_style)
 
-
-def append_node(parent_tree, node):
-    """
-    Appends the node and it's children to the parent tree
-    """
-    child_tree = Tree(name=node['url'])
-    parent_tree.add_child(child_tree)
-    if node['children']:
-        for child in node['children']:
-            append_node(child_tree, child)
-
-
-def build_tree(url, depth=1):
-    """
-    Builds link tree by traversing through children nodes.
-
-    Args:
-        url (str): root node of tree
-        depth(int): depth of tree
-
-    Returns:
-        tree (ete3.Tree): Built tree.
-    """
-    root = GoTor.get_node(url, depth)
-    root_tree = Tree(name=root['url'])
-    if root['children']:
-        for child in root['children']:
-            append_node(root_tree, child)
-    return root_tree
