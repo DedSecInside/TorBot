@@ -76,6 +76,7 @@ def print_json(url, depth=1):
     pprint(root)
     return root
 
+
 def print_emails(url):
     """
     Prints any emails found within the HTML content of this url.
