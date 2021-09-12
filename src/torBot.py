@@ -6,9 +6,9 @@ import sys
 
 from requests.exceptions import HTTPError
 
+from modules import link_io
 from modules.analyzer import LinkTree
 from modules.color import color
-from modules.link_io import print_tor_ip_address, print_tree, print_json, print_emails
 from modules.link import LinkNode
 from modules.updater import updateTor
 from modules.savefile import saveJson
@@ -101,7 +101,7 @@ def main():
     if not args.url:
         print("usage: See torBot.py -h for possible arguments.")
 
-    print_tor_ip_address()
+    link_io.print_tor_ip_address()
     if args.visualize or args.download:
         handle_tree_args(args)
     elif args.save or args.mail:
@@ -110,7 +110,7 @@ def main():
     elif args.info:
         execute_all(args.url)
     else:
-        print_tree(args.url, args.depth)
+        link_io.print_tree(args.url, args.depth)
     print("\n\n")
 
 
@@ -121,12 +121,12 @@ def handle_json_args(args):
 
     # -m/--mail
     if args.mail:
-        email_json = print_emails(args.url)
+        email_json = link_io.print_emails(args.url)
         if args.save:
             saveJson('Emails', email_json)
     # -s/--save
     else:
-        node_json = print_json(args.url, args.depth)
+        node_json = link_io.print_json(args.url, args.depth)
         saveJson("Links", node_json)
 
 
@@ -196,7 +196,7 @@ def test(args):
             print("Link Node",LinkNode(url))
         except (ValueError, HTTPError, ConnectionError) as err:
             raise err
-        print("display_ip()",print_tor_ip_address())
+        print("display_ip()",link_io.print_tor_ip_address())
         # -m/--mail
         if args['mail']==True:
             print(node.emails)
@@ -218,7 +218,7 @@ def test(args):
             file_name = str(input("File Name (.pdf/.png/.svg): "))
             tree.save(file_name)
         else:
-            print_tree(url)
+            link_io.print_tree(url)
             if args['save']==True:
                 saveJson("Links", node.links)
     else:

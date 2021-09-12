@@ -51,6 +51,12 @@ def cascade(node, work):
 
 
 def print_tree(url, depth=1):
+    """
+    Prints the entire tree in a user friendly fashion
+    Args:
+        url (string): the url of the root node
+        depth (int): the depth to build the tree
+    """
     root = GoTor.get_node(url, depth)
     cascade(root, print_node)
 
