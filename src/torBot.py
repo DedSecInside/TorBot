@@ -118,16 +118,16 @@ def handle_json_args(args):
     """
     Outputs JSON file for data
     """
-    # -s/--save
-    if args.save:
-        node_json = print_json(args.url, args.depth)
-        saveJson("Links", node_json)
 
     # -m/--mail
     if args.mail:
         email_json = print_emails(args.url)
         if args.save:
             saveJson('Emails', email_json)
+    # -s/--save
+    else:
+        node_json = print_json(args.url, args.depth)
+        saveJson("Links", node_json)
 
 
 def add_json_args(parser):
