@@ -10,6 +10,7 @@ class GoTor:
     """
     An API wrapper for the goTor service
     """
+
     @staticmethod
     def get_node(link, depth, address='localhost', port='8081'):
         """
