@@ -94,4 +94,3 @@ class LinkTree:
         """
         self._tree.layout_fn = default_layout
         self._tree.show(tree_style=tree_style)
-
