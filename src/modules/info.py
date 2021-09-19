@@ -78,12 +78,11 @@ def get_robots_txt(target, response):
     requests.get(target+"robots.txt")
     print(target+"robots.txt")
     matches = findall(r'Allow: (.*)|Disallow: (.*)', response.text)
-    if matches:
-        for match in matches:
-            match = ''.join(match)
-            if '*' not in match:
-                    url = main_url + match
-                    robots.add(url)
+    for match in matches:
+        match = ''.join(match)
+        if '*' not in match:
+                url = main_url + match
+                robots.add(url)
         cprint("Robots.txt found", 'blue')
         print(robots)
 
@@ -100,9 +99,8 @@ def get_intel(link, response):
     regex = r'''([\w\.-]+s[\w\.-]+\.amazonaws\.com)|([\w\.-]+@[\w\.-]+\.[\.\w]+)'''
     matches = findall(regex, response.text)
     print("Intel\n--------\n\n")
-    if matches:
-        for match in matches:
-            intel.add(match)
+    for match in matches:
+        intel.add(match)
 
 
 def get_dot_git(target, response):

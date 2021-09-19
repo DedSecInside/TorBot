@@ -109,7 +109,8 @@ def main():
     elif args.info:
         execute_all(args.url)
     else:
-        link_io.print_tree(args.url, args.depth)
+        if args.url:
+            link_io.print_tree(args.url, args.depth)
     print("\n\n")
 
 
