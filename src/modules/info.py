@@ -81,8 +81,8 @@ def get_robots_txt(target, response):
     for match in matches:
         match = ''.join(match)
         if '*' not in match:
-                url = main_url + match
-                robots.add(url)
+            url = main_url + match
+            robots.add(url)
         cprint("Robots.txt found", 'blue')
         print(robots)
 
