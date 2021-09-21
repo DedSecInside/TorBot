@@ -5,7 +5,9 @@ objects or url strings
 import requests
 from bs4 import BeautifulSoup
 
+from .api import GoTor
 from .color import color
+from pprint import pprint
 
 
 def print_tor_ip_address():
@@ -14,38 +16,77 @@ def print_tor_ip_address():
     displays your IP address which we scape and display
     """
     print('Attempting to connect to https://check.torproject.org/')
-    response = requests.get('https://check.torproject.org/')
-    page = BeautifulSoup(response.text, 'html.parser')
-    ip_cont = page.find('strong')
-    ip_addr = ip_cont.renderContents()
-    ip_string = color(ip_addr.decode("utf-8"), 'yellow')
+    ip_string = color(GoTor.get_ip(), 'yellow')
     print(f'Tor IP Address: {ip_string}')
 
 
-def display_children(node):
-    """
-    Static method to display status of child nodes
-    Args:
-        node (LinkNode): root of children to be displayed
-    """
-    children = node.get_children()
-    sucess_msg = color(f'Links Found - {len(children)}', 'green')
-    print(sucess_msg + '\n' + '---------------------------------')
-    for child in children:
-        display(child)
-
-
-def display(node):
+def print_node(node):
     """
     Prints the status of a link based on it's connection status
     Args:
         link (str): link to get status of
     """
     try:
-        title = node.get_name()
-        status = node.status
+        title = node['url']
+        status_text = f"{node['status_code']} {node['status']}"
+        if node['status_code'] >= 200 and node['status_code'] < 300:
+            status = color(status_text, 'green')
+        elif node['status_code'] >= 300 and node['status_code'] < 400:
+            status = color(status_text, 'yellow')
+        else:
+            status = color(status_text, 'red')
     except Exception:
         title = "NOT FOUND"
         status = color('Unable to reach destination.', 'red')
-    status_msg = "%-30s %-20s %-70s" % (title, status, node.get_link())
+
+    status_msg = "%-60s %-20s" % (title, status)
     print(status_msg)
+
+
+def cascade(node, work):
+    work(node)
+    if node['children']:
+        for child in node['children']:
+            cascade(child, work)
+
+
+def print_tree(url, depth=1):
+    """
+    Prints the entire tree in a user friendly fashion
+    Args:
+        url (string): the url of the root node
+        depth (int): the depth to build the tree
+    """
+    root = GoTor.get_node(url, depth)
+    cascade(root, print_node)
+
+
+def print_json(url, depth=1):
+    """
+    Prints the JSON representation of a Link node.
+
+    Args:
+        url (string): the url of the root node
+        depth (int): the depth to build the tree
+
+    Returns:
+        root (dict): Dictionary containing the root node and it's children
+    """
+    root = GoTor.get_node(url, depth)
+    pprint(root)
+    return root
+
+
+def print_emails(url):
+    """
+    Prints any emails found within the HTML content of this url.
+
+    Args:
+        url (string): target location
+
+    Returns:
+        emails (list): list of emails
+    """
+    email_list = GoTor.get_emails(url)
+    pprint(email_list)
+    return email_list

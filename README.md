@@ -8,7 +8,7 @@
                             ╚═╝    ╚═════╝ ╚═╝  ╚═╝    ╚═════╝  ╚═════╝    ╚═╝
 
                             Open Source Intelligence Tool for the Dark Web
-                                                     
+
 </pre>
 
 <p align="center">
@@ -24,22 +24,6 @@
 [![Code Triage](https://www.codetriage.com/dedsecinside/torbot/badges/users.svg)](https://www.codetriage.com/dedsecinside/torbot)
 [![](https://img.shields.io/badge/Built%20with-❤-orange.svg?style=flat-square)]()
 [![](https://img.shields.io/badge/Made%20with-Python-red.svg?style=flat-square)]()
-## Working Procedure/Basic Plan
-The basic procedure executed by the web crawling algorithm takes a list of seed URLs as its input and repeatedly executes
-the following steps:
-<code>
- <pre>
-URLs = input(url)
-while(URLs is not empty) do
-    dequeue url
-    request page
-    parse for Links
-    for(link in Links) do 
-        if (link islive && link is not visited) then 
-            add link to URLs
-    store page content
- </pre>
- </code>
 
 ### Features
 1. Onion Crawler (.onion).(Completed)
@@ -66,7 +50,7 @@ Contributor name will be updated to the below list. 😀
 ### OS Dependencies
 - Tor
 - Python ^3.7
-- Golang 1.x (Not Currently Used)
+- Golang 1.16
 
 ### Python Dependencies
 
@@ -80,6 +64,8 @@ Contributor name will be updated to the below list. 😀
 - yattag
 - numpy
 
+### Golang Dependencies
+- https://github.com/KingAkeem/gotor (This service needs to be ran in tandem with TorBot)
 
 ## Basic setup
 Before you run the torBot make sure the following things are done properly:
@@ -100,7 +86,7 @@ Before you run the torBot make sure the following things are done properly:
 On Linux platforms, you can make an executable for TorBot by using the install.sh script.
 You will need to give the script the correct permissions using `chmod +x install.sh`
 Now you can run `./install.sh` to create the torBot binary.
-Run `./torBot` to execute the program. 
+Run `./torBot` to execute the program.
 
 An alternative way of running torBot is shown below, along with help instructions.
 
@@ -128,29 +114,30 @@ optional arguments:
 Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
 
 
-#### Using the GUI 
+#### Using the GUI
 
 
 #### Using Docker
 
 - Ensure than you have a tor container running on port 9050.
 - Build the image using following command (in the root directory):
-    
+
     `docker build -f docker/Dockerfile -t dedsecinside/torbot .`
 - Run the container (make sure to link the tor container as `tor`):
-    
+
     `docker run --link tor:tor --rm -ti dedsecinside/torbot`
 
 ## TO-DO
-- [X] Visualization Module
+- [x] Visualization Module
 - [x] Implement BFS Search for webcrawler
-- [X] Multithreading for Get Links
-- [ ] Improve stability (Handle errors gracefully, expand test coverage and etc.)
-- [X] Create a user-friendly GUI 
+- [x] Use Golang service for concurrent webcrawling
+- [x] Improve stability (Handle errors gracefully, expand test coverage and etc.)
+- [x] Create a user-friendly GUI
 - [ ] Randomize Tor Connection (Random Header and Identity)
 - [ ] Keyword/Phrase search
 - [ ] Social Media Integration
-- [ ] Increase anonymity and efficiency
+- [ ] Increase anonymity
+- [x] Increase efficiency
 
 ### Have ideas?
 If you have new ideas which is worth implementing, mention those by starting a new issue with the title [FEATURE_REQUEST].
