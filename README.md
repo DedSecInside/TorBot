@@ -194,8 +194,8 @@ GNU Public License
 
 ## CREDITS
 
-- [X] [P5N4PPZ](https://github.com/PSNAppz) - Owner
-- [X] [KingAkeem](https://github.com/KingAkeem) - Experienced Contributor,Reviewer,Core Member
+- [X] [P5N4PPZ](https://github.com/PSNAppz) - Co-owner
+- [X] [KingAkeem](https://github.com/KingAkeem) - Co-owner
 - [X] [masterugwee](https://github.com/masterugwee) - Contributor,Core Member
 - [X] [soorajsomans](https://github.com/soorajsomans) - Contributor,Core Member
 - [X] [agrepravin](https://github.com/agrepravin) - Contributor,Reviewer
