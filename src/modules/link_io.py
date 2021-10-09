@@ -90,3 +90,17 @@ def print_emails(url):
     email_list = GoTor.get_emails(url)
     pprint(email_list)
     return email_list
+
+def print_phones(url):
+    """
+    Prints any phones found within the HTML content of this url.
+
+    Args:
+        url (string): target location
+
+    Returns:
+        phones (list): list of phones
+    """
+    phone_list = GoTor.get_phone(url)
+    pprint(phone_list)
+    return phone_list

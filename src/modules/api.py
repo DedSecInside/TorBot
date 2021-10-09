@@ -53,3 +53,17 @@ class GoTor:
         url = f'http://{address}:{port}/emails?link={link}'
         resp = requests.get(url)
         return resp.json()
+
+    @staticmethod
+    def get_phone(link, address='localhost', port='8081'):
+        """
+        Returns the tel links found on the page.
+
+        Args:
+            link (str): the page to pull the phones from.
+            address (str): network address
+            port (str): network port
+        """
+        url = f'http://{address}:{port}/phone?link={link}'
+        resp = requests.get(url)
+        return resp.json()

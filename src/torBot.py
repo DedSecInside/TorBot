@@ -57,6 +57,11 @@ class TorBot:
             email_json = link_io.print_emails(args.url)
             if args.save:
                 saveJson('Emails', email_json)
+        # -p/--phone
+        if args.phone:
+            phone_json = link_io.print_phones(args.url)
+            if args.save:
+                saveJson('Phones', phone_json)        
         # -s/--save
         else:
             node_json = link_io.print_json(args.url, args.depth)
@@ -100,9 +105,9 @@ class TorBot:
 
         link_io.print_tor_ip_address()
         if args.visualize or args.download:
-            handle_tree_args(args)
+            self.handle_tree_args(args)
         elif args.save or args.mail:
-            handle_json_args(args)
+            self.handle_json_args(args)
         # -i/--info
         elif args.info:
             execute_all(args.url)
@@ -123,6 +128,7 @@ def get_args():
     parser.add_argument("-u", "--url", help="Specifiy a website link to crawl")
     parser.add_argument("-s", "--save", action="store_true", help="Save results in a file")
     parser.add_argument("-m", "--mail", action="store_true", help="Get e-mail addresses from the crawled sites")
+    parser.add_argument("-p", "--phone", action="store_true", help="Get phone numbers from the crawled sites")
     parser.add_argument("--depth", help="Specifiy max depth of crawler (default 1)", default=1)
     parser.add_argument("--gather", action="store_true", help="Gather data for analysis")
     parser.add_argument("-v", "--visualize", action="store_true", help="Visualizes tree of data gathered.")
