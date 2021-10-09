@@ -22,9 +22,14 @@ class GoTor:
             address (str): network address
             port (str): network port
         """
+        print(link)
         url = f'http://{address}:{port}/tree?link={link}&depth={depth}'
         resp = requests.get(url)
-        return resp.json()
+        try:
+            return resp.text
+        except ValueError:
+            return None 
+        return None
 
     @staticmethod
     def get_ip(address='localhost', port='8081'):
