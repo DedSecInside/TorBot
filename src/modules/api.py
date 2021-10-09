@@ -22,7 +22,6 @@ class GoTor:
             address (str): network address
             port (str): network port
         """
-        print(link)
         url = f'http://{address}:{port}/tree?link={link}&depth={depth}'
         resp = requests.get(url)
         return resp.json()
