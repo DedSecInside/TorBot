@@ -90,7 +90,7 @@ class TorBot:
         # If flag is -v, --update, -q/--quiet then user only runs that operation
         # because these are single flags only
         if args.version:
-            print("TorBot Version:" + __VERSION)
+            print("TorBot Version:" + self.__version__)
             sys.exit()
         if args.update:
             updateTor()
