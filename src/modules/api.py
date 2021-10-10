@@ -25,7 +25,7 @@ class GoTor:
         url = f'http://{address}:{port}/tree?link={link}&depth={depth}'
         resp = requests.get(url)
         return resp.json()
-        
+
 
     @staticmethod
     def get_ip(address='localhost', port='8081'):

@@ -15,13 +15,13 @@ from modules.savefile import saveJson
 from modules.info import execute_all
 from modules.collect_data import collect_data
 
+
 # TorBot CLI class
 class TorBot:
 
     def __init__(self, args):
         self.__version__ = config.__version__
         self.args = args
-
 
     def get_header(self):
         license_msg = color("LICENSE: GNU Public License v3", "red")
@@ -61,7 +61,7 @@ class TorBot:
         if args.phone:
             phone_json = link_io.print_phones(args.url)
             if args.save:
-                saveJson('Phones', phone_json)        
+                saveJson('Phones', phone_json)
         # -s/--save
         else:
             node_json = link_io.print_json(args.url, args.depth)

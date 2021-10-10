@@ -91,6 +91,7 @@ def print_emails(url):
     pprint(email_list)
     return email_list
 
+
 def print_phones(url):
     """
     Prints any phones found within the HTML content of this url.
