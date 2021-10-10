@@ -37,13 +37,15 @@ def execute_all(link, *, display_status=False):
     bad_intel = set()  # unclean intel urls
     bad_scripts = set()  # unclean javascript file urls
     datasets = [files, intel, robots, custom, failed, scripts, external, fuzzable, endpoints, keys]
-    dataset_names = ['files', 'intel', 'robots', 'custom', 'failed', 'scripts', 'external', 'fuzzable', 'endpoints', 'keys']
+    dataset_names = [
+        'files', 'intel', 'robots', 'custom', 'failed', 'scripts', 'external', 'fuzzable', 'endpoints', 'keys'
+    ]
     response = requests.get(link)
     soup = BeautifulSoup(response.text, 'html.parser')
     validation_functions = [get_robots_txt, get_dot_git, get_dot_svn, get_dot_git, get_intel, get_bitcoin_address]
     for validate_func in validation_functions:
         try:
-            validate_func(link,  response)
+            validate_func(link, response)
         except (ConnectionError, HTTPError):
             cprint('Error', 'red')
 
@@ -75,8 +77,8 @@ def get_robots_txt(target, response):
     cprint("[*]Checking for Robots.txt", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
-    requests.get(target+"robots.txt")
-    print(target+"robots.txt")
+    requests.get(target + "robots.txt")
+    print(target + "robots.txt")
     matches = findall(r'Allow: (.*)|Disallow: (.*)', response.text)
     for match in matches:
         match = ''.join(match)
@@ -113,7 +115,7 @@ def get_dot_git(target, response):
     cprint("[*]Checking for .git folder", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
-    req = requests.get(target+"/.git/")
+    req = requests.get(target + "/.git/")
     status = req.status_code
     if status == 200:
         cprint("Alert!", 'red')
@@ -145,7 +147,7 @@ def get_dot_svn(target, response):
     cprint("[*]Checking for .svn folder", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
-    req = requests.get(target+"/.svn/entries")
+    req = requests.get(target + "/.svn/entries")
     status = req.status_code
     if status == 200:
         cprint("Alert!", 'red')
@@ -164,7 +166,7 @@ def get_dot_htaccess(target, response):
     cprint("[*]Checking for .htaccess", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
-    req = requests.get(target+"/.htaccess")
+    req = requests.get(target + "/.htaccess")
     statcode = req.status_code
     if statcode == 403:
         cprint("403 Forbidden", 'blue')

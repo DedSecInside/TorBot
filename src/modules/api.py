@@ -26,7 +26,6 @@ class GoTor:
         resp = requests.get(url)
         return resp.json()
 
-
     @staticmethod
     def get_ip(address='localhost', port='8081'):
         """

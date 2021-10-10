@@ -13,6 +13,7 @@ from progress.bar import Bar
 from .utils import join_local_path
 from .validators import validate_link
 
+
 def parse_links(html):
     """Parses HTML page to extract links.
 
@@ -68,10 +69,10 @@ def collect_data(user_url):
             soup = BeautifulSoup(resp.text, 'html.parser')
             meta_tags = parse_meta_tags(soup)
             entry = {
-                    "ID": uuid.uuid4(),
-                    "Title": soup.title.string,
-                    "Metadata": meta_tags,
-                    "Content": soup.find('body')
+                "ID": uuid.uuid4(),
+                "Title": soup.title.string,
+                "Metadata": meta_tags,
+                "Content": soup.find('body')
             }
             writer.writerow(entry)
             bar.next()

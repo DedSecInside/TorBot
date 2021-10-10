@@ -10,10 +10,9 @@ def test_save_json_successful():
     """
     Sucessfully create and dump JSON object of links
     """
-    mock_data = ['http://aff.ironsocket.com/SH7L',
-                 'http://aff.ironsocket.com/SH7L',
-                 'http://wsrs.net/',
-                 'http://cmsgear.com/']
+    mock_data = [
+        'http://aff.ironsocket.com/SH7L', 'http://aff.ironsocket.com/SH7L', 'http://wsrs.net/', 'http://cmsgear.com/'
+    ]
     try:
         file_name = saveJson('Links', mock_data)
         mock_output = {'Links': mock_data}

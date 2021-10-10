@@ -1,4 +1,3 @@
-
 """
 Provides essential utilites for the rest of TorBot app.
 """
@@ -7,6 +6,7 @@ import os
 from dotenv import load_dotenv
 
 # File Functions
+
 
 def find_file(name, path):
     """Search for file within specific dir and any child dirs.
@@ -23,6 +23,7 @@ def find_file(name, path):
         if name in files:
             return os.path.join(root, name)
     return False
+
 
 def join_local_path(file_name=""):
     """

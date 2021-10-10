@@ -5,6 +5,7 @@ from ete3 import faces, Tree, TreeStyle, TextFace
 from .utils import join_local_path
 from .api import GoTor
 
+
 def default_layout(node):
     """
     Default layout for node
@@ -17,6 +18,7 @@ default_style = TreeStyle()
 default_style.show_leaf_name = False
 default_style.layout_fn = default_layout
 
+
 class LinkTree:
     """
     This is a class that represents a tree of links within TorBot. This can
@@ -28,6 +30,7 @@ class LinkTree:
         root (str): root node
         depth (int): depth of tree
     """
+
     def __init__(self, root, depth):
         self._tree = self.__build_tree(root, depth)
 
