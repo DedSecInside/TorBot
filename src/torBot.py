@@ -47,7 +47,7 @@ class TorBot:
         title = title.format(license_msg=license_msg, banner=banner)
         print(title)
 
-    def handle_json_args(args):
+    def handle_json_args(self, args):
         """
         Outputs JSON file for data
         """
@@ -67,7 +67,7 @@ class TorBot:
             node_json = link_io.print_json(args.url, args.depth)
             saveJson("Links", node_json)
 
-    def handle_tree_args(args):
+    def handle_tree_args(self, args):
         """
         Outputs tree visual for data
         """
@@ -106,7 +106,7 @@ class TorBot:
         link_io.print_tor_ip_address()
         if args.visualize or args.download:
             self.handle_tree_args(args)
-        elif args.save or args.mail:
+        elif args.save or args.mail or args.phone:
             self.handle_json_args(args)
         # -i/--info
         elif args.info:
