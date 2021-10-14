@@ -10,8 +10,6 @@ class GoTor:
     """
     An API wrapper for the goTor service
     """
-
-
     def __init__(self, address='localhost', port='8081'):
         self._address = address
         self._port = port
