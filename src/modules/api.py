@@ -11,6 +11,7 @@ class GoTor:
     An API wrapper for the goTor service
     """
 
+
     def __init__(self, address='localhost', port='8081'):
         self._address = address
         self._port = port
@@ -27,7 +28,6 @@ class GoTor:
         resp = requests.get(url)
         return resp.text
 
-
     def get_node(self, link, depth):
         """
         Returns the LinkTree for the given link at the specified depth.
@@ -39,7 +39,6 @@ class GoTor:
         url = self._format_url(f'/tree?link={link}&depth={depth}')
         resp = requests.get(url)
         return resp.json()
-
 
     def get_emails(self, link):
         """
