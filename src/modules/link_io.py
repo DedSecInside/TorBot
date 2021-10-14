@@ -16,7 +16,7 @@ def print_tor_ip_address():
     displays your IP address which we scape and display
     """
     print('Attempting to connect to https://check.torproject.org/')
-    ip_string = color(GoTor.get_ip(), 'yellow')
+    ip_string = color(GoTor().get_ip(), 'yellow')
     print(f'Tor IP Address: {ip_string}')
 
 
@@ -57,7 +57,7 @@ def print_tree(url, depth=1):
         url (string): the url of the root node
         depth (int): the depth to build the tree
     """
-    root = GoTor.get_node(url, depth)
+    root = GoTor().get_node(url, depth)
     cascade(root, print_node)
 
 
@@ -72,7 +72,7 @@ def print_json(url, depth=1):
     Returns:
         root (dict): Dictionary containing the root node and it's children
     """
-    root = GoTor.get_node(url, depth)
+    root = GoTor().get_node(url, depth)
     pprint(root)
     return root
 
@@ -87,6 +87,6 @@ def print_emails(url):
     Returns:
         emails (list): list of emails
     """
-    email_list = GoTor.get_emails(url)
+    email_list = GoTor().get_emails(url)
     pprint(email_list)
     return email_list

@@ -52,7 +52,7 @@ class LinkTree:
         Returns:
             tree (ete3.Tree): Built tree.
         """
-        root = GoTor.get_node(url, depth)
+        root = GoTor().get_node(url, depth)
         root_tree = Tree(name=root['url'])
         if root['children']:
             for child in root['children']:
