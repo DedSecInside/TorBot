@@ -5,12 +5,11 @@ mkdir -p tmp_build
 mkdir -p tmp_dist
 
 # attempt to install pyinstaller using pip, python3 is prioritized
-if command -v pip3 &> /dev/null; then
-        pip3 install pyinstaller
-elif command -v pip &> /dev/null; then
-        pip install pyinstaller
+if command -v poetry &> /dev/null; then
+        poetry install
+        poetry update
 else
-        echo "pip is required for installation."
+        echo "poetry is required for installation."
         exit 1
 fi
 
