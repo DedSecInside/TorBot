@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3.7-slim-buster
 LABEL maintainer="dedsec_inside"
 
 # Install PyQt5
