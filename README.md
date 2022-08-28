@@ -56,30 +56,7 @@ Contributor name will be updated to the below list. 😀
 ### Python Dependencies
 
 (see requirements.txt for more details)
-altgraph==0.17.2
-beautifulsoup4==4.11.1
-certifi==2022.5.18.1
-charset-normalizer==2.0.12
-decorator==5.1.1
-ete3==3.1.2
-idna==3.3
-macholib==1.16
-numpy==1.22.4
-progress==1.6
-pyinstaller==5.1
-pyinstaller-hooks-contrib==2022.7
-PySocks==1.7.1
-python-dotenv==0.20.0
-requests==2.28.0
-requests-mock==1.9.3
-six==1.16.0
-soupsieve==2.3.2.post1
-termcolor==1.1.0
-threadsafe==1.0.0
-urllib3==1.26.9
-validators==0.20.0
-yattag==1.14.0
-pyqt5==5.15.6 (Install using apt/brew if pip installation fails.)
+
 ### Golang Dependencies
 - https://github.com/KingAkeem/gotor (This service needs to be ran in tandem with TorBot)
 
