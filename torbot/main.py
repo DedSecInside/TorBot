@@ -13,14 +13,13 @@ from .modules.info import execute_all
 from .modules.collect_data import collect_data
 from .modules.nlp import main
 
-from . import config
+from . import version
 
 
 # TorBot CLI class
 class TorBot:
 
     def __init__(self, args):
-        self.__version__ = config.__version__
         self.args = args
 
     def get_header(self):
@@ -31,7 +30,7 @@ class TorBot:
                             / __/ / / / /_/ / __ \/ __ \/ /
                            / /_/ /_/ / _, _/ /_/ / /_/ / /
                            \__/\____/_/ |_/_____/\____/_/  V{VERSION}
-                """.format(VERSION=self.__version__)
+                """.format(VERSION=version.__version__)
         banner = color(banner, "red")
 
         title = r"""
