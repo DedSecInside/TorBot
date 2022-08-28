@@ -100,7 +100,7 @@ optional arguments:
   -cAll, --classifyAll  Classify all the obtained webpages using NLP module
   -i, --info            Info displays basic info of the scanned site` </pre>
 
-* NOTE: All flags under -u URL, --url URL must also be passed a -u flag.
+* NOTE: -u is a mandatory flag
 
 Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
 
