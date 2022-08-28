@@ -102,22 +102,26 @@ Finally run the following command
 
 `python3 run.py -h`
 <pre>
-usage: run.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m] [-e EXTENSION]
-                 [-i]
+usage: Gather and analayze data from Tor sites.
 
 optional arguments:
-  -h, --help            Show this help message and exit
-  -v, --version         Show current version of TorBot.
+  -h, --help            show this help message and exit
+  --version             Show current version of TorBot.
   --update              Update TorBot to the latest stable version
-  -q, --quiet           Prevent header from displaying
-  -u URL, --url URL     Specifiy a website link to crawl, currently returns links on that page (if used alone e.g. python3 run.py -u https://www.github.com)
-  -s, --save            Save results to a file in json format
+  -q, --quiet
+  -u URL, --url URL     Specifiy a website link to crawl
+  -s, --save            Save results in a file
   -m, --mail            Get e-mail addresses from the crawled sites
+  -p, --phone           Get phone numbers from the crawled sites
+  --depth DEPTH         Specifiy max depth of crawler (default 1)
+  --gather              Gather data for analysis
+  -v, --visualize       Visualizes tree of data gathered.
+  -d, --download        Downloads tree of data gathered.
   -e EXTENSION, --extension EXTENSION
-                        Specifiy additional website extensions to the
-                        list(.com or .org etc)
-  -i, --info            Info displays basic info of the scanned site (very
-                        slow)` </pre>
+                        Specifiy additional website extensions to the list(.com , .org, .etc)
+  -c, --classify        Classify the webpage using NLP module
+  -cAll, --classifyAll  Classify all the obtained webpages using NLP module
+  -i, --info            Info displays basic info of the scanned site` </pre>
 
 * NOTE: All flags under -u URL, --url URL must also be passed a -u flag.
 
@@ -142,16 +146,15 @@ Run `./torBot` to execute the program.
 
 
 ## TO-DO
-- [x] Visualization Module
+- [ ] Visualization Module Revamp
 - [x] Implement BFS Search for webcrawler
 - [x] Use Golang service for concurrent webcrawling
 - [x] Improve stability (Handle errors gracefully, expand test coverage and etc.)
-- [x] Create a user-friendly GUI
 - [ ] Randomize Tor Connection (Random Header and Identity)
 - [ ] Keyword/Phrase search
 - [ ] Social Media Integration
 - [ ] Increase anonymity
-- [x] Increase efficiency
+- [ ] Improve performance
 
 ### Have ideas?
 If you have new ideas which is worth implementing, mention those by creating a new issue with the title [FEATURE_REQUEST].
