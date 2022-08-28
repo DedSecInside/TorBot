@@ -4,10 +4,12 @@ objects or url strings
 """
 import requests
 from bs4 import BeautifulSoup
+from pprint import pprint
 
 from .api import GoTor
 from .color import color
-from pprint import pprint
+from .nlp.main import classify
+
 
 
 def print_tor_ip_address():
@@ -20,7 +22,7 @@ def print_tor_ip_address():
     print(f'Tor IP Address: {ip_string}')
 
 
-def print_node(node):
+def print_node(node, classify_page):
     """
     Prints the status of a link based on it's connection status
     Args:
@@ -29,6 +31,9 @@ def print_node(node):
     try:
         title = node['url']
         status_text = f"{node['status_code']} {node['status']}"
+        if classify_page:
+            classification = classify(GoTor.get_web_content(node['url']))
+            status_text += f" {classification}"
         if node['status_code'] >= 200 and node['status_code'] < 300:
             status = color(status_text, 'green')
         elif node['status_code'] >= 300 and node['status_code'] < 400:
@@ -43,14 +48,14 @@ def print_node(node):
     print(status_msg)
 
 
-def cascade(node, work):
-    work(node)
+def cascade(node, work, classify_page):
+    work(node, classify_page)
     if node['children']:
         for child in node['children']:
-            cascade(child, work)
+            cascade(child, work, classify_page)
 
 
-def print_tree(url, depth=1):
+def print_tree(url, depth=1, classify_page=False):
     """
     Prints the entire tree in a user friendly fashion
     Args:
@@ -58,7 +63,7 @@ def print_tree(url, depth=1):
         depth (int): the depth to build the tree
     """
     root = GoTor.get_node(url, depth)
-    cascade(root, print_node)
+    cascade(root, print_node, classify_page)
 
 
 def print_json(url, depth=1):

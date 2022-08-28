@@ -2,6 +2,37 @@
 --------------------
 All notable changes to this project will be documented in this file.
 
+## 2.1.0
+
+### Added
+* GoTor API - A Golang implementation of Core TorBot functionality.
+* Phone number extractor - Extracts phone numbers from urls.
+* Integrated NLP module with TorBot
+* Major code refactoring
+
+### Removed
+* No longer using the tree module
+* Poetry Implementation removed
+
+## 2.0.0
+
+### Added
+* Fix data collection and add progress indicator by @KingAkeem in #192
+* convert port to integer by @KingAkeem in #193
+* Use hiddenwiki.org as default URL for collecting data by @KingAkeem in #194
+* Bump jinja2 from 2.11.2 to 2.11.3 in /src/api by @dependabot in #200
+* Simplify LinkNode and add new display by @KingAkeem in #202
+* Remove live flag by @KingAkeem in #203
+* Poetry Implementation by @NeoLight1010 in #206
+* Delete .DS_Store by @stefins in #204
+* Fix the basic functionality of tree features by @KingAkeem in #214
+* Save results as json by @KingAkeem in #215
+* Organize data file location by @KingAkeem in #216
+* Add CodeTriage link and image by @KingAkeem in #213
+* Add website classification by @KingAkeem in #218
+* Use GoTor HTTP service by @KingAkeem in #219
+
+
 ## 1.4.0 | Present 
 
 ### Added 

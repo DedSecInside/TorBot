@@ -8,5 +8,4 @@ To test gathering data use:
 * This will generate the data necessary to train the classification model 
 
 To predict the classification of a webiste use:
-`python3 main.py -website https://www.github.com` 
-* Add `-accuracy` argument, to view the accuracy of the prediction
+`classify.py` and provide the url 

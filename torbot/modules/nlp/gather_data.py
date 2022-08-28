@@ -1,6 +1,9 @@
 import csv
+import os
+
 from pathlib import Path
 
+os.chdir(Path(__file__).parent)
 
 def write_data():
     """
@@ -23,10 +26,10 @@ def write_data():
             [id, website, content, category] = row
             if category != 'category':
                 category = category.replace('/', '+')
-		dir_name = f"training_data/{category}"
-                Path(dir_name).mkdir(parents=True, exist_ok=True)
-                with open(f'{dir_name}/{id}.txt', mode='w+') as txtfile:
-                    txtfile.write(content)
+            dir_name = f"training_data/{category}"
+            Path(dir_name).mkdir(parents=True, exist_ok=True)
+            with open(f'{dir_name}/{id}.txt', mode='w+') as txtfile:
+                txtfile.write(content)
 
 
 if __name__ == "__main__":

@@ -1,9 +1,10 @@
-FROM python:3
+FROM python:3.9
 LABEL maintainer="dedsec_inside"
 
-# Install PyQt5
+
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends python3-pyqt5 \
+    && apt-get install -y virtualenv \
+    && apt-get install -y tor \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -11,11 +12,13 @@ WORKDIR /app
 
 COPY . .
 
-RUN pip install --no-cache-dir poetry
-RUN poetry config virtualenvs.create false
-RUN python -m poetry install --no-dev
+# Create virtual env
+RUN virtualenv venv --python=python3.9
+RUN source venv/bin/activate
+RUN pip install -r requirements.txt
+
 
 RUN chmod +x install.sh
 RUN bash install.sh
 
-ENTRYPOINT ["./torBot", "--ip", "tor"]
+ENTRYPOINT ["./run.py", "--ip", "tor"]

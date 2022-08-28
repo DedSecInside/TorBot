@@ -21,7 +21,7 @@ __pycache*
 __pycache__/
 
 # Misc
-torBot
+
 .*.swp
 .ropeproject/
 .idea/
@@ -33,3 +33,4 @@ venv/
 .DS_Store
 .env
 data/*.csv
+torbot/modules/nlp/training_data/

@@ -38,7 +38,7 @@ def join_local_path(file_name=""):
     if file_name == "":
         return
 
-    dev_file = find_file("torbot_dev.env", "../")
+    dev_file = find_file("dev.env", "../")
     if not dev_file:
         raise FileNotFoundError
     load_dotenv(dotenv_path=dev_file)

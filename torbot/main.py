@@ -1,20 +1,21 @@
 """
-MAIN MODULE
+Core
 """
 import argparse
 import sys
 
 from requests.exceptions import HTTPError
 
-import config
-from modules import link_io
-from modules.linktree import LinkTree
-from modules.color import color
-from modules.updater import updateTor
-from modules.savefile import saveJson
-from modules.info import execute_all
-from modules.collect_data import collect_data
+from .modules import link_io
+# from .modules.linktree import LinkTree
+from .modules.color import color
+from .modules.updater import updateTor
+from .modules.savefile import saveJson
+from .modules.info import execute_all
+from .modules.collect_data import collect_data
+from .modules.nlp import main
 
+from  . import config
 
 # TorBot CLI class
 class TorBot:
@@ -67,22 +68,22 @@ class TorBot:
             node_json = link_io.print_json(args.url, args.depth)
             saveJson("Links", node_json)
 
-    def handle_tree_args(self, args):
-        """
-        Outputs tree visual for data
-        """
-        tree = LinkTree(args.url, args.depth)
-        # -v/--visualize
-        if args.visualize:
-            tree.show()
+    # def handle_tree_args(self, args):
+    #     """
+    #     Outputs tree visual for data
+    #     """
+    #     tree = LinkTree(args.url, args.depth)
+    #     # -v/--visualize
+    #     if args.visualize:
+    #         tree.show()
 
-        # -d/--download
-        if args.download:
-            file_name = str(input("File Name (.pdf/.png/.svg): "))
-            tree.save(file_name)
+    #     # -d/--download
+    #     if args.download:
+    #         file_name = str(input("File Name (.pdf/.png/.svg): "))
+    #         tree.save(file_name)
 
     def perform_action(self):
-        args = get_args()
+        args = self.args
         if args.gather:
             collect_data(args.url)
             return
@@ -97,15 +98,17 @@ class TorBot:
             sys.exit()
         if not args.quiet:
             self.get_header()
-
         # If url flag is set then check for accompanying flag set. Only one
         # additional flag can be set with -u/--url flag
         if not args.url:
-            print("usage: See torBot.py -h for possible arguments.")
-
+            print("usage: See torBot.py -h for possible arguments.")  
         link_io.print_tor_ip_address()
+        if args.classify:
+            result = main.classify(args.url)  
+            print ("Website Classification: " + result[0], "| Accuracy: " + str(result[1]))
         if args.visualize or args.download:
-            self.handle_tree_args(args)
+            # self.handle_tree_args(args)
+            raise NotImplementedError("Tree visualization and download is not available yet.")
         elif args.save or args.mail or args.phone:
             self.handle_json_args(args)
         # -i/--info
@@ -113,7 +116,7 @@ class TorBot:
             execute_all(args.url)
         else:
             if args.url:
-                link_io.print_tree(args.url, args.depth)
+                link_io.print_tree(args.url, args.depth, args.classifyAll)
         print("\n\n")
 
 
@@ -141,6 +144,8 @@ def get_args():
         default=[],
         help=' '.join(("Specifiy additional website", "extensions to the list(.com , .org, .etc)"))
     )
+    parser.add_argument("-c", "--classify", action="store_true", help="Classify the webpage using NLP module")
+    parser.add_argument("-cAll", "--classifyAll", action="store_true", help="Classify all the obtained webpages using NLP module")
     parser.add_argument(
         "-i", "--info", action="store_true", help=' '.join(("Info displays basic info of the scanned site"))
     )

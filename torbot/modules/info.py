@@ -2,15 +2,35 @@
 Module that contains methods for collecting all relevant data from links,
 and saving data to file.
 """
+import requests
+import re
 
 from urllib.parse import urlsplit
 from bs4 import BeautifulSoup
 from termcolor import cprint
-from re import search, findall
 from requests.exceptions import HTTPError
-import requests
-import re
 
+from .api import GoTor
+
+keys = set()  # high entropy strings, prolly secret keys
+files = set()  # pdf, css, png etc.
+intel = set()  # emails, website accounts, aws buckets etc.
+robots = set()  # entries of robots.txt
+custom = set()  # string extracted by custom regex pattern
+failed = set()  # urls that photon failed to crawl
+scripts = set()  # javascript files
+external = set()  # urls that don't belong to the target i.e. out-of-scope
+fuzzable = set()  # urls that have get params in them e.g. example.com/page.php?id=2
+endpoints = set()  # urls found from javascript files
+processed = set()  # urls that have been crawled
+
+everything = []
+bad_intel = set()  # unclean intel urls
+bad_scripts = set()  # unclean javascript file urls
+datasets = [files, intel, robots, custom, failed, scripts, external, fuzzable, endpoints, keys]
+dataset_names = [
+    'files', 'intel', 'robots', 'custom', 'failed', 'scripts', 'external', 'fuzzable', 'endpoints', 'keys'
+]
 
 def execute_all(link, *, display_status=False):
     """Initialise datasets and functions to retrieve data, and execute
@@ -21,28 +41,10 @@ def execute_all(link, *, display_status=False):
         display_status (bool, optional): Whether to print connection
             attempts to terminal.
     """
-    keys = set()  # high entropy strings, prolly secret keys
-    files = set()  # pdf, css, png etc.
-    intel = set()  # emails, website accounts, aws buckets etc.
-    robots = set()  # entries of robots.txt
-    custom = set()  # string extracted by custom regex pattern
-    failed = set()  # urls that photon failed to crawl
-    scripts = set()  # javascript files
-    external = set()  # urls that don't belong to the target i.e. out-of-scope
-    fuzzable = set()  # urls that have get params in them e.g. example.com/page.php?id=2
-    endpoints = set()  # urls found from javascript files
-    processed = set()  # urls that have been crawled
-
-    everything = []
-    bad_intel = set()  # unclean intel urls
-    bad_scripts = set()  # unclean javascript file urls
-    datasets = [files, intel, robots, custom, failed, scripts, external, fuzzable, endpoints, keys]
-    dataset_names = [
-        'files', 'intel', 'robots', 'custom', 'failed', 'scripts', 'external', 'fuzzable', 'endpoints', 'keys'
-    ]
-    response = requests.get(link)
-    soup = BeautifulSoup(response.text, 'html.parser')
-    validation_functions = [get_robots_txt, get_dot_git, get_dot_svn, get_dot_git, get_intel, get_bitcoin_address]
+   
+    response = GoTor.get_web_content(link)
+    soup = BeautifulSoup(response, 'html.parser')
+    validation_functions = [get_robots_txt, get_dot_git, get_dot_svn, get_dot_git, get_intel, get_dot_htaccess, get_bitcoin_address]
     for validate_func in validation_functions:
         try:
             validate_func(link, response)
@@ -77,13 +79,13 @@ def get_robots_txt(target, response):
     cprint("[*]Checking for Robots.txt", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
-    requests.get(target + "robots.txt")
+    GoTor.get_web_content(target + "robots.txt")
     print(target + "robots.txt")
-    matches = findall(r'Allow: (.*)|Disallow: (.*)', response.text)
+    matches = re.findall(r'Allow: (.*)|Disallow: (.*)', response)
     for match in matches:
         match = ''.join(match)
         if '*' not in match:
-            url = main_url + match
+            url = target + match
             robots.add(url)
         cprint("Robots.txt found", 'blue')
         print(robots)
@@ -99,7 +101,7 @@ def get_intel(link, response):
     """
     intel = set()
     regex = r'''([\w\.-]+s[\w\.-]+\.amazonaws\.com)|([\w\.-]+@[\w\.-]+\.[\.\w]+)'''
-    matches = findall(regex, response.text)
+    matches = re.findall(regex, response)
     print("Intel\n--------\n\n")
     for match in matches:
         intel.add(match)
@@ -115,9 +117,8 @@ def get_dot_git(target, response):
     cprint("[*]Checking for .git folder", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
-    req = requests.get(target + "/.git/")
-    status = req.status_code
-    if status == 200:
+    resp = GoTor.get_web_content(target + "/.git/config")
+    if not resp.__contains__("404"):
         cprint("Alert!", 'red')
         cprint(".git folder exposed publicly", 'red')
     else:
@@ -131,7 +132,7 @@ def get_bitcoin_address(target, response):
         target (str): URL to be checked.
         response (object): Response object containing data to check.
     """
-    bitcoins = re.findall(r'^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$', response.text)
+    bitcoins = re.findall(r'^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$', response)
     print("BTC FOUND: ", len(bitcoins))
     for bitcoin in bitcoins:
         print("BTC: ", bitcoin)
@@ -147,9 +148,8 @@ def get_dot_svn(target, response):
     cprint("[*]Checking for .svn folder", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
-    req = requests.get(target + "/.svn/entries")
-    status = req.status_code
-    if status == 200:
+    resp = GoTor.get_web_content(target + "/.svn/entries")
+    if not resp.__contains__("404"):
         cprint("Alert!", 'red')
         cprint(".SVN folder exposed publicly", 'red')
     else:
@@ -166,16 +166,15 @@ def get_dot_htaccess(target, response):
     cprint("[*]Checking for .htaccess", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
-    req = requests.get(target + "/.htaccess")
-    statcode = req.status_code
-    if statcode == 403:
+    resp = GoTor.get_web_content(target + "/.htaccess")
+    if  resp.__contains__("403"):
         cprint("403 Forbidden", 'blue')
-    elif statcode == 200:
+    elif not resp.__contains__("404") or resp.__contains__("500"):
         cprint("Alert!!", 'blue')
         cprint(".htaccess file found!", 'blue')
     else:
-        cprint("Status code", 'blue')
-        cprint(statcode)
+        cprint("Response", 'blue')
+        cprint(resp, 'blue')
 
 
 def display_webpage_description(soup):
@@ -201,12 +200,12 @@ def writer(datasets, dataset_names, output_dir):
     for dataset, dataset_name in zip(datasets, dataset_names):
         if dataset:
             filepath = output_dir + '/' + dataset_name + '.txt'
-            if python3:
-                with open(filepath, 'w+', encoding='utf8') as f:
-                    f.write(str('\n'.join(dataset)))
-                    f.write('\n')
-            else:
-                with open(filepath, 'w+') as f:
-                    joined = '\n'.join(dataset)
-                    f.write(str(joined.encode('utf-8')))
-                    f.write('\n')
+
+            with open(filepath, 'w+', encoding='utf8') as f:
+                f.write(str('\n'.join(dataset)))
+                f.write('\n')
+            # else:
+            #     with open(filepath, 'w+') as f:
+            #         joined = '\n'.join(dataset)
+            #         f.write(str(joined.encode('utf-8')))
+            #         f.write('\n')
