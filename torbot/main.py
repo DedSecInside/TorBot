@@ -99,7 +99,7 @@ class TorBot:
         # If url flag is set then check for accompanying flag set. Only one
         # additional flag can be set with -u/--url flag
         if not args.url:
-            print("usage: See torBot.py -h for possible arguments.")
+            print("usage: See run.py -h for possible arguments.")
         link_io.print_tor_ip_address()
         if args.classify:
             result = main.classify(args.url)

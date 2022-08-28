@@ -102,7 +102,7 @@ Finally run the following command
 
 `python3 run.py -h`
 <pre>
-usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m] [-e EXTENSION]
+usage: run.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m] [-e EXTENSION]
                  [-i]
 
 optional arguments:
@@ -110,7 +110,7 @@ optional arguments:
   -v, --version         Show current version of TorBot.
   --update              Update TorBot to the latest stable version
   -q, --quiet           Prevent header from displaying
-  -u URL, --url URL     Specifiy a website link to crawl, currently returns links on that page (if used alone e.g. python3 torBot.py -u https://www.github.com)
+  -u URL, --url URL     Specifiy a website link to crawl, currently returns links on that page (if used alone e.g. python3 run.py -u https://www.github.com)
   -s, --save            Save results to a file in json format
   -m, --mail            Get e-mail addresses from the crawled sites
   -e EXTENSION, --extension EXTENSION
