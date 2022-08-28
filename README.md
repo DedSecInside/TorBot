@@ -45,6 +45,7 @@ If its a new module, it should be put inside the modules directory.
 The branch name should be your new feature name in the format <Feature_featurename_version(optional)>. For example, <i>Feature_FasterCrawl_1.0</i>.
 Contributor name will be updated to the below list. 😀
 <br>
+
 <b> NOTE : The PR should be made only to `dev` branch of TorBot. </b>
 
 ### OS Dependencies
@@ -54,20 +55,37 @@ Contributor name will be updated to the below list. 😀
 
 ### Python Dependencies
 
-(see pyproject.toml for more detail)
-- beautifulsoup4
-- pyinstaller
-- PySocks
-- termcolor
-- requests
-- requests_mock
-- yattag
-- numpy
-
+(see requirements.txt for more details)
+altgraph==0.17.2
+beautifulsoup4==4.11.1
+certifi==2022.5.18.1
+charset-normalizer==2.0.12
+decorator==5.1.1
+ete3==3.1.2
+idna==3.3
+macholib==1.16
+numpy==1.22.4
+progress==1.6
+pyinstaller==5.1
+pyinstaller-hooks-contrib==2022.7
+PySocks==1.7.1
+python-dotenv==0.20.0
+requests==2.28.0
+requests-mock==1.9.3
+six==1.16.0
+soupsieve==2.3.2.post1
+termcolor==1.1.0
+threadsafe==1.0.0
+urllib3==1.26.9
+validators==0.20.0
+yattag==1.14.0
+pyqt5==5.15.6 (Install using apt/brew if pip installation fails.)
 ### Golang Dependencies
 - https://github.com/KingAkeem/gotor (This service needs to be ran in tandem with TorBot)
 
-## Basic setup
+## Installation
+
+### From source
 Before you run the torBot make sure the following things are done properly:
 
 * Run tor service
@@ -75,24 +93,16 @@ Before you run the torBot make sure the following things are done properly:
 
 * Make sure that your torrc is configured to SOCKS_PORT localhost:9050
 
-* Install [Poetry](https://python-poetry.org/docs/)
+* Open a new terminal and run `cd gotor && go run main.go -server`
 
-* Disable Poetry virtualenvs (not required)
-`poetry config settings.virtualenvs.create false`
+* Install TorBot Python requirements using
+`pip install -r requirements.txt`
 
-* Install TorBot Python requirements
-`poetry install`
+Finally run the following command
 
-On Linux platforms, you can make an executable for TorBot by using the install.sh script.
-You will need to give the script the correct permissions using `chmod +x install.sh`
-Now you can run `./install.sh` to create the torBot binary.
-Run `./torBot` to execute the program.
-
-An alternative way of running torBot is shown below, along with help instructions.
-
-`python3 torBot.py or use the -h/--help argument`
+`python3 run.py -h`
 <pre>
-usage: torBot.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m] [-e EXTENSION]
+usage: run.py [-h] [-v] [--update] [-q] [-u URL] [-s] [-m] [-e EXTENSION]
                  [-i]
 
 optional arguments:
@@ -100,7 +110,7 @@ optional arguments:
   -v, --version         Show current version of TorBot.
   --update              Update TorBot to the latest stable version
   -q, --quiet           Prevent header from displaying
-  -u URL, --url URL     Specifiy a website link to crawl, currently returns links on that page (if used alone e.g. python3 torBot.py -u https://www.github.com)
+  -u URL, --url URL     Specifiy a website link to crawl, currently returns links on that page (if used alone e.g. python3 run.py -u https://www.github.com)
   -s, --save            Save results to a file in json format
   -m, --mail            Get e-mail addresses from the crawled sites
   -e EXTENSION, --extension EXTENSION
@@ -113,11 +123,7 @@ optional arguments:
 
 Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
 
-
-#### Using the GUI
-
-
-#### Using Docker
+### Using Docker
 
 - Ensure than you have a tor container running on port 9050.
 - Build the image using following command (in the root directory):
@@ -126,6 +132,14 @@ Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob
 - Run the container (make sure to link the tor container as `tor`):
 
     `docker run --link tor:tor --rm -ti dedsecinside/torbot`
+
+### Using executable (Linux Only)
+
+On Linux platforms, you can make an executable for TorBot by using the install.sh script.
+You will need to give the script the correct permissions using `chmod +x install.sh`
+Now you can run `./install.sh` to create the torBot binary.
+Run `./torBot` to execute the program.
+
 
 ## TO-DO
 - [x] Visualization Module
@@ -140,27 +154,8 @@ Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob
 - [x] Increase efficiency
 
 ### Have ideas?
-If you have new ideas which is worth implementing, mention those by starting a new issue with the title [FEATURE_REQUEST].
-If the idea is worth implementing, congratz, you are now a contributor.
+If you have new ideas which is worth implementing, mention those by creating a new issue with the title [FEATURE_REQUEST].
 
-### Cite this [paper](https://link.springer.com/chapter/10.1007/978-981-15-0146-3_19)
-
-    @InProceedings{10.1007/978-981-15-0146-3_19,
-    author="Narayanan, P. S.
-    and Ani, R.
-    and King, Akeem T. L.",
-    editor="Ranganathan, G.
-    and Chen, Joy
-    and Rocha, {\'A}lvaro",
-    title="TorBot: Open Source Intelligence Tool for Dark Web",
-    booktitle="Inventive Communication and Computational Technologies",
-    year="2020",
-    publisher="Springer Singapore",
-    address="Singapore",
-    pages="187--195",
-    abstract="The dark web has turned into a dominant source of illegal activities. With several volunteered networks, it is      becoming more difficult to track down these services. Open source intelligence (OSINT) is a technique used to gather intelligence on targets by harvesting publicly available data. Performing OSINT on the Tor network makes it a challenge for both researchers and developers because of the complexity and anonymity of the network. This paper presents a tool which shows OSINT in the dark web. With the use of this tool, researchers and Law Enforcement Agencies can automate their task of crawling and identifying different services in the Tor network. This tool has several features which can help extract different intelligence.",
-    isbn="978-981-15-0146-3"
-    }
 
 
 ### References
@@ -207,5 +202,7 @@ GNU Public License
 - [X] [Gus](https://github.com/HotPushUpGuy420) - New Contributor
 - [X] [SubaruSama](https://github.com/SubaruSama) - New Contributor
 - [X] [robly78746](https://github.com/robly78746) - New Contributor
+
+... see all contributors here (https://github.com/DedSecInside/TorBot/graphs/contributors)
 
 
