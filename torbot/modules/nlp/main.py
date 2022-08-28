@@ -1,6 +1,6 @@
 import requests
 import numpy as np
-import os 
+import os
 from pathlib import Path
 
 from bs4 import BeautifulSoup
@@ -10,6 +10,7 @@ from sklearn.linear_model import SGDClassifier
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.datasets import load_files
 
+
 def classify(data):
     """
         Classify URL specified by user
@@ -18,11 +19,7 @@ def classify(data):
     html = soup.get_text()
 
     # create classifier
-    clf = Pipeline([
-        ('vect', CountVectorizer()),
-        ('tfidf', TfidfTransformer()),
-        ('clf', SGDClassifier())
-    ])
+    clf = Pipeline([('vect', CountVectorizer()), ('tfidf', TfidfTransformer()), ('clf', SGDClassifier())])
     try:
         os.chdir(Path(__file__).parent)
 
@@ -34,13 +31,9 @@ def classify(data):
         write_data()
         print("Training data obtained.")
         dataset = load_files('training_data')
-        pass    
-    x_train, x_test, y_train, y_test = train_test_split(
-                            dataset.data,
-                            dataset.target
-                        )
+        pass
+    x_train, x_test, y_train, y_test = train_test_split(dataset.data, dataset.target)
     clf.fit(x_train, y_train)
-
 
     website = 'Unknown'
     if soup.title:
@@ -50,4 +43,4 @@ def classify(data):
     predicted = clf.predict([html])
     accuracy = np.mean(predicted == y_test)
 
-    return [dataset.target_names[predicted[0]] , accuracy]
+    return [dataset.target_names[predicted[0]], accuracy]

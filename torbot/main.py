@@ -15,7 +15,8 @@ from .modules.info import execute_all
 from .modules.collect_data import collect_data
 from .modules.nlp import main
 
-from  . import config
+from . import config
+
 
 # TorBot CLI class
 class TorBot:
@@ -101,11 +102,11 @@ class TorBot:
         # If url flag is set then check for accompanying flag set. Only one
         # additional flag can be set with -u/--url flag
         if not args.url:
-            print("usage: See torBot.py -h for possible arguments.")  
+            print("usage: See torBot.py -h for possible arguments.")
         link_io.print_tor_ip_address()
         if args.classify:
-            result = main.classify(args.url)  
-            print ("Website Classification: " + result[0], "| Accuracy: " + str(result[1]))
+            result = main.classify(args.url)
+            print("Website Classification: " + result[0], "| Accuracy: " + str(result[1]))
         if args.visualize or args.download:
             # self.handle_tree_args(args)
             raise NotImplementedError("Tree visualization and download is not available yet.")
@@ -145,7 +146,9 @@ def get_args():
         help=' '.join(("Specifiy additional website", "extensions to the list(.com , .org, .etc)"))
     )
     parser.add_argument("-c", "--classify", action="store_true", help="Classify the webpage using NLP module")
-    parser.add_argument("-cAll", "--classifyAll", action="store_true", help="Classify all the obtained webpages using NLP module")
+    parser.add_argument(
+        "-cAll", "--classifyAll", action="store_true", help="Classify all the obtained webpages using NLP module"
+    )
     parser.add_argument(
         "-i", "--info", action="store_true", help=' '.join(("Info displays basic info of the scanned site"))
     )

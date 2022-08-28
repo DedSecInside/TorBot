@@ -5,6 +5,7 @@ from pathlib import Path
 
 os.chdir(Path(__file__).parent)
 
+
 def write_data():
     """
     Writes the training data from the csv file to a directory based on the

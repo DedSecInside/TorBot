@@ -17,4 +17,3 @@ __version__ = '2.1.0'
 
 HOST = os.getenv('HOST')
 PORT = os.getenv('PORT')
-

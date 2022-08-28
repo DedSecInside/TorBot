@@ -32,6 +32,7 @@ dataset_names = [
     'files', 'intel', 'robots', 'custom', 'failed', 'scripts', 'external', 'fuzzable', 'endpoints', 'keys'
 ]
 
+
 def execute_all(link, *, display_status=False):
     """Initialise datasets and functions to retrieve data, and execute
     each for a given link.
@@ -41,10 +42,12 @@ def execute_all(link, *, display_status=False):
         display_status (bool, optional): Whether to print connection
             attempts to terminal.
     """
-   
+
     response = GoTor.get_web_content(link)
     soup = BeautifulSoup(response, 'html.parser')
-    validation_functions = [get_robots_txt, get_dot_git, get_dot_svn, get_dot_git, get_intel, get_dot_htaccess, get_bitcoin_address]
+    validation_functions = [
+        get_robots_txt, get_dot_git, get_dot_svn, get_dot_git, get_intel, get_dot_htaccess, get_bitcoin_address
+    ]
     for validate_func in validation_functions:
         try:
             validate_func(link, response)
@@ -167,7 +170,7 @@ def get_dot_htaccess(target, response):
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
     resp = GoTor.get_web_content(target + "/.htaccess")
-    if  resp.__contains__("403"):
+    if resp.__contains__("403"):
         cprint("403 Forbidden", 'blue')
     elif not resp.__contains__("404") or resp.__contains__("500"):
         cprint("Alert!!", 'blue')

@@ -11,7 +11,6 @@ from .color import color
 from .nlp.main import classify
 
 
-
 def print_tor_ip_address():
     """
     https://check.torproject.org/ tells you if you are using tor and it
