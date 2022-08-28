@@ -2,7 +2,6 @@
 Module that contains methods for collecting all relevant data from links,
 and saving data to file.
 """
-import requests
 import re
 
 from urllib.parse import urlsplit

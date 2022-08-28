@@ -4,8 +4,6 @@ Core
 import argparse
 import sys
 
-from requests.exceptions import HTTPError
-
 from .modules import link_io
 # from .modules.linktree import LinkTree
 from .modules.color import color

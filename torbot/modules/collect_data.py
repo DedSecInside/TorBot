@@ -4,7 +4,6 @@ This module is used to gather data for analysis using thehiddenwiki.org.
 import datetime
 import uuid
 import requests
-import os
 
 from bs4 import BeautifulSoup
 from threadsafe.safe_csv import SafeDictWriter
