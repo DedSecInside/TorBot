@@ -20,7 +20,7 @@ def print_tor_ip_address():
     print(f'Tor IP Address: {ip_string}')
 
 
-def print_node(node, classify_page):
+def print_node(node, classify_page, randomize=False):
     """
     Prints the status of a link based on it's connection status
     Args:
@@ -30,7 +30,7 @@ def print_node(node, classify_page):
         title = node['url']
         status_text = f"{node['status_code']} {node['status']}"
         if classify_page:
-            classification = classify(GoTor.get_web_content(node['url']))
+            classification = classify(GoTor.get_web_content(node['url']), randomize)
             status_text += f" {classification}"
         if node['status_code'] >= 200 and node['status_code'] < 300:
             status = color(status_text, 'green')
@@ -46,8 +46,8 @@ def print_node(node, classify_page):
     print(status_msg)
 
 
-def cascade(node, work, classify_page):
-    work(node, classify_page)
+def cascade(node, work, classify_page, randomize=False):
+    work(node, classify_page, randomize=randomize)
     if node['children']:
         for child in node['children']:
             cascade(child, work, classify_page)
@@ -61,7 +61,7 @@ def print_tree(url, depth=1, classify_page=False, randomize=False):
         depth (int): the depth to build the tree
     """
     root = GoTor.get_node(url, depth, randomize=randomize)
-    cascade(root, print_node, classify_page)
+    cascade(root, print_node, classify_page, randomize=randomize)
 
 
 def print_json(url, depth=1, randomize=False):
