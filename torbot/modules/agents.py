@@ -69,5 +69,3 @@ def get_ua():
     firefox = "Firefox/{}".format(random.randint(1, 91))
     print("Mozilla/5.0 ({} {}) {} {}".format(platform, rv, gecko, firefox))
     return "Mozilla/5.0 ({} {}) {} {}".format(platform, rv, gecko, firefox)
-
-get_ua()

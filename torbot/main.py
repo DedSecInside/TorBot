@@ -114,7 +114,7 @@ class TorBot:
             execute_all(args.url, randomize=args.randomize)
         else:
             if args.url:
-                link_io.print_tree(args.url, args.depth, args.classifyAll, ranodmize=args.randomize)
+                link_io.print_tree(args.url, args.depth, args.classifyAll, randomize=args.randomize)
         print("\n\n")
 
 
