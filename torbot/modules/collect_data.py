@@ -11,6 +11,7 @@ from progress.bar import Bar
 
 from .utils import join_local_path
 from .validators import validate_link
+from .agents import get_ua
 
 
 def parse_links(html):
@@ -43,8 +44,9 @@ def parse_meta_tags(soup):
     return content_list
 
 
-def get_links(url):
-    resp = requests.get(url)
+def get_links(url, randomize=False):
+    headers = {'User-Agent': get_ua()} if randomize else {}
+    resp = requests.get(url, headers=headers)
     links = parse_links(resp.text)
     return links
 
@@ -52,10 +54,10 @@ def get_links(url):
 default_url = 'https://thehiddenwiki.org'
 
 
-def collect_data(user_url):
+def collect_data(user_url, randomize=False):
     url = user_url if user_url is not None else default_url
     print(f"Gathering data for {url}")
-    links = get_links(url)
+    links = get_links(url, randomize=randomize)
     current_time = datetime.datetime.now().isoformat()
     file_name = f'torbot_{current_time}.csv'
     file_path = join_local_path(file_name)
@@ -64,7 +66,8 @@ def collect_data(user_url):
         writer = SafeDictWriter(outcsv, fieldnames=fieldnames)
         bar = Bar(f'Processing...', max=len(links))
         for link in links:
-            resp = requests.get(link)
+            headers = {'User-Agent': get_ua()} if randomize else {}
+            resp = requests.get(link, headers=headers)
             soup = BeautifulSoup(resp.text, 'html.parser')
             meta_tags = parse_meta_tags(soup)
             entry = {

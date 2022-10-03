@@ -53,18 +53,18 @@ def cascade(node, work, classify_page):
             cascade(child, work, classify_page)
 
 
-def print_tree(url, depth=1, classify_page=False):
+def print_tree(url, depth=1, classify_page=False, randomize=False):
     """
     Prints the entire tree in a user friendly fashion
     Args:
         url (string): the url of the root node
         depth (int): the depth to build the tree
     """
-    root = GoTor.get_node(url, depth)
+    root = GoTor.get_node(url, depth, randomize=randomize)
     cascade(root, print_node, classify_page)
 
 
-def print_json(url, depth=1):
+def print_json(url, depth=1, randomize=False):
     """
     Prints the JSON representation of a Link node.
 
@@ -75,12 +75,12 @@ def print_json(url, depth=1):
     Returns:
         root (dict): Dictionary containing the root node and it's children
     """
-    root = GoTor.get_node(url, depth)
+    root = GoTor.get_node(url, depth, randomize=randomize)
     pprint(root)
     return root
 
 
-def print_emails(url):
+def print_emails(url, randomize=False):
     """
     Prints any emails found within the HTML content of this url.
 
@@ -90,12 +90,12 @@ def print_emails(url):
     Returns:
         emails (list): list of emails
     """
-    email_list = GoTor.get_emails(url)
+    email_list = GoTor.get_emails(url, randomize=randomize)
     pprint(email_list)
     return email_list
 
 
-def print_phones(url):
+def print_phones(url, randomize=False):
     """
     Prints any phones found within the HTML content of this url.
 
@@ -105,6 +105,6 @@ def print_phones(url):
     Returns:
         phones (list): list of phones
     """
-    phone_list = GoTor.get_phone(url)
+    phone_list = GoTor.get_phone(url, randomize=randomize)
     pprint(phone_list)
     return phone_list

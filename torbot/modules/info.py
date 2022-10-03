@@ -32,7 +32,7 @@ dataset_names = [
 ]
 
 
-def execute_all(link, *, display_status=False):
+def execute_all(link, *, display_status=False, randomize=False):
     """Initialise datasets and functions to retrieve data, and execute
     each for a given link.
 
@@ -40,16 +40,17 @@ def execute_all(link, *, display_status=False):
         link (str): Link to be interogated.
         display_status (bool, optional): Whether to print connection
             attempts to terminal.
+        randomize (bool, optional): Whether to randomize user-agent.
     """
 
-    response = GoTor.get_web_content(link)
+    response = GoTor.get_web_content(link, randomize=randomize)
     soup = BeautifulSoup(response, 'html.parser')
     validation_functions = [
         get_robots_txt, get_dot_git, get_dot_svn, get_dot_git, get_intel, get_dot_htaccess, get_bitcoin_address
     ]
     for validate_func in validation_functions:
         try:
-            validate_func(link, response)
+            validate_func(link, response, randomize=randomize)
         except (ConnectionError, HTTPError):
             cprint('Error', 'red')
 
@@ -71,7 +72,7 @@ def display_headers(response):
         print('*', key, ':', val)
 
 
-def get_robots_txt(target, response):
+def get_robots_txt(target, response, randomize=False):
     """ Check link for Robot.txt, and if found, add link to robots dataset.
 
     Args:
@@ -81,7 +82,7 @@ def get_robots_txt(target, response):
     cprint("[*]Checking for Robots.txt", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
-    GoTor.get_web_content(target + "robots.txt")
+    GoTor.get_web_content(target + "robots.txt", randomize=randomize)
     print(target + "robots.txt")
     matches = re.findall(r'Allow: (.*)|Disallow: (.*)', response)
     for match in matches:
@@ -93,7 +94,7 @@ def get_robots_txt(target, response):
         print(robots)
 
 
-def get_intel(link, response):
+def get_intel(link, response, randomize=False):
     """ Check link for intel, and if found, add link to intel dataset,
     including but not limited to website accounts and AWS buckets.
 
@@ -109,7 +110,7 @@ def get_intel(link, response):
         intel.add(match)
 
 
-def get_dot_git(target, response):
+def get_dot_git(target, response, randomize=False):
     """ Check link for .git folders exposed on public domain.
 
     Args:
@@ -119,7 +120,7 @@ def get_dot_git(target, response):
     cprint("[*]Checking for .git folder", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
-    resp = GoTor.get_web_content(target + "/.git/config")
+    resp = GoTor.get_web_content(target + "/.git/config", randomize=randomize)
     if not resp.__contains__("404"):
         cprint("Alert!", 'red')
         cprint(".git folder exposed publicly", 'red')
@@ -127,7 +128,7 @@ def get_dot_git(target, response):
         cprint("NO .git folder found", 'blue')
 
 
-def get_bitcoin_address(target, response):
+def get_bitcoin_address(target, response, randomize=False):
     """ Check link for Bitcoin addresses, and if found, print.
 
     Args:
@@ -140,7 +141,7 @@ def get_bitcoin_address(target, response):
         print("BTC: ", bitcoin)
 
 
-def get_dot_svn(target, response):
+def get_dot_svn(target, response, randomize=False):
     """ Check link for .svn folders exposed on public domain=.
 
     Args:
@@ -150,7 +151,7 @@ def get_dot_svn(target, response):
     cprint("[*]Checking for .svn folder", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
-    resp = GoTor.get_web_content(target + "/.svn/entries")
+    resp = GoTor.get_web_content(target + "/.svn/entries", randomize=randomize)
     if not resp.__contains__("404"):
         cprint("Alert!", 'red')
         cprint(".SVN folder exposed publicly", 'red')
@@ -158,7 +159,7 @@ def get_dot_svn(target, response):
         cprint("NO .SVN folder found", 'blue')
 
 
-def get_dot_htaccess(target, response):
+def get_dot_htaccess(target, response, randomize=False):
     """ Check link for .htaccess files on public domain.
 
     Args:
@@ -168,7 +169,7 @@ def get_dot_htaccess(target, response):
     cprint("[*]Checking for .htaccess", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
-    resp = GoTor.get_web_content(target + "/.htaccess")
+    resp = GoTor.get_web_content(target + "/.htaccess", randomize=randomize)
     if resp.__contains__("403"):
         cprint("403 Forbidden", 'blue')
     elif not resp.__contains__("404") or resp.__contains__("500"):

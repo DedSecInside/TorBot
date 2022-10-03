@@ -4,7 +4,7 @@ API Module
 Provides access to external services using API wrappers
 """
 import requests
-
+from .agents import get_ua
 
 class GoTor:
     """
@@ -12,7 +12,7 @@ class GoTor:
     """
 
     @staticmethod
-    def get_node(link, depth, address='localhost', port='8081'):
+    def get_node(link, depth, address='localhost', port='8081', randomize=False):
         """
         Returns the LinkTree for the given link at the specified depth.
 
@@ -22,12 +22,13 @@ class GoTor:
             address (str): network address
             port (str): network port
         """
+        headers = {'User-Agent': get_ua()} if randomize else {}
         url = f'http://{address}:{port}/tree?link={link}&depth={depth}'
-        resp = requests.get(url)
+        resp = requests.get(url, headers=headers)
         return resp.json()
 
     @staticmethod
-    def get_ip(address='localhost', port='8081'):
+    def get_ip(address='localhost', port='8081', randomize=False):
         """
         Returns the IP address of the current Tor client the service is using.
 
@@ -35,12 +36,13 @@ class GoTor:
             address (str): network address
             port (str): network port
         """
+        headers = {'User-Agent': get_ua()} if randomize else {}
         url = f'http://{address}:{port}/ip'
-        resp = requests.get(url)
+        resp = requests.get(url, headers=headers)
         return resp.text
 
     @staticmethod
-    def get_emails(link, address='localhost', port='8081'):
+    def get_emails(link, address='localhost', port='8081', randomize=False):
         """
         Returns the mailto links found on the page.
 
@@ -49,12 +51,13 @@ class GoTor:
             address (str): network address
             port (str): network port
         """
+        headers = {'User-Agent': get_ua()} if randomize else {}
         url = f'http://{address}:{port}/emails?link={link}'
-        resp = requests.get(url)
+        resp = requests.get(url, headers=headers)
         return resp.json()
 
     @staticmethod
-    def get_phone(link, address='localhost', port='8081'):
+    def get_phone(link, address='localhost', port='8081', randomize=False):
         """
         Returns the tel links found on the page.
 
@@ -63,12 +66,13 @@ class GoTor:
             address (str): network address
             port (str): network port
         """
+        headers = {'User-Agent': get_ua()} if randomize else {}
         url = f'http://{address}:{port}/phone?link={link}'
-        resp = requests.get(url)
+        resp = requests.get(url, headers=headers)
         return resp.json()
 
     @staticmethod
-    def get_web_content(link, address='localhost', port='8081'):
+    def get_web_content(link, address='localhost', port='8081', randomize=False):
         """
         Returns the HTML content of the page.
 
@@ -77,6 +81,7 @@ class GoTor:
             address (str): network address
             port (str): network port
         """
+        headers = {'User-Agent': get_ua()} if randomize else {}
         url = f'http://{address}:{port}/content?link={link}'
-        resp = requests.get(url)
+        resp = requests.get(url, headers=headers)
         return resp.text

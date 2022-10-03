@@ -53,17 +53,17 @@ class TorBot:
 
         # -m/--mail
         if args.mail:
-            email_json = link_io.print_emails(args.url)
+            email_json = link_io.print_emails(args.url, randomize=args.randomize)
             if args.save:
                 saveJson('Emails', email_json)
         # -p/--phone
         if args.phone:
-            phone_json = link_io.print_phones(args.url)
+            phone_json = link_io.print_phones(args.url, randomize=args.randomize)
             if args.save:
                 saveJson('Phones', phone_json)
         # -s/--save
         else:
-            node_json = link_io.print_json(args.url, args.depth)
+            node_json = link_io.print_json(args.url, args.depth, randomize=args.randomize)
             saveJson("Links", node_json)
 
     # def handle_tree_args(self, args):
@@ -83,7 +83,7 @@ class TorBot:
     def perform_action(self):
         args = self.args
         if args.gather:
-            collect_data(args.url)
+            collect_data(args.url, args.randomize)
             return
 
         # If flag is -v, --update, -q/--quiet then user only runs that operation
@@ -111,10 +111,10 @@ class TorBot:
             self.handle_json_args(args)
         # -i/--info
         elif args.info:
-            execute_all(args.url)
+            execute_all(args.url, randomize=args.randomize)
         else:
             if args.url:
-                link_io.print_tree(args.url, args.depth, args.classifyAll)
+                link_io.print_tree(args.url, args.depth, args.classifyAll, ranodmize=args.randomize)
         print("\n\n")
 
 
@@ -134,6 +134,7 @@ def get_args():
     parser.add_argument("--gather", action="store_true", help="Gather data for analysis")
     parser.add_argument("-v", "--visualize", action="store_true", help="Visualizes tree of data gathered.")
     parser.add_argument("-d", "--download", action="store_true", help="Downloads tree of data gathered.")
+    parser.add_argument("-r", "--randomize", action="store_true", help="Randomly select user-agent")
     parser.add_argument(
         "-e",
         "--extension",
