@@ -6,7 +6,7 @@ decorator==5.1.1
 ete3==3.1.2
 idna==3.3
 igraph==0.9.11
-joblib==1.1.0
+joblib==1.2.0
 macholib==1.16
 numpy==1.22.4
 progress==1.6
