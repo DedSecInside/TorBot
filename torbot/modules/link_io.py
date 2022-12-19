@@ -5,7 +5,7 @@ objects or url strings
 
 from pprint import pprint
 
-from .api import GoTor
+from .api import get_web_content, get_node, get_emails, get_phone, get_ip
 from .color import color
 from .nlp.main import classify
 
@@ -16,7 +16,7 @@ def print_tor_ip_address():
     displays your IP address which we scape and display
     """
     print('Attempting to connect to https://check.torproject.org/')
-    ip_string = color(GoTor.get_ip(), 'yellow')
+    ip_string = color(get_ip(), 'yellow')
     print(f'Tor IP Address: {ip_string}')
 
 
@@ -30,7 +30,7 @@ def print_node(node, classify_page):
         title = node['url']
         status_text = f"{node['status_code']} {node['status']}"
         if classify_page:
-            classification = classify(GoTor.get_web_content(node['url']))
+            classification = classify(get_web_content(node['url']))
             status_text += f" {classification}"
         if node['status_code'] >= 200 and node['status_code'] < 300:
             status = color(status_text, 'green')
@@ -60,7 +60,7 @@ def print_tree(url, depth=1, classify_page=False):
         url (string): the url of the root node
         depth (int): the depth to build the tree
     """
-    root = GoTor.get_node(url, depth)
+    root = get_node(url, depth)
     cascade(root, print_node, classify_page)
 
 
@@ -75,7 +75,7 @@ def print_json(url, depth=1):
     Returns:
         root (dict): Dictionary containing the root node and it's children
     """
-    root = GoTor.get_node(url, depth)
+    root = get_node(url, depth)
     pprint(root)
     return root
 
@@ -90,7 +90,7 @@ def print_emails(url):
     Returns:
         emails (list): list of emails
     """
-    email_list = GoTor.get_emails(url)
+    email_list = get_emails(url)
     pprint(email_list)
     return email_list
 
@@ -105,6 +105,6 @@ def print_phones(url):
     Returns:
         phones (list): list of phones
     """
-    phone_list = GoTor.get_phone(url)
+    phone_list = get_phone(url)
     pprint(phone_list)
     return phone_list

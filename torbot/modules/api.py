@@ -4,79 +4,64 @@ API Module
 Provides access to external services using API wrappers
 """
 import requests
+from .utils import host, port
 
+base_url = f'http://{host}:{port}'
 
-class GoTor:
+def get_node(link, depth):
     """
-    An API wrapper for the goTor service
+    Returns the LinkTree for the given link at the specified depth.
+
+    Args:
+        link (str): link to be used as a root node.
+        depth (int): depth of the tree
     """
+    endpoint = f'/tree?link={link}&depth={depth}'
+    url = base_url + endpoint
+    resp = requests.get(url)
+    return resp.json()
 
-    @staticmethod
-    def get_node(link, depth, address='localhost', port='8081'):
-        """
-        Returns the LinkTree for the given link at the specified depth.
+def get_ip():
+    """
+    Returns the IP address of the current Tor client the service is using.
+    """
+    endpoint = '/ip'
+    url = base_url + endpoint
+    resp = requests.get(url)
+    return resp.text
 
-        Args:
-            link (str): link to be used as a root node.
-            depth (int): depth of the tree
-            address (str): network address
-            port (str): network port
-        """
-        url = f'http://{address}:{port}/tree?link={link}&depth={depth}'
-        resp = requests.get(url)
-        return resp.json()
+def get_emails(link):
+    """
+    Returns the mailto links found on the page.
 
-    @staticmethod
-    def get_ip(address='localhost', port='8081'):
-        """
-        Returns the IP address of the current Tor client the service is using.
+    Args:
+        link (str): the page to pull the emails from.
+    """
+    endpoint = f'/emails?link={link}'
+    url = base_url + endpoint
+    resp = requests.get(url)
+    return resp.json()
 
-        Args:
-            address (str): network address
-            port (str): network port
-        """
-        url = f'http://{address}:{port}/ip'
-        resp = requests.get(url)
-        return resp.text
+def get_phone(link):
+    """
+    Returns the tel links found on the page.
 
-    @staticmethod
-    def get_emails(link, address='localhost', port='8081'):
-        """
-        Returns the mailto links found on the page.
+    Args:
+        link (str): the page to pull the phones from.
+    """
+    endpoint = f'/phone?link={link}'
+    url = base_url + endpoint
+    resp = requests.get(url)
+    return resp.json()
 
-        Args:
-            link (str): the page to pull the emails from.
-            address (str): network address
-            port (str): network port
-        """
-        url = f'http://{address}:{port}/emails?link={link}'
-        resp = requests.get(url)
-        return resp.json()
+def get_web_content(link):
+    """
+    Returns the HTML content of the page.
 
-    @staticmethod
-    def get_phone(link, address='localhost', port='8081'):
-        """
-        Returns the tel links found on the page.
-
-        Args:
-            link (str): the page to pull the phones from.
-            address (str): network address
-            port (str): network port
-        """
-        url = f'http://{address}:{port}/phone?link={link}'
-        resp = requests.get(url)
-        return resp.json()
-
-    @staticmethod
-    def get_web_content(link, address='localhost', port='8081'):
-        """
-        Returns the HTML content of the page.
-
-        Args:
-            link (str): the page to pull the content from.
-            address (str): network address
-            port (str): network port
-        """
-        url = f'http://{address}:{port}/content?link={link}'
-        resp = requests.get(url)
-        return resp.text
+    Args:
+        link (str): the page to pull the content from.
+    """
+    endpoint = f'/content?link={link}'
+    url = base_url + endpoint
+    resp = requests.get(url)
+    return resp.text

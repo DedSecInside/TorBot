@@ -3,7 +3,7 @@ Module is used for analyzing link relationships
 """
 from ete3 import faces, Tree, TreeStyle, TextFace
 from .utils import join_local_path
-from .api import GoTor
+from .api import get_node 
 
 
 def default_layout(node):
@@ -55,7 +55,7 @@ class LinkTree:
         Returns:
             tree (ete3.Tree): Built tree.
         """
-        root = GoTor.get_node(url, depth)
+        root = get_node(url, depth)
         root_tree = Tree(name=root['url'])
         if root['children']:
             for child in root['children']:
