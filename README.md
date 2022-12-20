@@ -36,7 +36,8 @@
 8. Built-in Updater.(Completed)
 9. TorBot GUI (In progress)
 10. Social Media integration.(not Started)
-11. Build visual tree of link relationship that can be quickly viewed or saved to an image file
+11. Build visual tree of link relationship that can be quickly viewed or saved to an image file (Completed)
+
 ...(will be updated)
 
 ## Contribute
