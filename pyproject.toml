@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "torbot"
+version = "2.1.0"
+description = "OSINT for the dark web"
+authors = ["Akeem King <akeemtlking@gmail.com>"]
+license = "GNU GPL"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.11" 
+altgraph = "0.17.2"
+beautifulsoup4 = "4.11.1"
+certifi = "2022.12.7"
+charset-normalizer = "2.0.12"
+decorator = "5.1.1"
+ete3 = "3.1.2"
+idna = "3.3"
+igraph = "0.9.11"
+joblib = "1.2.0"
+macholib = "1.16"
+numpy = "1.22.4"
+progress = "1.6"
+pyinstaller = "5.1"
+pyinstaller-hooks-contrib = "2022.7"
+PySocks = "1.7.1"
+python-dotenv = "0.20.0"
+requests = "2.28.0"
+requests-mock = "1.9.3"
+scikit-learn = "1.1.2"
+scipy = "1.9.1"
+six = "1.16.0"
+sklearn = "0.0"
+soupsieve = "2.3.2.post1"
+termcolor = "1.1.0"
+texttable = "1.6.4"
+threadpoolctl = "3.1.0"
+threadsafe = "1.0.0"
+urllib3 = "1.26.9"
+validators = "0.20.0"
+yattag = "1.14.0"
+PyQt5 = "^5.15.7"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

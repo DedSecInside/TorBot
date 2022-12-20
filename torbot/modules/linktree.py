@@ -1,22 +1,10 @@
 """
 Module is used for analyzing link relationships
 """
-from ete3 import faces, Tree, TreeStyle, TextFace
+from ete3 import Tree
+
+from .api import get_node
 from .utils import join_local_path
-from .api import get_node 
-
-
-def default_layout(node):
-    """
-    Default layout for node
-    """
-    node_style = TextFace(node.name, tight_text=True)
-    faces.add_face_to_node(node_style, node, column=0, position='branch-bottom')
-
-
-default_style = TreeStyle()
-default_style.show_leaf_name = False
-default_style.layout_fn = default_layout
 
 
 class LinkTree:
@@ -25,13 +13,9 @@ class LinkTree:
     be used to build a tree, examine the number of nodes, check if a node
     exists within a tree, displaying the tree, and downloading the tree. It
     will be expanded in the future to meet further needs.
-
-    Attributes:
-        root (str): root node
-        depth (int): depth of tree
     """
 
-    def __init__(self, root, depth):
+    def __init__(self, root: str, depth: int):
         self._tree = self.__build_tree(root, depth)
 
     def __append_node(self, parent_tree, node):
@@ -44,13 +28,9 @@ class LinkTree:
             for child in node['children']:
                 self.__append_node(child_tree, child)
 
-    def __build_tree(self, url, depth=1):
+    def __build_tree(self, url: str, depth: int=1):
         """
         Builds link tree by traversing through children nodes.
-
-        Args:
-            url (str): root node of tree
-            depth(int): depth of tree
 
         Returns:
             tree (ete3.Tree): Built tree.
@@ -75,25 +55,16 @@ class LinkTree:
         """
         return self._tree.get_children()
 
-    def save(self, file_name, tree_style=default_style):
+    def save(self, file_name: str):
         """
         Saves LinkTree to file with given file_name
         Current file types supported are .png, .pdf, .svg
-
-        Args:
-            file_name (str): Name of file being saved to
-            tree_style (TreeStyle): Styling of downloaded tree
         """
-        self._tree.layout_fn = default_layout
         file_path = join_local_path(file_name)
-        self._tree.render(file_path, tree_style=tree_style)
+        self._tree.render(file_path)
 
-    def show(self, tree_style=default_style):
+    def show(self):
         """
         Displays image of LinkTree
-
-        Args:
-            tree_style (TreeStyle): Styling of downloaded tree
         """
-        self._tree.layout_fn = default_layout
-        self._tree.show(tree_style=tree_style)
+        self._tree.show()

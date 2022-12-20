@@ -4,7 +4,9 @@ objects or url strings
 """
 
 from pprint import pprint
+from typing import Any
 
+from .linktree import LinkTree
 from .api import get_web_content, get_node, get_emails, get_phone, get_ip
 from .color import color
 from .nlp.main import classify
@@ -20,11 +22,9 @@ def print_tor_ip_address():
     print(f'Tor IP Address: {ip_string}')
 
 
-def print_node(node, classify_page):
+def print_node(node: LinkTree, classify_page: bool):
     """
     Prints the status of a link based on it's connection status
-    Args:
-        link (str): link to get status of
     """
     try:
         title = node['url']
@@ -46,31 +46,24 @@ def print_node(node, classify_page):
     print(status_msg)
 
 
-def cascade(node, work, classify_page):
+def cascade(node: LinkTree, work: Any, classify_page: bool):
     work(node, classify_page)
     if node['children']:
         for child in node['children']:
             cascade(child, work, classify_page)
 
 
-def print_tree(url, depth=1, classify_page=False):
+def print_tree(url: str, depth: int=1, classify_page: bool=False):
     """
     Prints the entire tree in a user friendly fashion
-    Args:
-        url (string): the url of the root node
-        depth (int): the depth to build the tree
     """
     root = get_node(url, depth)
     cascade(root, print_node, classify_page)
 
 
-def print_json(url, depth=1):
+def print_json(url: str, depth: int=1):
     """
     Prints the JSON representation of a Link node.
-
-    Args:
-        url (string): the url of the root node
-        depth (int): the depth to build the tree
 
     Returns:
         root (dict): Dictionary containing the root node and it's children
@@ -80,12 +73,9 @@ def print_json(url, depth=1):
     return root
 
 
-def print_emails(url):
+def print_emails(url: str):
     """
     Prints any emails found within the HTML content of this url.
-
-    Args:
-        url (string): target location
 
     Returns:
         emails (list): list of emails
@@ -95,12 +85,9 @@ def print_emails(url):
     return email_list
 
 
-def print_phones(url):
+def print_phones(url: str):
     """
     Prints any phones found within the HTML content of this url.
-
-    Args:
-        url (string): target location
 
     Returns:
         phones (list): list of phones

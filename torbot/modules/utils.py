@@ -7,16 +7,11 @@ from dotenv import load_dotenv
 
 # File Functions
 
-def find_file(name, path):
+def find_file(name: str, path: str):
     """Search for file within specific dir and any child dirs.
 
-    Args:
-        name (str): Filename to be searched for.
-        path (str): Dir path to search for file.
-
     Returns:
-        str: Full path of found file (if found).
-        bool: If file not found, returns false.
+        str | bool: Full path of found file (if found). False otherwise
     """
     for root, _, files in os.walk(path):
         if name in files:
@@ -33,13 +28,8 @@ host =  os.getenv("HOST")
 data_directory = os.getenv('TORBOT_DATA_DIR')
 
 
-def join_local_path(file_name=""):
+def join_local_path(file_name: str=""):
     """
-    Returns a path to the data directory with the given filename appended
-
-    Args:
-        file_name (str): filename to be joined
-
     Returns:
         str: local path to data directory
     """
