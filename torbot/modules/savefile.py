@@ -7,7 +7,7 @@ import time
 from .utils import join_local_path
 
 
-def saveJson(datatype, data):
+def saveJson(datatype: str, data: list):
     """
     Creates json file and stores data as JSON.
 

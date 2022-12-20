@@ -3,21 +3,18 @@ This module is used to gather data for analysis using thehiddenwiki.org.
 """
 import datetime
 import uuid
-import requests
 
+import requests
 from bs4 import BeautifulSoup
-from threadsafe.safe_csv import SafeDictWriter
 from progress.bar import Bar
+from threadsafe.safe_csv import SafeDictWriter
 
 from .utils import join_local_path
 from .validators import validate_link
 
 
-def parse_links(html):
+def parse_links(html: str):
     """Parses HTML page to extract links.
-
-    Args:
-        html (str): HTML block code to be parsed.
 
     Returns:
         (list): List of all valid links found.
@@ -27,11 +24,8 @@ def parse_links(html):
     return [tag['href'] for tag in tags if validate_link(tag['href'])]
 
 
-def parse_meta_tags(soup):
+def parse_meta_tags(soup: BeautifulSoup):
     """Retrieve all meta elements from HTML object.
-
-    Args:
-        soup (BeautifulSoup)
 
     Returns:
         list: List containing content from meta tags
@@ -43,7 +37,7 @@ def parse_meta_tags(soup):
     return content_list
 
 
-def get_links(url):
+def get_links(url: str):
     resp = requests.get(url)
     links = parse_links(resp.text)
     return links
@@ -52,7 +46,7 @@ def get_links(url):
 default_url = 'https://thehiddenwiki.org'
 
 
-def collect_data(user_url):
+def collect_data(user_url: str):
     url = user_url if user_url is not None else default_url
     print(f"Gathering data for {url}")
     links = get_links(url)

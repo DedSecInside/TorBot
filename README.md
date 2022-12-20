@@ -36,6 +36,7 @@
 8. Built-in Updater.(Completed)
 9. TorBot GUI (In progress)
 10. Social Media integration.(not Started)
+11. Build visual tree of link relationship that can be quickly viewed or saved to an image file
 ...(will be updated)
 
 ## Contribute
@@ -70,14 +71,14 @@ Before you run the torBot make sure the following things are done properly:
 
 * Make sure that your torrc is configured to SOCKS_PORT localhost:9050
 
-* Open a new terminal and run `cd gotor && go run main.go -server`
+* Open a new terminal and run `cd gotor && go run cmd/main/main.go -server`
 
-* Install TorBot Python requirements using
-`pip install -r requirements.txt`
+* Install TorBot Python requirements using [`poetry`](https://python-poetry.org/docs/basic-usage/)
+`poetry install` <-- to install dependencies
 
-Finally run the following command
+`poetry run python run.py -l https://www.example.com --depth 2 -v` <-- example of running command with poetry
 
-`python3 run.py -h`
+`poetry run python run.py -h` <-- for help
 <pre>
 usage: Gather and analayze data from Tor sites.
 

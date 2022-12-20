@@ -5,7 +5,7 @@ import argparse
 import sys
 
 from .modules import link_io
-# from .modules.linktree import LinkTree
+from .modules.linktree import LinkTree
 from .modules.color import color
 from .modules.updater import updateTor
 from .modules.savefile import saveJson
@@ -66,19 +66,19 @@ class TorBot:
             node_json = link_io.print_json(args.url, args.depth)
             saveJson("Links", node_json)
 
-    # def handle_tree_args(self, args):
-    #     """
-    #     Outputs tree visual for data
-    #     """
-    #     tree = LinkTree(args.url, args.depth)
-    #     # -v/--visualize
-    #     if args.visualize:
-    #         tree.show()
+    def handle_tree_args(self, args):
+        """
+        Outputs tree visual for data
+        """
+        tree = LinkTree(args.url, args.depth)
+        # -v/--visualize
+        if args.visualize:
+            tree.show()
 
-    #     # -d/--download
-    #     if args.download:
-    #         file_name = str(input("File Name (.pdf/.png/.svg): "))
-    #         tree.save(file_name)
+        # -d/--download
+        if args.download:
+            file_name = str(input("File Name (.pdf/.png/.svg): "))
+            tree.save(file_name)
 
     def perform_action(self):
         args = self.args
@@ -105,8 +105,8 @@ class TorBot:
             result = main.classify(args.url)
             print("Website Classification: " + result[0], "| Accuracy: " + str(result[1]))
         if args.visualize or args.download:
-            # self.handle_tree_args(args)
-            raise NotImplementedError("Tree visualization and download is not available yet.")
+            self.handle_tree_args(args)
+            # raise NotImplementedError("Tree visualization and download is not available yet.")
         elif args.save or args.mail or args.phone:
             self.handle_json_args(args)
         # -i/--info
