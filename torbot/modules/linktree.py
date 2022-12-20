@@ -1,10 +1,12 @@
 """
 Module is used for analyzing link relationships
 """
+
 from ete3 import Tree
 
 from .api import get_node
 from .utils import join_local_path
+from .log import info
 
 
 class LinkTree:
@@ -35,11 +37,13 @@ class LinkTree:
         Returns:
             tree (ete3.Tree): Built tree.
         """
+        info(f"building tree for {url} at {depth}")
         root = get_node(url, depth)
         root_tree = Tree(name=root['url'])
         if root['children']:
             for child in root['children']:
                 self.__append_node(root_tree, child)
+        info(f"tree built {root_tree}")
         return root_tree
 
     def __len__(self):
