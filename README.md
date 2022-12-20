@@ -125,7 +125,7 @@ Run `./torBot` to execute the program.
 
 
 ## TO-DO
-- [ ] Visualization Module Revamp
+- [x] Visualization Module Revamp
 - [x] Implement BFS Search for webcrawler
 - [x] Use Golang service for concurrent webcrawling
 - [x] Improve stability (Handle errors gracefully, expand test coverage and etc.)
@@ -133,7 +133,7 @@ Run `./torBot` to execute the program.
 - [ ] Keyword/Phrase search
 - [ ] Social Media Integration
 - [ ] Increase anonymity
-- [ ] Improve performance
+- [x] Improve performance (Done with gotor)
 
 ### Have ideas?
 If you have new ideas which is worth implementing, mention those by creating a new issue with the title [FEATURE_REQUEST].
