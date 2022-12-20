@@ -6,6 +6,7 @@ Provides access to external services using API wrappers
 import requests
 
 from .utils import host, port
+from .log import info
 
 base_url: str = f'http://{host}:{port}'
 
@@ -16,8 +17,11 @@ def get_node(link: str, depth: int):
     """
     endpoint = f'/tree?link={link}&depth={depth}'
     url = base_url + endpoint
+    info(f'requesting {url}')
     resp = requests.get(url)
-    return resp.json()
+    data = resp.json()
+    info(f'retrieved {data}')
+    return data
 
 
 def get_ip():
@@ -26,7 +30,9 @@ def get_ip():
     """
     endpoint = '/ip'
     url = base_url + endpoint
+    info(f'requesting {url}')
     resp = requests.get(url)
+    info(f'retrieved {resp.text}')
     return resp.text
 
 
@@ -36,8 +42,11 @@ def get_emails(link: str):
     """
     endpoint = f'/emails?link={link}'
     url = base_url + endpoint
+    info(f'requesting {url}')
     resp = requests.get(url)
-    return resp.json()
+    data = resp.json()
+    info(f'retrieved {data}')
+    return data
 
 
 def get_phone(link: str):
@@ -46,8 +55,11 @@ def get_phone(link: str):
     """
     endpoint = f'/phone?link={link}'
     url = base_url + endpoint
+    info(f'requesting {url}')
     resp = requests.get(url)
-    return resp.json()
+    data = resp.json()
+    info(f'retrieved {data}')
+    return data
 
 
 def get_web_content(link: str):
@@ -56,5 +68,7 @@ def get_web_content(link: str):
     """
     endpoint = f'/content?link={link}'
     url = base_url + endpoint
+    info(f'requesting {url}')
     resp = requests.get(url)
+    info(f'retrieved {resp.text}')
     return resp.text
