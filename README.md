@@ -52,8 +52,8 @@ Contributor name will be updated to the below list. 😀
 
 ### OS Dependencies
 - Tor
-- Python ^3.7
-- Golang 1.16
+- Python ^3.8
+- Golang 1.19
 
 ### Python Dependencies
 
