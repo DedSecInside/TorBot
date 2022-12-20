@@ -75,6 +75,7 @@ Before you run the torBot make sure the following things are done properly:
 * Open a new terminal and run `cd gotor && go run cmd/main/main.go -server`
 
 * Install TorBot Python requirements using [`poetry`](https://python-poetry.org/docs/basic-usage/)
+
 `poetry install` <-- to install dependencies
 
 `poetry run python run.py -l https://www.example.com --depth 2 -v` <-- example of running command with poetry
