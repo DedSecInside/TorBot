@@ -24,7 +24,7 @@ if not dev_file:
 load_dotenv(dotenv_path=dev_file)
 
 port = os.getenv("PORT")
-host =  os.getenv("HOST")
+host = os.getenv("HOST")
 data_directory = os.getenv('TORBOT_DATA_DIR')
 
 
