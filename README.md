@@ -78,7 +78,7 @@ Before you run the torBot make sure the following things are done properly:
 
 `poetry install` <-- to install dependencies
 
-`poetry run python run.py -l https://www.example.com --depth 2 -v` <-- example of running command with poetry
+`poetry run python run.py -u https://www.example.com --depth 2 -v` <-- example of running command with poetry
 
 `poetry run python run.py -h` <-- for help
 <pre>
