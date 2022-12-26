@@ -20,7 +20,7 @@ def find_file(name: str, path: str):
     return False
 
 
-def join_local_path(file_name: str=""):
+def join_local_path(file_name: str = ""):
     """
     Returns:
         str: local path to data directory

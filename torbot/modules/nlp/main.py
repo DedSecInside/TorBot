@@ -1,4 +1,3 @@
-import requests
 import numpy as np
 import os
 from pathlib import Path
@@ -34,10 +33,6 @@ def classify(data):
         pass
     x_train, x_test, y_train, y_test = train_test_split(dataset.data, dataset.target)
     clf.fit(x_train, y_train)
-
-    website = 'Unknown'
-    if soup.title:
-        website = soup.title.text
 
     # returns an array of target_name values
     predicted = clf.predict([html])
