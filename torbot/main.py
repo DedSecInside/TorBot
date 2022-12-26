@@ -3,6 +3,7 @@ Core
 """
 import argparse
 import sys
+import os
 
 from .modules import link_io
 from .modules.linktree import LinkTree
@@ -15,6 +16,18 @@ from .modules.nlp import main
 
 from . import version
 
+from dotenv import load_dotenv
+
+"""
+dev_file = find_file("dev.env", "../../")
+if not dev_file:
+    raise FileNotFoundError
+"""
+load_dotenv()
+
+port = os.getenv("PORT")
+host = os.getenv("HOST")
+data_directory = os.getenv('TORBOT_DATA_DIR')
 
 # TorBot CLI class
 class TorBot:
