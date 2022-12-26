@@ -30,7 +30,7 @@ class LinkTree:
             for child in node['children']:
                 self.__append_node(child_tree, child)
 
-    def __build_tree(self, url: str, depth: int=1):
+    def __build_tree(self, url: str, depth: int = 1):
         """
         Builds link tree by traversing through children nodes.
 

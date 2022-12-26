@@ -56,7 +56,7 @@ def collect_data(user_url: str):
     with open(file_path, 'w+') as outcsv:
         fieldnames = ['ID', 'Title', 'Metadata', 'Content']
         writer = SafeDictWriter(outcsv, fieldnames=fieldnames)
-        bar = Bar(f'Processing...', max=len(links))
+        bar = Bar('Processing...', max=len(links))
         for link in links:
             resp = requests.get(link)
             soup = BeautifulSoup(resp.text, 'html.parser')
