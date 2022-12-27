@@ -10,6 +10,3 @@ from .modules.info import execute_all
 from .modules.collect_data import collect_data
 
 from . import version
-
-
-

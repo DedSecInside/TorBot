@@ -53,7 +53,7 @@ def cascade(node: LinkTree, work: Any, classify_page: bool):
             cascade(child, work, classify_page)
 
 
-def print_tree(url: str, depth: int=1, classify_page: bool=False):
+def print_tree(url: str, depth: int = 1, classify_page: bool = False):
     """
     Prints the entire tree in a user friendly fashion
     """
@@ -61,7 +61,7 @@ def print_tree(url: str, depth: int=1, classify_page: bool=False):
     cascade(root, print_node, classify_page)
 
 
-def print_json(url: str, depth: int=1):
+def print_json(url: str, depth: int = 1):
     """
     Prints the JSON representation of a Link node.
 
