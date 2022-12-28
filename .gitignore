@@ -31,6 +31,5 @@ __pycache__/
 venv/
 .venv/
 .DS_Store
-.env
 data/
 torbot/modules/nlp/training_data/
