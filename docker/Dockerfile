@@ -14,7 +14,7 @@ COPY . .
 
 # Create virtual env
 RUN virtualenv venv --python=python3.9
-RUN source venv/bin/activate
+RUN . venv/bin/activate
 RUN pip install -r requirements.txt
 
 
