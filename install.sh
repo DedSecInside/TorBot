@@ -10,9 +10,9 @@ pip install pyinstaller
 pyinstaller --onefile --workpath ./tmp_build --distpath ./tmp_dist --paths=src torbot/main.py
 
 # Puts the executable in the current directory
-mv tmp_dist/torBot .
+mv tmp_dist/main .
 
 # Removes both directories and unneeded file
 rm -r tmp_build tmp_dist
-rm torBot.spec
+rm main.spec
 
