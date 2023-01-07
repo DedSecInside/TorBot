@@ -1,12 +1,38 @@
 """
 Module is used for analyzing link relationships
 """
-
-from ete3 import Tree
+from treelib import Node, Tree, exceptions
 
 from .api import get_node
 from .utils import join_local_path
-from .log import info
+from .log import info, debug
+
+def formatNode(n):
+    return f"{n['url']} {n['status_code']} {n['status']}"
+
+def build_tree_recursive(t, n):
+
+    # this will only be ran on the root node since others will exist before being passed
+    if not t.contains(n["url"]):
+        debug(f"adding root node {n}")
+        t.create_node(formatNode(n), n["url"])
+
+    # if there are no children, there's nothing to process
+    if not n["children"]:
+        return
+
+    for child in n["children"]: 
+        id = child["url"]
+        parent_id = n["url"]
+        try:
+            debug(f"adding node {child}")
+            debug(f"parent_id {parent_id}")
+            t.create_node(formatNode(child), child["url"], parent=n["url"])
+        except exceptions.DuplicatedNodeIdError:
+            debug(f"found a duplicate url {child['url']}")
+            continue # this node has already been processed somewhere else 
+
+        build_tree_recursive(t, child)
 
 
 class LinkTree:
@@ -18,17 +44,7 @@ class LinkTree:
     """
 
     def __init__(self, root: str, depth: int):
-        self._tree = self.__build_tree(root, depth)
-
-    def __append_node(self, parent_tree, node):
-        """
-        Appends the node and it's children to the parent tree
-        """
-        child_tree = Tree(name=node['url'])
-        parent_tree.add_child(child_tree)
-        if node['children']:
-            for child in node['children']:
-                self.__append_node(child_tree, child)
+        self.__build_tree(root, depth)
 
     def __build_tree(self, url: str, depth: int = 1):
         """
@@ -37,35 +53,22 @@ class LinkTree:
         Returns:
             tree (ete3.Tree): Built tree.
         """
-        info(f"building tree for {url} at {depth}")
-        root = get_node(url, depth)
-        root_tree = Tree(name=root['url'])
-        if root['children']:
-            for child in root['children']:
-                self.__append_node(root_tree, child)
-        info(f"tree built {root_tree}")
-        return root_tree
-
-    def __len__(self):
-        return len(self._tree)
-
-    def __contains__(self, link):
-        return self._tree.search_nodes(name=link)
-
-    @property
-    def children(self):
-        """
-        Returns the number of children within the LinkTree
-        """
-        return self._tree.get_children()
+        debug(f"building tree for {root} at {depth} depth")
+        n = get_node(url, depth)
+        t = Tree()
+        build_tree_recursive(t, n)
+        self._tree = t; 
+        debug("tree built successfully")
 
     def save(self, file_name: str):
         """
         Saves LinkTree to file with given file_name
         Current file types supported are .png, .pdf, .svg
         """
+        debug(f"saving link tree as {file_name}")
         file_path = join_local_path(file_name)
-        self._tree.render(file_path)
+        self._tree.save2file(file_path)
+        debug(f"file saved successfully to {file_path}")
 
     def show(self):
         """

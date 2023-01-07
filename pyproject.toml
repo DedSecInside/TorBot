@@ -12,7 +12,6 @@ beautifulsoup4 = "4.11.1"
 certifi = "2022.12.7"
 charset-normalizer = "2.0.12"
 decorator = "5.1.1"
-ete3 = "3.1.2"
 idna = "3.3"
 igraph = "0.9.11"
 joblib = "1.2.0"
@@ -37,7 +36,7 @@ threadsafe = "1.0.0"
 urllib3 = "1.26.9"
 validators = "0.20.0"
 yattag = "1.14.0"
-PyQt5 = "^5.15.7"
+treelib = "^1.6.1"
 
 [tool.poetry.dev-dependencies]
 
