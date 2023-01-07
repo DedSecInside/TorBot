@@ -22,5 +22,6 @@ def get_log_level():
         if log_level_str == str_input:
             return log_level
 
+
 if not os.path.exists(data_directory):
     os.mkdir(data_directory)

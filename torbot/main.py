@@ -77,7 +77,7 @@ class TorBot:
 
         # -d/--download
         if args.download:
-            file_name = str(input("File Name (.pdf/.png/.svg): "))
+            file_name = str(input("File Name (.txt): "))
             tree.save(file_name)
 
     def perform_action(self):
