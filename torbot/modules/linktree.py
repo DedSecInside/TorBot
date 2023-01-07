@@ -14,27 +14,24 @@ def formatNode(n):
 
 def build_tree_recursive(t, n):
 
-    current_id = n["url"]
     # this will only be ran on the root node since others will exist before being passed
-    if not t.contains(current_id):
-        debug(f"adding id {current_id}")
-        t.create_node(formatNode(n), current_id)
+    parent_id = n["url"]
+    if not t.contains(parent_id):
+        debug(f"adding id {parent_id}")
+        t.create_node(formatNode(n), parent_id)
 
-    children = n["children"]
     # if there are no children, there's nothing to process
+    children = n["children"]
     if not children:
         return
 
     for child in children:
-
-        current_id = child["url"]
-        parent_id = n["url"]
-
         try:
-            debug(f"adding child_id {current_id} to parent_id {parent_id}")
-            t.create_node(formatNode(child), current_id, parent=parent_id)
+            child_id = child["url"]
+            debug(f"adding child_id {child_id} to parent_id {parent_id}")
+            t.create_node(formatNode(child), child_id, parent=parent_id)
         except exceptions.DuplicatedNodeIdError:
-            debug(f"found a duplicate url {current_id}")
+            debug(f"found a duplicate url {child_id}")
             continue  # this node has already been processed somewhere else
 
         build_tree_recursive(t, child)
