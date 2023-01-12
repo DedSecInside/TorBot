@@ -38,18 +38,11 @@
 
 ...(will be updated)
 
-## Contribute
-If you're interested in contributing to this project, we welcome new features! 
-
-To submit a feature, fork the dev branch and submit a pull request when your feature is fully tested and complete. If it's a new module, please place it in the modules directory. Please name your branch in the format <Feature_featurename_version(optional)>, e.g. <Feature_FasterCrawl_1.0>. Your name will be added to the contributors list. 😀
-<br>
-
-<b> NOTE : The PR should be made only to `dev` branch of TorBot. </b>
-
-### OS Dependencies
+### Dependencies
 - Tor
 - Python ^3.8
 - Golang 1.19
+- Poetry
 
 ### Python Dependencies
 
@@ -138,12 +131,24 @@ Run `./torBot` to execute the program.
 - [x] Improve performance (Done with gotor)
 - [ ] Screenshot capture
 
-### Have ideas?
-If you have any ideas for new features that you believe would be valuable to implement, please share them by creating a new issue [here](https://github.com/DedSecInside/TorBot/issues/new/choose).
 
+## Contribution Guidelines
 
+### Found an issue?
 
-### References
+If you face any issues in the project, please let us know by creating a new issue [here](https://github.com/DedSecInside/TorBot/issues/new/choose).
+
+### Developer Guidelines
+
+We welcome contributions to this project! Here are a few guidelines to follow:
+
+1. Fork the repository and create a new branch for your contribution.
+2. Make sure your code passes all tests by running `pytest` before submitting a pull request to `dev` branch.
+3. Follow the [PEP8](https://www.python.org/dev/peps/pep-0008/) style guide for Python code.
+4. Make sure to add appropriate documentation for any new features or changes.
+5. When submitting a pull request, please provide a detailed description of the changes made.
+
+## References
 
     1.  M. Glassman and M. J. Kang, “Intelligence in the internet age: The emergence and evolution of Open Source Intelligence (OSINT),” Comput. Human Behav., vol. 28, no. 2, pp. 673–682, 2012.
     2.  D. Bradbury, “In plain view: open source intelligence,” Comput. Fraud Secur., vol. 2011, no. 4, pp. 5–9, 2011.
@@ -168,26 +173,12 @@ If you have any ideas for new features that you believe would be valuable to imp
     21. Ani R, Augustine A, Akhil N.C. and Deepa O.S., 2016. “Random Forest Ensemble Classifier to Predict the Coronary Heart Disease Using Risk Factors”, In Proceedings of the International Conference on Soft Computing Systems (pp. 701-710). Springer, New Delhi.
 
 
+## Maintainers
+
+- [X] [PS Narayanan](https://github.com/PSNAppz) - Co-owner
+- [X] [KingAkeem](https://github.com/KingAkeem) - Co-owner
+
+... see all [contributors](https://github.com/DedSecInside/TorBot/graphs/contributors)
 
 ## License
-GNU Public License
-
-## CREDITS
-
-- [X] [P5N4PPZ](https://github.com/PSNAppz) - Co-owner
-- [X] [KingAkeem](https://github.com/KingAkeem) - Co-owner
-- [X] [masterugwee](https://github.com/masterugwee) - Contributor,Core Member
-- [X] [soorajsomans](https://github.com/soorajsomans) - Contributor,Core Member
-- [X] [agrepravin](https://github.com/agrepravin) - Contributor,Reviewer
-- [X] [shivankar-madaan](https://github.com/shivankar-madaan) - Experienced Contributor
-- [X] [y-mehta](https://github.com/y-mehta) - Contributor
-- [X] [Manfredi Martorana](https://github.com/Agostinelli) - Contributor
-- [X] [Evan Sia Wai Suan](https://github.com/waisuan) - New Contributor
-- [X] [Lean](https://github.com/leaen) - New Contributor
-- [X] [Gus](https://github.com/HotPushUpGuy420) - New Contributor
-- [X] [SubaruSama](https://github.com/SubaruSama) - New Contributor
-- [X] [robly78746](https://github.com/robly78746) - New Contributor
-
-... see all contributors here (https://github.com/DedSecInside/TorBot/graphs/contributors)
-
-
+[GNU Public License](https://github.com/DedSecInside/TorBot/blob/dev/LICENSE.md)
