@@ -26,26 +26,22 @@
 [![](https://img.shields.io/badge/Made%20with-Python-red.svg?style=flat-square)]()
 
 ### Features
-1. Onion Crawler (.onion).(Completed)
-2. Returns Page title and address with a short description about the site.(Partially Completed)
-3. Save links to database.(PR to be reviewed)
-4. Get emails from site.(Completed)
-5. Save crawl info to JSON file.(Completed)
-6. Crawl custom domains.(Completed)
-7. Check if the link is live.(Completed)
-8. Built-in Updater.(Completed)
-9. TorBot GUI (In progress)
-10. Social Media integration.(not Started)
-11. Build visual tree of link relationship that can be quickly viewed or saved to an image file (Completed)
+1. Onion Crawler (.onion)
+2. Returns Page title and address with a short description about the site
+3. Save links to database
+4. Get data from site
+5. Save crawl info to JSON file
+6. Crawl custom domains
+7. Check if the link is live
+8. Built-in Updater
+9. Build visual tree of link relationship that can be quickly viewed or saved to an image file
 
 ...(will be updated)
 
 ## Contribute
-Contributions to this project are always welcome.
-To add a new feature fork the dev branch and give a pull request when your new feature is tested and complete.
-If its a new module, it should be put inside the modules directory.
-The branch name should be your new feature name in the format <Feature_featurename_version(optional)>. For example, <i>Feature_FasterCrawl_1.0</i>.
-Contributor name will be updated to the below list. 😀
+If you're interested in contributing to this project, we welcome new features! 
+
+To submit a feature, fork the dev branch and submit a pull request when your feature is fully tested and complete. If it's a new module, please place it in the modules directory. Please name your branch in the format <Feature_featurename_version(optional)>, e.g. <Feature_FasterCrawl_1.0>. Your name will be added to the contributors list. 😀
 <br>
 
 <b> NOTE : The PR should be made only to `dev` branch of TorBot. </b>
@@ -67,20 +63,25 @@ Contributor name will be updated to the below list. 😀
 ### From source
 Before you run the torBot make sure the following things are done properly:
 
-* Run tor service
-`sudo service tor start`
-
+* Run the tor service:
+```sh
+sudo service tor start
+```
 * Make sure that your torrc is configured to SOCKS_PORT localhost:9050
 
-* Open a new terminal and run `cd gotor && go run cmd/main/main.go -server`
+* Open a new terminal and run:
+```sh
+cd gotor && go run cmd/main/main.go -server
+```
 
-* Install TorBot Python requirements using [`poetry`](https://python-poetry.org/docs/basic-usage/)
+* Install TorBot Python requirements using poetry
 
-`poetry install` <-- to install dependencies
+```sh
+poetry install # to install dependencies
+poetry run python run.py -u https://www.example.com --depth 2 -v # example of running command with poetry
+poetry run python run.py -h # for help
+```
 
-`poetry run python run.py -u https://www.example.com --depth 2 -v` <-- example of running command with poetry
-
-`poetry run python run.py -h` <-- for help
 <pre>
 usage: Gather and analayze data from Tor sites.
 
@@ -103,7 +104,7 @@ optional arguments:
   -cAll, --classifyAll  Classify all the obtained webpages using NLP module
   -i, --info            Info displays basic info of the scanned site` </pre>
 
-* NOTE: -u is a mandatory flag
+* NOTE: -u is a mandatory for crawling
 
 Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
 
@@ -135,9 +136,10 @@ Run `./torBot` to execute the program.
 - [ ] Social Media Integration
 - [ ] Increase anonymity
 - [x] Improve performance (Done with gotor)
+- [ ] Screenshot capture
 
 ### Have ideas?
-If you have new ideas which is worth implementing, mention those by creating a new issue with the title [FEATURE_REQUEST].
+If you have any ideas for new features that you believe would be valuable to implement, please share them by creating a new issue [here](https://github.com/DedSecInside/TorBot/issues/new/choose).
 
 
 
