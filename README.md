@@ -119,7 +119,7 @@ Now you can run `./install.sh` to create the torBot binary.
 Run `./torBot` to execute the program.
 
 
-## TO-DO
+## Curated Features
 - [x] Visualization Module Revamp
 - [x] Implement BFS Search for webcrawler
 - [x] Use Golang service for concurrent webcrawling
