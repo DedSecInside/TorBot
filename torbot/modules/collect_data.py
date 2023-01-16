@@ -58,16 +58,19 @@ def collect_data(user_url: str):
         writer = SafeDictWriter(outcsv, fieldnames=fieldnames)
         bar = Bar('Processing...', max=len(links))
         for link in links:
-            resp = requests.get(link)
-            soup = BeautifulSoup(resp.text, 'html.parser')
-            meta_tags = parse_meta_tags(soup)
-            entry = {
-                "ID": uuid.uuid4(),
-                "Title": soup.title.string,
-                "Metadata": meta_tags,
-                "Content": soup.find('body')
-            }
-            writer.writerow(entry)
+            try:
+                resp = requests.get(link)
+                soup = BeautifulSoup(resp.text, 'html.parser')
+                meta_tags = parse_meta_tags(soup)
+                entry = {
+                    "ID": uuid.uuid4(),
+                    "Title": soup.title.string if soup.title else "",
+                    "Metadata": meta_tags,
+                    "Content": soup.find('body')
+                }
+                writer.writerow(entry)
+            except requests.exceptions.RequestException:
+                print(f"\nFailed to connect to [{link}].")
             bar.next()
     bar.finish()
     print(f'Data has been saved to {file_path}.')
