@@ -11,7 +11,7 @@ from threadsafe.safe_csv import SafeDictWriter
 
 from .utils import join_local_path
 from .validators import validate_link
-
+from .log import debug
 
 def parse_links(html: str):
     """Parses HTML page to extract links.
@@ -69,8 +69,9 @@ def collect_data(user_url: str):
                     "Content": soup.find('body')
                 }
                 writer.writerow(entry)
-            except requests.exceptions.RequestException:
-                print(f"\nFailed to connect to [{link}].")
+            except requests.exceptions.RequestException as e:
+                debug(e)
+                debug(f"Failed to connect to [{link}].")
             bar.next()
     bar.finish()
     print(f'Data has been saved to {file_path}.')
