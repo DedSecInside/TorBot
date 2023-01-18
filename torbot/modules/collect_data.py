@@ -13,6 +13,7 @@ from .utils import join_local_path
 from .validators import validate_link
 from .log import debug
 
+
 def parse_links(html: str):
     """Parses HTML page to extract links.
 
