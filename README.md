@@ -62,9 +62,15 @@ sudo service tor start
 ```
 * Make sure that your torrc is configured to SOCKS_PORT localhost:9050
 
-* Open a new terminal and run:
+* Open a new terminal and start `gotor`, this can be done using `docker` or `go`
+- using go:
 ```sh
 cd gotor && go run cmd/main/main.go -server
+```
+
+- using docker (multi-stage image, builds tor and gotor container):
+```sh
+cd gotor && ./build.sh 
 ```
 Note: If the `gotor` directory is empty, you may need to run `git submodule update --init --recursive` to initialize the submodule.
 
