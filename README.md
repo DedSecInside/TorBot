@@ -56,7 +56,7 @@
 ### From source
 Before you run the torBot make sure the following things are done properly:
 
-* Run the tor service:
+* Run the tor service (this is not needed if you are building the `gotor` docker container, it will provide a tor connection):
 ```sh
 sudo service tor start
 ```
