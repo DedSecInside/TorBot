@@ -66,6 +66,7 @@ sudo service tor start
 ```sh
 cd gotor && go run cmd/main/main.go -server
 ```
+Note: If the `gotor` directory is empty, you may need to run `git submodule update --init --recursive` to initialize the submodule.
 
 * Install TorBot Python requirements using poetry
 
