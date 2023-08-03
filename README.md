@@ -40,7 +40,7 @@
 
 ### Dependencies
 - Tor
-- Python ^3.8
+- Python ^3.9
 - Golang 1.19
 - Poetry
 
