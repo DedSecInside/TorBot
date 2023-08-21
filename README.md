@@ -53,10 +53,12 @@
 
 ## Installation
 
-### From source
-Before you run the torBot make sure the following things are done properly:
+### Gotor
+gotor is needed to run this module.
+Note: If the `gotor` directory is empty, you may need to run `git submodule update --init --recursive` to initialize the submodule.
 
-* Run the tor service (this is not needed if you are building the `gotor` docker container, it will provide a tor connection):
+#### Using local Tor service
+* Run the tor service:
 ```sh
 sudo service tor start
 ```
@@ -68,20 +70,26 @@ sudo service tor start
 cd gotor && go run cmd/main/main.go -server
 ```
 
+#### Using tor and gotor docker containers
 - using docker (multi-stage image, builds tor and gotor container):
 ```sh
 cd gotor && ./build.sh 
 ```
-Note: If the `gotor` directory is empty, you may need to run `git submodule update --init --recursive` to initialize the submodule.
 
-* Install TorBot Python requirements using poetry
-
+### TorBot
+* TorBot dependencies are managed using `poetry`, you can find the installation commands below:
 ```sh
 poetry install # to install dependencies
 poetry run python run.py -u https://www.example.com --depth 2 -v # example of running command with poetry
 poetry run python run.py -h # for help
 ```
 
+### Full Installation
+There is a shell script that will attempt to install both `torbot` and `gotor` as global modules.
+The script `install.sh` will first install the latest version of `torbot` found in `pypi`, 
+then it will attempt to install `gotor` to the `GOBIN` path after making the path globally accessible.
+
+### Options
 <pre>
 usage: Gather and analayze data from Tor sites.
 
@@ -117,14 +125,6 @@ Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob
 - Run the container (make sure to link the tor container as `tor`):
 
     `docker run --link tor:tor --rm -ti dedsecinside/torbot`
-
-### Using executable (Linux Only)
-
-On Linux platforms, you can make an executable for TorBot by using the install.sh script.
-You will need to give the script the correct permissions using `chmod +x install.sh`
-Now you can run `./install.sh` to create the torBot binary.
-Run `./torBot` to execute the program.
-
 
 ## Curated Features
 - [x] Visualization Module Revamp
