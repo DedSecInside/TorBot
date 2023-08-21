@@ -94,7 +94,7 @@ source install.sh # execute script
 
 You can now run
 ```sh
-gotor -sever -h localhost -p 9050 # start server
+gotor -server
 ```
 and crawl using
 ```sh
