@@ -88,6 +88,9 @@ poetry run python run.py -h # for help
 There is a shell script that will attempt to install both `torbot` and `gotor` as global modules.
 The script `install.sh` will first install the latest version of `torbot` found in `pypi`, 
 then it will attempt to install `gotor` to the `GOBIN` path after making the path globally accessible.
+```sh
+source install.sh # execute script
+```
 
 ### Options
 <pre>
