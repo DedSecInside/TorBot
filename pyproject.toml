@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "torbot"
-version = "2.1.0"
+version = "3.0.1"
 description = "OSINT for the dark web"
 authors = ["Akeem King <akeemtlking@gmail.com>"]
 license = "GNU GPL"
@@ -16,7 +16,6 @@ idna = "3.3"
 igraph = "0.10.6"
 joblib = "1.2.0"
 macholib = "1.16"
-numpy = "1.25.2"
 progress = "1.6"
 pyinstaller = "5.13.0"
 pyinstaller-hooks-contrib = "2022.7"
@@ -37,6 +36,7 @@ urllib3 = "1.26.9"
 validators = "0.20.0"
 yattag = "1.14.0"
 treelib = "^1.6.1"
+numpy = "1.24.4"
 
 [tool.poetry.dev-dependencies]
 

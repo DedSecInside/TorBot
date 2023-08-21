@@ -33,3 +33,6 @@ venv/
 .DS_Store
 data/
 torbot/modules/nlp/training_data/
+
+# Deployment artifacts
+dist
