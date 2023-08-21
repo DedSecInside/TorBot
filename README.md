@@ -92,6 +92,15 @@ then it will attempt to install `gotor` to the `GOBIN` path after making the pat
 source install.sh # execute script
 ```
 
+You can now run
+```sh
+gotor -sever -h localhost -p 9050 # start server
+```
+and crawl using
+```sh
+python -m torbot -u https://www.example.com
+```
+
 ### Options
 <pre>
 usage: Gather and analayze data from Tor sites.
