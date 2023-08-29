@@ -14,6 +14,7 @@ from .config import get_data_directory
 from .validators import validate_link
 from .log import debug
 
+
 def parse_links(html: str) -> list[str]:
     """
     Finds all anchor tags and parses the href attribute.
@@ -43,15 +44,8 @@ def get_links(url: str) -> list[str]:
     return links
 
 
-def new_file() -> object:
-    current_time = datetime.datetime.now().isoformat()
-    file_name = f'torbot_{current_time}.csv'
-    data_directory = get_data_directory()
-    local_file_path = os.path.join(data_directory, file_name)
-    return open(local_file_path, 'w+')
-
-
 default_url = 'https://thehiddenwiki.org' # used for testing
+
 
 def collect_data(user_url: str):
     url = user_url if user_url is not None else default_url
