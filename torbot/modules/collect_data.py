@@ -3,33 +3,30 @@ This module is used to gather data for analysis using thehiddenwiki.org.
 """
 import datetime
 import uuid
-
+import os
 import requests
+
 from bs4 import BeautifulSoup
 from progress.bar import Bar
 from threadsafe.safe_csv import SafeDictWriter
 
-from .utils import join_local_path
+from .config import get_data_directory
 from .validators import validate_link
 from .log import debug
 
 
-def parse_links(html: str):
-    """Parses HTML page to extract links.
-
-    Returns:
-        (list): List of all valid links found.
+def parse_links(html: str) -> list[str]:
+    """
+    Finds all anchor tags and parses the href attribute.
     """
     soup = BeautifulSoup(html, 'html.parser')
     tags = soup.find_all('a')
     return [tag['href'] for tag in tags if validate_link(tag['href'])]
 
 
-def parse_meta_tags(soup: BeautifulSoup):
-    """Retrieve all meta elements from HTML object.
-
-    Returns:
-        list: List containing content from meta tags
+def parse_meta_tags(soup: BeautifulSoup) -> list[object]:
+    """
+    Parses all meta tags.
     """
     meta_tags = soup.find_all('meta')
     content_list = list()
@@ -38,23 +35,23 @@ def parse_meta_tags(soup: BeautifulSoup):
     return content_list
 
 
-def get_links(url: str):
+def get_links(url: str) -> list[str]:
+    """
+    Returns all valid links found on the URL.
+    """
     resp = requests.get(url)
     links = parse_links(resp.text)
     return links
 
 
-default_url = 'https://thehiddenwiki.org'
-
-
-def collect_data(user_url: str):
-    url = user_url if user_url is not None else default_url
+def collect_data(url: str = 'https://thehiddenwiki.org'):
     print(f"Gathering data for {url}")
     links = get_links(url)
     current_time = datetime.datetime.now().isoformat()
     file_name = f'torbot_{current_time}.csv'
-    file_path = join_local_path(file_name)
-    with open(file_path, 'w+') as outcsv:
+    data_directory = get_data_directory()
+    local_file_path = os.path.join(data_directory, file_name)
+    with open(local_file_path, 'w+') as outcsv:
         fieldnames = ['ID', 'Title', 'Metadata', 'Content']
         writer = SafeDictWriter(outcsv, fieldnames=fieldnames)
         bar = Bar('Processing...', max=len(links))
@@ -71,8 +68,9 @@ def collect_data(user_url: str):
                 }
                 writer.writerow(entry)
             except requests.exceptions.RequestException as e:
+                print(f"Failed to connect to [{link}].")
                 debug(e)
-                debug(f"Failed to connect to [{link}].")
             bar.next()
     bar.finish()
-    print(f'Data has been saved to {file_path}.')
+
+    print(f'Data has been saved to {local_file_path}.')

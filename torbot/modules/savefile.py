@@ -3,8 +3,9 @@ Module that facilitates the saving of data to JSON file.
 """
 import json
 import time
+import os
 
-from .utils import join_local_path
+from .config import get_data_directory
 
 
 def saveJson(datatype: str, data: list):
@@ -20,7 +21,9 @@ def saveJson(datatype: str, data: list):
     """
     timestr = time.strftime("%Y%m%d-%H%M%S")
     file_name = "TorBot-Export-" + datatype + timestr + ".json"
-    file_path = join_local_path(file_name)
+    data_directory = get_data_directory()
+    file_path = os.path.join(data_directory, file_name)
+
     # Json File Creation
     with open(file_path, 'w+') as f:
         # Store data in Json format
