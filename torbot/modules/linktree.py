@@ -1,10 +1,12 @@
 """
 Module is used for analyzing link relationships
 """
+import os
+
 from treelib import Tree, exceptions
 
 from .api import get_node
-from .utils import join_local_path
+from .config import get_data_directory
 from .log import debug
 
 
@@ -67,15 +69,17 @@ class LinkTree:
         Saves LinkTree to file with given file_name
         Current file types supported are .txt
         """
-        debug(f"saving link tree as {file_name}")
-        file_path = join_local_path(file_name)
+        print(f"saving link tree as {file_name}")
+        data_directory = get_data_directory()
+        file_path = os.path.join(data_directory, file_name)
         try:
             self._tree.save2file(file_path)
         except Exception as e:
-            debug(f"failed to save link tree to {file_path}")
+            print(f"failed to save link tree to {file_path}")
+            debug(e)
             raise e
 
-        debug(f"file saved successfully to {file_path}")
+        print(f"file saved successfully to {file_path}")
 
     def show(self):
         """
