@@ -44,12 +44,7 @@ def get_links(url: str) -> list[str]:
     return links
 
 
-default_url = 'https://thehiddenwiki.org' # used for testing
-
-
-def collect_data(user_url: str):
-    url = user_url if user_url is not None else default_url
-
+def collect_data(url: str = 'https://thehiddenwiki.org'):
     print(f"Gathering data for {url}")
     links = get_links(url)
     current_time = datetime.datetime.now().isoformat()
