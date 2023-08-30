@@ -2,7 +2,7 @@
 name = "torbot"
 version = "3.1.1"
 description = "OSINT for the dark web"
-authors = ["Akeem King <akeemtlking@gmail.com>"]
+authors = ["Akeem King <akeemtlking@gmail.com>, PS Narayanan <thepsnarayanan@gmail.com>"]
 license = "GNU GPL"
 include = [".env"]
 
