@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "torbot"
-version = "3.1.1"
+version = "3.1.2"
 description = "OSINT for the dark web"
-authors = ["Akeem King <akeemtlking@gmail.com>, PS Narayanan <thepsnarayanan@gmail.com>"]
+authors = ["Akeem King <akeemtlking@gmail.com>", "PS Narayanan <thepsnarayanan@gmail.com>"]
 license = "GNU GPL"
 include = [".env"]
 
