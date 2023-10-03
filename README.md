@@ -103,7 +103,7 @@ python -m torbot -u https://www.example.com
 
 ### Options
 <pre>
-usage: Gather and analayze data from Tor sites.
+usage: Gather and analyze data from Tor sites.
 
 optional arguments:
   -h, --help            show this help message and exit
