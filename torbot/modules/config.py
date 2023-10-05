@@ -1,5 +1,6 @@
 import os
 import logging
+import argparse
 
 from dotenv import load_dotenv
 from inspect import getsourcefile
@@ -18,13 +19,16 @@ host = os.getenv("HOST")
 
 
 def get_log_level() -> int:
-    log_level_str = os.getenv('LOG_LEVEL')
-    if log_level_str:
-        log_level_str = log_level_str.lower()
-        mapping = logging.getLevelNamesMapping()
-        if log_level_str in mapping:
-            return mapping[log_level_str]
-    return logging.INFO
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-v', '--verbose', action='count', default=0, help='Increase verbosity level (-v for INFO, -vv for DEBUG)')
+    args = parser.parse_args()
+
+    if args.verbose >= 2:
+        return logging.DEBUG
+    elif args.verbose == 1:
+        return logging.INFO
+    else:
+        return logging.WARNING
 
 
 def get_data_directory():
