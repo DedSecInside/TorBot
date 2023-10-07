@@ -151,6 +151,17 @@ def get_args():
     )
     return parser.parse_args()
 
+def get_log_level() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-v', '--verbose', action='count', default=0, help='Increase verbosity level (-v for INFO, -vv for DEBUG)')
+    args = parser.parse_args()
+
+    if args.verbose >= 2:
+        return logging.DEBUG
+    elif args.verbose == 1:
+        return logging.INFO
+    else:
+        return logging.WARNING
 
 if __name__ == '__main__':
     try:
