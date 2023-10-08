@@ -5,7 +5,9 @@ import argparse
 import sys
 
 from .modules import link_io
-from .modules.linktree import LinkTree
+
+from .modules.link_io import pprint_tree, print_tor_ip_address
+from .modules.api import get_node
 from .modules.color import color
 from .modules.updater import check_version
 from .modules.savefile import saveJson
@@ -21,6 +23,7 @@ class TorBot:
 
     def __init__(self, args):
         self.args = args
+        self.__version__ = version
 
     def get_header(self):
         license_msg = color("LICENSE: GNU Public License v3", "red")
@@ -70,7 +73,7 @@ class TorBot:
         """
         Outputs tree visual for data
         """
-        tree = LinkTree(args.url, args.depth)
+        '''
         # -v/--visualize
         if args.visualize:
             tree.show()
@@ -79,28 +82,36 @@ class TorBot:
         if args.download:
             file_name = str(input("File Name (.txt): "))
             tree.save(file_name)
+            '''
 
     def perform_action(self):
         args = self.args
+
+        # If url flag is set then check for accompanying flag set. Only one
+        # additional flag can be set with -u/--url flag
+        if not args.url:
+            print("usage: See run.py -h for possible arguments.")
+            sys.exit()
+
         if args.gather:
             collect_data(args.url)
-            return
+            sys.exit()
 
         # If flag is -v, --update, -q/--quiet then user only runs that operation
         # because these are single flags only
         if args.version:
-            print("TorBot Version:" + self.__version__)
+            print(f"TorBot Version: {self.__version__}")
             sys.exit()
         if args.update:
             check_version()
             sys.exit()
         if not args.quiet:
             self.get_header()
-        # If url flag is set then check for accompanying flag set. Only one
-        # additional flag can be set with -u/--url flag
-        if not args.url:
-            print("usage: See run.py -h for possible arguments.")
-        link_io.print_tor_ip_address()
+
+        print_tor_ip_address()
+
+        tree = get_node(args.url, args.depth) 
+
         if args.classify:
             result = main.classify(args.url)
             print("Website Classification: " + result[0], "| Accuracy: " + str(result[1]))
@@ -114,7 +125,7 @@ class TorBot:
             execute_all(args.url)
         else:
             if args.url:
-                link_io.print_tree(args.url, args.depth, args.classifyAll)
+                pprint_tree(tree)
         print("\n\n")
 
 
@@ -130,7 +141,7 @@ def get_args():
     parser.add_argument("-s", "--save", action="store_true", help="Save results in a file")
     parser.add_argument("-m", "--mail", action="store_true", help="Get e-mail addresses from the crawled sites")
     parser.add_argument("-p", "--phone", action="store_true", help="Get phone numbers from the crawled sites")
-    parser.add_argument("--depth", help="Specifiy max depth of crawler (default 1)", default=1)
+    parser.add_argument("--depth", type=int, help="Specifiy max depth of crawler (default 1)", default=1)
     parser.add_argument("--gather", action="store_true", help="Gather data for analysis")
     parser.add_argument("-v", "--visualize", action="store_true", help="Visualizes tree of data gathered.")
     parser.add_argument("-d", "--download", action="store_true", help="Downloads tree of data gathered.")
