@@ -86,7 +86,7 @@ poetry run python run.py -h # for help
 
 ### Full Installation
 There is a shell script that will attempt to install both `torbot` and `gotor` as global modules.
-The script `install.sh` will first install the latest version of `torbot` found in `pypi`, 
+The script `install.sh` will first install the latest version of `torbot` found in `PyPI`, 
 then it will attempt to install `gotor` to the `GOBIN` path after making the path globally accessible.
 ```sh
 source install.sh # execute script
@@ -122,7 +122,7 @@ optional arguments:
                         Specifiy additional website extensions to the list(.com , .org, .etc)
   -c, --classify        Classify the webpage using NLP module
   -cAll, --classifyAll  Classify all the obtained webpages using NLP module
-  -i, --info            Info displays basic info of the scanned site` </pre>
+  -i, --info            Info displays basic info of the scanned site </pre>
 
 * NOTE: -u is a mandatory for crawling
 
@@ -130,7 +130,7 @@ Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob
 
 ### Using Docker
 
-- Ensure than you have a tor container running on port 9050.
+- Ensure that you have a tor container running on port 9050.
 - Build the image using following command (in the root directory):
 
     `docker build -f docker/Dockerfile -t dedsecinside/torbot .`
