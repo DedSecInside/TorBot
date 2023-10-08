@@ -2,7 +2,6 @@
 Module is used for analyzing link relationships
 """
 import os
-import re
 import httpx
 import validators
 import logging
@@ -11,6 +10,7 @@ from treelib import Tree, exceptions, Node
 from bs4 import BeautifulSoup
 
 from .nlp.main import classify
+
 
 class Link(Node):
     def __init__(self, title: str, url: str, status: int, classification: str, accuracy: float):
@@ -35,7 +35,7 @@ def append_node(tree: Tree, id: str, parent_id: str | None) -> None:
     Creates a node for a tree using the given ID which corresponds to a URL.
     If the parent_id is None, this will be considered a root node.
     """
-    resp = httpx.get(id)
+    resp = httpx.get(id, proxies='socks5://127.0.0.1:9050')
     soup = BeautifulSoup(resp.text, 'html.parser')
     title = soup.title.text.strip() if soup.title is not None else id
     try:
@@ -52,7 +52,7 @@ def build_tree(tree: Tree, url: str, depth: int) -> None:
     """
     if depth > 0:
         depth -= 1
-        resp = httpx.get(url)
+        resp = httpx.get(url, proxies='socks5://127.0.0.1:9050')
         children = parse_links(resp.text) 
         for child in children:
             append_node(tree, id=child, parent_id=url)

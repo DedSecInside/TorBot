@@ -148,6 +148,7 @@ certifi = "*"
 httpcore = ">=0.18.0,<0.19.0"
 idna = "*"
 sniffio = "*"
+socksio = {version = "==1.*", optional = true, markers = "extra == \"socks\""}
 
 [package.extras]
 brotli = ["brotli", "brotlicffi"]
@@ -554,6 +555,17 @@ files = [
 ]
 
 [[package]]
+name = "socksio"
+version = "1.0.0"
+description = "Sans-I/O implementation of SOCKS4, SOCKS4A, and SOCKS5."
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "socksio-1.0.0-py3-none-any.whl", hash = "sha256:95dc1f15f9b34e8d7b16f06d74b8ccf48f609af32ab33c608d08761c5dcbb1f3"},
+    {file = "socksio-1.0.0.tar.gz", hash = "sha256:f88beb3da5b5c38b9890469de67d0cb0f9d494b78b106ca1845f96c10b91c4ac"},
+]
+
+[[package]]
 name = "soupsieve"
 version = "2.3.2.post1"
 description = "A modern CSS selector implementation for Beautiful Soup."
@@ -691,4 +703,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<=3.11.4"
-content-hash = "ebad665d65bb7d8a6b22362b2ada5cca42961b41f25ff95dbd6b25a65ab803f1"
+content-hash = "bc665d85d8bb2537f084f64260e0b84212b7917a530ff79d8c8c9dd896c015d5"
