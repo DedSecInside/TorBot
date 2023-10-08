@@ -40,41 +40,14 @@
 
 ### Dependencies
 - Tor
-- Python ^3.9
-- Golang 1.19
+- Python ^3.11
 - Poetry
 
 ### Python Dependencies
 
 (see requirements.txt for more details)
 
-### Golang Dependencies
-- https://github.com/KingAkeem/gotor (This service needs to be ran in tandem with TorBot)
-
 ## Installation
-
-### Gotor
-gotor is needed to run this module.
-Note: If the `gotor` directory is empty, you may need to run `git submodule update --init --recursive` to initialize the submodule.
-
-#### Using local Tor service
-* Run the tor service:
-```sh
-sudo service tor start
-```
-* Make sure that your torrc is configured to SOCKS_PORT localhost:9050
-
-* Open a new terminal and start `gotor`, this can be done using `docker` or `go`
-- using go:
-```sh
-cd gotor && go run cmd/main/main.go -server
-```
-
-#### Using tor and gotor docker containers
-- using docker (multi-stage image, builds tor and gotor container):
-```sh
-cd gotor && ./build.sh 
-```
 
 ### TorBot
 * TorBot dependencies are managed using `poetry`, you can find the installation commands below:
@@ -82,23 +55,6 @@ cd gotor && ./build.sh
 poetry install # to install dependencies
 poetry run python run.py -u https://www.example.com --depth 2 -v # example of running command with poetry
 poetry run python run.py -h # for help
-```
-
-### Full Installation
-There is a shell script that will attempt to install both `torbot` and `gotor` as global modules.
-The script `install.sh` will first install the latest version of `torbot` found in `PyPI`, 
-then it will attempt to install `gotor` to the `GOBIN` path after making the path globally accessible.
-```sh
-source install.sh # execute script
-```
-
-You can now run
-```sh
-gotor -server
-```
-and crawl using
-```sh
-python -m torbot -u https://www.example.com
 ```
 
 ### Options
