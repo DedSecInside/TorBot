@@ -2,63 +2,56 @@
 This module is used for reading HTML pages using either bs4.BeautifulSoup
 objects or url strings
 """
+import http.client
+import tabulate
 
 from pprint import pprint
-from typing import Any
+from treelib import Tree
 
-from .linktree import LinkTree
-from .api import get_web_content, get_node, get_emails, get_phone, get_ip
+from .api import get_node, get_emails, get_phone, get_ip
 from .color import color
-from .nlp.main import classify
 
 
-def print_tor_ip_address():
+def print_tor_ip_address() -> None:
     """
     https://check.torproject.org/ tells you if you are using tor and it
     displays your IP address which we scape and display
     """
-    print('Attempting to connect to https://check.torproject.org/')
-    ip_string = color(get_ip(), 'yellow')
-    print(f'Tor IP Address: {ip_string}')
+    resp = get_ip()
+    print(resp["header"])
+    print(color(resp["body"], "yellow"))
 
 
-def print_node(node: LinkTree, classify_page: bool):
+def pprint_tree(tree: Tree) -> None:
     """
     Prints the status of a link based on it's connection status
     """
-    try:
-        title = node['url']
-        status_text = f"{node['status_code']} {node['status']}"
-        if classify_page:
-            classification = classify(get_web_content(node['url']))
-            status_text += f" {classification}"
-        if node['status_code'] >= 200 and node['status_code'] < 300:
-            status = color(status_text, 'green')
-        elif node['status_code'] >= 300 and node['status_code'] < 400:
-            status = color(status_text, 'yellow')
+    nodes = tree.all_nodes_itr()
+    table_data = []
+
+    def insert(node, color_code):
+        status = str(node.data.status)
+        code = http.client.responses[node.data.status]
+        status_message = f'{status} {code}'
+        table_data.append([
+            node.tag,
+            node.identifier,
+            color(status_message, color_code),
+            node.data.classification,
+        ])
+
+    for node in nodes:
+        status_code = node.data.status
+        if status_code >= 200 and status_code < 300:
+            insert(node, 'green')
+        elif status_code >= 300 and status_code < 400:
+            insert(node, 'yellow')
         else:
-            status = color(status_text, 'red')
-    except Exception:
-        title = "NOT FOUND"
-        status = color('Unable to reach destination.', 'red')
-
-    status_msg = "%-60s %-20s" % (title, status)
-    print(status_msg)
-
-
-def cascade(node: LinkTree, work: Any, classify_page: bool):
-    work(node, classify_page)
-    if node['children']:
-        for child in node['children']:
-            cascade(child, work, classify_page)
-
-
-def print_tree(url: str, depth: int = 1, classify_page: bool = False):
-    """
-    Prints the entire tree in a user friendly fashion
-    """
-    root = get_node(url, depth)
-    cascade(root, print_node, classify_page)
+            insert(node, 'red')
+        
+    headers = ["Title", "URL", "Status", "Category"]
+    table = tabulate.tabulate(table_data, headers=headers) 
+    print(table)
 
 
 def print_json(url: str, depth: int = 1):
@@ -69,8 +62,7 @@ def print_json(url: str, depth: int = 1):
         root (dict): Dictionary containing the root node and it's children
     """
     root = get_node(url, depth)
-    pprint(root)
-    return root
+    print(root.to_json())
 
 
 def print_emails(url: str):
