@@ -123,7 +123,8 @@ def set_arguments() -> argparse.ArgumentParser:
     parser.add_argument("--info", action="store_true",
                         help="Info displays basic info of the scanned site. Only supports a single URL at a time.")
     parser.add_argument("-v", action="store_true", help="verbose logging")
-    parser.add_argument("--disable-socks5", action="store_true", help="Executes HTTP requests without using SOCKS5 proxy")
+    parser.add_argument("--disable-socks5", action="store_true",
+                        help="Executes HTTP requests without using SOCKS5 proxy")
 
     return parser
 
