@@ -79,7 +79,7 @@ def run(arg_parser: argparse.ArgumentParser, version: str) -> None:
         sys.exit()
 
     socks5_proxy = f'socks5://{socks5_host}:{socks5_port}'
-    with httpx.Client(timeout=60, proxies=socks5_proxy) as client:
+    with httpx.Client(timeout=60, proxies=socks5_proxy if not args.disable_socks5 else None) as client:
         # print header and IP address if not set to quiet
         if not args.quiet:
             print_header(version)
@@ -123,6 +123,7 @@ def set_arguments() -> argparse.ArgumentParser:
     parser.add_argument("--info", action="store_true",
                         help="Info displays basic info of the scanned site. Only supports a single URL at a time.")
     parser.add_argument("-v", action="store_true", help="verbose logging")
+    parser.add_argument("--disable-socks5", action="store_true", help="Executes HTTP requests without using SOCKS5 proxy")
 
     return parser
 
