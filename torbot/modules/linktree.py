@@ -3,6 +3,7 @@ Module is used for analyzing link relationships
 """
 import http.client
 import os
+import json
 import httpx
 import validators
 import logging
@@ -90,17 +91,20 @@ class LinkTree(Tree):
         """
         Saves the tree to the current working directory under the given file name in JSON.
         """
-        json_data = self.to_json()
+        json_data = self._to_json()
         file_name = self._get_tree_file_name()
         with open(f'{file_name}.json', 'w+') as f:
             f.write(json_data)
+
+    def _to_json(self) -> str:
+        json_data = self.to_json()
+        return json.dumps(json.loads(json_data), indent=2)
 
     def showJSON(self) -> None:
         """
         Prints tree to console as JSON
         """
-        json_data = self.to_json()
-        print(json_data)
+        print(self._to_json())
 
     def showTable(self) -> None:
         """
