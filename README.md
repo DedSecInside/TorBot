@@ -72,6 +72,7 @@ optional arguments:
   --save                Save results in a file. (tree, json)
   --visualize           Visualizes tree of data gathered. (tree, json, table)
   -i, --info            Info displays basic info of the scanned site </pre>
+  --disable-socks5      Executes HTTP requests without using SOCKS5 proxy</pre>
 
 * NOTE: -u is a mandatory for crawling
 
