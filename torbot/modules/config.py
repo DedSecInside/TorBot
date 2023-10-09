@@ -1,5 +1,4 @@
 import os
-import logging
 
 from dotenv import load_dotenv
 from inspect import getsourcefile

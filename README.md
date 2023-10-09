@@ -34,7 +34,7 @@
 6. Crawl custom domains
 7. Check if the link is live
 8. Built-in Updater
-9. Build visual tree of link relationship that can be quickly viewed or saved to an image file
+9. Build visual tree of link relationship that can be quickly viewed or saved to an file
 
 ...(will be updated)
 
@@ -53,7 +53,7 @@
 * TorBot dependencies are managed using `poetry`, you can find the installation commands below:
 ```sh
 poetry install # to install dependencies
-poetry run python run.py -u https://www.example.com --depth 2 -v # example of running command with poetry
+poetry run python run.py -u https://www.example.com --depth 2 --visualize tree --save json # example of running command with poetry
 poetry run python run.py -h # for help
 ```
 
@@ -62,22 +62,15 @@ poetry run python run.py -h # for help
 usage: Gather and analyze data from Tor sites.
 
 optional arguments:
-  -h, --help            show this help message and exit
+  -u URL, --url URL     Specifiy a website link to crawl
+  --depth DEPTH         Specifiy max depth of crawler (default 1)
+  -h, --help            Show this help message and exit
+  -v                    Displays DEBUG level logging, default is INFO
   --version             Show current version of TorBot.
   --update              Update TorBot to the latest stable version
-  -q, --quiet
-  -u URL, --url URL     Specifiy a website link to crawl
-  -s, --save            Save results in a file
-  -m, --mail            Get e-mail addresses from the crawled sites
-  -p, --phone           Get phone numbers from the crawled sites
-  --depth DEPTH         Specifiy max depth of crawler (default 1)
-  --gather              Gather data for analysis
-  -v, --visualize       Visualizes tree of data gathered.
-  -d, --download        Downloads tree of data gathered.
-  -e EXTENSION, --extension EXTENSION
-                        Specifiy additional website extensions to the list(.com , .org, .etc)
-  -c, --classify        Classify the webpage using NLP module
-  -cAll, --classifyAll  Classify all the obtained webpages using NLP module
+  -q, --quiet           Prevents display of header and IP address
+  --save                Save results in a file. (tree, json)
+  --visualize           Visualizes tree of data gathered. (tree, json, table)
   -i, --info            Info displays basic info of the scanned site </pre>
 
 * NOTE: -u is a mandatory for crawling
