@@ -6,9 +6,9 @@ import http.client
 import tabulate
 
 from pprint import pprint
-from treelib import Tree
+from .linktree import LinkTree
 
-from .api import get_node, get_emails, get_phone, get_ip
+from .api import get_ip
 from .color import color
 
 
@@ -22,7 +22,7 @@ def print_tor_ip_address() -> None:
     print(color(resp["body"], "yellow"))
 
 
-def pprint_tree(tree: Tree) -> None:
+def pprint_tree(tree: LinkTree) -> None:
     """
     Prints the status of a link based on it's connection status
     """
@@ -54,36 +54,13 @@ def pprint_tree(tree: Tree) -> None:
     print(table)
 
 
-def print_json(url: str, depth: int = 1):
+def print_json(url: str, depth: int = 1) -> None:
     """
     Prints the JSON representation of a Link node.
 
     Returns:
         root (dict): Dictionary containing the root node and it's children
     """
-    root = get_node(url, depth)
-    print(root.to_json())
-
-
-def print_emails(url: str):
-    """
-    Prints any emails found within the HTML content of this url.
-
-    Returns:
-        emails (list): list of emails
-    """
-    email_list = get_emails(url)
-    pprint(email_list)
-    return email_list
-
-
-def print_phones(url: str):
-    """
-    Prints any phones found within the HTML content of this url.
-
-    Returns:
-        phones (list): list of phones
-    """
-    phone_list = get_phone(url)
-    pprint(phone_list)
-    return phone_list
+    tree = LinkTree(url=url, depth=depth)
+    tree.load()
+    print(tree.to_json())

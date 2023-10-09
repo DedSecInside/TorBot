@@ -5,7 +5,7 @@ import pytest
 import requests_mock
 
 from yattag import Doc
-from ..link_io import LinkIO
+from ..io import LinkIO
 
 
 @pytest.fixture

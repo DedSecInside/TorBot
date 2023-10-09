@@ -3,12 +3,12 @@ Module that contains methods for collecting all relevant data from links,
 and saving data to file.
 """
 import re
+import httpx
 
 from urllib.parse import urlsplit
 from bs4 import BeautifulSoup
 from termcolor import cprint
 from requests.exceptions import HTTPError
-from .api import get_web_content
 
 
 keys = set()  # high entropy strings, prolly secret keys
@@ -42,14 +42,14 @@ def execute_all(link, *, display_status=False):
             attempts to terminal.
     """
 
-    response = get_web_content(link)
-    soup = BeautifulSoup(response, 'html.parser')
+    resp = httpx.get(link, proxies='socks5://127.0.0.1:9050')
+    soup = BeautifulSoup(resp.text, 'html.parser')
     validation_functions = [
         get_robots_txt, get_dot_git, get_dot_svn, get_dot_git, get_intel, get_dot_htaccess, get_bitcoin_address
     ]
     for validate_func in validation_functions:
         try:
-            validate_func(link, response)
+            validate_func(link, resp)
         except (ConnectionError, HTTPError):
             cprint('Error', 'red')
 
@@ -81,7 +81,7 @@ def get_robots_txt(target, response):
     cprint("[*]Checking for Robots.txt", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
-    get_web_content(target + "robots.txt")
+    httpx.get(target + "robots.txt", proxies='socks5://127.0.0.1:9050')
     print(target + "robots.txt")
     matches = re.findall(r'Allow: (.*)|Disallow: (.*)', response)
     for match in matches:
@@ -119,8 +119,8 @@ def get_dot_git(target, response):
     cprint("[*]Checking for .git folder", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
-    resp = get_web_content(target + "/.git/config")
-    if not resp.__contains__("404"):
+    resp = httpx.get(target + "/.git/config", proxies='socks5://127.0.0.1:9050')
+    if not resp.text.__contains__("404"):
         cprint("Alert!", 'red')
         cprint(".git folder exposed publicly", 'red')
     else:
@@ -150,8 +150,8 @@ def get_dot_svn(target, response):
     cprint("[*]Checking for .svn folder", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
-    resp = get_web_content(target + "/.svn/entries")
-    if not resp.__contains__("404"):
+    resp = httpx.get(target + "/.svn/entries", proxies='socks5://127.0.0.1:9050')
+    if not resp.text.__contains__("404"):
         cprint("Alert!", 'red')
         cprint(".SVN folder exposed publicly", 'red')
     else:
@@ -168,10 +168,10 @@ def get_dot_htaccess(target, response):
     cprint("[*]Checking for .htaccess", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
-    resp = get_web_content(target + "/.htaccess")
-    if resp.__contains__("403"):
+    resp = httpx.get(target + "/.htaccess", proxies='socks5://127.0.0.1:9050')
+    if resp.text.__contains__("403"):
         cprint("403 Forbidden", 'blue')
-    elif not resp.__contains__("404") or resp.__contains__("500"):
+    elif not resp.text.__contains__("404") or resp.text.__contains__("500"):
         cprint("Alert!!", 'blue')
         cprint(".htaccess file found!", 'blue')
     else:

@@ -312,6 +312,17 @@ files = [
 ]
 
 [[package]]
+name = "phonenumbers"
+version = "8.13.22"
+description = "Python version of Google's common library for parsing, formatting, storing and validating international phone numbers."
+optional = false
+python-versions = "*"
+files = [
+    {file = "phonenumbers-8.13.22-py2.py3-none-any.whl", hash = "sha256:85ceeba9e67984ba98182c77e8e4c70093d38c0c6a0cb2bd392e0694ddaeb1f6"},
+    {file = "phonenumbers-8.13.22.tar.gz", hash = "sha256:001664c90f59b8954766c2db85adafc8dbc96177efeb49607ca4e64a7acaf569"},
+]
+
+[[package]]
 name = "progress"
 version = "1.6"
 description = "Easy to use progress bars"
@@ -703,4 +714,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<=3.11.4"
-content-hash = "bc665d85d8bb2537f084f64260e0b84212b7917a530ff79d8c8c9dd896c015d5"
+content-hash = "7b3ae36389472ec97dd5aacc437381b5c7f13f3d08e4ab738ef699b46c85a17a"
