@@ -60,7 +60,7 @@ class LinkTree(Tree):
         except exceptions.DuplicatedNodeIdError:
             logging.debug(f"found a duplicate URL {id}")
 
-    def _build_tree(self,  url: str, depth: int) -> None:
+    def _build_tree(self, url: str, depth: int) -> None:
         """
         Builds a tree from the root to the given depth.
         """

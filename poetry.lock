@@ -613,17 +613,6 @@ files = [
 ]
 
 [[package]]
-name = "threadsafe"
-version = "1.0.0"
-description = "Thread-safe data structures"
-optional = false
-python-versions = "*"
-files = [
-    {file = "threadsafe-1.0.0-py3-none-any.whl", hash = "sha256:acbd59278ca8221dc3a8051443fe24c647ee9ac81808058e280ef6f75dd4387b"},
-    {file = "threadsafe-1.0.0.tar.gz", hash = "sha256:7c61f9fdd0b3cd6c07b427de355dafcd337578d30871634cb1e8985ee4955edc"},
-]
-
-[[package]]
 name = "treelib"
 version = "1.7.0"
 description = "A Python implementation of tree structure."
@@ -693,4 +682,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<=3.11.4"
-content-hash = "fa048130f884a71b33d42a8dd2940a2c17365309afe56ae1c6abc2dfc6ee5a40"
+content-hash = "1e6d83812ac5be9a550b998795ee28f76bb788e972c933e497e68b20f548a0ea"
