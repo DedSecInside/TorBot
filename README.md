@@ -71,7 +71,7 @@ optional arguments:
   -q, --quiet           Prevents display of header and IP address
   --save                Save results in a file. (tree, json)
   --visualize           Visualizes tree of data gathered. (tree, json, table)
-  -i, --info            Info displays basic info of the scanned site </pre>
+  -i, --info            Info displays basic info of the scanned site
   --disable-socks5      Executes HTTP requests without using SOCKS5 proxy</pre>
 
 * NOTE: -u is a mandatory for crawling
