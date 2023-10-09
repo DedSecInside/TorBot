@@ -78,16 +78,6 @@ optional arguments:
 
 Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
 
-### Using Docker
-
-- Ensure that you have a tor container running on port 9050.
-- Build the image using following command (in the root directory):
-
-    `docker build -f docker/Dockerfile -t dedsecinside/torbot .`
-- Run the container (make sure to link the tor container as `tor`):
-
-    `docker run --link tor:tor --rm -ti dedsecinside/torbot`
-
 ## Curated Features
 - [x] Visualization Module Revamp
 - [x] Implement BFS Search for webcrawler
