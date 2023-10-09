@@ -4,6 +4,7 @@ and saving data to file.
 """
 import re
 import httpx
+import logging
 
 from urllib.parse import urlsplit
 from bs4 import BeautifulSoup
@@ -41,7 +42,7 @@ def execute_all(client: httpx.Client, link: str, *, display_status: bool = False
             attempts to terminal.
     """
 
-    resp = client.get(link)
+    resp = client.get(url=link)
     soup = BeautifulSoup(resp.text, 'html.parser')
     validation_functions = [
         get_robots_txt, get_dot_git, get_dot_svn, get_dot_git, get_intel, get_dot_htaccess, get_bitcoin_address
@@ -49,7 +50,8 @@ def execute_all(client: httpx.Client, link: str, *, display_status: bool = False
     for validate_func in validation_functions:
         try:
             validate_func(client, link, resp)
-        except:
+        except Exception as e:
+            logging.debug(e)
             cprint('Error', 'red')
 
     display_webpage_description(soup)

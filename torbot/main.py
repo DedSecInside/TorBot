@@ -78,7 +78,6 @@ def run(arg_parser: argparse.ArgumentParser, version: str) -> None:
         check_version()
         sys.exit()
 
-
     socks5_proxy = f'socks5://{socks5_host}:{socks5_port}'
     with httpx.Client(timeout=60, proxies=socks5_proxy) as client:
         # print header and IP address if not set to quiet
@@ -97,7 +96,7 @@ def run(arg_parser: argparse.ArgumentParser, version: str) -> None:
             tree.save()
         elif args.save == 'json':
             tree.saveJSON()
-        
+
         # always print something, table is the default
         if args.visualize == 'table' or not args.visualize:
             tree.showTable()
@@ -121,7 +120,8 @@ def set_arguments() -> argparse.ArgumentParser:
     parser.add_argument("-q", "--quiet", action="store_true")
     parser.add_argument("--version", action="store_true", help="Show current version of TorBot.")
     parser.add_argument("--update", action="store_true", help="Update TorBot to the latest stable version")
-    parser.add_argument("--info", action="store_true", help="Info displays basic info of the scanned site. Only supports a single URL at a time.")
+    parser.add_argument("--info", action="store_true",
+                        help="Info displays basic info of the scanned site. Only supports a single URL at a time.")
     parser.add_argument("-v", action="store_true", help="verbose logging")
 
     return parser

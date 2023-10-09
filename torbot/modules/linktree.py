@@ -37,7 +37,7 @@ class LinkTree(Tree):
         self._url = url
         self._depth = depth
         self._client = client
-    
+
     def load(self) -> None:
         self._append_node(id=self._url, parent_id=None)
         self._build_tree(url=self._url, depth=self._depth)
@@ -70,7 +70,7 @@ class LinkTree(Tree):
             for child in children:
                 self._append_node(id=child, parent_id=url)
                 self._build_tree(url=child, depth=depth)
-    
+
     def _get_tree_file_name(self) -> str:
         root_id = self.root
         root_node = self.get_node(root_id)
@@ -78,7 +78,7 @@ class LinkTree(Tree):
             raise Exception('no root node can be found.')
 
         return os.path.join(project_root_directory, f'{root_node.tag} - Depth {self._depth}')
-    
+
     def save(self) -> None:
         """
         Saves the tree to the current working directory under the given file name.
@@ -94,14 +94,14 @@ class LinkTree(Tree):
         file_name = self._get_tree_file_name()
         with open(f'{file_name}.json', 'w+') as f:
             f.write(json_data)
-    
+
     def showJSON(self) -> None:
         """
         Prints tree to console as JSON
         """
         json_data = self.to_json()
         print(json_data)
-    
+
     def showTable(self) -> None:
         """
         Prints the status of a link based on it's connection status
@@ -183,13 +183,15 @@ def parse_phone_numbers(soup: BeautifulSoup) -> list[str]:
             try:
                 if phonenumbers.is_valid_number(number):
                     numbers.add(number)
-            except:
+            except Exception as e:
+                logging.debug(e)
                 pass
 
             try:
                 if phonenumbers.is_valid_number(tag['href']):
                     numbers.add(tag['href'])
-            except:
+            except Exception as e:
+                logging.debug(e)
                 pass
-            
+
     return list(numbers)
