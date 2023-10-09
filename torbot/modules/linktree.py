@@ -53,7 +53,7 @@ def build_tree(tree: Tree, url: str, depth: int) -> None:
     if depth > 0:
         depth -= 1
         resp = httpx.get(url, proxies='socks5://127.0.0.1:9050')
-        children = parse_links(resp.text) 
+        children = parse_links(resp.text)
         for child in children:
             append_node(tree, id=child, parent_id=url)
             build_tree(tree, child, depth)

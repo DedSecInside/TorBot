@@ -16,6 +16,7 @@ base_url: str = f'http://{host}:{port}'
 
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
+
 def get_node(url: str, depth: int):
     """
     Returns the LinkTree for the given link at the specified depth.
@@ -85,7 +86,5 @@ def get_web_content(link: str):
     """
     endpoint = f'/content?link={link}'
     url = base_url + endpoint
-    debug(f'requesting {url}')
     resp = httpx.get(url)
-    debug(f'retrieved {resp.text}')
     return resp.text

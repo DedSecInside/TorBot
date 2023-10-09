@@ -48,9 +48,9 @@ def pprint_tree(tree: Tree) -> None:
             insert(node, 'yellow')
         else:
             insert(node, 'red')
-        
+
     headers = ["Title", "URL", "Status", "Category"]
-    table = tabulate.tabulate(table_data, headers=headers) 
+    table = tabulate.tabulate(table_data, headers=headers)
     print(table)
 
 

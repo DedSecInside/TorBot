@@ -15,7 +15,7 @@ from .modules.info import execute_all
 from .modules.collect_data import collect_data
 from .modules.nlp import main
 
-from . import version
+VERSION = '3.1.2'
 
 
 # TorBot CLI class
@@ -23,7 +23,7 @@ class TorBot:
 
     def __init__(self, args):
         self.args = args
-        self.__version__ = version
+        self.__version__ = VERSION
 
     def get_header(self):
         license_msg = color("LICENSE: GNU Public License v3", "red")
@@ -33,7 +33,7 @@ class TorBot:
                             / __/ / / / /_/ / __ \/ __ \/ /
                            / /_/ /_/ / _, _/ /_/ / /_/ / /
                            \__/\____/_/ |_/_____/\____/_/  V{VERSION}
-                """.format(VERSION=version.__version__)
+                """.format(VERSION=self.__version__)
         banner = color(banner, "red")
 
         title = r"""
@@ -110,7 +110,7 @@ class TorBot:
 
         print_tor_ip_address()
 
-        tree = get_node(args.url, args.depth) 
+        tree = get_node(args.url, args.depth)
 
         if args.classify:
             result = main.classify(args.url)
