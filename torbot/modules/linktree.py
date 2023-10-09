@@ -83,14 +83,15 @@ class LinkTree(Tree):
         Saves the tree to the current working directory under the given file name.
         """
         file_name = self._get_tree_file_name()
-        self.save2file(file_name)
+        self.save2file(f'{file_name}.txt')
 
     def saveJSON(self) -> None:
         """
         Saves the tree to the current working directory under the given file name in JSON.
         """
         json_data = self.to_json()
-        with open(self._get_tree_file_name(), 'w+') as f:
+        file_name = self._get_tree_file_name()
+        with open(f'{file_name}.json', 'w+') as f:
             f.write(json_data)
     
     def showJSON(self) -> None:
@@ -171,6 +172,7 @@ def parse_emails(soup: BeautifulSoup) -> list[str]:
 def parse_phone_numbers(soup: BeautifulSoup) -> list[str]:
     """
     Finds all anchor tags and parses the href attribute.
+    example attribute: `tel:+45651112331` or possiby the href attribute itself.
     """
     tags = soup.find_all('a')
     numbers = set()

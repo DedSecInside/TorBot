@@ -98,7 +98,7 @@ def run(arg_parser: argparse.ArgumentParser, version: str) -> None:
     if args.visualize == 'table' or not args.visualize:
         tree.showTable()
     elif args.visualize == 'tree':
-        tree.show()
+        print(tree)
     elif args.visualize == 'json':
         tree.showJSON()
 
@@ -133,7 +133,7 @@ if __name__ == '__main__':
                 data = tomllib.load(f)
                 version = data['tool']['poetry']['version']
         except Exception as e:
-            raise Exception("unable to find version from pyprojec.toml.\n", e)
+            raise Exception("unable to find version from pyproject.toml.\n", e)
 
         run(arg_parser, version)
     except KeyboardInterrupt:
