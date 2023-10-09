@@ -39,13 +39,13 @@
 ...(will be updated)
 
 ### Dependencies
-- Tor
-- Python ^3.11
+- Tor (Optional)
+- Python ^3.9
 - Poetry
 
 ### Python Dependencies
 
-(see requirements.txt for more details)
+(see pyproject.toml or requirements.txt for more details)
 
 ## Installation
 
