@@ -69,8 +69,8 @@ optional arguments:
   --version             Show current version of TorBot.
   --update              Update TorBot to the latest stable version
   -q, --quiet           Prevents display of header and IP address
-  --save                Save results in a file. (tree, json)
-  --visualize           Visualizes tree of data gathered. (tree, json, table)
+  --save FORMAT         Save results in a file. (tree, json)
+  --visualize FORMAT    Visualizes tree of data gathered. (tree, json, table)
   -i, --info            Info displays basic info of the scanned site
   --disable-socks5      Executes HTTP requests without using SOCKS5 proxy</pre>
 
