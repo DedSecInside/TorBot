@@ -414,27 +414,6 @@ files = [
 ]
 
 [[package]]
-name = "requests"
-version = "2.31.0"
-description = "Python HTTP for Humans."
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "requests-2.31.0-py3-none-any.whl", hash = "sha256:58cd2187c01e70e6e26505bca751777aa9f2ee0b7f4300988b709f44e013003f"},
-    {file = "requests-2.31.0.tar.gz", hash = "sha256:942c5a758f98d790eaed1a29cb6eefc7ffb0d1cf7af05c3d2791656dbd6ad1e1"},
-]
-
-[package.dependencies]
-certifi = ">=2017.4.17"
-charset-normalizer = ">=2,<4"
-idna = ">=2.5,<4"
-urllib3 = ">=1.21.1,<3"
-
-[package.extras]
-socks = ["PySocks (>=1.5.6,!=1.5.7)"]
-use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
-
-[[package]]
 name = "scikit-learn"
 version = "1.3.0"
 description = "A set of python modules for machine learning and data mining"
@@ -714,4 +693,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<=3.11.4"
-content-hash = "7b3ae36389472ec97dd5aacc437381b5c7f13f3d08e4ab738ef699b46c85a17a"
+content-hash = "fa048130f884a71b33d42a8dd2940a2c17365309afe56ae1c6abc2dfc6ee5a40"

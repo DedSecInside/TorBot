@@ -32,10 +32,11 @@ class LinkNode(Node):
 
 
 class LinkTree(Tree):
-    def __init__(self, url: str, depth: int) -> None:
+    def __init__(self, url: str, depth: int, client: httpx.Client) -> None:
         super().__init__()
         self._url = url
         self._depth = depth
+        self._client = client
     
     def load(self) -> None:
         self._append_node(id=self._url, parent_id=None)
@@ -46,7 +47,7 @@ class LinkTree(Tree):
         Creates a node for a tree using the given ID which corresponds to a URL.
         If the parent_id is None, this will be considered a root node.
         """
-        resp = httpx.get(id, timeout=60, proxies='socks5://127.0.0.1:9050')
+        resp = self._client.get(id)
         soup = BeautifulSoup(resp.text, 'html.parser')
         title = soup.title.text.strip() if soup.title is not None else parse_hostname(id)
         try:
@@ -64,7 +65,7 @@ class LinkTree(Tree):
         """
         if depth > 0:
             depth -= 1
-            resp = httpx.get(url, timeout=60, proxies='socks5://127.0.0.1:9050')
+            resp = self._client.get(url)
             children = parse_links(resp.text)
             for child in children:
                 self._append_node(id=child, parent_id=url)

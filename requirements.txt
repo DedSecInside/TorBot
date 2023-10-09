@@ -21,7 +21,6 @@ pyinstaller==5.13.0 ; python_version >= "3.9" and python_full_version <= "3.11.4
 pysocks==1.7.1 ; python_version >= "3.9" and python_full_version <= "3.11.4"
 python-dotenv==0.20.0 ; python_version >= "3.9" and python_full_version <= "3.11.4"
 pywin32-ctypes==0.2.2 ; python_version >= "3.9" and python_full_version <= "3.11.4" and sys_platform == "win32"
-requests==2.31.0 ; python_version >= "3.9" and python_full_version <= "3.11.4"
 scikit-learn==1.3.0 ; python_version >= "3.9" and python_full_version <= "3.11.4"
 scipy==1.10.0 ; python_version >= "3.9" and python_full_version <= "3.11.4"
 setuptools==68.2.2 ; python_version >= "3.9" and python_full_version <= "3.11.4"

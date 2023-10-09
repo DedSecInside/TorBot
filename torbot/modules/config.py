@@ -18,6 +18,9 @@ project_root_directory = torbot_directory.parent
 dotenv_path = os.path.join(project_root_directory, '.env')
 load_dotenv(dotenv_path=dotenv_path, verbose=True)
 
+socks5_host = os.getenv('SOCKS5_HOST')
+socks5_port = os.getenv('SOCKS5_PORT')
+
 def get_data_directory():
     data_directory = os.getenv('TORBOT_DATA_DIR')
     # if a path is not set, write data to the config directory

@@ -6,21 +6,22 @@ import argparse
 import sys
 import logging
 import tomllib
+import httpx
 
 from modules.api import get_ip
 from modules.color import color
 from modules.updater import check_version
 from modules.info import execute_all
 from modules.linktree import LinkTree
-from modules.config import project_root_directory
+from modules.config import project_root_directory, socks5_host, socks5_port
 
 
-def print_tor_ip_address() -> None:
+def print_tor_ip_address(client: httpx.Client) -> None:
     """
     https://check.torproject.org/ tells you if you are using tor and it
     displays your IP address which we scape and display
     """
-    resp = get_ip()
+    resp = get_ip(client)
     print(resp["header"])
     print(color(resp["body"], "yellow"))
 
@@ -77,30 +78,33 @@ def run(arg_parser: argparse.ArgumentParser, version: str) -> None:
         check_version()
         sys.exit()
 
-    # print header and IP address if not set to quiet
-    if not args.quiet:
-        print_header(version)
-        print_tor_ip_address()
 
-    if args.info:
-        execute_all(args.url)
+    socks5_proxy = f'socks5://{socks5_host}:{socks5_port}'
+    with httpx.Client(timeout=60, proxies=socks5_proxy) as client:
+        # print header and IP address if not set to quiet
+        if not args.quiet:
+            print_header(version)
+            print_tor_ip_address(client)
 
-    tree = LinkTree(url=args.url, depth=args.depth)
-    tree.load()
+        if args.info:
+            execute_all(client, args.url)
 
-    # save data if desired
-    if args.save == 'tree':
-        tree.save()
-    elif args.save == 'json':
-        tree.saveJSON()
-    
-    # always print something, table is the default
-    if args.visualize == 'table' or not args.visualize:
-        tree.showTable()
-    elif args.visualize == 'tree':
-        print(tree)
-    elif args.visualize == 'json':
-        tree.showJSON()
+        tree = LinkTree(url=args.url, depth=args.depth, client=client)
+        tree.load()
+
+        # save data if desired
+        if args.save == 'tree':
+            tree.save()
+        elif args.save == 'json':
+            tree.saveJSON()
+        
+        # always print something, table is the default
+        if args.visualize == 'table' or not args.visualize:
+            tree.showTable()
+        elif args.visualize == 'tree':
+            print(tree)
+        elif args.visualize == 'json':
+            tree.showJSON()
 
     print("\n\n")
 
