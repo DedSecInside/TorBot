@@ -87,7 +87,6 @@ Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob
 - [ ] Keyword/Phrase search
 - [ ] Social Media Integration
 - [ ] Increase anonymity
-- [x] Improve performance (Done with gotor)
 - [ ] Screenshot capture
 
 
