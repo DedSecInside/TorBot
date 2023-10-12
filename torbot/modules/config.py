@@ -1,30 +1,25 @@
 import os
-import logging
 
 from dotenv import load_dotenv
 from inspect import getsourcefile
 from unipath import Path
 
+source_file = getsourcefile(lambda: 0)
+config_file_path = None
+if isinstance(source_file, str):
+    config_file_path = (os.path.abspath(source_file))
 
-config_file_path = (os.path.abspath(getsourcefile(lambda: 0)))
+if not config_file_path:
+    raise Exception('Unable to load environment.')
+
 modules_directory = Path(config_file_path).parent
 torbot_directory = modules_directory.parent
 project_root_directory = torbot_directory.parent
 dotenv_path = os.path.join(project_root_directory, '.env')
 load_dotenv(dotenv_path=dotenv_path, verbose=True)
 
-port = os.getenv("PORT")
-host = os.getenv("HOST")
-
-
-def get_log_level() -> int:
-    log_level_str = os.getenv('LOG_LEVEL')
-    if log_level_str:
-        log_level_str = log_level_str.lower()
-        mapping = logging.getLevelNamesMapping()
-        if log_level_str in mapping:
-            return mapping[log_level_str]
-    return logging.INFO
+socks5_host = os.getenv('SOCKS5_HOST')
+socks5_port = os.getenv('SOCKS5_PORT')
 
 
 def get_data_directory():

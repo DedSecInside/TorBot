@@ -34,71 +34,27 @@
 6. Crawl custom domains
 7. Check if the link is live
 8. Built-in Updater
-9. Build visual tree of link relationship that can be quickly viewed or saved to an image file
+9. Build visual tree of link relationship that can be quickly viewed or saved to an file
 
 ...(will be updated)
 
 ### Dependencies
-- Tor
+- Tor (Optional)
 - Python ^3.9
-- Golang 1.19
 - Poetry
 
 ### Python Dependencies
 
-(see requirements.txt for more details)
-
-### Golang Dependencies
-- https://github.com/KingAkeem/gotor (This service needs to be ran in tandem with TorBot)
+(see pyproject.toml or requirements.txt for more details)
 
 ## Installation
-
-### Gotor
-gotor is needed to run this module.
-Note: If the `gotor` directory is empty, you may need to run `git submodule update --init --recursive` to initialize the submodule.
-
-#### Using local Tor service
-* Run the tor service:
-```sh
-sudo service tor start
-```
-* Make sure that your torrc is configured to SOCKS_PORT localhost:9050
-
-* Open a new terminal and start `gotor`, this can be done using `docker` or `go`
-- using go:
-```sh
-cd gotor && go run cmd/main/main.go -server
-```
-
-#### Using tor and gotor docker containers
-- using docker (multi-stage image, builds tor and gotor container):
-```sh
-cd gotor && ./build.sh 
-```
 
 ### TorBot
 * TorBot dependencies are managed using `poetry`, you can find the installation commands below:
 ```sh
 poetry install # to install dependencies
-poetry run python run.py -u https://www.example.com --depth 2 -v # example of running command with poetry
-poetry run python run.py -h # for help
-```
-
-### Full Installation
-There is a shell script that will attempt to install both `torbot` and `gotor` as global modules.
-The script `install.sh` will first install the latest version of `torbot` found in `PyPI`, 
-then it will attempt to install `gotor` to the `GOBIN` path after making the path globally accessible.
-```sh
-source install.sh # execute script
-```
-
-You can now run
-```sh
-gotor -server
-```
-and crawl using
-```sh
-python -m torbot -u https://www.example.com
+poetry run python torbot/main.py -u https://www.example.com --depth 2 --visualize tree --save json # example of running command with poetry
+poetry run python torbot/main.py -h # for help
 ```
 
 ### Options
@@ -106,23 +62,17 @@ python -m torbot -u https://www.example.com
 usage: Gather and analyze data from Tor sites.
 
 optional arguments:
-  -h, --help            show this help message and exit
+  -u URL, --url URL     Specifiy a website link to crawl
+  --depth DEPTH         Specifiy max depth of crawler (default 1)
+  -h, --help            Show this help message and exit
+  -v                    Displays DEBUG level logging, default is INFO
   --version             Show current version of TorBot.
   --update              Update TorBot to the latest stable version
-  -q, --quiet
-  -u URL, --url URL     Specifiy a website link to crawl
-  -s, --save            Save results in a file
-  -m, --mail            Get e-mail addresses from the crawled sites
-  -p, --phone           Get phone numbers from the crawled sites
-  --depth DEPTH         Specifiy max depth of crawler (default 1)
-  --gather              Gather data for analysis
-  -v, --visualize       Visualizes tree of data gathered.
-  -d, --download        Downloads tree of data gathered.
-  -e EXTENSION, --extension EXTENSION
-                        Specifiy additional website extensions to the list(.com , .org, .etc)
-  -c, --classify        Classify the webpage using NLP module
-  -cAll, --classifyAll  Classify all the obtained webpages using NLP module
-  -i, --info            Info displays basic info of the scanned site </pre>
+  -q, --quiet           Prevents display of header and IP address
+  --save FORMAT         Save results in a file. (tree, json)
+  --visualize FORMAT    Visualizes tree of data gathered. (tree, json, table)
+  -i, --info            Info displays basic info of the scanned site
+  --disable-socks5      Executes HTTP requests without using SOCKS5 proxy</pre>
 
 * NOTE: -u is a mandatory for crawling
 
