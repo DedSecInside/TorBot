@@ -200,4 +200,4 @@ We welcome contributions to this project! Here are a few guidelines to follow:
 ... see all [contributors](https://github.com/DedSecInside/TorBot/graphs/contributors)
 
 ## License
-[GNU Public License](https://github.com/DedSecInside/TorBot/blob/dev/docs/LICENSE.md)
+[GNU Public License](https://github.com/DedSecInside/TorBot/blob/dev/LICENSE.md)
