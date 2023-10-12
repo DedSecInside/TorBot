@@ -3,72 +3,41 @@ API Module
 
 Provides access to external services using API wrappers
 """
-import requests
+import httpx
+import logging
 
-from .log import debug
-from .config import host, port
-
-base_url: str = f'http://{host}:{port}'
+from bs4 import BeautifulSoup, Tag
 
 
-def get_node(link: str, depth: int):
-    """
-    Returns the LinkTree for the given link at the specified depth.
-    """
-    endpoint = f'/tree?link={link}&depth={depth}'
-    url = base_url + endpoint
-    debug(f'requesting {url}')
-    resp = requests.get(url)
-    data = resp.json()
-    debug(f'retrieved {data}')
-    return data
+logging.getLogger("httpx").setLevel(logging.WARNING)
 
 
-def get_ip():
+def get_ip(client: httpx.Client) -> dict:
     """
     Returns the IP address of the current Tor client the service is using.
     """
-    endpoint = '/ip'
-    url = base_url + endpoint
-    debug(f'requesting {url}')
-    resp = requests.get(url)
-    debug(f'retrieved {resp.text}')
-    return resp.text
+    resp = client.get("https://check.torproject.org/")
+    soup = BeautifulSoup(resp.text, 'html.parser')
 
+    # Get the content of check tor project, this contains the header and body
+    content = soup.find("div", {"class": "content"})
+    if not content:
+        raise Exception("unable to find content to parse IP.")
 
-def get_emails(link: str):
-    """
-    Returns the mailto links found on the page.
-    """
-    endpoint = f'/emails?link={link}'
-    url = base_url + endpoint
-    debug(f'requesting {url}')
-    resp = requests.get(url)
-    data = resp.json()
-    debug(f'retrieved {data}')
-    return data
+    # parse the header
+    header_tag = content.find("h1")
+    if not header_tag:
+        raise Exception("unable to find header")
+    if not isinstance(header_tag, Tag):
+        raise Exception("invalid header found")
+    header = header_tag.get_text().strip()
 
+    # parse the main content containing the IP address
+    body_tag = content.find("p")
+    if not body_tag:
+        raise Exception("unable to find body")
+    if not isinstance(body_tag, Tag):
+        raise Exception("invalid body found")
+    body = body_tag.get_text().strip()
 
-def get_phone(link: str):
-    """
-    Returns the tel links found on the page.
-    """
-    endpoint = f'/phone?link={link}'
-    url = base_url + endpoint
-    debug(f'requesting {url}')
-    resp = requests.get(url)
-    data = resp.json()
-    debug(f'retrieved {data}')
-    return data
-
-
-def get_web_content(link: str):
-    """
-    Returns the HTML content of the page.
-    """
-    endpoint = f'/content?link={link}'
-    url = base_url + endpoint
-    debug(f'requesting {url}')
-    resp = requests.get(url)
-    debug(f'retrieved {resp.text}')
-    return resp.text
+    return {"header": header, "body": body}

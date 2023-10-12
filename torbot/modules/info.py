@@ -3,12 +3,12 @@ Module that contains methods for collecting all relevant data from links,
 and saving data to file.
 """
 import re
+import httpx
+import logging
 
 from urllib.parse import urlsplit
 from bs4 import BeautifulSoup
 from termcolor import cprint
-from requests.exceptions import HTTPError
-from .api import get_web_content
 
 
 keys = set()  # high entropy strings, prolly secret keys
@@ -32,7 +32,7 @@ dataset_names = [
 ]
 
 
-def execute_all(link, *, display_status=False):
+def execute_all(client: httpx.Client, link: str, *, display_status: bool = False) -> None:
     """Initialise datasets and functions to retrieve data, and execute
     each for a given link.
 
@@ -42,15 +42,16 @@ def execute_all(link, *, display_status=False):
             attempts to terminal.
     """
 
-    response = get_web_content(link)
-    soup = BeautifulSoup(response, 'html.parser')
+    resp = client.get(url=link)
+    soup = BeautifulSoup(resp.text, 'html.parser')
     validation_functions = [
         get_robots_txt, get_dot_git, get_dot_svn, get_dot_git, get_intel, get_dot_htaccess, get_bitcoin_address
     ]
     for validate_func in validation_functions:
         try:
-            validate_func(link, response)
-        except (ConnectionError, HTTPError):
+            validate_func(client, link, resp)
+        except Exception as e:
+            logging.debug(e)
             cprint('Error', 'red')
 
     display_webpage_description(soup)
@@ -71,7 +72,7 @@ def display_headers(response):
         print('*', key, ':', val)
 
 
-def get_robots_txt(target, response):
+def get_robots_txt(client: httpx.Client, target: str, response: str) -> None:
     """ Check link for Robot.txt, and if found, add link to robots dataset.
 
     Args:
@@ -81,7 +82,7 @@ def get_robots_txt(target, response):
     cprint("[*]Checking for Robots.txt", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
-    get_web_content(target + "robots.txt")
+    client.get(target + "robots.txt")
     print(target + "robots.txt")
     matches = re.findall(r'Allow: (.*)|Disallow: (.*)', response)
     for match in matches:
@@ -93,7 +94,7 @@ def get_robots_txt(target, response):
         print(robots)
 
 
-def get_intel(link, response):
+def get_intel(client: httpx.Client, url: str, response: str) -> None:
     """ Check link for intel, and if found, add link to intel dataset,
     including but not limited to website accounts and AWS buckets.
 
@@ -109,7 +110,7 @@ def get_intel(link, response):
         intel.add(match)
 
 
-def get_dot_git(target, response):
+def get_dot_git(client: httpx.Client, target: str, response: str) -> None:
     """ Check link for .git folders exposed on public domain.
 
     Args:
@@ -119,15 +120,15 @@ def get_dot_git(target, response):
     cprint("[*]Checking for .git folder", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
-    resp = get_web_content(target + "/.git/config")
-    if not resp.__contains__("404"):
+    resp = client.get(target + "/.git/config")
+    if not resp.text.__contains__("404"):
         cprint("Alert!", 'red')
         cprint(".git folder exposed publicly", 'red')
     else:
         cprint("NO .git folder found", 'blue')
 
 
-def get_bitcoin_address(target, response):
+def get_bitcoin_address(client: httpx.Client, target: str, response: str) -> None:
     """ Check link for Bitcoin addresses, and if found, print.
 
     Args:
@@ -140,7 +141,7 @@ def get_bitcoin_address(target, response):
         print("BTC: ", bitcoin)
 
 
-def get_dot_svn(target, response):
+def get_dot_svn(client: httpx.Client, target: str, response: str) -> None:
     """ Check link for .svn folders exposed on public domain=.
 
     Args:
@@ -150,15 +151,15 @@ def get_dot_svn(target, response):
     cprint("[*]Checking for .svn folder", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
-    resp = get_web_content(target + "/.svn/entries")
-    if not resp.__contains__("404"):
+    resp = httpx.get(target + "/.svn/entries", proxies='socks5://127.0.0.1:9050')
+    if not resp.text.__contains__("404"):
         cprint("Alert!", 'red')
         cprint(".SVN folder exposed publicly", 'red')
     else:
         cprint("NO .SVN folder found", 'blue')
 
 
-def get_dot_htaccess(target, response):
+def get_dot_htaccess(client: httpx.Client, target: str, response: str) -> None:
     """ Check link for .htaccess files on public domain.
 
     Args:
@@ -168,10 +169,10 @@ def get_dot_htaccess(target, response):
     cprint("[*]Checking for .htaccess", 'yellow')
     url = target
     target = "{0.scheme}://{0.netloc}/".format(urlsplit(url))
-    resp = get_web_content(target + "/.htaccess")
-    if resp.__contains__("403"):
+    resp = httpx.get(target + "/.htaccess", proxies='socks5://127.0.0.1:9050')
+    if resp.text.__contains__("403"):
         cprint("403 Forbidden", 'blue')
-    elif not resp.__contains__("404") or resp.__contains__("500"):
+    elif not resp.text.__contains__("404") or resp.text.__contains__("500"):
         cprint("Alert!!", 'blue')
         cprint(".htaccess file found!", 'blue')
     else:
@@ -179,7 +180,7 @@ def get_dot_htaccess(target, response):
         cprint(resp, 'blue')
 
 
-def display_webpage_description(soup):
+def display_webpage_description(soup: BeautifulSoup) -> None:
     """Print all meta tags found in page.
 
     Args:
