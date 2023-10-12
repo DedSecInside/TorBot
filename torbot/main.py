@@ -3,6 +3,7 @@ Core
 """
 import os
 import argparse
+import logging
 import sys
 import logging
 import tomllib
@@ -128,7 +129,7 @@ def set_arguments() -> argparse.ArgumentParser:
 
     return parser
 
-
+  
 if __name__ == '__main__':
     try:
         arg_parser = set_arguments()
