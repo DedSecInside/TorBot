@@ -2,6 +2,7 @@
 Core
 """
 import argparse
+import logging
 import sys
 
 from .modules import link_io
@@ -85,6 +86,12 @@ class TorBot:
         if args.gather:
             collect_data(args.url)
             return
+
+        log_level = logging.INFO  # Default to INFO
+        if args.verbose:
+            log_level = logging.DEBUG
+
+        logging.basicConfig(level=log_level, format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
 
         # If flag is -v, --update, -q/--quiet then user only runs that operation
         # because these are single flags only
