@@ -81,7 +81,6 @@ Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob
 ## Curated Features
 - [x] Visualization Module Revamp
 - [x] Implement BFS Search for webcrawler
-- [x] Use Golang service for concurrent webcrawling
 - [x] Improve stability (Handle errors gracefully, expand test coverage and etc.)
 - [ ] Randomize Tor Connection (Random Header and Identity)
 - [ ] Keyword/Phrase search
