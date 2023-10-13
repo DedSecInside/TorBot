@@ -27,14 +27,14 @@
 
 ### Features
 1. Onion Crawler (.onion)
-2. Returns Page title and address with a short description about the site
-3. Save links to database
-4. Get data from site
-5. Save crawl info to JSON file
+2. Returns page title or host name if no page title is available and address with a short description of the site.
+3. Save links to a database (Not done)
+4. Output the HTML from a site or save it to an HTML file. (Not done)
+5. Save the link tree as a JSON file.
 6. Crawl custom domains
 7. Check if the link is live
 8. Built-in Updater
-9. Build visual tree of link relationship that can be quickly viewed or saved to an file
+9. Build a visual tree of link relationships that can be quickly viewed or saved to a file
 
 ...(will be updated)
 
@@ -62,15 +62,15 @@ poetry run python torbot/main.py -h # for help
 usage: Gather and analyze data from Tor sites.
 
 optional arguments:
-  -u URL, --url URL     Specifiy a website link to crawl
-  --depth DEPTH         Specifiy max depth of crawler (default 1)
+  -u URL, --url URL     Specify a website link to crawl
+  --depth DEPTH         Specify max depth of crawler (default 1)
   -h, --help            Show this help message and exit
   -v                    Displays DEBUG level logging, default is INFO
-  --version             Show current version of TorBot.
+  --version             Show the current version of TorBot.
   --update              Update TorBot to the latest stable version
   -q, --quiet           Prevents display of header and IP address
-  --save FORMAT         Save results in a file. (tree, json)
-  --visualize FORMAT    Visualizes tree of data gathered. (tree, json, table)
+  --save FORMAT         Save results in a file. (tree, JSON)
+  --visualize FORMAT    Visualizes tree of data gathered. (tree, JSON, table)
   -i, --info            Info displays basic info of the scanned site
   --disable-socks5      Executes HTTP requests without using SOCKS5 proxy</pre>
 
@@ -81,9 +81,11 @@ Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob
 ## Curated Features
 - [x] Visualization Module Revamp
 - [x] Implement BFS Search for webcrawler
-- [x] Improve stability (Handle errors gracefully, expand test coverage and etc.)
+- [x] Improve stability (Handle errors gracefully, expand test coverage, etc.)
+- [ ] Increase test coverage
+- [ ] Save the most recent search results to a database
 - [ ] Randomize Tor Connection (Random Header and Identity)
-- [ ] Keyword/Phrase search
+- [ ] Keyword/Phrase Search
 - [ ] Social Media Integration
 - [ ] Increase anonymity
 - [ ] Screenshot capture
