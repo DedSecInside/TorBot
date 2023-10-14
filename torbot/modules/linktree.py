@@ -169,7 +169,7 @@ def parse_emails(soup: BeautifulSoup) -> list[str]:
         if tag.has_attr('href') and 'mailto:' in tag['href']:
             email = tag['href'].split('mailto:', 1)[1]
             if validators.email(email):
-                emails.add(set)
+                emails.add(email)
 
     return list(emails)
 
@@ -181,21 +181,18 @@ def parse_phone_numbers(soup: BeautifulSoup) -> list[str]:
     """
     tags = soup.find_all('a')
     numbers = set()
+
+    def validate_phone_number(phone_number: str) -> bool:
+        try:
+            possible_number = phonenumbers.parse(phone_number)
+            return phonenumbers.is_possible_number(possible_number)
+        except phonenumbers.NumberParseException:
+            return False
+
     for tag in tags:
         if tag.has_attr('href') and 'tel:' in tag['href']:
             number = tag['href'].split('tel:', 1)[1]
-            try:
-                if phonenumbers.is_valid_number(number):
-                    numbers.add(number)
-            except Exception as e:
-                logging.debug(e)
-                pass
-
-            try:
-                if phonenumbers.is_valid_number(tag['href']):
-                    numbers.add(tag['href'])
-            except Exception as e:
-                logging.debug(e)
-                pass
+            if validate_phone_number(number):
+                numbers.add(number)
 
     return list(numbers)
