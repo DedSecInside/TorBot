@@ -32,7 +32,5 @@ def test_get_ip(mock_get) -> None:
     # attempt test
     with httpx.Client() as client:
         resp = get_ip(client)
-        print('hit')
-        print(resp)
         assert resp['header'] == mock_header
         assert resp['body'] == mock_body
