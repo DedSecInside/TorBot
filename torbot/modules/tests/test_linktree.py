@@ -1,6 +1,7 @@
+from bs4 import BeautifulSoup
 from yattag import Doc
 
-from ..linktree import parse_hostname, parse_links
+from ..linktree import parse_hostname, parse_links, parse_emails, parse_phone_numbers
 
 
 def test_parse_hostname() -> None:
@@ -26,3 +27,43 @@ def test_parse_links() -> None:
     links = parse_links(doc.getvalue())
     assert len(links) == 3
     assert links == ['https://example.com', 'http://test.com', 'https://example-test.com']
+
+
+def test_parse_emails() -> None:
+    doc, tag, text = Doc().tagtext()
+    with tag('html'):
+        with tag('a', href='mailto:example@yahoo.com'):
+            pass
+        with tag('a', href='mailto:example@outlook.com'):
+            pass
+        with tag('a', href='mailto:example@gmail.com'):
+            pass
+        with tag('a', href='mailto:invalid_email'):
+            pass
+        with tag('a', href='random-href'):
+            pass
+
+    soup = BeautifulSoup(doc.getvalue(), 'html.parser')
+    emails = parse_emails(soup)
+    assert len(emails) == 3
+    assert sorted(emails) == sorted(['example@yahoo.com', 'example@outlook.com', 'example@gmail.com'])
+
+
+def test_parse_phone_numbers() -> None:
+    doc, tag, text = Doc().tagtext()
+    with tag('html'):
+        with tag('a', href='tel:+18082453499'):
+            pass
+        with tag('a', href='tel:+15722027503'):
+            pass
+        with tag('a', href='tel:+18334966190'):
+            pass
+        with tag('a', href='tel:invalid_phone'):
+            pass
+        with tag('a', href='random-href'):
+            pass
+
+    soup = BeautifulSoup(doc.getvalue(), 'html.parser')
+    phone_numbers = parse_phone_numbers(soup)
+    assert len(phone_numbers) == 3
+    assert sorted(phone_numbers) == sorted(['+18082453499', '+15722027503', '+18334966190'])
