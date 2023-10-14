@@ -42,7 +42,7 @@ def test_parse_emails() -> None:
             pass
         with tag('a', href='random-href'):
             pass
-    
+
     soup = BeautifulSoup(doc.getvalue(), 'html.parser')
     emails = parse_emails(soup)
     assert len(emails) == 3
@@ -62,9 +62,8 @@ def test_parse_phone_numbers() -> None:
             pass
         with tag('a', href='random-href'):
             pass
-    
+
     soup = BeautifulSoup(doc.getvalue(), 'html.parser')
     phone_numbers = parse_phone_numbers(soup)
     assert len(phone_numbers) == 3
     assert sorted(phone_numbers) == sorted(['+18082453499', '+15722027503', '+18334966190'])
-
