@@ -19,6 +19,7 @@
 
 
 ### Status/Social links
+[![Pytest](https://github.com/DedSecInside/TorBot/actions/workflows/pytest.yml/badge.svg)](https://github.com/DedSecInside/TorBot/actions/workflows/pytest.yml)
 [![Flake8](https://github.com/DedSecInside/TorBot/actions/workflows/flake8.yml/badge.svg)](https://github.com/DedSecInside/TorBot/actions/workflows/flake8.yml)
 [![Slack Invite](https://img.shields.io/badge/Join-Slack-informational?style=flat-square&logo=slack)](https://join.slack.com/t/dedsec-inside/shared_invite/zt-i4jcgj8w-1ecHiSdRubwuppAzz8~yfg)
 [![Code Triage](https://www.codetriage.com/dedsecinside/torbot/badges/users.svg)](https://www.codetriage.com/dedsecinside/torbot)
