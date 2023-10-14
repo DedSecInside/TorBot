@@ -76,6 +76,17 @@ files = [
 unicode-backport = ["unicodedata2"]
 
 [[package]]
+name = "colorama"
+version = "0.4.6"
+description = "Cross-platform colored terminal text."
+optional = false
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
+files = [
+    {file = "colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"},
+    {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
+]
+
+[[package]]
 name = "decorator"
 version = "5.1.1"
 description = "Decorators for Humans"
@@ -239,6 +250,17 @@ test = ["Pillow (>=9)", "cairocffi (>=1.2.0)", "matplotlib (>=3.6.0)", "networkx
 test-musl = ["cairocffi (>=1.2.0)", "networkx (>=2.5)", "pytest (>=7.0.1)", "pytest-timeout (>=2.1.0)"]
 
 [[package]]
+name = "iniconfig"
+version = "2.0.0"
+description = "brain-dead simple config-ini parsing"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "iniconfig-2.0.0-py3-none-any.whl", hash = "sha256:b6a85871a79d2e3b22d2d1b94ac2824226a63c6b741c88f7ae975f18b6778374"},
+    {file = "iniconfig-2.0.0.tar.gz", hash = "sha256:2d91e135bf72d31a410b17c16da610a82cb55f6b0477d1a902134b24a455b8b3"},
+]
+
+[[package]]
 name = "joblib"
 version = "1.2.0"
 description = "Lightweight pipelining with Python functions"
@@ -301,6 +323,17 @@ files = [
 ]
 
 [[package]]
+name = "packaging"
+version = "23.2"
+description = "Core utilities for Python packages"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "packaging-23.2-py3-none-any.whl", hash = "sha256:8c491190033a9af7e1d931d0b5dacc2ef47509b34dd0de67ed209b5203fc88c7"},
+    {file = "packaging-23.2.tar.gz", hash = "sha256:048fb0e9405036518eaaf48a55953c750c11e1a1b68e0dd1a9d62ed0c092cfc5"},
+]
+
+[[package]]
 name = "pefile"
 version = "2023.2.7"
 description = "Python PE parsing module"
@@ -321,6 +354,21 @@ files = [
     {file = "phonenumbers-8.13.22-py2.py3-none-any.whl", hash = "sha256:85ceeba9e67984ba98182c77e8e4c70093d38c0c6a0cb2bd392e0694ddaeb1f6"},
     {file = "phonenumbers-8.13.22.tar.gz", hash = "sha256:001664c90f59b8954766c2db85adafc8dbc96177efeb49607ca4e64a7acaf569"},
 ]
+
+[[package]]
+name = "pluggy"
+version = "1.3.0"
+description = "plugin and hook calling mechanisms for python"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pluggy-1.3.0-py3-none-any.whl", hash = "sha256:d89c696a773f8bd377d18e5ecda92b7a3793cbe66c87060a6fb58c7b6e1061f7"},
+    {file = "pluggy-1.3.0.tar.gz", hash = "sha256:cf61ae8f126ac6f7c451172cf30e3e43d3ca77615509771b3a984a0730651e12"},
+]
+
+[package.extras]
+dev = ["pre-commit", "tox"]
+testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "progress"
@@ -387,6 +435,28 @@ files = [
     {file = "PySocks-1.7.1-py3-none-any.whl", hash = "sha256:2725bd0a9925919b9b51739eea5f9e2bae91e83288108a9ad338b2e3a4435ee5"},
     {file = "PySocks-1.7.1.tar.gz", hash = "sha256:3f8804571ebe159c380ac6de37643bb4685970655d3bba243530d6558b799aa0"},
 ]
+
+[[package]]
+name = "pytest"
+version = "7.4.2"
+description = "pytest: simple powerful testing with Python"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pytest-7.4.2-py3-none-any.whl", hash = "sha256:1d881c6124e08ff0a1bb75ba3ec0bfd8b5354a01c194ddd5a0a870a48d99b002"},
+    {file = "pytest-7.4.2.tar.gz", hash = "sha256:a766259cfab564a2ad52cb1aae1b881a75c3eb7e34ca3779697c23ed47c47069"},
+]
+
+[package.dependencies]
+colorama = {version = "*", markers = "sys_platform == \"win32\""}
+exceptiongroup = {version = ">=1.0.0rc8", markers = "python_version < \"3.11\""}
+iniconfig = "*"
+packaging = "*"
+pluggy = ">=0.12,<2.0"
+tomli = {version = ">=1.0.0", markers = "python_version < \"3.11\""}
+
+[package.extras]
+testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
 
 [[package]]
 name = "python-dotenv"
@@ -613,6 +683,17 @@ files = [
 ]
 
 [[package]]
+name = "tomli"
+version = "2.0.1"
+description = "A lil' TOML parser"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
+    {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
+]
+
+[[package]]
 name = "treelib"
 version = "1.7.0"
 description = "A Python implementation of tree structure."
@@ -671,15 +752,15 @@ test = ["flake8 (>=2.4.0)", "isort (>=4.2.2)", "pytest (>=2.2.3)"]
 
 [[package]]
 name = "yattag"
-version = "1.14.0"
+version = "1.15.1"
 description = "Generate HTML or XML in a pythonic way. Pure python alternative to web template engines.Can fill HTML forms with default values and error messages."
 optional = false
 python-versions = "*"
 files = [
-    {file = "yattag-1.14.0.tar.gz", hash = "sha256:5731a31cb7452c0c6930dd1a284e0170b39eee959851a2aceb8d6af4134a5fa8"},
+    {file = "yattag-1.15.1.tar.gz", hash = "sha256:960fa54be1229d96f43178133e0b195c003391fdc49ecdb6b69b7374db6be416"},
 ]
 
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<=3.11.4"
-content-hash = "1e6d83812ac5be9a550b998795ee28f76bb788e972c933e497e68b20f548a0ea"
+content-hash = "1a1e9d31574d715bafd46e1039e7835bf04f71794cefe10bffc0226f24e623f2"
