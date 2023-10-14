@@ -53,8 +53,8 @@
 * TorBot dependencies are managed using `poetry`, you can find the installation commands below:
 ```sh
 poetry install # to install dependencies
-poetry run python torbot/main.py -u https://www.example.com --depth 2 --visualize tree --save json # example of running command with poetry
-poetry run python torbot/main.py -h # for help
+poetry run python torbot -u https://www.example.com --depth 2 --visualize tree --save json # example of running command with poetry
+poetry run python torbot -h # for help
 ```
 
 ### Options
