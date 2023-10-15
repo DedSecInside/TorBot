@@ -83,7 +83,7 @@ Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob
 - [x] Visualization Module Revamp
 - [x] Implement BFS Search for webcrawler
 - [x] Improve stability (Handle errors gracefully, expand test coverage, etc.)
-- [ ] Increase test coverage
+- [x] Increase test coverage
 - [ ] Save the most recent search results to a database
 - [ ] Randomize Tor Connection (Random Header and Identity)
 - [ ] Keyword/Phrase Search
