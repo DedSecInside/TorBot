@@ -42,7 +42,7 @@
 ### Dependencies
 - Tor (Optional)
 - Python ^3.9
-- Poetry
+- Poetry (Optional)
 
 ### Python Dependencies
 
