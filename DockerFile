@@ -8,7 +8,7 @@ WORKDIR /app
 RUN git clone https://github.com/DedSecInside/TorBot.git /app
 
 # Install Poetry
-RUN pip install poetry
+RUN pip install --no-cache-dir poetry
 
 # Install TorBot dependencies using Poetry
 RUN cd /app && poetry install
