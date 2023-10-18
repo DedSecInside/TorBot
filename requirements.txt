@@ -41,6 +41,6 @@ threadpoolctl==3.1.0 ; python_version >= "3.9" and python_full_version <= "3.11.
 tomli==2.0.1 ; python_version >= "3.9" and python_version < "3.11"
 treelib==1.7.0 ; python_version >= "3.9" and python_full_version <= "3.11.4"
 unipath==1.1 ; python_version >= "3.9" and python_full_version <= "3.11.4"
-urllib3==1.26.17 ; python_version >= "3.9" and python_full_version <= "3.11.4"
+urllib3==1.26.18 ; python_version >= "3.9" and python_full_version <= "3.11.4"
 validators==0.20.0 ; python_version >= "3.9" and python_full_version <= "3.11.4"
 yattag==1.15.1 ; python_version >= "3.9" and python_full_version <= "3.11.4"
