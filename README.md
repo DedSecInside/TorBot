@@ -138,7 +138,11 @@ We welcome contributions to this project! Here are a few guidelines to follow:
 - [X] [PS Narayanan](https://github.com/PSNAppz) - Co-owner
 - [X] [KingAkeem](https://github.com/KingAkeem) - Co-owner
 
-... see all [contributors](https://github.com/DedSecInside/TorBot/graphs/contributors)
+## All Thanks to Our Contributors
+
+<a href="https://github.com/DedSecInside/TorBot/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=DedSecInside/TorBot" />
+</a>
 
 ## License
 [GNU Public License](https://github.com/DedSecInside/TorBot/blob/dev/LICENSE.md)
