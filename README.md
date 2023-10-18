@@ -12,7 +12,9 @@
 </pre>
 
 <p align="center">
-   <img src="https://user-images.githubusercontent.com/4481429/94645022-65f35680-0308-11eb-8dce-a4ceba8db660.png" width="270" title="OWASP Foundation">
+   <a href="https://owasp.org/www-project-torbot/">
+    <img src="https://user-images.githubusercontent.com/4481429/94645022-65f35680-0308-11eb-8dce-a4ceba8db660.png" width="270" title="OWASP Foundation">
+   </a>
    <img src="https://github.com/DedSecInside/TorBot/assets/4481429/41f5e7ea-56fe-41b0-bd26-2788deeb5f10" width="250" title="Hacktoberfest 2022">
     <img src="https://user-images.githubusercontent.com/4481429/94646312-9dafcd80-030b-11eb-9824-73aa2414cf58.png" width="160" title="OpenSource">
 </p>
