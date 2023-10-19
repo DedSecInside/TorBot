@@ -1,0 +1,3 @@
+# Testing Documentation
+
+We are currently using [`pytest`](https://docs.pytest.org/en/latest/) as our testing framework so if you want to run the test suite. Run `pytest` from the base directory of TorBot or from the `tests` directory. We're using mock objects to simulate HTTP requests and HTML webpages using `mock_requests` and `yattag` which allows us to have much faster tests that don't rely on network connections. In order to create test using these mocks, the general pattern is to create some HTML using [`yattag`](http://www.yattag.org/) and registering the data to a URL using [`requests_mock`](https://requests-mock.readthedocs.io/en/latest/) which will be used to simulate HTTP requests. 

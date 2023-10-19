@@ -21,8 +21,18 @@ __pycache*
 __pycache__/
 
 # Misc
-torBot
+
 .*.swp
 .ropeproject/
 .idea/
+.vscode/
 .DS_Store
+
+venv/
+.venv/
+.DS_Store
+data/
+torbot/modules/nlp/training_data/
+
+# Deployment artifacts
+dist
