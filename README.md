@@ -16,7 +16,7 @@
     <img src="https://user-images.githubusercontent.com/4481429/94645022-65f35680-0308-11eb-8dce-a4ceba8db660.png" width="270" title="OWASP Foundation">
    </a>
    <img src="https://github.com/DedSecInside/TorBot/assets/4481429/41f5e7ea-56fe-41b0-bd26-2788deeb5f10" width="250" title="Hacktoberfest 2022">
-    <img src="https://user-images.githubusercontent.com/4481429/94646312-9dafcd80-030b-11eb-9824-73aa2414cf58.png" width="160" title="OpenSource">
+   <img src="https://user-images.githubusercontent.com/4481429/94646312-9dafcd80-030b-11eb-9824-73aa2414cf58.png" width="160" title="OpenSource">
 </p>
 
 
@@ -69,6 +69,17 @@ python -m venv torbot_venv
 source torbot_venv/bin/activate
 pip install -r requirements.txt
 python torbot -u https://www.example.com
+```
+
+#### Using `docker`
+```sh
+docker build -t {image_name} .
+
+# Running without Tor
+docker run {image_name} poetry run python torbot -u https://example.com --depth 2 --visualize tree --save json --disable-socks5
+
+# Running with Tor
+docker run --network="host" {image_name} poetry run python torbot -u https://example.com --depth 2 --visualize tree --save json --disable-socks5
 ```
 
 ### Options
