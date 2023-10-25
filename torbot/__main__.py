@@ -5,7 +5,7 @@ import os
 import argparse
 import sys
 import logging
-import tomllib
+import toml
 import httpx
 
 from modules.api import get_ip
@@ -135,8 +135,8 @@ if __name__ == '__main__':
         config_file_path = os.path.join(project_root_directory, "pyproject.toml")
         try:
             version = None
-            with open(config_file_path, "rb") as f:
-                data = tomllib.load(f)
+            with open(config_file_path, "r") as f:
+                data = toml.load(f)
                 version = data['tool']['poetry']['version']
         except Exception as e:
             raise Exception("unable to find version from pyproject.toml.\n", e)
