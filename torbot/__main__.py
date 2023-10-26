@@ -13,7 +13,7 @@ from modules.color import color
 from modules.updater import check_version
 from modules.info import execute_all
 from modules.linktree import LinkTree
-from modules.config import project_root_directory, socks5_host, socks5_port
+from modules.config import project_root_directory
 
 
 def print_tor_ip_address(client: httpx.Client) -> None:
@@ -37,7 +37,9 @@ def print_header(version: str) -> None:
                         / __/ / / / /_/ / __ \/ __ \/ /
                         / /_/ /_/ / _, _/ /_/ / /_/ / /
                         \__/\____/_/ |_/_____/\____/_/  v{VERSION}
-            """.format(VERSION=version)
+            """.format(
+        VERSION=version
+    )
     banner = color(banner, "red")
 
     title = r"""
@@ -58,8 +60,8 @@ def run(arg_parser: argparse.ArgumentParser, version: str) -> None:
     args = arg_parser.parse_args()
 
     # setup logging
-    date_fmt = '%d-%b-%y %H:%M:%S'
-    logging_fmt = '%(asctime)s - %(levelname)s - %(message)s'
+    date_fmt = "%d-%b-%y %H:%M:%S"
+    logging_fmt = "%(asctime)s - %(levelname)s - %(message)s"
     logging_lvl = logging.DEBUG if args.v else logging.INFO
     logging.basicConfig(level=logging_lvl, format=logging_fmt, datefmt=date_fmt)
 
@@ -78,8 +80,12 @@ def run(arg_parser: argparse.ArgumentParser, version: str) -> None:
         check_version()
         sys.exit()
 
-    socks5_proxy = f'socks5://{socks5_host}:{socks5_port}'
-    with httpx.Client(timeout=60, proxies=socks5_proxy if not args.disable_socks5 else None) as client:
+    socks5_host = args.host
+    socks5_port = str(args.port)
+    socks5_proxy = f"socks5://{socks5_host}:{socks5_port}"
+    with httpx.Client(
+        timeout=60, proxies=socks5_proxy if not args.disable_socks5 else None
+    ) as client:
         # print header and IP address if not set to quiet
         if not args.quiet:
             print_header(version)
@@ -92,17 +98,17 @@ def run(arg_parser: argparse.ArgumentParser, version: str) -> None:
         tree.load()
 
         # save data if desired
-        if args.save == 'tree':
+        if args.save == "tree":
             tree.save()
-        elif args.save == 'json':
+        elif args.save == "json":
             tree.saveJSON()
 
         # always print something, table is the default
-        if args.visualize == 'table' or not args.visualize:
+        if args.visualize == "table" or not args.visualize:
             tree.showTable()
-        elif args.visualize == 'tree':
+        elif args.visualize == "tree":
             print(tree)
-        elif args.visualize == 'json':
+        elif args.visualize == "json":
             tree.showJSON()
 
     print("\n\n")
@@ -112,24 +118,53 @@ def set_arguments() -> argparse.ArgumentParser:
     """
     Parses user flags passed to TorBot
     """
-    parser = argparse.ArgumentParser(prog="TorBot", usage="Gather and analayze data from Tor sites.")
-    parser.add_argument("-u", "--url", type=str, required=True, help="Specifiy a website link to crawl")
-    parser.add_argument("--depth", type=int, help="Specifiy max depth of crawler (default 1)", default=1)
-    parser.add_argument("--save", type=str, choices=['tree', 'json'], help="Save results in a file")
-    parser.add_argument("--visualize", type=str, choices=['table', 'tree', 'json'], help="Visualizes data collection.")
+    parser = argparse.ArgumentParser(
+        prog="TorBot", usage="Gather and analayze data from Tor sites."
+    )
+    parser.add_argument(
+        "-u", "--url", type=str, required=True, help="Specifiy a website link to crawl"
+    )
+    parser.add_argument(
+        "--depth", type=int, help="Specifiy max depth of crawler (default 1)", default=1
+    )
+    parser.add_argument(
+        "--host", type=str, help="IP address for SOCKS5 proxy", default="127.0.0.1"
+    )
+    parser.add_argument("--port", type=int, help="Port for SOCKS5 proxy", default=9050)
+    parser.add_argument(
+        "--save", type=str, choices=["tree", "json"], help="Save results in a file"
+    )
+    parser.add_argument(
+        "--visualize",
+        type=str,
+        choices=["table", "tree", "json"],
+        help="Visualizes data collection.",
+    )
     parser.add_argument("-q", "--quiet", action="store_true")
-    parser.add_argument("--version", action="store_true", help="Show current version of TorBot.")
-    parser.add_argument("--update", action="store_true", help="Update TorBot to the latest stable version")
-    parser.add_argument("--info", action="store_true",
-                        help="Info displays basic info of the scanned site. Only supports a single URL at a time.")
+    parser.add_argument(
+        "--version", action="store_true", help="Show current version of TorBot."
+    )
+    parser.add_argument(
+        "--update",
+        action="store_true",
+        help="Update TorBot to the latest stable version",
+    )
+    parser.add_argument(
+        "--info",
+        action="store_true",
+        help="Info displays basic info of the scanned site. Only supports a single URL at a time.",
+    )
     parser.add_argument("-v", action="store_true", help="verbose logging")
-    parser.add_argument("--disable-socks5", action="store_true",
-                        help="Executes HTTP requests without using SOCKS5 proxy")
+    parser.add_argument(
+        "--disable-socks5",
+        action="store_true",
+        help="Executes HTTP requests without using SOCKS5 proxy",
+    )
 
     return parser
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     try:
         arg_parser = set_arguments()
         config_file_path = os.path.join(project_root_directory, "pyproject.toml")
@@ -137,7 +172,7 @@ if __name__ == '__main__':
             version = None
             with open(config_file_path, "r") as f:
                 data = toml.load(f)
-                version = data['tool']['poetry']['version']
+                version = data["tool"]["poetry"]["version"]
         except Exception as e:
             raise Exception("unable to find version from pyproject.toml.\n", e)
 
