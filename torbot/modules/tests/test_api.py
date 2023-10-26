@@ -7,17 +7,17 @@ from ..api import get_ip
 
 def generate_mock_torproject_page(header: str, body: str) -> str:
     doc, tag, text = Doc().tagtext()
-    with tag('html'):
-        with tag('div', klass="content"):
-            with tag('h1'):
+    with tag("html"):
+        with tag("div", klass="content"):
+            with tag("h1"):
                 text(header)
-            with tag('p'):
+            with tag("p"):
                 text(body)
 
     return doc.getvalue()
 
 
-@patch.object(httpx.Client, 'get')
+@patch.object(httpx.Client, "get")
 def test_get_ip(mock_get) -> None:
     # generate HTML
     mock_header = "TorProject Page"
@@ -32,5 +32,5 @@ def test_get_ip(mock_get) -> None:
     # attempt test
     with httpx.Client() as client:
         resp = get_ip(client)
-        assert resp['header'] == mock_header
-        assert resp['body'] == mock_body
+        assert resp["header"] == mock_header
+        assert resp["body"] == mock_body

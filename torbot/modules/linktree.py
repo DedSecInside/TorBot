@@ -20,8 +20,16 @@ from .nlp.main import classify
 
 
 class LinkNode(Node):
-    def __init__(self, title: str, url: str, status: int, classification: str, accuracy: float,
-                 numbers: list[str], emails: list[str]):
+    def __init__(
+        self,
+        title: str,
+        url: str,
+        status: int,
+        classification: str,
+        accuracy: float,
+        numbers: list[str],
+        emails: list[str],
+    ):
         super().__init__()
         self.identifier = url
         self.tag = title
@@ -49,13 +57,17 @@ class LinkTree(Tree):
         If the parent_id is None, this will be considered a root node.
         """
         resp = self._client.get(id)
-        soup = BeautifulSoup(resp.text, 'html.parser')
-        title = soup.title.text.strip() if soup.title is not None else parse_hostname(id)
+        soup = BeautifulSoup(resp.text, "html.parser")
+        title = (
+            soup.title.text.strip() if soup.title is not None else parse_hostname(id)
+        )
         try:
             [classification, accuracy] = classify(resp.text)
             numbers = parse_phone_numbers(soup)
             emails = parse_emails(soup)
-            data = LinkNode(title, id, resp.status_code, classification, accuracy, numbers, emails)
+            data = LinkNode(
+                title, id, resp.status_code, classification, accuracy, numbers, emails
+            )
             self.create_node(title, identifier=id, parent=parent_id, data=data)
         except exceptions.DuplicatedNodeIdError:
             logging.debug(f"found a duplicate URL {id}")
@@ -76,16 +88,18 @@ class LinkTree(Tree):
         root_id = self.root
         root_node = self.get_node(root_id)
         if root_node is None:
-            raise Exception('no root node can be found.')
+            raise Exception("no root node can be found.")
 
-        return os.path.join(project_root_directory, f'{root_node.tag} - Depth {self._depth}')
+        return os.path.join(
+            project_root_directory, f"{root_node.tag} - Depth {self._depth}"
+        )
 
     def save(self) -> None:
         """
         Saves the tree to the current working directory under the given file name.
         """
         file_name = self._get_tree_file_name()
-        self.save2file(f'{file_name}.txt')
+        self.save2file(f"{file_name}.txt")
 
     def saveJSON(self) -> None:
         """
@@ -93,7 +107,7 @@ class LinkTree(Tree):
         """
         json_data = self._to_json()
         file_name = self._get_tree_file_name()
-        with open(f'{file_name}.json', 'w+') as f:
+        with open(f"{file_name}.json", "w+") as f:
             f.write(json_data)
 
     def _to_json(self) -> str:
@@ -116,24 +130,26 @@ class LinkTree(Tree):
         def insert(node, color_code):
             status = str(node.data.status)
             code = http.client.responses[node.data.status]
-            status_message = f'{status} {code}'
-            table_data.append([
-                node.tag,
-                node.identifier,
-                color(status_message, color_code),
-                node.data.numbers,
-                node.data.emails,
-                node.data.classification,
-            ])
+            status_message = f"{status} {code}"
+            table_data.append(
+                [
+                    node.tag,
+                    node.identifier,
+                    color(status_message, color_code),
+                    node.data.numbers,
+                    node.data.emails,
+                    node.data.classification,
+                ]
+            )
 
         for node in nodes:
             status_code = node.data.status
             if status_code >= 200 and status_code < 300:
-                insert(node, 'green')
+                insert(node, "green")
             elif status_code >= 300 and status_code < 400:
-                insert(node, 'yellow')
+                insert(node, "yellow")
             else:
-                insert(node, 'red')
+                insert(node, "red")
 
         headers = ["Title", "URL", "Status", "Phone Numbers", "Emails", "Category"]
         table = tabulate(table_data, headers=headers)
@@ -145,16 +161,20 @@ def parse_hostname(url: str) -> str:
     if hostname is not None:
         return hostname
 
-    raise Exception('unable to parse hostname from URL')
+    raise Exception("unable to parse hostname from URL")
 
 
 def parse_links(html: str) -> list[str]:
     """
     Finds all anchor tags and parses the href attribute.
     """
-    soup = BeautifulSoup(html, 'html.parser')
-    tags = soup.find_all('a')
-    return [tag['href'] for tag in tags if tag.has_attr('href') and validators.url(tag['href'])]
+    soup = BeautifulSoup(html, "html.parser")
+    tags = soup.find_all("a")
+    return [
+        tag["href"]
+        for tag in tags
+        if tag.has_attr("href") and validators.url(tag["href"])
+    ]
 
 
 def parse_emails(soup: BeautifulSoup) -> list[str]:
@@ -162,12 +182,12 @@ def parse_emails(soup: BeautifulSoup) -> list[str]:
     Finds all anchor tags and parses the email href attributes.
     example attribute: `mailto:example@example.com`
     """
-    tags = soup.find_all('a')
+    tags = soup.find_all("a")
 
     emails = set()
     for tag in tags:
-        if tag.has_attr('href') and 'mailto:' in tag['href']:
-            email = tag['href'].split('mailto:', 1)[1]
+        if tag.has_attr("href") and "mailto:" in tag["href"]:
+            email = tag["href"].split("mailto:", 1)[1]
             if validators.email(email):
                 emails.add(email)
 
@@ -179,7 +199,7 @@ def parse_phone_numbers(soup: BeautifulSoup) -> list[str]:
     Finds all anchor tags and parses the href attribute.
     example attribute: `tel:+45651112331` or possiby the href attribute itself.
     """
-    tags = soup.find_all('a')
+    tags = soup.find_all("a")
     numbers = set()
 
     def validate_phone_number(phone_number: str) -> bool:
@@ -190,8 +210,8 @@ def parse_phone_numbers(soup: BeautifulSoup) -> list[str]:
             return False
 
     for tag in tags:
-        if tag.has_attr('href') and 'tel:' in tag['href']:
-            number = tag['href'].split('tel:', 1)[1]
+        if tag.has_attr("href") and "tel:" in tag["href"]:
+            number = tag["href"].split("tel:", 1)[1]
             if validate_phone_number(number):
                 numbers.add(number)
 

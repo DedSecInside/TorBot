@@ -17,7 +17,7 @@ def get_ip(client: httpx.Client) -> dict:
     Returns the IP address of the current Tor client the service is using.
     """
     resp = client.get("https://check.torproject.org/")
-    soup = BeautifulSoup(resp.text, 'html.parser')
+    soup = BeautifulSoup(resp.text, "html.parser")
 
     # Get the content of check tor project, this contains the header and body
     content = soup.find("div", {"class": "content"})
