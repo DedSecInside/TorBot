@@ -90,6 +90,8 @@ optional arguments:
   -u URL, --url URL     Specify a website link to crawl
   --depth DEPTH         Specify max depth of crawler (default 1)
   -h, --help            Show this help message and exit
+  --host                Set IP address for SOCKS5 proxy (defaults to 127.0.0.1)
+  --port                Set port for SOCKS5 proxy (defaults to 9050)
   -v                    Displays DEBUG level logging, default is INFO
   --version             Show the current version of TorBot.
   --update              Update TorBot to the latest stable version
