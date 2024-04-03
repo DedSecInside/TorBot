@@ -2,7 +2,7 @@ import httpx
 from yattag import Doc
 from unittest.mock import patch, Mock
 
-from ..api import get_ip
+from torbot.modules.api import get_ip
 
 
 def generate_mock_torproject_page(header: str, body: str) -> str:

@@ -51,7 +51,7 @@ class LinkTree(Tree):
         self._append_node(id=self._url, parent_id=None)
         self._build_tree(url=self._url, depth=self._depth)
 
-    def _append_node(self, id: str, parent_id: str | None) -> None:
+    def _append_node(self, id: str, parent_id: str or None) -> None:
         """
         Creates a node for a tree using the given ID which corresponds to a URL.
         If the parent_id is None, this will be considered a root node.
@@ -144,9 +144,9 @@ class LinkTree(Tree):
 
         for node in nodes:
             status_code = node.data.status
-            if status_code >= 200 and status_code < 300:
+            if 200 <= status_code < 300:
                 insert(node, "green")
-            elif status_code >= 300 and status_code < 400:
+            elif 300 <= status_code < 400:
                 insert(node, "yellow")
             else:
                 insert(node, "red")

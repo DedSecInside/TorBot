@@ -257,3 +257,18 @@ validators==0.20.0 ; python_version >= "3.9" and python_full_version <= "3.11.4"
     --hash=sha256:24148ce4e64100a2d5e267233e23e7afeb55316b47d30faae7eb6e7292bc226a
 yattag==1.15.1 ; python_version >= "3.9" and python_full_version <= "3.11.4" \
     --hash=sha256:960fa54be1229d96f43178133e0b195c003391fdc49ecdb6b69b7374db6be416
+
+numpy~=1.24.4
+beautifulsoup4~=4.11.1
+sklearn~=0.0
+scikit-learn~=1.3.0
+httpx~=0.25.0
+yattag~=1.15.1
+termcolor~=1.1.0
+python-dotenv~=0.20.0
+Unipath~=1.1
+validators~=0.20.0
+phonenumbers~=8.13.22
+tabulate~=0.9.0
+treelib~=1.7.0
+toml~=0.10.2
