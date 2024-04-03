@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from yattag import Doc
 
-from ..linktree import parse_hostname, parse_links, parse_emails, parse_phone_numbers
+from torbot.modules.linktree import parse_hostname, parse_links, parse_emails, parse_phone_numbers
 
 
 def test_parse_hostname() -> None:

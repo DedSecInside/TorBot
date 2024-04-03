@@ -1,6 +1,5 @@
-"""
-Core
-"""
+#!/usr/bin/env python3
+
 import os
 import argparse
 import sys
@@ -8,12 +7,11 @@ import logging
 import toml
 import httpx
 
-from modules.api import get_ip
-from modules.color import color
-from modules.updater import check_version
-from modules.info import execute_all
-from modules.linktree import LinkTree
-from modules.config import project_root_directory
+from torbot.modules.api import get_ip
+from torbot.modules.color import color
+from torbot.modules.updater import check_version
+from torbot.modules.info import execute_all
+from torbot.modules.linktree import LinkTree
 
 
 def print_tor_ip_address(client: httpx.Client) -> None:
@@ -167,12 +165,11 @@ def set_arguments() -> argparse.ArgumentParser:
 if __name__ == "__main__":
     try:
         arg_parser = set_arguments()
-        config_file_path = os.path.join(project_root_directory, "pyproject.toml")
+        config_file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "pyproject.toml")
         try:
-            version = None
             with open(config_file_path, "r") as f:
                 data = toml.load(f)
-                version = data["tool"]["poetry"]["version"]
+                version = data["project"]["version"]
         except Exception as e:
             raise Exception("unable to find version from pyproject.toml.\n", e)
 
