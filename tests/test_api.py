@@ -27,7 +27,7 @@ def test_get_ip(mock_get) -> None:
     mock_response.text = mock_html_page
     mock_get.return_value = mock_response
 
-    # added the perform tests block to catch the tests
+   #added the perform test block for effiecient catch
     # Perform test 
     with httpx.Client() as client:
         resp = get_ip(client)
