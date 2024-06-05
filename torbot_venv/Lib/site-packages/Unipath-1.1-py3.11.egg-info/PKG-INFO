@@ -1,0 +1,31 @@
+Metadata-Version: 2.1
+Name: Unipath
+Version: 1.1
+Summary: Object-oriented alternative to os/os.path/shutil
+Home-page: https://github.com/mikeorr/Unipath
+Author: Mike Orr
+Author-email: sluggoster@gmail.com
+License: MIT
+Keywords: os.path filename pathspec path files directories filesystem
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Utilities
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.2
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+
+Unipath is an object-oriented front end to the file/directory functions
+scattered throughout several Python library modules.  It's based on Jason
+Orendorff's *path.py* but has a friendlier API and higher-level features.
+Unipath is stable, well-tested, and has been used in production since 2008.
+It runs on Python 2.6+ and 3.3+.
+
+*Version 1.1* is a bugfix release. Most notably it fixes a Unicode
+incompatibility on Python 3 under Windows (or operating systems with native
+Unicpde filenames). The license is changed to MIT (from the Python license).

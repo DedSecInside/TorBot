@@ -1,0 +1,4 @@
+#!C:\Users\HP\OneDrive\Desktop\openSource\Tor_bot\TorBot\torbot_venv\Scripts\python.exe
+"""Small script to execute the igraph command line interface"""
+from igraph.app.shell import main
+main()

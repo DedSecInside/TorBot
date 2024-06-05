@@ -1,0 +1,9 @@
+from .phonenumber import PhoneNumber
+
+__all__: list[str]
+UNKNOWN_TIMEZONE: str
+_UNKNOWN_TIME_ZONE_LIST: tuple[str, ...]
+
+def time_zones_for_geographical_number(numobj: PhoneNumber) -> tuple[str, ...]: ...
+def time_zones_for_number(numobj: PhoneNumber) -> tuple[str, ...]: ...
+def _country_level_time_zones_for_number(numobj: PhoneNumber) -> tuple[str, ...]: ...

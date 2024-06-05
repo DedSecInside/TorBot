@@ -1,0 +1,6 @@
+decorator>=3.4.0
+
+[test]
+pytest>=2.2.3
+flake8>=2.4.0
+isort>=4.2.2

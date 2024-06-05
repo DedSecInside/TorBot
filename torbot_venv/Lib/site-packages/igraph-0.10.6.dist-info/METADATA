@@ -1,0 +1,74 @@
+Metadata-Version: 2.1
+Name: igraph
+Version: 0.10.6
+Summary: High performance graph data structures and algorithms
+Home-page: https://igraph.org/python
+Author: Tamas Nepusz
+Author-email: ntamas@gmail.com
+License: GNU General Public License (GPL)
+Project-URL: Bug Tracker, https://github.com/igraph/python-igraph/issues
+Project-URL: Changelog, https://github.com/igraph/python-igraph/blob/main/CHANGELOG.md
+Project-URL: CI, https://github.com/igraph/python-igraph/actions
+Project-URL: Documentation, https://igraph.readthedocs.io
+Project-URL: Source Code, https://github.com/igraph/python-igraph
+Keywords: graph,network,mathematics,math,graph theory,discrete mathematics
+Platform: ALL
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: C
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+Classifier: Topic :: Scientific/Engineering :: Physics
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.7
+License-File: LICENSE
+Requires-Dist: texttable (>=1.6.2)
+Provides-Extra: cairo
+Requires-Dist: cairocffi (>=1.2.0) ; extra == 'cairo'
+Provides-Extra: doc
+Requires-Dist: Sphinx (>=4.2.0) ; extra == 'doc'
+Requires-Dist: sphinxbootstrap4theme (>=0.6.0) ; extra == 'doc'
+Provides-Extra: matplotlib
+Requires-Dist: matplotlib (<3.6.0,>=3.5.0) ; (platform_python_implementation != "PyPy") and extra == 'matplotlib'
+Provides-Extra: plotly
+Requires-Dist: plotly (>=5.3.0) ; extra == 'plotly'
+Provides-Extra: plotting
+Requires-Dist: cairocffi (>=1.2.0) ; extra == 'plotting'
+Provides-Extra: test
+Requires-Dist: cairocffi (>=1.2.0) ; extra == 'test'
+Requires-Dist: networkx (>=2.5) ; extra == 'test'
+Requires-Dist: pytest (>=7.0.1) ; extra == 'test'
+Requires-Dist: pytest-timeout (>=2.1.0) ; extra == 'test'
+Requires-Dist: plotly (>=5.3.0) ; extra == 'test'
+Provides-Extra: test-musl
+Requires-Dist: cairocffi (>=1.2.0) ; extra == 'test-musl'
+Requires-Dist: networkx (>=2.5) ; extra == 'test-musl'
+Requires-Dist: pytest (>=7.0.1) ; extra == 'test-musl'
+Requires-Dist: pytest-timeout (>=2.1.0) ; extra == 'test-musl'
+Requires-Dist: numpy (>=1.19.0) ; (platform_python_implementation != "PyPy") and extra == 'test'
+Requires-Dist: pandas (>=1.1.0) ; (platform_python_implementation != "PyPy") and extra == 'test'
+Requires-Dist: scipy (>=1.5.0) ; (platform_python_implementation != "PyPy") and extra == 'test'
+Requires-Dist: Pillow (>=9) ; (platform_python_implementation != "PyPy") and extra == 'test'
+Requires-Dist: matplotlib (>=3.6.0) ; (platform_python_implementation != "PyPy" and python_version >= "3.8") and extra == 'test'
+
+Python interface to the igraph high performance graph
+library, primarily aimed at complex network research and analysis.
+
+Graph plotting functionality is provided by the Cairo library, so make
+sure you install the Python bindings of Cairo if you want to generate
+publication-quality graph plots. You can try either `pycairo
+<http://cairographics.org/pycairo>`_ or `cairocffi <http://cairocffi.readthedocs.io>`_,
+``cairocffi`` is recommended because there were bug reports affecting igraph
+graph plots in Jupyter notebooks when using ``pycairo`` (but not with
+``cairocffi``).

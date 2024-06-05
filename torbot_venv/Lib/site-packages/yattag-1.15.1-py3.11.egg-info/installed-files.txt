@@ -1,0 +1,14 @@
+..\yattag\__init__.py
+..\yattag\__pycache__\__init__.cpython-311.pyc
+..\yattag\__pycache__\doc.cpython-311.pyc
+..\yattag\__pycache__\indentation.cpython-311.pyc
+..\yattag\__pycache__\simpledoc.cpython-311.pyc
+..\yattag\doc.py
+..\yattag\indentation.py
+..\yattag\py.typed
+..\yattag\simpledoc.py
+PKG-INFO
+SOURCES.txt
+dependency_links.txt
+requires.txt
+top_level.txt
