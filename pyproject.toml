@@ -40,7 +40,7 @@ dependencies = [
   "termcolor==1.1.0",
   "texttable==1.6.4",
   "threadpoolctl==3.1.0",
-  "urllib3==1.26.18",
+  "urllib3==1.26.19",
   "validators==0.20.0",
   "treelib==1.6.1",
   "numpy==1.24.4",
