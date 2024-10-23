@@ -20,7 +20,7 @@ classifiers = [
 dependencies = [
   "altgraph==0.17.2",
   "beautifulsoup4==4.11.1",
-  "certifi==2023.7.22",
+  "certifi==2024.7.4",
   "charset-normalizer==2.0.12",
   "decorator==5.1.1",
   "idna==3.3",
