@@ -1,0 +1,31 @@
+Metadata-Version: 2.1
+Name: validators
+Version: 0.20.0
+Summary: Python Data Validation for Humans™.
+Home-page: https://github.com/kvesteri/validators
+Author: Konsta Vesterinen
+Author-email: konsta@fastmonkeys.com
+License: MIT
+Platform: any
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.4
+Provides-Extra: test
+License-File: LICENSE
+
+
+validators
+----------
+
+Python Data Validation for Humans™.
