@@ -1,22 +1,65 @@
-# Use an official Python 3.11.4 image as the base
-FROM python:3.11.4
+# Multi-stage Dockerfile for TorBot
+# Stage 1: Build stage
+FROM python:3.11.4 as builder
 
-# Set a working directory within the container
+# Set working directory
+WORKDIR /build
+
+# Install system dependencies required for building Python packages
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements first for better layer caching
+COPY requirements.txt .
+
+# Create virtual environment and install dependencies
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Stage 2: Runtime stage
+FROM python:3.11.4-slim as runtime
+
+# Create non-root user for security
+RUN groupadd -r torbot && useradd -r -g torbot torbot
+
+# Install runtime dependencies only
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy virtual environment from builder stage
+COPY --from=builder /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Set working directory
 WORKDIR /app
 
-# Clone the TorBot repository from GitHub
-RUN git clone https://github.com/DedSecInside/TorBot.git /app
+# Copy application code
+COPY --chown=torbot:torbot . /app
 
-# Install dependencies
-RUN pip install -r /app/requirements.txt
-
-# Set the SOCKS5_PORT environment variable
+# Set environment variables
+ENV PYTHONPATH="/app"
 ENV SOCKS5_PORT=9050
+ENV PYTHONUNBUFFERED=1
 
-# Expose the port specified in the .env file
+# Switch to non-root user
+USER torbot
+
+# Expose port
 EXPOSE $SOCKS5_PORT
 
-# Run the TorBot script
-CMD ["poetry", "run", "python", "torbot"]
-# Example way to run the container:
-# docker run --network="host" your-image-name poetry run python torbot -u https://www.example.com --depth 2 --visualize tree --save json
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD python -c "import sys; sys.exit(0)"
+
+# Default command
+CMD ["python", "torbot.py", "--help"]
+
+# Labels for better image management
+LABEL maintainer="TorBot Team"
+LABEL version="4.2.0"
+LABEL description="TorBot - A web scraping and analysis tool with Tor support"

@@ -1,4 +1,4 @@
- <pre>
+<pre>
 
                          ████████╗ ██████╗ ██████╗     ██████╗  ██████╗ ████████╗
                          ╚══██╔══╝██╔═══██╗██╔══██╗    ██╔══██╗██╔═████╗╚══██╔══╝
@@ -47,6 +47,11 @@
 - Poetry (Optional)
 
 ### Python Dependencies
+- All dependencies have been updated to latest secure versions (2024)
+- Compatible with httpx 0.28.1+ (fixed proxy configuration)
+- Enhanced error handling for NLP operations
+- Updated security patches for all dependencies
+- Added lxml>=5.3.0 for improved XML/HTML parsing
 
 (see pyproject.toml or requirements.txt for more details)
 
@@ -55,25 +60,42 @@
 ### TorBot
 
 #### Using `venv`
-* If using Python ^3.4,
+* If using Python ^3.9,
 ```sh
 python -m venv torbot_venv
-source torbot_venv/bin/activate
+source torbot_venv/bin/activate  # On Windows: source torbot_venv/Scripts/activate
 pip install -r requirements.txt
 pip install -e .
-./main.py --help
+python main.py --help
 ```
 
-#### Using `docker`
+#### Using Docker (Multi-stage build)
+
+**Build the optimized image:**
 ```sh
-docker build -t {image_name} .
-
-# Running without Tor
-docker run {image_name} poetry run python torbot -u https://example.com --depth 2 --visualize tree --save json --disable-socks5
-
-# Running with Tor
-docker run --network="host" {image_name} poetry run python torbot -u https://example.com --depth 2 --visualize tree --save json --disable-socks5
+docker build -t torbot:latest .
 ```
+
+**Run with Docker Compose (Recommended):**
+```sh
+docker-compose up torbot
+```
+
+**Run manually:**
+```sh
+# Basic usage
+docker run --rm torbot:latest -u https://example.com --depth 2 --visualize tree --save json
+
+# With Tor proxy
+docker run --rm --network="host" torbot:latest -u https://example.onion --depth 2 --visualize tree
+
+# Custom SOCKS5 proxy
+docker run --rm torbot:latest -u https://example.onion --host 127.0.0.1 --port 9050 --depth 2
+```
+
+**Environment Variables:**
+- `SOCKS5_HOST`: SOCKS5 proxy host (default: 127.0.0.1)
+- `SOCKS5_PORT`: SOCKS5 proxy port (default: 9050)
 
 ### Options
 <pre>
@@ -103,6 +125,9 @@ Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob
 - [x] Implement BFS Search for webcrawler
 - [x] Improve stability (Handle errors gracefully, expand test coverage, etc.)
 - [x] Increase test coverage
+- [x] Multi-stage Docker build for optimized container
+- [x] Docker Compose support
+- [x] Enhanced security with non-root container user
 - [ ] Save the most recent search results to a database
 - [ ] Randomize Tor Connection (Random Header and Identity)
 - [ ] Keyword/Phrase Search

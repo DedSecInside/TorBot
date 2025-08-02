@@ -2,6 +2,46 @@
 --------------------
 All notable changes to this project will be documented in this file.
 
+## 4.2.0 - Security, Docker, and Documentation Update
+
+### Added
+- Updated all dependencies to latest secure versions
+- Added support for httpx 0.28.1+ with proper proxy configuration
+- Added lxml>=5.3.0 for improved XML/HTML parsing
+- Enhanced error handling for NLP module
+- Multi-stage Docker build for optimized container (200MB final size)
+- Docker Compose support with Tor integration
+- Non-root user execution in Docker container (security enhancement)
+- Comprehensive Docker documentation (docs/DOCKER.md)
+- Enhanced testing documentation (TESTING.md)
+- Docker testing configuration (docker-compose.test.yml)
+- Health checks for Docker containers
+- .dockerignore for optimized builds
+
+### Fixed
+- Fixed compatibility issues with httpx 0.28.1+ API changes
+- Fixed UnicodeDecodeError in NLP module by adding graceful degradation
+- Fixed FileNotFoundError for missing training data in sklearn
+- Updated dependency versions to address security vulnerabilities
+- Fixed Docker build process to use pip instead of poetry
+- Updated README.md with new Docker instructions
+
+### Security
+- Updated certifi>=2024.8.30 for SSL certificate validation
+- Updated urllib3>=2.2.2 for security patches
+- Updated scikit-learn>=1.5.1 with latest security fixes
+- Updated all dependencies to latest stable versions
+- Docker container runs as non-root user (UID 1000)
+- Reduced attack surface with minimal base image
+
+### Documentation
+- Updated README.md with Docker multi-stage build instructions
+- Enhanced Tor.md with Docker configuration options
+- Added comprehensive Docker documentation (docs/DOCKER.md)
+- Updated testing documentation with Docker testing instructions
+- Added CONTRIBUTING.md for contribution guidelines
+- Updated installation instructions for Python ^3.9
+
 ## 2.1.0
 
 ### Added

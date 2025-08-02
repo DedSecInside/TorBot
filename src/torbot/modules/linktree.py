@@ -62,7 +62,9 @@ class LinkTree(Tree):
             soup.title.text.strip() if soup.title is not None else parse_hostname(id)
         )
         try:
-            [classification, accuracy] = classify(resp.text)
+            # [classification, accuracy] = classify(resp.text)
+            classification = "unknown"
+            accuracy = 0.0
             numbers = parse_phone_numbers(soup)
             emails = parse_emails(soup)
             data = LinkNode(

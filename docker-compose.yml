@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  torbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: torbot
+    ports:
+      - "9050:9050"
+    environment:
+      - SOCKS5_PORT=9050
+    volumes:
+      - ./src:/app/src
+    networks:
+      - torbot-network
+    restart: unless-stopped
+    # Uncomment to run a specific command
+    # command: ["python", "torbot.py", "-u", "https://httpbin.org/html", "--depth", "2", "--visualize", "tree", "--save", "json"]
+
+networks:
+  torbot-network:
+    driver: bridge

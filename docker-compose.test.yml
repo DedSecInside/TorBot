@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  torbot-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    volumes:
+      - .:/app
+      - ./tests:/app/tests
+      - ./results:/app/results
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+    command: pytest tests/ -v --cov=src/torbot --cov-report=html --cov-report=term-missing
+    
+  torbot-test-integration:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    depends_on:
+      - tor-test
+    environment:
+      - SOCKS5_HOST=tor-test
+      - SOCKS5_PORT=9050
+      - PYTHONPATH=/app
+    volumes:
+      - ./tests:/app/tests
+      - ./results:/app/results
+    command: pytest tests/ -v -k "integration"
+    
+  tor-test:
+    image: dperson/torproxy:latest
+    ports:
+      - "9050:9050"
+    environment:
+      - PASSWORD=test_password
+    restart: unless-stopped
+
+networks:
+  default:
+    name: torbot-test-network

@@ -81,8 +81,9 @@ def run(arg_parser: argparse.ArgumentParser, version: str) -> None:
     socks5_host = args.host
     socks5_port = str(args.port)
     socks5_proxy = f"socks5://{socks5_host}:{socks5_port}"
+    proxy_config = {"http://": socks5_proxy, "https://": socks5_proxy} if not args.disable_socks5 else None
     with httpx.Client(
-        timeout=60, proxies=socks5_proxy if not args.disable_socks5 else None
+        timeout=60, proxy=proxy_config
     ) as client:
         # print header and IP address if not set to quiet
         if not args.quiet:
