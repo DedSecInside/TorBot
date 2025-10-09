@@ -120,10 +120,10 @@ def set_arguments() -> argparse.ArgumentParser:
         prog="TorBot", usage="Gather and analayze data from Tor sites."
     )
     parser.add_argument(
-        "-u", "--url", type=str, required=True, help="Specifiy a website link to crawl"
+        "-u", "--url", type=str, required=True, help="Specify a website link to crawl"
     )
     parser.add_argument(
-        "--depth", type=int, help="Specifiy max depth of crawler (default 1)", default=1
+        "--depth", type=int, help="Specify max depth of crawler (default 1)", default=1
     )
     parser.add_argument(
         "--host", type=str, help="IP address for SOCKS5 proxy", default="127.0.0.1"
