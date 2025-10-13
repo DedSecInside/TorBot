@@ -12,6 +12,7 @@ from torbot.modules.color import color
 from torbot.modules.updater import check_version
 from torbot.modules.info import execute_all
 from torbot.modules.linktree import LinkTree
+from torbot.modules.deep_extract import DeepExtractor
 
 
 def print_tor_ip_address(client: httpx.Client) -> None:
@@ -95,6 +96,38 @@ def run(arg_parser: argparse.ArgumentParser, version: str) -> None:
         tree = LinkTree(url=args.url, depth=args.depth, client=client)
         tree.load()
 
+        # Deep extraction if requested
+        if args.deep_extract:
+            logging.info("Starting deep content extraction...")
+            deep_extractor = DeepExtractor()
+            
+            # Extract content from each page in the tree
+            pages_analyzed = 0
+            for node_url in tree.nodes:
+                try:
+                    logging.debug(f"Extracting from: {node_url}")
+                    response = client.get(node_url)
+                    if response.status_code == 200:
+                        deep_extractor.extract_all(response.text, node_url)
+                        pages_analyzed += 1
+                except Exception as e:
+                    logging.warning(f"Could not extract from {node_url}: {str(e)}")
+            
+            logging.info(f"Deep extraction complete. Analyzed {pages_analyzed} pages.")
+            
+            # Print summary
+            deep_extractor.print_summary()
+            
+            # Export to JSON if requested
+            if args.export_intel:
+                logging.info(f"Exporting intelligence to {args.export_intel}...")
+                deep_extractor.export_to_json(args.export_intel)
+                
+                # Also create a text report
+                text_report_path = args.export_intel.replace('.json', '_report.txt')
+                deep_extractor.export_to_text(text_report_path)
+                logging.info(f"Text report saved to {text_report_path}")
+
         # save data if desired
         if args.save == "tree":
             tree.save()
@@ -157,6 +190,17 @@ def set_arguments() -> argparse.ArgumentParser:
         "--disable-socks5",
         action="store_true",
         help="Executes HTTP requests without using SOCKS5 proxy",
+    )
+    parser.add_argument(
+        "--deep-extract",
+        action="store_true",
+        help="Enable deep content extraction mode for OSINT intelligence gathering",
+    )
+    parser.add_argument(
+        "--export-intel",
+        type=str,
+        metavar="FILENAME",
+        help="Export extracted intelligence to JSON file (use with --deep-extract)",
     )
 
     return parser
