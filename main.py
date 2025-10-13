@@ -10,7 +10,7 @@ import httpx
 from torbot.modules.api import get_ip
 from torbot.modules.color import color
 from torbot.modules.updater import check_version
-from torbot.modules.info import execute_all
+from torbot.modules.info import execute_all, fetch_html
 from torbot.modules.linktree import LinkTree
 from torbot.modules.deep_extract import DeepExtractor
 
@@ -36,9 +36,7 @@ def print_header(version: str) -> None:
                         / __/ / / / /_/ / __ \/ __ \/ /
                         / /_/ /_/ / _, _/ /_/ / /_/ / /
                         \__/\____/_/ |_/_____/\____/_/  v{VERSION}
-            """.format(
-        VERSION=version
-    )
+            """.format(VERSION=version)
     banner = color(banner, "red")
 
     title = r"""
@@ -134,6 +132,11 @@ def run(arg_parser: argparse.ArgumentParser, version: str) -> None:
         elif args.save == "json":
             tree.saveJSON()
 
+        if args.html == "display":
+            fetch_html(client, args.url, tree)
+        elif args.html == "save":
+            fetch_html(client, args.url, tree, save_html=True)
+
         # always print something, table is the default
         if args.visualize == "table" or not args.visualize:
             tree.showTable()
@@ -192,6 +195,7 @@ def set_arguments() -> argparse.ArgumentParser:
         help="Executes HTTP requests without using SOCKS5 proxy",
     )
     parser.add_argument(
+ 
         "--deep-extract",
         action="store_true",
         help="Enable deep content extraction mode for OSINT intelligence gathering",
@@ -209,7 +213,9 @@ def set_arguments() -> argparse.ArgumentParser:
 if __name__ == "__main__":
     try:
         arg_parser = set_arguments()
-        config_file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "pyproject.toml")
+        config_file_path = os.path.join(
+            os.path.dirname(os.path.realpath(__file__)), "pyproject.toml"
+        )
         try:
             with open(config_file_path, "r") as f:
                 data = toml.load(f)
