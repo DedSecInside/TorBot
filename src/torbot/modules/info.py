@@ -2,6 +2,7 @@
 Module that contains methods for collecting all relevant data from links,
 and saving data to file.
 """
+
 import re
 import httpx
 import logging
@@ -9,6 +10,8 @@ import logging
 from urllib.parse import urlsplit
 from bs4 import BeautifulSoup
 from termcolor import cprint
+
+from torbot.modules.linktree import LinkTree
 
 
 keys = set()  # high entropy strings, prolly secret keys
@@ -83,6 +86,24 @@ def execute_all(
 
     display_webpage_description(soup)
     # display_headers(response)
+
+
+def fetch_html(
+    client: httpx.Client, link: str, tree: LinkTree, save_html: bool = False
+) -> None:
+    resp = client.get(url=link)
+    soup = BeautifulSoup(resp.text, "html.parser")
+
+    if save_html is False:
+        print(f"""
+            HTML file
+              {soup}
+        """)
+    else:  # save_html is True
+        file_name = tree._get_tree_file_name()
+        print(f"SAVED to {file_name}.html\n\n")
+        with open(f"{file_name}.html", "w+") as f:
+            f.write(str(soup))
 
 
 def display_headers(response):

@@ -7,9 +7,9 @@ anyio==4.0.0 ; python_version >= "3.9" and python_full_version <= "3.11.4" \
 beautifulsoup4==4.11.1 ; python_version >= "3.9" and python_full_version <= "3.11.4" \
     --hash=sha256:58d5c3d29f5a36ffeb94f02f0d786cd53014cf9b3b3951d42e0080d8a9498d30 \
     --hash=sha256:ad9aa55b65ef2808eb405f46cf74df7fcb7044d5cbc26487f96eb2ef2e436693
-certifi==2023.7.22 ; python_version >= "3.9" and python_full_version <= "3.11.4" \
-    --hash=sha256:539cc1d13202e33ca466e88b2807e29f4c13049d6d87031a3c110744495cb082 \
-    --hash=sha256:92d6037539857d8206b8f6ae472e8b77db8058fec5937a1ef3f54304089edbb9
+certifi==2024.7.4 ; python_version >= "3.9" and python_full_version <= "3.11.4" \
+    --hash=sha256:5a1e7645bc0ec61a09e26c36f6106dd4cf40c6db3a1fb6352b0244e7fb057c7b \
+    --hash=sha256:c198e21b1289c2ab85ee4e67bb4b4ef3ead0892059901a8d5b622f24a1101e90
 charset-normalizer==2.0.12 ; python_version >= "3.9" and python_full_version <= "3.11.4" \
     --hash=sha256:2857e29ff0d34db842cd7ca3230549d1a697f96ee6d3fb071cfa6c7393832597 \
     --hash=sha256:6881edbebdb17b39b4eaaa821b438bf6eddffb4468cf344f09f89def34a8b1df
@@ -140,19 +140,19 @@ progress==1.6 ; python_version >= "3.9" and python_full_version <= "3.11.4" \
 pyinstaller-hooks-contrib==2022.7 ; python_version >= "3.9" and python_full_version <= "3.11.4" \
     --hash=sha256:5fdb97dcae177955db7ab27840cba97b89dc0c7f4fd9142bba0f9b8d8df85c48 \
     --hash=sha256:6675634279cfe9e475580fb310c3d557037baefb065e6cb5a69a124361b926fd
-pyinstaller==5.13.1 ; python_version >= "3.9" and python_full_version <= "3.11.4" \
-    --hash=sha256:086e68aa1e72f6aa13b9d170a395755e2b194b8ab410caeed02d16b432410c8c \
-    --hash=sha256:2519db3edec87d8c33924c2c4b7e176d8c1bbd9ba892d77efb67281925e621d6 \
-    --hash=sha256:29341d2e86d5ce7df993e797ee96ef679041fc85376d31c35c7b714085a21299 \
-    --hash=sha256:3c9cfe6d5d2f392d5d47389f6d377a8f225db460cdd01048b5a3de1d99c24ebe \
-    --hash=sha256:5d801db3ceee58d01337473ea897e96e4bb21421a169dd7cf8716754617ff7fc \
-    --hash=sha256:78d1601a11475b95dceff6eaf0c9cd74d93e3f47b5ce4ad63cd76e7a369d3d04 \
-    --hash=sha256:a2e7a1d76a7ac26f1db849d691a374f2048b0e204233028d25d79a90ecd1fec8 \
-    --hash=sha256:aa609aca62edd8cdcf7740677a21525e6c23b5e9a8f821ec8a80c68947771b5d \
-    --hash=sha256:ad6e31a8f35a463c6140e4cf979859197edc9831a1039253408b0fe5eec274dc \
-    --hash=sha256:b70ebc10811b30bbea4cf5b81fd1477db992c2614cf215edc987cda9c5468911 \
-    --hash=sha256:b8d4000af72bf72f8185d420cd0a0aee0961f03a5c3511dc3ff08cdaef0583de \
-    --hash=sha256:e033218c8922f0342b6095fb444ecb3bc6747dfa58cac5eac2b985350f4b681e
+pyinstaller==6.0.0 ; python_version >= "3.9" and python_full_version <= "3.11.4" \
+    --hash=sha256:0ad7cc3776ca17d0bededcc352cba2b1c89eb4817bfabaf05972b9da8c424935 \
+    --hash=sha256:16a473065291dd7879bf596fa20e65bd9d1e8aafc2cef1bffa3e42e707e2e68e \
+    --hash=sha256:438a9e0d72a57d5bba4f112d256e39ea4033c76c65414c0693d8311faa14b090 \
+    --hash=sha256:4a75bde5cda259bb31f2294960d75b9d5c148001b2b0bd20a91f9c2116675a6c \
+    --hash=sha256:52e5b3a2371d7231de17515c7c78d8d4a39d70c8c095e71d55b3b83434a193a8 \
+    --hash=sha256:5314f6f08d2bcbc031778618ba97d9098d106119c2e616b3b081171fe42f5415 \
+    --hash=sha256:68769f5e6722474bb1038e35560444659db8b951388bfe0c669bb52a640cd0eb \
+    --hash=sha256:aa922d1d73881d0820a341d2c406a571cc94630bdcdc275427c844a12e6e376e \
+    --hash=sha256:cccdad6cfe7a5db7d7eb8df2e5678f8375268739d5933214e180da300aa54e37 \
+    --hash=sha256:d702cff041f30e7a53500b630e07b081e5328d4655023319253d73935e75ade2 \
+    --hash=sha256:d84b06fb9002109bfc542e76860b81459a8585af0bbdabcfc5dcf272ef230de7 \
+    --hash=sha256:fb6af82989dac7c58bd25ed9ba3323bc443f8c1f03804f69c9f5e363bf4a021c
 pysocks==1.7.1 ; python_version >= "3.9" and python_full_version <= "3.11.4" \
     --hash=sha256:08e69f092cc6dbe92a0fdd16eeb9b9ffbc13cadfe5ca4c7bd92ffb078b293299 \
     --hash=sha256:2725bd0a9925919b9b51739eea5f9e2bae91e83288108a9ad338b2e3a4435ee5 \
@@ -210,9 +210,9 @@ scipy==1.10.0 ; python_version >= "3.9" and python_full_version <= "3.11.4" \
     --hash=sha256:b901b423c91281a974f6cd1c36f5c6c523e665b5a6d5e80fcb2334e14670eefd \
     --hash=sha256:c8b3cbc636a87a89b770c6afc999baa6bcbb01691b5ccbbc1b1791c7c0a07540 \
     --hash=sha256:e096b062d2efdea57f972d232358cb068413dc54eec4f24158bcbb5cb8bddfd8
-setuptools==75.8.0 ; python_version >= "3.9" and python_full_version <= "3.11.4" \
-    --hash=sha256:e3982f444617239225d675215d51f6ba05f845d4eec313da4418fdbb56fb27e3 \
-    --hash=sha256:c5afc8f407c626b8313a86e10311dd3f661c6cd9c09d4bf8c15c0e11f9f2b0e6
+setuptools==78.1.1 ; python_version >= "3.9" and python_full_version <= "3.11.4" \
+    --hash=sha256:c3a9c4211ff4c309edb8b8c4f1cbfa7ae324c4ba9f91ff254e3d305b9fd54561 \
+    --hash=sha256:fcc17fd9cd898242f6b4adfaca46137a9edef687f43e6f78469692a5e70d851d
 six==1.16.0 ; python_version >= "3.9" and python_full_version <= "3.11.4" \
     --hash=sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926 \
     --hash=sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254
@@ -250,9 +250,9 @@ treelib==1.7.0 ; python_version >= "3.9" and python_full_version <= "3.11.4" \
 unipath==1.1 ; python_version >= "3.9" and python_full_version <= "3.11.4" \
     --hash=sha256:09839adcc72e8a24d4f76d63656f30b5a1f721fc40c9bcd79d8c67bdd8b47dae \
     --hash=sha256:e6257e508d8abbfb6ddd8ec357e33589f1f48b1599127f23b017124d90b0fff7
-urllib3==1.26.18 ; python_version >= "3.9" and python_full_version <= "3.11.4" \
-    --hash=sha256:34b97092d7e0a3a8cf7cd10e386f401b3737364026c45e622aa02903dffe0f07 \
-    --hash=sha256:f8ecc1bba5667413457c529ab955bf8c67b45db799d159066261719e328580a0
+urllib3==2.5.0 ; python_version >= "3.9" and python_full_version <= "3.11.4" \
+    --hash=sha256:3fc47733c7e419d4bc3f6b3dc2b4f890bb743906a30d56ba4a5bfa4bbff92760 \
+    --hash=sha256:e6b01673c0fa6a13e374b50871808eb3bf7046c4b125b216f6bf1cc604cff0dc
 validators==0.20.0 ; python_version >= "3.9" and python_full_version <= "3.11.4" \
     --hash=sha256:24148ce4e64100a2d5e267233e23e7afeb55316b47d30faae7eb6e7292bc226a
 yattag==1.15.1 ; python_version >= "3.9" and python_full_version <= "3.11.4" \
