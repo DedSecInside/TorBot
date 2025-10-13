@@ -90,7 +90,8 @@ def handle_deep_extraction(tree: LinkTree, client: httpx.Client, export_path: st
         deep_extractor.export_to_json(export_path)
         
         # Also create a text report
-        text_report_path = export_path.replace('.json', '_report.txt')
+        base_path = export_path.rsplit('.', 1)[0] if '.' in export_path else export_path
+        text_report_path = f"{base_path}_report.txt"
         deep_extractor.export_to_text(text_report_path)
         logging.info(f"Text report saved to {text_report_path}")
 
@@ -125,7 +126,7 @@ def run(arg_parser: argparse.ArgumentParser, version: str) -> None:
         arg_parser.print_help()
         sys.exit()
 
-    # Print verison then exit
+    # Print version then exit
     if args.version:
         print(f"TorBot Version: {version}")
         sys.exit()
