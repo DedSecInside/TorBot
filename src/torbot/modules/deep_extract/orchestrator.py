@@ -175,10 +175,10 @@ class DeepExtractor:
                 f.write("-"*80 + "\n")
                 f.write(f"Total Findings: {summary['total_findings']}\n")
                 f.write(f"High Confidence Findings: {summary['high_confidence_findings']}\n")
-                # f.write   f"\nFindings by Risk Level:\n")
+                f.write(f"\nFindings by Risk Level:\n")
                 for risk, count in summary['by_risk_level'].items():
                     f.write(f"  {risk.upper()}: {count}\n")
-                # f.write(f"\nFindings by Category:\n")
+                f.write(f"\nFindings by Category:\n")
                 
                 for category, count in summary['by_category'].items():
                     f.write(f"  {category}: {count}\n")

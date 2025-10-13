@@ -185,6 +185,6 @@ class LuhnValidator:
                 total += n
             
             return total % 10 == 0
-        except:
+        except (ValueError, AttributeError):
             return False
 

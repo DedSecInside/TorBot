@@ -55,6 +55,62 @@ def print_header(version: str) -> None:
     print(title)
 
 
+def handle_deep_extraction(tree: LinkTree, client: httpx.Client, export_path: str = None) -> None:
+    """
+    Handle deep content extraction from crawled pages.
+    
+    Args:
+        tree: LinkTree object with crawled URLs
+        client: HTTP client for making requests
+        export_path: Optional path to export intelligence data
+    """
+    logging.info("Starting deep content extraction...")
+    deep_extractor = DeepExtractor()
+    
+    # Extract content from each page in the tree
+    pages_analyzed = 0
+    for node_url in tree.nodes:
+        try:
+            logging.debug(f"Extracting from: {node_url}")
+            response = client.get(node_url)
+            if response.status_code == 200:
+                deep_extractor.extract_all(response.text, node_url)
+                pages_analyzed += 1
+        except Exception as e:
+            logging.warning(f"Could not extract from {node_url}: {str(e)}")
+    
+    logging.info(f"Deep extraction complete. Analyzed {pages_analyzed} pages.")
+    
+    # Print summary
+    deep_extractor.print_summary()
+    
+    # Export to JSON if requested
+    if export_path:
+        logging.info(f"Exporting intelligence to {export_path}...")
+        deep_extractor.export_to_json(export_path)
+        
+        # Also create a text report
+        text_report_path = export_path.replace('.json', '_report.txt')
+        deep_extractor.export_to_text(text_report_path)
+        logging.info(f"Text report saved to {text_report_path}")
+
+
+def handle_visualization(tree: LinkTree, visualize_mode: str = None) -> None:
+    """
+    Handle visualization of crawled data.
+    
+    Args:
+        tree: LinkTree object with crawled data
+        visualize_mode: Visualization mode (table, tree, json)
+    """
+    if visualize_mode == "table" or not visualize_mode:
+        tree.showTable()
+    elif visualize_mode == "tree":
+        print(tree)
+    elif visualize_mode == "json":
+        tree.showJSON()
+
+
 def run(arg_parser: argparse.ArgumentParser, version: str) -> None:
     args = arg_parser.parse_args()
 
@@ -98,35 +154,7 @@ def run(arg_parser: argparse.ArgumentParser, version: str) -> None:
 
         # Deep extraction if requested
         if args.deep_extract:
-            logging.info("Starting deep content extraction...")
-            deep_extractor = DeepExtractor()
-            
-            # Extract content from each page in the tree
-            pages_analyzed = 0
-            for node_url in tree.nodes:
-                try:
-                    logging.debug(f"Extracting from: {node_url}")
-                    response = client.get(node_url)
-                    if response.status_code == 200:
-                        deep_extractor.extract_all(response.text, node_url)
-                        pages_analyzed += 1
-                except Exception as e:
-                    logging.warning(f"Could not extract from {node_url}: {str(e)}")
-            
-            logging.info(f"Deep extraction complete. Analyzed {pages_analyzed} pages.")
-            
-            # Print summary
-            deep_extractor.print_summary()
-            
-            # Export to JSON if requested
-            if args.export_intel:
-                logging.info(f"Exporting intelligence to {args.export_intel}...")
-                deep_extractor.export_to_json(args.export_intel)
-                
-                # Also create a text report
-                text_report_path = args.export_intel.replace('.json', '_report.txt')
-                deep_extractor.export_to_text(text_report_path)
-                logging.info(f"Text report saved to {text_report_path}")
+            handle_deep_extraction(tree, client, args.export_intel)
 
         # save data if desired
         if args.save == "tree":
@@ -135,12 +163,7 @@ def run(arg_parser: argparse.ArgumentParser, version: str) -> None:
             tree.saveJSON()
 
         # always print something, table is the default
-        if args.visualize == "table" or not args.visualize:
-            tree.showTable()
-        elif args.visualize == "tree":
-            print(tree)
-        elif args.visualize == "json":
-            tree.showJSON()
+        handle_visualization(tree, args.visualize)
 
     print("\n\n")
 
