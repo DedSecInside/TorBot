@@ -17,6 +17,7 @@ from bs4 import BeautifulSoup
 from .color import color
 from .config import project_root_directory
 from .nlp.main import classify
+from .database import SearchResultsDatabase
 
 
 class LinkNode(Node):
@@ -154,6 +155,43 @@ class LinkTree(Tree):
         headers = ["Title", "URL", "Status", "Phone Numbers", "Emails", "Category"]
         table = tabulate(table_data, headers=headers)
         print(table)
+
+    def saveDatabase(self) -> None:
+        """
+        Saves the search results to SQLite database.
+        Stores root URL, search timestamp, and all discovered links with metadata.
+        """
+        try:
+            db = SearchResultsDatabase()
+            nodes = list(self.all_nodes_itr())
+            links_data = []
+
+            for node in nodes:
+                links_data.append({
+                    "url": node.identifier,
+                    "title": node.tag,
+                    "status": node.data.status,
+                    "classification": node.data.classification,
+                    "accuracy": node.data.accuracy,
+                    "emails": node.data.emails,
+                    "phone_numbers": node.data.numbers,
+                })
+
+            search_id = db.save_search_results(
+                root_url=self._url,
+                depth=self._depth,
+                links_data=links_data
+            )
+
+            print(f"\nSearch results saved to database with ID: {search_id}")
+            print(f"Database location: {db.db_path}")
+            print(f"Total links saved: {len(links_data)}")
+
+            db.close()
+
+        except Exception as e:
+            logging.error(f"Error saving to database: {e}")
+            print(f"Error: Failed to save results to database - {e}")
 
 
 def parse_hostname(url: str) -> str:

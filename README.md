@@ -19,8 +19,8 @@
    <img src="https://user-images.githubusercontent.com/4481429/94646312-9dafcd80-030b-11eb-9824-73aa2414cf58.png" width="160" title="OpenSource">
 </p>
 
-
 ### Status/Social links
+
 [![Pytest](https://github.com/DedSecInside/TorBot/actions/workflows/pytest.yml/badge.svg)](https://github.com/DedSecInside/TorBot/actions/workflows/pytest.yml)
 [![Flake8](https://github.com/DedSecInside/TorBot/actions/workflows/flake8.yml/badge.svg)](https://github.com/DedSecInside/TorBot/actions/workflows/flake8.yml)
 [![Slack Invite](https://img.shields.io/badge/Join-Slack-informational?style=flat-square&logo=slack)](https://join.slack.com/t/dedsec-inside/shared_invite/zt-i4jcgj8w-1ecHiSdRubwuppAzz8~yfg)
@@ -29,9 +29,10 @@
 [![](https://img.shields.io/badge/Made%20with-Python-red.svg?style=flat-square)]()
 
 ### Features
+
 1. Onion Crawler (.onion)
 2. Returns page title or host name if no page title is available and address with a short description of the site.
-3. Save links to a database (Not done)
+3. Save links to a database with full metadata and search history
 4. Output the HTML from a site or save it to an HTML file. (Not done)
 5. Save the link tree as a JSON file.
 6. Crawl custom domains
@@ -42,6 +43,7 @@
 ...(will be updated)
 
 ### Dependencies
+
 - Tor (Optional)
 - Python ^3.9
 - Poetry (Optional)
@@ -55,7 +57,9 @@
 ### TorBot
 
 #### Using `venv`
-* If using Python ^3.4,
+
+- If using Python ^3.4,
+
 ```sh
 python -m venv torbot_venv
 source torbot_venv/bin/activate
@@ -65,6 +69,7 @@ pip install -e .
 ```
 
 #### Using `docker`
+
 ```sh
 docker build -t {image_name} .
 
@@ -76,6 +81,7 @@ docker run --network="host" {image_name} poetry run python torbot -u https://exa
 ```
 
 ### Options
+
 <pre>
 usage: Gather and analyze data from Tor sites.
 
@@ -89,27 +95,27 @@ optional arguments:
   --version             Show the current version of TorBot.
   --update              Update TorBot to the latest stable version
   -q, --quiet           Prevents display of header and IP address
-  --save FORMAT         Save results in a file. (tree, JSON)
+  --save FORMAT         Save results in a file or database. (tree, JSON, database)
   --visualize FORMAT    Visualizes tree of data gathered. (tree, JSON, table)
   -i, --info            Info displays basic info of the scanned site
   --disable-socks5      Executes HTTP requests without using SOCKS5 proxy</pre>
 
-* NOTE: -u is a mandatory for crawling
+- NOTE: -u is a mandatory for crawling
 
 Read more about torrc here : [Torrc](https://github.com/DedSecInside/TorBoT/blob/master/Tor.md)
 
 ## Curated Features
+
 - [x] Visualization Module Revamp
 - [x] Implement BFS Search for webcrawler
 - [x] Improve stability (Handle errors gracefully, expand test coverage, etc.)
 - [x] Increase test coverage
-- [ ] Save the most recent search results to a database
+- [x] Save the most recent search results to a database
 - [ ] Randomize Tor Connection (Random Header and Identity)
 - [ ] Keyword/Phrase Search
 - [ ] Social Media Integration
 - [ ] Increase anonymity
 - [ ] Screenshot capture
-
 
 ## Contribution Guidelines
 
@@ -151,11 +157,10 @@ We welcome contributions to this project! Here are a few guidelines to follow:
     20. Ani R, Jose J, Wilson M, Deepa OS. “Modified Rotation Forest Ensemble Classifier for Medical Diagnosis in Decision Support Systems”, In Progress in Advanced Computing and Intelligent Engineering 2018 (pp. 137-146). Springer, Singapore.
     21. Ani R, Augustine A, Akhil N.C. and Deepa O.S., 2016. “Random Forest Ensemble Classifier to Predict the Coronary Heart Disease Using Risk Factors”, In Proceedings of the International Conference on Soft Computing Systems (pp. 701-710). Springer, New Delhi.
 
-
 ## Maintainers
 
-- [X] [PS Narayanan](https://github.com/PSNAppz) - Co-owner
-- [X] [KingAkeem](https://github.com/KingAkeem) - Co-owner
+- [x] [PS Narayanan](https://github.com/PSNAppz) - Co-owner
+- [x] [KingAkeem](https://github.com/KingAkeem) - Co-owner
 
 ## All Thanks to Our Contributors
 
@@ -164,4 +169,5 @@ We welcome contributions to this project! Here are a few guidelines to follow:
 </a>
 
 ## License
+
 [GNU Public License](https://github.com/DedSecInside/TorBot/blob/dev/LICENSE.md)

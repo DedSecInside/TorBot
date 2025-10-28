@@ -98,6 +98,8 @@ def run(arg_parser: argparse.ArgumentParser, version: str) -> None:
             tree.save()
         elif args.save == "json":
             tree.saveJSON()
+        elif args.save == "database":
+            tree.saveDatabase()
 
         if args.html == "display":
             fetch_html(client, args.url, tree)
@@ -133,7 +135,7 @@ def set_arguments() -> argparse.ArgumentParser:
     )
     parser.add_argument("--port", type=int, help="Port for SOCKS5 proxy", default=9050)
     parser.add_argument(
-        "--save", type=str, choices=["tree", "json"], help="Save results in a file"
+        "--save", type=str, choices=["tree", "json", "database"], help="Save results in a file or database"
     )
     parser.add_argument(
         "--visualize",
