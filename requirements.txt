@@ -41,6 +41,6 @@ toml==0.10.2
 tomli==2.0.1
 treelib==1.7.1
 unipath==1.1
-urllib3==2.5.0
+urllib3==2.6.0
 validators==0.22.0
 yattag==1.15.2
