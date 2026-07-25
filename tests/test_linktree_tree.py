@@ -333,7 +333,8 @@ def test_linktree_handles_non_200_status():
 
 
 def test_linktree_filters_invalid_links():
-    """Ensure only valid absolute URLs are added as children."""
+    """Ensure non-crawlable links are filtered, and relative links are
+    resolved against the page URL rather than dropped."""
     html = """
     <html>
         <title>Root</title>
@@ -355,7 +356,10 @@ def test_linktree_filters_invalid_links():
     tree = LinkTree("https://example.com", depth=1, client=client)
     tree.load()
 
-    # Should have 2 nodes: root + 1 valid child
+    # Should have 3 nodes: root + the absolute child + the relative child
+    # (resolved against the root URL). javascript:/mailto:/# links are
+    # filtered out entirely.
     all_nodes = tree.all_nodes()
-    assert len(all_nodes) == 2
+    assert len(all_nodes) == 3
     assert tree.get_node("https://valid.com") is not None
+    assert tree.get_node("https://example.com/relative/path") is not None

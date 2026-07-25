@@ -52,7 +52,6 @@ dependencies = [
   "phonenumbers>=8.13.37",
   "pytest>=9.0.3",
   "yattag>=1.15.2",
-  "toml>=0.10.2",
 ]
 
 [project.scripts]
