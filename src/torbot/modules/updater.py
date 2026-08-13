@@ -12,7 +12,7 @@ def check_version():
                 "remote",
                 "add",
                 "origin",
-                "https://github.com/DedSecInside/TorBoT.git",
+                "https://github.com/DedSecInside/TorBot.git",
             ],
             capture_output=True,
         )
@@ -21,7 +21,7 @@ def check_version():
     branch_out = subprocess.run(
         ["git", "rev-parse", "--abbrev-ref", "HEAD"], capture_output=True, text=True
     )
-    branch = branch_out.stdout
+    branch = branch_out.stdout.strip()
     if branch == "master":
         update_out = subprocess.run(
             ["git", "pull", "origin", "master"], capture_output=True, text=True

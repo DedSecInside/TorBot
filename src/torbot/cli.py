@@ -5,7 +5,11 @@ from importlib import metadata
 from pathlib import Path
 
 import httpx
-import toml
+
+try:
+    import tomllib
+except ModuleNotFoundError:  # pragma: no cover - Python < 3.11
+    import tomli as tomllib
 
 from torbot.modules.api import get_ip
 from torbot.modules.app_launcher import launch_torbot_app
@@ -23,8 +27,8 @@ def get_version() -> str:
         repo_root = Path(__file__).resolve().parents[2]
         config_file_path = repo_root / "pyproject.toml"
         try:
-            with config_file_path.open("r", encoding="utf-8") as handle:
-                data = toml.load(handle)
+            with config_file_path.open("rb") as handle:
+                data = tomllib.load(handle)
                 return data["project"]["version"]
         except Exception as exc:
             raise RuntimeError("unable to find version from pyproject.toml.") from exc

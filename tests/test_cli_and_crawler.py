@@ -1,4 +1,7 @@
+from importlib import metadata
+
 from main import set_arguments
+from torbot.cli import get_version
 from torbot.modules.app_launcher import find_torbot_app, launch_torbot_app
 from torbot.modules.linktree import parse_links
 
@@ -25,6 +28,17 @@ def test_app_flag_does_not_require_url() -> None:
 
     assert args.app is True
     assert args.url is None
+
+
+def test_get_version_reads_pyproject_when_package_metadata_is_unavailable(
+    monkeypatch,
+) -> None:
+    def missing_package(_: str) -> str:
+        raise metadata.PackageNotFoundError
+
+    monkeypatch.setattr(metadata, "version", missing_package)
+
+    assert get_version() == "4.3.0"
 
 
 def test_find_torbot_app_from_explicit_directory(tmp_path) -> None:

@@ -97,7 +97,7 @@ class LinkTree(Tree):
                 logging.warning("Skipping subtree from %s due to request error: %s", url, exc)
                 return
 
-            children = parse_links(resp.text)
+            children = parse_links(resp.text, base_url=url)
             for child in children:
                 try:
                     self._append_node(id=child, parent_id=url)

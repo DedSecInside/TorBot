@@ -42,6 +42,7 @@ dependencies = [
   "termcolor>=2.4.0",
   "texttable>=1.7.0",
   "threadpoolctl>=3.5.0",
+  "tomli>=2.0.1; python_version < '3.11'",
   "urllib3>=2.7.0",
   "validators>=0.22.0",
   "treelib>=1.7.1",
@@ -52,7 +53,6 @@ dependencies = [
   "phonenumbers>=8.13.37",
   "pytest>=9.0.3",
   "yattag>=1.15.2",
-  "toml>=0.10.2",
 ]
 
 [project.scripts]
