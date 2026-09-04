@@ -9,24 +9,24 @@ h11==0.16.0
 httpcore==1.0.9
 httpx[socks]==0.27.0
 idna==3.15
-igraph==0.11.4
+igraph>=0.11.4
 iniconfig==2.0.0
 joblib==1.4.2
 macholib==1.16.3
-numpy==1.26.4
+numpy>=1.26.4
 packaging==24.0
 pefile==2023.2.7 ; sys_platform == "win32"
 phonenumbers==8.13.37
 pluggy==1.5.0
 progress==1.6
 pyinstaller-hooks-contrib==2024.6
-pyinstaller==6.8.0
+pyinstaller>=6.8.0
 pysocks==1.7.1
 pytest==9.0.3
 python-dotenv==1.2.2
 pywin32-ctypes==0.2.2 ; sys_platform == "win32"
-scikit-learn==1.5.0
-scipy==1.13.0
+scikit-learn>=1.5.0
+scipy>=1.13.0
 setuptools==83.0.0
 six==1.16.0
 sniffio==1.3.1
