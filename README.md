@@ -62,6 +62,15 @@ python -m pip install -r requirements.txt
 python -m pip install -e .
 ```
 
+### Install with OTinstaller (Linux)
+[OTinstaller](https://github.com/OSINTVerseHQ/OTinstaller) is a third-party tool manager that installs the `torbot` PyPI release into its own virtualenv. It is not maintained by the TorBot team, so please report problems with it [on the OTinstaller tracker](https://github.com/OSINTVerseHQ/OTinstaller/issues).
+```sh
+pipx install otinstaller
+otinstaller install torbot
+# url:... is passed to TorBot as -u; the other flags go through unchanged
+otinstaller run torbot -- url:https://example.com --depth 2 --visualize table
+```
+
 ### Run the CLI
 ```sh
 python main.py --help
