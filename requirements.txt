@@ -1,5 +1,5 @@
 altgraph==0.17.4
-anyio==4.3.0
+anyio==4.14.2
 beautifulsoup4==4.12.3
 certifi==2024.7.4
 charset-normalizer==3.3.2
