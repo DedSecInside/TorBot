@@ -154,8 +154,19 @@ class LinkTree(Tree):
         if root_node is None:
             raise Exception("no root node can be found.")
 
+        # Page titles are untrusted text, never filesystem paths. Use a portable
+        # filename component and bound its size before adding the export suffix.
+        title = re.sub(r"[^A-Za-z0-9 _.-]", "_", str(root_node.tag))
+        title = title.strip(" .")[:120].rstrip(" .") or "untitled"
+        # Windows treats these names as devices even when an extension is added.
+        if title.split(".", 1)[0].upper() in {
+            "CON", "PRN", "AUX", "NUL",
+            *(f"COM{i}" for i in range(1, 10)),
+            *(f"LPT{i}" for i in range(1, 10)),
+        }:
+            title = f"_{title}"
         return os.path.join(
-            project_root_directory, f"{root_node.tag} - Depth {self._depth}"
+            project_root_directory, f"{title} - Depth {self._depth}"
         )
 
     def save(self) -> None:
