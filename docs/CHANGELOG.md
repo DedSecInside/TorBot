@@ -2,14 +2,22 @@
 --------------------
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## 4.3.1 - 2026-11-12
 
 ### Added
 - Added `--save result` for analysis-ready crawl-result v1 files with bounded visible text and content hashes.
 - Added `torbot analyze` for deterministic evidence bundles and optional local or remote OpenAI-compatible analysis.
 - Added stable evidence IDs, claim citation validation, an evidence graph, JSON schemas, and a safe surface-web fixture.
 
+### Changed
+- Requires Python 3.10 or newer, with CI coverage for Python 3.10, 3.11, and 3.12.
+- Updated pinned AnyIO, Soup Sieve, urllib3, certifi, and setuptools dependencies.
+- Documented installation with OTinstaller.
+- Excluded environment files from package builds.
+
 ### Security
+- Fixed path traversal in tree, JSON, and HTML export filenames by sanitizing untrusted page titles. Thanks to Artur Chlebicki (@Artur12555) for reporting GHSA-5888-59xj-84pf.
+- Added regression tests for relative and absolute paths, Windows separators, encoded separators, reserved names, and long titles.
 - Remote evidence transmission now requires `--allow-remote`, redacts contact data by default, and never stores API keys.
 - Crawled content is treated as untrusted data, model calls receive no tools, and uncited model output cannot become a supported finding.
 
